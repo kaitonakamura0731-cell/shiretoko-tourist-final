@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/index.html || (echo "dist/index.html not generated" && exit 1)
+          test -f dist/cart/index.html || (echo "dist/cart/index.html not generated" && exit 1)
+          test -d dist/products || (echo "dist/products directory missing" && exit 1)
+          echo "✓ Build artifacts verified"
+
+      - name: Check for AI-slop tokens
+        run: |
+          if grep -riE '(lightning fast|seamless|reimagining|the future of|trusted by 10,000|from-purple-500|to-pink-500|backdrop-blur)' src/ public/cart.js 2>/dev/null | grep -v '^Binary'; then
+            echo "::error::AI-slop tokens detected in source"
+            exit 1
+          fi
+          echo "✓ No AI-slop tokens"
+
+      - name: Check secrecy guard (no Pay.jp / 差益 / 原価 / 利益率)
+        run: |
+          if grep -rE '(Pay\.jp|ペイジェイピー|差益|原価|利益率)' src/ public/cart.js 2>/dev/null | grep -v '^Binary'; then
+            echo "::error::Forbidden secrecy-guard token in source"
+            exit 1
+          fi
+          echo "✓ Secrecy guard passed"
