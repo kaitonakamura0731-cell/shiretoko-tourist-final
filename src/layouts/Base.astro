@@ -1,0 +1,132 @@
+---
+// 共通レイアウト — head / header / footer
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+}
+const { title, description, bodyClass = "" } = Astro.props;
+const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ねぎ、Patagoniaウェアを北海道から直送。世界自然遺産・知床の現場ガイドが選ぶ北の食材と、店主と歩く知床ツアー。";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description ?? defaultDesc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description ?? defaultDesc} />
+    <meta property="og:site_name" content="北の逸品堂 / 知床ツーリスト" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/cart.js" is:inline></script>
+  </head>
+  <body class={bodyClass}>
+    <!-- 上部告知バー -->
+    <div class="topbar">
+      6月限定 / アスパラ・じゃがいも・玉ねぎを北海道から直送中 ・ ¥5,000以上で<b>送料無料</b> ・ <a href="/#retention">LINE登録で¥500 OFF</a>
+    </div>
+
+    <!-- ヘッダ -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="brand">
+          <span class="brand__mark">北の逸品堂</span>
+          <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+        </a>
+        <nav class="gnav" aria-label="主要メニュー">
+          <a href="/#ranking">特産品 ・ アパレル</a>
+          <a href="/#bundles">セット提案</a>
+          <a href="/#tour" class="is-tour">ツアー予約</a>
+          <a href="/#story">ストーリー</a>
+          <a href="/#company">会社</a>
+        </nav>
+        <div class="header-utility">
+          <a href="#login" class="utility-link">ログイン</a>
+          <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+          <details class="mobile-nav">
+            <summary aria-label="メニューを開く">
+              <span></span><span></span><span></span>
+            </summary>
+            <ul>
+              <li><a href="/#ranking">特産品・アパレル</a></li>
+              <li><a href="/#bundles">セット提案</a></li>
+              <li><a href="/#tour">ツアー予約</a></li>
+              <li><a href="/#story">ストーリー</a></li>
+              <li><a href="/cart">カート</a></li>
+              <li><a href="/#company">会社</a></li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <slot />
+
+    <!-- フッタ -->
+    <footer class="site-footer" id="company">
+      <div class="site-footer__inner">
+        <div class="site-footer__grid">
+          <div class="site-footer__brand">
+            <span class="brand__mark">北の逸品堂</span>
+            <span class="brand__sub">SHIRETOKO TOURIST / 1992</span>
+            <p class="addr">
+              株式会社 知床ツーリスト<br />
+              〒099-4403 北海道斜里郡清里町字向陽282番地<br />
+              旅行・ガイド: 0152-25-2642<br />
+              ホステル: 0152-25-3995<br />
+              北海道知事登録旅行業 第2-453号<br />
+              全国旅行業協会 (ANTA) 所属
+            </p>
+          </div>
+          <div>
+            <h4>ショッピング</h4>
+            <ul>
+              <li><a href="/products/asparagus-1kg">朝採りアスパラ</a></li>
+              <li><a href="/products/potato-onion-set">じゃがいも・玉ねぎ直送便</a></li>
+              <li><a href="/products/potato-danshaku-30kg">男爵じゃがいも30kg</a></li>
+              <li><a href="/products/patagonia-r1-air-hoodie">Patagonia R1</a></li>
+              <li><a href="/products/patagonia-r1-zip-neck">R1ジップネック</a></li>
+              <li><a href="/cart">カート</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>ツアー・体験</h4>
+            <ul>
+              <li><a href="/#tour">知床五湖ガイド</a></li>
+              <li><a href="/#tour">流氷熱気球フリーフライト</a></li>
+              <li><a href="/#tour">神の子池スノーシュー</a></li>
+              <li><a href="/#tour">8ツアーすべて</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>サポート / 会社</h4>
+            <ul>
+              <li><a href="#">送料・配送について</a></li>
+              <li><a href="#">特定商取引法に基づく表記</a></li>
+              <li><a href="#">旅行業約款・取引条件説明書</a></li>
+              <li><a href="#">プライバシーポリシー</a></li>
+              <li><a href="#">会社概要</a></li>
+              <li><a href="#">お問い合わせ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="site-footer__legal">
+          <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+          <span class="payments">クレジットカード / コード決済 / 銀行振込 / 代引き</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

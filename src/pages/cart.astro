@@ -1,0 +1,237 @@
+---
+import Base from "../layouts/Base.astro";
+import { products } from "../data/products";
+import { productImageForKey } from "../data/sourceImages";
+
+const productJson = JSON.stringify(
+  Object.fromEntries(
+    products.map((p) => [
+      p.slug,
+      {
+        title: p.title,
+        origin: p.origin,
+        price: p.price,
+        priceUnit: p.priceUnit,
+        imageKey: p.imageKey,
+        image: productImageForKey(p.imageKey, p.title),
+        delivery: p.delivery,
+      },
+    ])
+  )
+);
+---
+
+<Base title="お買い物カート｜北の逸品堂" description="ご注文内容のご確認" bodyClass="cart-page">
+  <main>
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <div class="breadcrumbs__inner">
+        <a href="/">トップ</a> <span class="sep">/</span>
+        <span class="current">お買い物カート</span>
+      </div>
+    </nav>
+
+    <section class="cart-section">
+      <div class="cart-section__inner">
+        <span class="section-eyebrow">CART</span>
+        <h2>お買い物カート</h2>
+        <hr class="section-rule" />
+
+        <div id="cart-empty" class="cart-empty" hidden>
+          <p>カートは空です。</p>
+          <a href="/#ranking" class="btn btn--primary">商品を見る</a>
+        </div>
+
+        <div id="cart-content" class="cart-grid" hidden>
+          <div class="cart-items">
+            <h3 class="cart-items__heading">商品（<span id="cart-count">0</span>点）</h3>
+            <ul id="cart-list" class="cart-list"></ul>
+
+            <div class="cart-options">
+              <h3>のし・ラッピング</h3>
+              <label class="cart-checkbox">
+                <input type="checkbox" id="opt-noshi" />
+                <span>のし・ラッピングを希望する（無料）</span>
+              </label>
+              <div class="noshi-detail" id="noshi-detail" hidden>
+                <label>用途
+                  <select>
+                    <option>お中元</option>
+                    <option>お歳暮</option>
+                    <option>御礼</option>
+                    <option>御祝</option>
+                    <option>内祝</option>
+                  </select>
+                </label>
+                <label>表書き
+                  <input type="text" placeholder="表書き（任意）" />
+                </label>
+              </div>
+
+              <h3 style="margin-top: 1.4em;">クーポン</h3>
+              <div class="coupon-row">
+                <input type="text" id="coupon-code" placeholder="クーポンコード（例: TOUR1000）" />
+                <button type="button" id="coupon-apply" class="btn btn--outline">適用</button>
+              </div>
+              <p class="coupon-note">EC↔ツアー連動特典で発行された <code>TOUR1000</code> をお試しください（モック）。</p>
+            </div>
+          </div>
+
+          <aside class="cart-summary">
+            <h3>ご注文内容</h3>
+            <dl class="cart-summary__lines">
+              <div>
+                <dt>小計</dt>
+                <dd id="sum-subtotal">¥0</dd>
+              </div>
+              <div>
+                <dt>送料 <small>(¥5,000以上で無料)</small></dt>
+                <dd id="sum-shipping">¥0</dd>
+              </div>
+              <div id="sum-discount-row" hidden>
+                <dt>クーポン値引</dt>
+                <dd id="sum-discount">-¥0</dd>
+              </div>
+              <div class="cart-summary__total">
+                <dt>合計</dt>
+                <dd id="sum-total">¥0</dd>
+              </div>
+            </dl>
+            <button type="button" class="btn btn--primary btn--checkout" id="checkout-btn">レジに進む</button>
+            <p class="cart-summary__note">
+              カード決済・コード決済・銀行振込・代引きに対応。
+              カード決済手数料は <b>2.5%</b>（当社負担分含む）。
+            </p>
+            <ul class="cart-summary__perks">
+              <li>送料: ¥5,000以上で全国無料</li>
+              <li>特産品ご購入で <b>次回ツアー ¥1,000 OFF</b> クーポンを進呈</li>
+              <li>のし・ラッピング・産地証明書PDF 無料</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script id="product-data" type="application/json" set:html={productJson}></script>
+  <script is:inline>
+    (function () {
+      const PRODUCTS = JSON.parse(document.getElementById('product-data').textContent);
+      const yen = (n) => '¥' + n.toLocaleString('ja-JP');
+      const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[ch]));
+
+      const mediaFor = (meta) => {
+        if (meta.image && meta.image.src) {
+          return `<img src="${escapeHtml(meta.image.src)}" alt="${escapeHtml(meta.image.alt)}" loading="lazy" decoding="async" />`;
+        }
+
+        const label = meta.image && meta.image.label ? meta.image.label : 'product-image';
+        return `
+          <span class="source-placeholder source-placeholder--cart" role="img" aria-label="${escapeHtml((meta.title || '商品') + 'の画像枠')}">
+            <span>${escapeHtml(label)}</span>
+            <small>画像を追加</small>
+          </span>
+        `;
+      };
+
+      let appliedCoupon = null;
+      const validCoupons = { TOUR1000: { label: 'EC×ツアー連動', value: 1000 } };
+
+      window.renderCartPage = function () {
+        const items = window.cart.get();
+        const $empty = document.getElementById('cart-empty');
+        const $content = document.getElementById('cart-content');
+        const $list = document.getElementById('cart-list');
+        const $count = document.getElementById('cart-count');
+
+        if (items.length === 0) {
+          $empty.hidden = false;
+          $content.hidden = true;
+          return;
+        }
+        $empty.hidden = true;
+        $content.hidden = false;
+        $count.textContent = window.cart.count();
+
+        $list.innerHTML = '';
+        items.forEach((it) => {
+          const meta = PRODUCTS[it.slug] || { title: it.name, origin: '', priceUnit: '', imageKey: '', delivery: '' };
+          const li = document.createElement('li');
+          li.className = 'cart-item';
+          li.innerHTML = `
+            <a class="cart-item__img" href="/products/${it.slug}">${mediaFor(meta)}</a>
+            <div class="cart-item__body">
+              <span class="cart-item__origin">${meta.origin}</span>
+              <a class="cart-item__title" href="/products/${it.slug}">${meta.title || it.name}</a>
+              <span class="cart-item__delivery">${meta.delivery || ''}</span>
+            </div>
+            <div class="cart-item__qty">
+              <label>数量
+                <select data-qty="${it.slug}">
+                  ${[1,2,3,4,5,6,7,8,9,10].map(n => `<option value="${n}" ${n===it.qty?'selected':''}>${n}</option>`).join('')}
+                </select>
+              </label>
+              <button type="button" class="cart-item__remove" data-remove="${it.slug}">削除</button>
+            </div>
+            <div class="cart-item__price">
+              ${yen(it.price * it.qty)}
+              <small>${yen(it.price)} × ${it.qty}</small>
+            </div>
+          `;
+          $list.appendChild(li);
+        });
+
+        $list.querySelectorAll('[data-qty]').forEach((sel) => {
+          sel.addEventListener('change', (e) => window.cart.setQty(e.target.dataset.qty, e.target.value));
+        });
+        $list.querySelectorAll('[data-remove]').forEach((btn) => {
+          btn.addEventListener('click', (e) => window.cart.remove(e.target.dataset.remove));
+        });
+
+        // 集計
+        const subtotal = window.cart.subtotal();
+        const shipping = window.cart.shipping();
+        const discount = appliedCoupon ? appliedCoupon.value : 0;
+        const total = Math.max(0, subtotal + shipping - discount);
+
+        document.getElementById('sum-subtotal').textContent = yen(subtotal);
+        document.getElementById('sum-shipping').textContent = shipping === 0 ? '無料' : yen(shipping);
+        document.getElementById('sum-total').textContent = yen(total);
+        const dr = document.getElementById('sum-discount-row');
+        if (discount > 0) {
+          dr.hidden = false;
+          document.getElementById('sum-discount').textContent = '-' + yen(discount);
+        } else {
+          dr.hidden = true;
+        }
+      };
+
+      document.getElementById('coupon-apply').addEventListener('click', () => {
+        const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+        if (validCoupons[code]) {
+          appliedCoupon = { code: code, ...validCoupons[code] };
+          alert(`クーポン「${code}」(${validCoupons[code].label})を適用しました。¥${validCoupons[code].value} 値引きされます。`);
+        } else {
+          appliedCoupon = null;
+          alert('クーポンコードが見つかりません。例: TOUR1000');
+        }
+        window.renderCartPage();
+      });
+
+      document.getElementById('opt-noshi').addEventListener('change', (e) => {
+        document.getElementById('noshi-detail').hidden = !e.target.checked;
+      });
+
+      document.getElementById('checkout-btn').addEventListener('click', () => {
+        alert('（モック）決済画面へ遷移します。本番では RATIO のセキュアな決済処理に進みます。');
+      });
+
+      document.addEventListener('DOMContentLoaded', () => window.renderCartPage());
+    })();
+  </script>
+</Base>

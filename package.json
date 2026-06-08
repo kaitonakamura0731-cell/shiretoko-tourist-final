@@ -1,0 +1,17 @@
+{
+  "name": "astro-starter",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "sync:images": "node scripts/sync-source-images.mjs",
+    "dev": "npm run sync:images && astro dev",
+    "start": "npm run sync:images && astro dev",
+    "build": "npm run sync:images && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.7"
+  }
+}

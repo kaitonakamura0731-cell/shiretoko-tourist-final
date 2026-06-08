@@ -1,0 +1,199 @@
+---
+import Base from "../../layouts/Base.astro";
+import { products, findProduct, formatYen, type Product } from "../../data/products";
+import { productImageForKey } from "../../data/sourceImages";
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+interface Props { product: Product }
+const { product } = Astro.props;
+
+const relatedProducts = product.related
+  .map((slug) => findProduct(slug))
+  .filter((p): p is Product => !!p);
+const productImage = productImageForKey(product.imageKey, product.title);
+const relatedProductCards = relatedProducts.map((item) => ({
+  item,
+  image: productImageForKey(item.imageKey, item.title),
+}));
+---
+
+<Base title={`${product.title}｜北の逸品堂`} description={product.summary} bodyClass="product-page">
+  <main>
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <div class="breadcrumbs__inner">
+        <a href="/">トップ</a> <span class="sep">/</span>
+        <a href={product.category === 'specialty' ? '/#ranking' : '/#ranking'}>{product.category === 'specialty' ? '特産品' : 'アパレル'}</a>
+        <span class="sep">/</span>
+        <span class="current">{product.title}</span>
+      </div>
+    </nav>
+
+    <section class="product-detail">
+      <div class="product-detail__inner">
+        <!-- 商品ビジュアル -->
+        <div class="product-gallery">
+          <div class="product-gallery__main" data-image-key={product.imageKey}>
+            {productImage.src ? (
+              <img src={productImage.src} alt={productImage.alt} decoding="async" />
+            ) : (
+              <div class="source-placeholder source-placeholder--product" role="img" aria-label={`${product.title}の画像枠`}>
+                <span>{productImage.label}</span>
+                <small>画像を追加</small>
+              </div>
+            )}
+          </div>
+          <div class="product-gallery__thumbs" aria-hidden="true">
+            <div class="thumb thumb--active"></div>
+            <div class="thumb"></div>
+            <div class="thumb"></div>
+          </div>
+        </div>
+
+        <!-- 商品情報 -->
+        <div class="product-info">
+          <span class="product-info__origin">{product.origin}</span>
+          <h1 class="product-info__title">{product.title}</h1>
+          <p class="product-info__summary">{product.summary}</p>
+
+          <div class="product-info__meta">
+            <div>
+              <span class="meta-label">{product.category === 'specialty' ? '産地・収穫' : '在庫'}</span>
+              <span class="meta-value">{product.harvestDate || product.stockLabel}</span>
+            </div>
+            <div>
+              <span class="meta-label">配送</span>
+              <span class="meta-value">{product.delivery}</span>
+            </div>
+            <div>
+              <span class="meta-label">在庫</span>
+              <span class="meta-value">{product.stockLabel}</span>
+            </div>
+          </div>
+
+          <div class="product-info__price">
+            <span class="price">{formatYen(product.price)}</span>
+            <small>{product.priceUnit}</small>
+          </div>
+
+          <div class="product-info__purchase">
+            <div class="qty-control">
+              <label for={`qty-${product.slug}`}>数量</label>
+              <select id={`qty-${product.slug}`} class="qty-select" aria-label="購入数量">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <button
+              type="button"
+              class="btn btn--primary btn--add-cart"
+              data-add-slug={product.slug}
+              data-add-name={product.title}
+              data-add-price={String(product.price)}
+            >
+              カゴに追加
+            </button>
+            <a href="/cart" class="btn btn--outline">そのまま注文へ</a>
+          </div>
+
+          <ul class="product-info__notes">
+            <li>¥5,000以上のお買い物で全国送料無料（北海道発・本州中1-2日）</li>
+            <li>特産品ご購入で次回ツアー <b>¥1,000 OFF</b> クーポン進呈</li>
+            <li>のし・ラッピング・産地証明書PDFはカート画面で選択できます</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 仕様 -->
+    <section class="product-spec-section">
+      <div class="product-spec-section__inner">
+        <h2>商品スペック</h2>
+        <table class="spec-table">
+          <tbody>
+            {product.spec.map(([k, v]) => (
+              <tr>
+                <th>{k}</th>
+                <td>{v}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <h3 class="spec-h3">商品について</h3>
+        <p class="spec-desc">{product.description}</p>
+      </div>
+    </section>
+
+    <!-- クロスセル: 関連商品 -->
+    <section class="cross-sell">
+      <div class="cross-sell__inner">
+        <span class="section-eyebrow">RELATED</span>
+        <h2>あわせて選ばれています</h2>
+        <hr class="section-rule" />
+        <div class="cross-grid">
+          {relatedProductCards.map(({ item: rp, image }) => (
+            <a href={`/products/${rp.slug}`} class="cross-card">
+              <div class="cross-card__img" data-image-key={rp.imageKey}>
+                {image.src ? (
+                  <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                ) : (
+                  <div class="source-placeholder" role="img" aria-label={`${rp.title}の画像枠`}>
+                    <span>{image.label}</span>
+                    <small>画像を追加</small>
+                  </div>
+                )}
+              </div>
+              <div class="cross-card__body">
+                <span class="cross-card__origin">{rp.origin}</span>
+                <p class="cross-card__title">{rp.title}</p>
+                <span class="cross-card__price">{formatYen(rp.price)}<small>{rp.priceUnit}</small></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- クロスセル: 関連ツアー（決定打: EC↔ツアー連動） -->
+    {product.relatedTour && (
+      <section class="cross-tour">
+        <div class="cross-tour__inner">
+          <span class="section-eyebrow">EC × TOUR</span>
+          <h2>この商品の産地で、店主と歩きませんか。</h2>
+          <hr class="section-rule" />
+          <p class="cross-tour__lead">
+            こちらの商品をご購入のお客様に、関連する知床ガイドツアーを <b>¥1,000 OFF</b> でご案内しています。
+            北海道知事登録旅行業 第2-453号、現場ガイド運営。
+          </p>
+          <div class="cross-tour__card">
+            <span class="cross-tour__badge">EC連動特典・¥1,000 OFF</span>
+            <h3>{product.relatedTour.title}</h3>
+            <p>世界自然遺産・知床を、現場ガイドが半日でご案内。商品ご購入から90日間有効のクーポンを次回ツアー予約時にお使いいただけます。</p>
+            <div class="cross-tour__meta">
+              <span class="price">{product.relatedTour.price} <small>/ 大人1名（通常）</small></span>
+              <a href="/#tour" class="btn btn--outline btn--on-dark">ツアー詳細を見る</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <script is:inline>
+    document.querySelectorAll('.btn--add-cart').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const slug = btn.dataset.addSlug;
+        const name = btn.dataset.addName;
+        const price = parseInt(btn.dataset.addPrice, 10);
+        const sel = document.getElementById('qty-' + slug);
+        const qty = sel ? parseInt(sel.value, 10) : 1;
+        window.cart.add(slug, name, price, qty);
+      });
+    });
+  </script>
+</Base>
