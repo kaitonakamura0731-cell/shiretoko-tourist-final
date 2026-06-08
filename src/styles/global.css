@@ -1613,3 +1613,86 @@ img { max-width: 100%; height: auto; display: block; }
   .cart-item__qty, .cart-item__price { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; text-align: left; align-items: center; }
   .product-info__meta { grid-template-columns: 1fr; }
 }
+
+/* ========== 2大入口 (entrances) — 新方針: 産直/アパレル を分離 ========== */
+.entrances { background: var(--paper); padding: 4rem 0 3.5rem; }
+.entrances__inner { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+.entrances__lead { font-size: 0.96rem; line-height: 1.85; color: var(--ink-soft); max-width: 760px; margin: 0 0 2rem; }
+.entrances__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 1.6rem; }
+.entrance {
+  display: block; padding: 2.2rem 2.4rem; border-radius: var(--radius);
+  background: #fff; border: 1px solid var(--line); text-decoration: none; color: inherit;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+.entrance:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,.08); border-color: var(--camel); }
+.entrance--specialty { border-top: 6px solid var(--teal); }
+.entrance--apparel { border-top: 6px solid var(--camel); }
+.entrance__tag { display: inline-block; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.18em;
+  color: #fff; background: var(--camel-deep); padding: 0.25em 0.9em; border-radius: 99px; margin-bottom: 0.9rem; }
+.entrance--specialty .entrance__tag { background: var(--teal); }
+.entrance h3 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; margin: 0 0 0.6rem; color: var(--ink); line-height: 1.4; }
+.entrance > p { font-size: 0.92rem; color: var(--ink-soft); margin: 0 0 1rem; line-height: 1.75; }
+.entrance ul { list-style: none; padding: 0; margin: 0 0 1.4rem; font-size: 0.85rem; color: var(--ink-soft); line-height: 1.85; }
+.entrance ul li { padding-left: 1.2em; position: relative; margin-bottom: 0.3em; }
+.entrance ul li::before { content: '✓'; position: absolute; left: 0; color: var(--camel); font-weight: 700; }
+.entrance__cta { display: inline-block; font-weight: 700; color: var(--ink); border-bottom: 2px solid var(--camel); padding-bottom: 0.2em; font-size: 0.95rem; }
+
+/* ========== ツアー連動 (縮小版) ========== */
+.tour-link { background: var(--paper-deep); padding: 3.5rem 0; }
+.tour-link__inner { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+.tour-link__lead { font-size: 0.95rem; line-height: 1.85; color: var(--ink-soft); max-width: 720px; margin: 0 0 1.6rem; }
+.tour-link__card {
+  display: grid; grid-template-columns: 360px 1fr; gap: 0; border-radius: var(--radius);
+  overflow: hidden; background: #fff; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.tour-link__card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.10); }
+.tour-link__media { position: relative; min-height: 220px; background: var(--paper-deep); }
+.tour-link__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tour-link__body { padding: 1.8rem 2rem; }
+.tour-link__period { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.18em; color: var(--camel-deep); display: block; margin-bottom: 0.4rem; }
+.tour-link__body h3 { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; margin: 0 0 0.6rem; line-height: 1.45; }
+.tour-link__body p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.85; margin: 0 0 1rem; }
+.tour-link__cta { font-weight: 700; color: var(--ink); border-bottom: 2px solid var(--camel); padding-bottom: 0.2em; font-size: 0.92rem; }
+
+/* ========== 一覧ページ共通 (listing) ========== */
+.listing { padding: 2.4rem 0 4rem; background: var(--paper); }
+.listing__inner { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.listing__head { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: end; margin-bottom: 2rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--line); }
+.listing__head h1 { font-family: var(--font-serif); font-size: 2rem; margin: 0 0 0.4rem; line-height: 1.35; }
+.listing__lead { font-size: 0.94rem; color: var(--ink-soft); line-height: 1.85; margin: 0; }
+.listing__count { font-family: var(--font-num); font-size: 0.82rem; font-weight: 700; color: var(--camel-deep); letter-spacing: 0.06em; }
+.listing__layout { display: grid; grid-template-columns: 240px 1fr; gap: 2.2rem; }
+.listing-side { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.4rem 1.6rem; align-self: start; position: sticky; top: 1rem; }
+.listing-side h3 { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700; margin: 0 0 0.6rem; color: var(--ink); }
+.listing-side .facet { margin-bottom: 1.4rem; }
+.listing-side .facet h4 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; color: var(--camel-deep); margin: 0 0 0.5rem; text-transform: uppercase; }
+.listing-side .facet ul { list-style: none; padding: 0; margin: 0; font-size: 0.84rem; line-height: 1.85; color: var(--ink-soft); }
+.listing-side .facet ul li { padding: 0.25em 0; cursor: pointer; }
+.listing-side .facet ul li:hover { color: var(--ink); }
+.listing-side .facet ul li.active { color: var(--ink); font-weight: 700; }
+.listing-side .facet ul li small { color: var(--ink-soft); font-weight: 400; margin-left: 0.4em; }
+
+.listing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+.listing-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform 160ms ease, box-shadow 160ms ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+.listing-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+.listing-card__img { aspect-ratio: 4/3; background: var(--paper-deep); overflow: hidden; position: relative; }
+.listing-card__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.listing-card__body { padding: 0.9rem 1rem 1.1rem; }
+.listing-card__tag { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: var(--camel-deep); margin-bottom: 0.3rem; text-transform: uppercase; }
+.listing-card__title { font-size: 0.86rem; line-height: 1.55; color: var(--ink); margin: 0 0 0.5rem; font-weight: 500; min-height: 2.8em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.listing-card__price { font-family: var(--font-num); font-weight: 700; color: var(--price); font-size: 0.95rem; }
+.listing-card__price small { color: var(--ink-soft); font-weight: 400; font-size: 0.7rem; margin-left: 0.3em; }
+.listing-card__askcta { font-size: 0.74rem; color: var(--ink-soft); font-style: italic; }
+
+@media (max-width: 960px) {
+  .entrances__grid { grid-template-columns: 1fr; }
+  .tour-link__card { grid-template-columns: 1fr; }
+  .listing__head { grid-template-columns: 1fr; }
+  .listing__layout { grid-template-columns: 1fr; }
+  .listing-side { position: static; }
+  .listing-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .listing-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+}

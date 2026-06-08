@@ -8,8 +8,8 @@ import { productImageForKey, siteMedia as media } from "../data/sourceImages";
 import { products, formatYen } from "../data/products";
 
 const meta = {
-  title: "オホーツク産アスパラ通販と知床ガイドツアー予約｜北の逸品堂(1992清里町)",
-  description: "6月限定オホーツク産アスパラ¥5,800送料込。世界自然遺産・知床の現場ガイドが選ぶ北の食材と、店主と歩く知床ツアー。1992年清里町から産地直送。",
+  title: "知床から、食べるものと着るものを選ぶ｜北の逸品堂(1992清里町)",
+  description: "北海道・知床のセレクトショップ「北の逸品堂」。1992年清里町から、店主が選ぶ産直食材と現場で使うアウトドアウェア(Patagonia等)。LINE登録で再入荷・収穫速報。",
 };
 
 const productBySlug = new Map(products.map((product) => [product.slug, product]));
@@ -166,23 +166,23 @@ const tours = [
       <section class="hero" aria-label="ヒーロー">
         <div class="hero__inner">
           <div class="hero__copy">
-            <span class="hero__eyebrow">世界遺産・知床から、店主直送。</span>
+            <span class="hero__eyebrow">北海道・知床のセレクトショップ</span>
             <h1>
-              北の食材と、現場で使う一着。<br />
-              <span class="accent">知床の旅まで、ひとつの店で。</span>
+              知床から、<br />
+              <span class="accent">食べるもの</span>と<span class="accent">着るもの</span>を選ぶ。
             </h1>
             <p class="lead">
               1992年から清里町で、ユースホステル・自然ガイド・旅行業を続けてきた知床ツーリストの公式EC。
-              世界自然遺産・知床のガイドが選ぶ北の食材、店主が現場で使うアウトドアウェア、旅の予約をひとつのサイトで。
+              同じ店主・同じ地域・同じ目利きで選ぶ、産直食材とアウトドアウェアのセレクトショップ「北の逸品堂」。
             </p>
             <div class="hero__meta">
-              <span>北海道知事登録旅行業 第2-453号</span>
               <span>1992年・清里町から33年</span>
-              <span>産地直送・店主厳選</span>
+              <span>産直 84商品 / アパレル 533商品</span>
+              <span>店主厳選・現場使い</span>
             </div>
             <div class="hero__cta">
-              <a href="#ranking" class="btn btn--primary">朝採りアスパラを買う</a>
-              <a href="#bundles" class="btn btn--outline">食と道具をセットで見る</a>
+              <a href="/products/specialty/" class="btn btn--primary">産直入口へ</a>
+              <a href="/products/apparel/" class="btn btn--outline">アパレル入口へ</a>
             </div>
           </div>
           <div class="hero__visual">
@@ -205,6 +205,42 @@ const tours = [
           <span><b>1992年</b> 清里町で創業<small>(33年)</small></span>
           <span><b>北海道知事登録</b> 旅行業 第2-453号<small>(2003-)</small></span>
           <span>産地・収穫日を<b>商品ページに明記</b></span>
+        </div>
+      </section>
+
+      <!-- ============ 2大入口（産直 / アパレル） ============ -->
+      <section class="entrances" aria-label="2大入口">
+        <div class="entrances__inner">
+          <span class="section-eyebrow">2 ENTRANCES</span>
+          <h2>食べるもの / 着るもの、入口を分けます。</h2>
+          <hr class="section-rule" />
+          <p class="entrances__lead">
+            産直とアパレルは目的が違うので、トップから先は道を分けます。同じ店主が選ぶ世界観でつながりつつ、お客様は最短で目的の棚にたどり着けます。
+          </p>
+          <div class="entrances__grid">
+            <a href="/products/specialty/" class="entrance entrance--specialty">
+              <span class="entrance__tag">産直入口</span>
+              <h3>北海道・知床の産直食材</h3>
+              <p>アスパラ / じゃがいも / 玉ねぎ / 季節食材 / ギフト</p>
+              <ul>
+                <li>季節 / 配送温度 / 内容量 / ギフト対応で絞込</li>
+                <li>朝採り収穫日・産地・生産者を明記</li>
+                <li>LINE登録で再入荷・収穫速報</li>
+              </ul>
+              <span class="entrance__cta">産直一覧を見る →</span>
+            </a>
+            <a href="/products/apparel/" class="entrance entrance--apparel">
+              <span class="entrance__tag">アパレル入口</span>
+              <h3>店主が現場で使うアウトドアウェア</h3>
+              <p>Patagonia / フーディー / ジャケット / ベスト / シャツ</p>
+              <ul>
+                <li>ブランド / カテゴリ / サイズ / カラー / 価格帯で絞込</li>
+                <li>新品 / 美品 / 中古 の状態タグ</li>
+                <li>LINE 1:1 でサイズ相談・入荷相談</li>
+              </ul>
+              <span class="entrance__cta">アパレル一覧を見る →</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -350,55 +386,33 @@ const tours = [
         </div>
       </section>
 
-      <!-- ============ ツアー予約特集（決定打） ============ -->
-      <section class="tour-feature" id="tour" aria-label="ツアー予約">
-        <div class="tour-feature__inner">
-          <span class="section-eyebrow">TOUR BOOKING</span>
+      <!-- ============ ツアー連動 (縮小: 既存ツアーページへのリンクのみ) ============ -->
+      <section class="tour-link" id="tour" aria-label="ツアー連動">
+        <div class="tour-link__inner">
+          <span class="section-eyebrow">TOUR LINK</span>
           <h2>店主と歩く、知床。</h2>
           <hr class="section-rule" />
-          <p class="lead">
-            知床ツーリストは、北海道知事登録旅行業 第2-453号を持つ正規の旅行業者です。
-            知床五湖の現場ガイドが運営するので、じゃらん・アソビュー等のOTAでは予約できない少人数枠もこちらから。
-            <strong>OTA手数料分を還元 — 同条件で当サイトが最安です。</strong>
+          <p class="tour-link__lead">
+            知床ツーリストは北海道知事登録旅行業 第2-453号を持つ旅行業者です。
+            ツアーのお申し込み・お問い合わせは既存サイトで継続承っています。
           </p>
-          <ul class="tour-feature__perks">
-            <li><b>EC × ツアー 連動特典</b> 特産品ご購入で次回ツアー¥1,000 OFF / ツアーご予約で次回EC送料無料</li>
-            <li><b>適用条件</b> クーポンは購入後90日有効・1注文1枚・併用不可・お一人様1回限り</li>
-            <li><b>キャンセル料</b> 前日までは無料（流氷気球など天候依存ツアーは当日中止判定でも全額返金）</li>
-          </ul>
-
-          <div class="tour-hero">
-            {media.tourHero.src ? (
-              <img src={media.tourHero.src} alt={media.tourHero.alt} loading="lazy" decoding="async" />
-            ) : (
-              <div class="source-placeholder source-placeholder--dark" role="img" aria-label={`${media.tourHero.alt}の画像枠`}>
-                <span>{media.tourHero.label}</span>
-                <small>assets/source-images に画像を追加</small>
-              </div>
-            )}
-            <div class="tour-hero__overlay">
-              <strong>知床五湖ガイドハイキング</strong>
-              <span>世界自然遺産 / 認定ガイド同行・少人数制</span>
-            </div>
-          </div>
-
-          <div class="tour-grid">
-            {tours.map((tour) => (
-              <a href="#" class="tour-card">
-                <span class="tour-card__period">{tour.period}</span>
-                <h3 class="tour-card__title">{tour.title}</h3>
-                <p class="tour-card__desc">{tour.desc}</p>
-                <div class="tour-card__meta">
-                  <span>カレンダーで空きを見る</span>
-                  <span class="tour-card__price">{tour.price}<small>{tour.unit}</small></span>
+          <a href="https://shiretokotourist.com/" class="tour-link__card" target="_blank" rel="noopener">
+            <div class="tour-link__media">
+              {media.tourHero.src ? (
+                <img src={media.tourHero.src} alt={media.tourHero.alt} loading="lazy" decoding="async" />
+              ) : (
+                <div class="source-placeholder source-placeholder--dark" role="img" aria-label={`${media.tourHero.alt}の画像枠`}>
+                  <span>{media.tourHero.label}</span>
                 </div>
-              </a>
-            ))}
-          </div>
-
-          <div class="tour-feature__cta">
-            <a href="#" class="btn btn--outline">8つのツアーをすべて見る</a>
-          </div>
+              )}
+            </div>
+            <div class="tour-link__body">
+              <span class="tour-link__period">通年 / 春-秋 4ツアー + 冬 4ツアー</span>
+              <h3>知床五湖ガイド / 流氷熱気球 / 神の子池スノーシュー ほか</h3>
+              <p>世界自然遺産・知床の現場ガイドが直接ご案内。少人数制・装備込・全国旅行業協会 (ANTA) 所属。お申し込みは既存サイトから。</p>
+              <span class="tour-link__cta">ツアー一覧へ (shiretokotourist.com) →</span>
+            </div>
+          </a>
         </div>
       </section>
 

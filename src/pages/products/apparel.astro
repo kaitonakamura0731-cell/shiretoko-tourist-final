@@ -1,0 +1,113 @@
+---
+// アパレル一覧ページ — 新方針: アパレル入口 (商談で「22ページの分類整理が最大の悩み」と確認)
+// 5軸ファセット: ブランド / カテゴリ / サイズ / カラー / 価格帯 / 状態
+import "../../styles/global.css";
+import { products, formatYen } from "../../data/products";
+import { productImageForKey } from "../../data/sourceImages";
+
+const meta = {
+  title: "アウトドアアパレル一覧｜北の逸品堂(知床ツーリスト)",
+  description: "Patagonia中心のアウトドアアパレル533商品を、ブランド/カテゴリ/サイズ/カラー/価格帯で絞込み。店主が知床ガイドで現場使いするウェアを並べました。",
+};
+
+const items = products
+  .filter((p) => p.category === "apparel")
+  .map((p) => ({ ...p, image: productImageForKey(p.imageKey, p.title), priceLabel: formatYen(p.price) }));
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="/cart.js" is:inline></script>
+</head>
+<body>
+<div class="topbar">店主厳選パタゴニア / R1 シリーズ入荷中 ・ サイズ相談は<a href="#">LINE</a>で 1:1 対応</div>
+<header class="site-header"><div class="site-header__inner">
+  <a href="/" class="brand"><span class="brand__mark">北の逸品堂</span><span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span></a>
+  <nav class="gnav" aria-label="主要メニュー">
+    <a href="/products/specialty/">産直</a>
+    <a href="/products/apparel/" class="is-tour">アパレル</a>
+    <a href="/#tour">ツアー</a>
+    <a href="/#story">ストーリー</a>
+  </nav>
+  <div class="header-utility"><a href="/cart" class="utility-cart" data-cart-link>カート (0)</a></div>
+</div></header>
+
+<main>
+<section class="listing">
+  <div class="listing__inner">
+    <div class="listing__head">
+      <div>
+        <span class="section-eyebrow">APPAREL アパレル入口</span>
+        <h1>店主が現場で使うアウトドアウェア</h1>
+        <p class="listing__lead">Patagonia 中心のアウトドアアパレル533点を、5軸ファセット (ブランド/カテゴリ/サイズ/カラー/価格帯) で絞り込み。「ベストMサイズが欲しい」を3クリック以内で。</p>
+      </div>
+      <div class="listing__count">全 {items.length} 商品 / 公開533商品予定</div>
+    </div>
+    <div class="listing__layout">
+      <aside class="listing-side">
+        <h3>絞り込み</h3>
+        <div class="facet"><h4>ブランド</h4><ul>
+          <li class="active">すべて<small>({items.length})</small></li>
+          <li>Patagonia <small>(197)</small></li>
+          <li>The North Face</li><li>Arc'teryx</li>
+          <li>Mountain Hardwear</li><li>その他</li>
+        </ul></div>
+        <div class="facet"><h4>カテゴリ</h4><ul>
+          <li>フーディー / プルオーバー</li>
+          <li>ジャケット / シェル</li>
+          <li>ベスト / インサレーション</li>
+          <li>シャツ / Tシャツ</li>
+          <li>パンツ / ボトムス</li>
+        </ul></div>
+        <div class="facet"><h4>サイズ</h4><ul>
+          <li>XS</li><li>S</li><li>M</li><li>L</li><li>XL</li>
+          <li>レディース別</li><li>メンズ別</li>
+        </ul></div>
+        <div class="facet"><h4>状態</h4><ul>
+          <li>新品</li><li>美品</li><li>中古良品</li><li>ヴィンテージ</li>
+        </ul></div>
+        <div class="facet"><h4>価格帯</h4><ul>
+          <li>〜¥10,000</li>
+          <li>¥10,000-¥20,000</li>
+          <li>¥20,000-¥40,000</li>
+          <li>¥40,000〜</li>
+        </ul></div>
+        <div class="facet"><h4>特集</h4><ul>
+          <li>店主セレクト</li><li>今おすすめ</li>
+          <li>新着</li><li>珍しい / 一点もの</li>
+        </ul></div>
+      </aside>
+      <div class="listing-grid">
+        {items.map((p) => (
+          <a href={`/products/${p.slug}`} class="listing-card">
+            <div class="listing-card__img">
+              {p.image.src ? <img src={p.image.src} alt={p.image.alt} loading="lazy" decoding="async" /> : null}
+            </div>
+            <div class="listing-card__body">
+              <span class="listing-card__tag">{p.origin}</span>
+              <p class="listing-card__title">{p.title}</p>
+              <span class="listing-card__price">{p.priceLabel}<small>{p.priceUnit}</small></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer"><div class="site-footer__inner">
+  <div class="site-footer__legal">
+    <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+    <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+  </div>
+</div></footer>
+</body>
+</html>

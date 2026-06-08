@@ -32,16 +32,17 @@ if (!existsSync(sourceDir)) {
   process.exit(0);
 }
 
-for (const entry of readdirSync(sourceDir)) {
-  const from = join(sourceDir, entry);
-  if (statSync(from).isFile()) {
-    collectOne(from);
+const walk = (dir) => {
+  for (const entry of readdirSync(dir)) {
+    const from = join(dir, entry);
+    if (statSync(from).isDirectory()) {
+      walk(from);
+    } else {
+      collectOne(from);
+    }
   }
-}
-
-for (const file of referencedNestedImages) {
-  collectOne(join(sourceDir, file));
-}
+};
+walk(sourceDir);
 
 if (filesToCopy.length === 0) {
   console.log("Skipped image sync because no source images were found.");

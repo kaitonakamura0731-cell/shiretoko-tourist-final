@@ -19,3 +19,8 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+
+# OMC state (Claude Code session noise)
+.omc/
+src/.omc/
+public/source-images/.omc/
