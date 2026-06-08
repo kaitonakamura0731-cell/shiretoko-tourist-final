@@ -3199,7 +3199,7 @@ export const catalog: CatalogItem[] = [
     "category": "specialty",
     "title": "送料込■【1.0kg】■ 北海道オホーツク小清水町産アスパラガス■ 1.0kg",
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91%e3%83%a9/",
-    "image": null,
+    "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
     "weight": "1kg以下"
   },
@@ -3209,7 +3209,7 @@ export const catalog: CatalogItem[] = [
     "category": "specialty",
     "title": "送料込■【1.5kg】■ 北海道オホーツク小清水町産アスパラガス■ 1.5kg",
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-2/",
-    "image": null,
+    "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
     "weight": "1-5kg"
   },
@@ -3219,7 +3219,7 @@ export const catalog: CatalogItem[] = [
     "category": "specialty",
     "title": "送料込■【2.0kg】■ 北海道オホーツク小清水町産アスパラガス■ 2.0kg",
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-3/",
-    "image": null,
+    "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
     "weight": "1-5kg"
   },
@@ -3229,7 +3229,7 @@ export const catalog: CatalogItem[] = [
     "category": "specialty",
     "title": "送料込■【4.0kg】■ 北海道オホーツク小清水町産アスパラガス■ 4.0kg",
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-4/",
-    "image": null,
+    "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
     "weight": "1-5kg"
   }

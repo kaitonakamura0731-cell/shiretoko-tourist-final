@@ -1,0 +1,670 @@
+---
+// Yahoo!ショッピング店 vs 自社EC 比較ページ — 北の逸品堂
+// 配色: #F6F3EC / #1A1A1A / #B99253 / #3C8186
+// データ: src/data/comparison.ts (rows / productSamples)
+// 秘匿: カード手数料は「2.5%」のみ。原価・差益・利益率は書かない。
+import "../styles/global.css";
+import { rows, productSamples } from "../data/comparison";
+
+const meta = {
+  title: "Yahoo!店と自社ECの違い｜北の逸品堂 (知床ツーリスト)",
+  description:
+    "北の逸品堂は Yahoo!ショッピング店と自社EC の二本立て。価格・ポイント・送料・配送・顧客接点まで、両者の違いをそのまま並べました。",
+};
+
+const advLabel: Record<"yahoo" | "own" | "tie", string> = {
+  yahoo: "Yahoo",
+  own: "OWN",
+  tie: "TIE",
+};
+
+const yen = (n: number) => `¥${n.toLocaleString()}`;
+
+// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、自社 5〜10% の中央値で 7%
+const yahooPoints = (n: number) => Math.round((n * 3) / 100);
+const ownPoints = (n: number) => Math.round((n * 7) / 100);
+
+const scenarios = [
+  {
+    tag: "ポイント還元を最大化したい",
+    rec: "自社EC",
+    reason:
+      "Yahoo はキャンペーン日に最大還元が出るが条件と上限が複雑。自社ECは会員ランクに応じて 5〜10% が常時付く。長く買うほど効く設計です。",
+  },
+  {
+    tag: "とにかく早く届けてほしい",
+    rec: "自社EC",
+    reason:
+      "Yahoo は出荷まで 2〜3 営業日。自社ECは中1日で出荷、朝採りアスパラなど鮮度の差が出る品は当日出荷の枠を取れます。",
+  },
+  {
+    tag: "贈答や継続のために店主と直接話したい",
+    rec: "自社EC",
+    reason:
+      "LINE での 1:1 相談、再入荷通知、贈答リマインド、ロットの相談まで自社ECだけ。Yahoo はモール内のチャットに閉じます。",
+  },
+  {
+    tag: "今日たまたまモールで見つけた",
+    rec: "Yahoo!ショッピング店",
+    reason:
+      "モール内回遊で出会えたなら、その流れで Yahoo で買うのも自然です。気に入ったら次回は会員登録して、自社ECで指名買いに切り替えてください。",
+  },
+];
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="/cart.js" is:inline></script>
+</head>
+<body class="page-listing page-comparison">
+
+<div class="topbar">同じ商品でも、買う場所で実質が変わる ・ 表示価格・ポイント・送料・配送までそのまま並べました</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark">北の逸品堂</span>
+      <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+    </a>
+    <nav class="gnav" aria-label="主要メニュー">
+      <a href="/products/specialty/">産直</a>
+      <a href="/products/apparel/">アパレル</a>
+      <a href="/bundles/">セット</a>
+      <a href="/stories/">ストーリー</a>
+      <a href="/ranking/">ランキング</a>
+    </nav>
+    <div class="header-utility">
+      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <details class="mobile-nav">
+        <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+        <ul>
+          <li><a href="/products/specialty/">産直</a></li>
+          <li><a href="/products/apparel/">アパレル</a></li>
+          <li><a href="/bundles/">セット</a></li>
+          <li><a href="/stories/">ストーリー</a></li>
+          <li><a href="/ranking/">ランキング</a></li>
+          <li><a href="/gift/">ギフト</a></li>
+          <li><a href="/comparison/" class="is-tour">店舗比較</a></li>
+          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/cart">カート</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="listing-hero">
+  <div class="listing-hero__inner">
+    <span class="eyebrow">COMPARISON ・ 二つの売り場</span>
+    <h1 class="mincho">Yahoo!ショッピング店と、自社ECは何が違う。</h1>
+    <p>
+      北の逸品堂は Yahoo!ショッピング店と自社ECの二本立てで営業しています。
+      同じ商品でも、ポイント還元・送料・配送スピード・顧客接点で実質が変わります。
+      隠さずそのまま並べました。読んでから、自分に合う売り場で買ってください。
+    </p>
+  </div>
+</section>
+
+<section class="cmp">
+  <div class="cmp__inner">
+
+    <h2 class="cmp__h2 mincho">基本軸の比較</h2>
+    <p class="cmp__lead">
+      8軸を横並びにしました。「TIE」は引き分け、「OWN」は自社EC、「Yahoo」は Yahoo!ショッピング店の優位。
+    </p>
+
+    <div class="cmp-table-wrap" role="region" aria-label="売り場別 比較表">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th scope="col" class="cmp-table__axis">軸</th>
+            <th scope="col" class="cmp-table__yahoo">
+              <span class="cmp-table__col-label">Yahoo!ショッピング店</span>
+              <span class="cmp-table__col-sub">モール内出店</span>
+            </th>
+            <th scope="col" class="cmp-table__own">
+              <span class="cmp-table__col-label">自社EC</span>
+              <span class="cmp-table__col-sub">北の逸品堂</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class={`cmp-row cmp-row--${r.advantage}`}>
+              <th scope="row" class="cmp-row__axis">
+                <span class="mincho">{r.axis}</span>
+                <span class={`cmp-badge cmp-badge--${r.advantage}`}>{advLabel[r.advantage]}</span>
+              </th>
+              <td class="cmp-row__yahoo">
+                <p>{r.yahoo}</p>
+              </td>
+              <td class="cmp-row__own">
+                <p>{r.own}</p>
+                {r.note && <p class="cmp-row__note">{r.note}</p>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="cmp-foot-note">
+      ※ 決済まわりの店舗負担に関する記載は、自社ECのカード手数料 2.5% を前提にした比較です。原価や利益の内訳には触れていません。
+    </p>
+
+  </div>
+</section>
+
+<section class="cmp-samples">
+  <div class="cmp-samples__inner">
+    <h2 class="cmp__h2 mincho">商品ごとの違い</h2>
+    <p class="cmp__lead">
+      実際の商品を3点並べて、Yahoo と自社EC の差をそのまま見せます。表示価格は揃えてあります。
+      実質差は「常時ポイント」「送料」「配送スピード」「相談できる相手」に出ます。
+    </p>
+
+    <ol class="cmp-samples__list">
+      {productSamples.map((p) => {
+        const yPts = yahooPoints(p.yahooPrice);
+        const oPts = ownPoints(p.ownPrice);
+        return (
+          <li class="cmp-sample">
+            <a class="cmp-sample__media" href={`/products/${p.slug}/`} aria-label={p.title}>
+              <img src={`/source-images/files/${p.slug}.jpg`} alt={p.title} loading="lazy"
+                onerror="this.src='/source-images/files/placeholder.jpg'" />
+            </a>
+            <div class="cmp-sample__body">
+              <h3 class="cmp-sample__title mincho">{p.title}</h3>
+
+              <div class="cmp-sample__grid">
+                <div class="cmp-sample__col cmp-sample__col--yahoo">
+                  <p class="cmp-sample__col-label">Yahoo!ショッピング店</p>
+                  <dl class="cmp-sample__dl">
+                    <div><dt>表示価格</dt><dd class="num">{yen(p.yahooPrice)}</dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{yPts.toLocaleString()} 相当 <span class="sub">(目安 3%)</span></dd></div>
+                    <div><dt>送料</dt><dd>店舗ごとに別送料</dd></div>
+                    <div><dt>出荷</dt><dd>2〜3 営業日</dd></div>
+                  </dl>
+                  <a class="cmp-sample__yahoo-link" href={p.yahooUrl} target="_blank" rel="noopener noreferrer">
+                    Yahoo!店で見る
+                  </a>
+                </div>
+
+                <div class="cmp-sample__col cmp-sample__col--own">
+                  <p class="cmp-sample__col-label">自社EC</p>
+                  <dl class="cmp-sample__dl">
+                    <div><dt>表示価格</dt><dd class="num">{yen(p.ownPrice)}</dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(会員 7% 想定)</span></dd></div>
+                    <div><dt>送料</dt><dd>¥5,000 以上で無料・同梱可</dd></div>
+                    <div><dt>出荷</dt><dd>中1日 / 朝採り当日枠あり</dd></div>
+                  </dl>
+                  <a class="cmp-sample__own-link" href={`/products/${p.slug}/`}>
+                    自社ECで見る
+                  </a>
+                </div>
+              </div>
+
+              <p class="cmp-sample__advantage">{p.ownAdvantage}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>
+
+<section class="cmp-decide">
+  <div class="cmp-decide__inner">
+    <h2 class="cmp__h2 mincho">結局、どっちで買うのが得?</h2>
+    <p class="cmp__lead">
+      生活パターンで選ぶのが一番早いです。4つの場面で、店主のおすすめを書きました。
+    </p>
+
+    <ul class="cmp-decide__list">
+      {scenarios.map((s) => (
+        <li class={`cmp-decide__card cmp-decide__card--${s.rec === "自社EC" ? "own" : "yahoo"}`}>
+          <p class="cmp-decide__tag">{s.tag}</p>
+          <p class="cmp-decide__rec mincho">→ {s.rec}</p>
+          <p class="cmp-decide__reason">{s.reason}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="cmp-cta">
+  <div class="cmp-cta__inner">
+    <p class="cmp-cta__eyebrow">JOIN ・ 会員登録</p>
+    <h2 class="mincho">自社ECで買うと、次の一品が早く届く。</h2>
+    <p>
+      会員登録は1分。常時 5〜10% のポイント、再入荷通知、贈答リマインド、LINE 相談がそのまま開きます。
+      Yahoo!店もそのまま続けて使っていただけます。
+    </p>
+    <div class="cmp-cta__buttons">
+      <a href="/account/" class="cmp-cta__primary">会員登録して自社で買う</a>
+      <a href="/products/specialty/" class="cmp-cta__secondary">先に商品を見る</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__legal">
+      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .page-comparison { background: #F6F3EC; color: #1A1A1A; }
+
+  .cmp, .cmp-samples, .cmp-decide { padding: 64px 24px; }
+  .cmp__inner, .cmp-samples__inner, .cmp-decide__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .cmp__h2 {
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin: 0 0 12px;
+    letter-spacing: .02em;
+  }
+  .cmp__lead {
+    font-size: 14px;
+    line-height: 1.9;
+    color: #4a4a4a;
+    max-width: 720px;
+    margin: 0 0 32px;
+  }
+
+  /* 比較表 */
+  .cmp-table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(26, 26, 26, .12);
+    border-radius: 3px;
+    background: #fff;
+  }
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+  }
+  .cmp-table thead th {
+    text-align: left;
+    padding: 18px 20px;
+    background: #1A1A1A;
+    color: #F6F3EC;
+    border-bottom: 1px solid rgba(246, 243, 236, .12);
+    vertical-align: bottom;
+  }
+  .cmp-table__axis { width: 22%; }
+  .cmp-table__yahoo, .cmp-table__own { width: 39%; }
+  .cmp-table__own { background: #3C8186; }
+  .cmp-table__col-label {
+    display: block;
+    font-family: "Noto Serif JP", serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: .04em;
+  }
+  .cmp-table__col-sub {
+    display: block;
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    margin-top: 4px;
+    opacity: .7;
+    text-transform: uppercase;
+  }
+
+  .cmp-row { border-bottom: 1px solid rgba(26, 26, 26, .08); }
+  .cmp-row:last-child { border-bottom: none; }
+  .cmp-row > th, .cmp-row > td {
+    padding: 20px;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  .cmp-row__axis {
+    text-align: left;
+    background: rgba(26, 26, 26, .03);
+    font-weight: 500;
+  }
+  .cmp-row__axis .mincho {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  .cmp-row__yahoo, .cmp-row__own { color: #2a2a2a; }
+  .cmp-row__yahoo p, .cmp-row__own p { margin: 0 0 8px; }
+  .cmp-row__own {
+    background: rgba(60, 129, 134, .04);
+  }
+  .cmp-row--own .cmp-row__own {
+    background: rgba(60, 129, 134, .08);
+    border-left: 2px solid #3C8186;
+  }
+  .cmp-row--yahoo .cmp-row__yahoo {
+    background: rgba(185, 146, 83, .06);
+    border-left: 2px solid #B99253;
+  }
+  .cmp-row__note {
+    font-size: 12px;
+    color: #6b6b6b;
+    line-height: 1.7;
+    border-top: 1px dashed rgba(26, 26, 26, .14);
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  /* 勝者バッジ */
+  .cmp-badge {
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .cmp-badge--own   { background: #3C8186; color: #F6F3EC; }
+  .cmp-badge--yahoo { background: #B99253; color: #1A1A1A; }
+  .cmp-badge--tie   { background: rgba(26, 26, 26, .08); color: #4a4a4a; }
+
+  .cmp-foot-note {
+    font-size: 11px;
+    color: #6b6b6b;
+    line-height: 1.7;
+    margin: 16px 0 0;
+  }
+
+  /* 商品サンプル */
+  .cmp-samples { background: #ECE7DC; }
+  .cmp-samples__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 32px;
+  }
+  .cmp-sample {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    background: #F6F3EC;
+    border: 1px solid rgba(26, 26, 26, .1);
+    border-radius: 3px;
+    padding: 24px;
+  }
+  .cmp-sample__media {
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 2px;
+  }
+  .cmp-sample__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+  }
+  .cmp-sample__media:hover img { transform: scale(1.06); }
+
+  .cmp-sample__body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+  .cmp-sample__title {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .cmp-sample__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid rgba(26, 26, 26, .1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .cmp-sample__col {
+    padding: 16px;
+    background: #fff;
+  }
+  .cmp-sample__col--yahoo {
+    border-right: 1px solid rgba(26, 26, 26, .1);
+    background: rgba(185, 146, 83, .04);
+  }
+  .cmp-sample__col--own {
+    background: rgba(60, 129, 134, .06);
+  }
+  .cmp-sample__col-label {
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+    margin: 0 0 10px;
+  }
+  .cmp-sample__col--own .cmp-sample__col-label { color: #3C8186; }
+  .cmp-sample__col--yahoo .cmp-sample__col-label { color: #B99253; }
+
+  .cmp-sample__dl { margin: 0; padding: 0; }
+  .cmp-sample__dl > div {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(26, 26, 26, .08);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .cmp-sample__dl > div:last-child { border-bottom: none; }
+  .cmp-sample__dl dt {
+    color: #6b6b6b;
+    font-size: 11px;
+    letter-spacing: .04em;
+    padding-top: 2px;
+  }
+  .cmp-sample__dl dd { margin: 0; color: #1A1A1A; }
+  .cmp-sample__dl dd.num {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .cmp-sample__dl dd .sub {
+    font-size: 11px;
+    color: #6b6b6b;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .cmp-sample__yahoo-link,
+  .cmp-sample__own-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .cmp-sample__yahoo-link {
+    color: #B99253;
+    border: 1px solid #B99253;
+  }
+  .cmp-sample__yahoo-link:hover { background: #B99253; color: #1A1A1A; }
+  .cmp-sample__own-link {
+    color: #F6F3EC;
+    background: #3C8186;
+  }
+  .cmp-sample__own-link:hover { background: #1A1A1A; }
+
+  .cmp-sample__advantage {
+    margin: 0;
+    padding: 12px 16px;
+    background: #1A1A1A;
+    color: #F6F3EC;
+    font-size: 13px;
+    line-height: 1.8;
+    border-radius: 2px;
+  }
+
+  /* 結局どっち */
+  .cmp-decide { background: #F6F3EC; }
+  .cmp-decide__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .cmp-decide__card {
+    background: #fff;
+    border: 1px solid rgba(26, 26, 26, .1);
+    border-radius: 3px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cmp-decide__card--own { border-left: 3px solid #3C8186; }
+  .cmp-decide__card--yahoo { border-left: 3px solid #B99253; }
+  .cmp-decide__tag {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 11px;
+    letter-spacing: .14em;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .cmp-decide__rec {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: #1A1A1A;
+  }
+  .cmp-decide__card--own .cmp-decide__rec { color: #3C8186; }
+  .cmp-decide__card--yahoo .cmp-decide__rec { color: #B99253; }
+  .cmp-decide__reason {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.85;
+    color: #2a2a2a;
+  }
+
+  /* CTA */
+  .cmp-cta {
+    background: #1A1A1A;
+    color: #F6F3EC;
+    padding: 72px 24px;
+  }
+  .cmp-cta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .cmp-cta__eyebrow {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: .24em;
+    color: #B99253;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+  }
+  .cmp-cta h2 {
+    font-size: 30px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+  .cmp-cta p {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(246, 243, 236, .8);
+    margin: 0 0 28px;
+  }
+  .cmp-cta__buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cmp-cta__primary,
+  .cmp-cta__secondary {
+    display: inline-block;
+    padding: 14px 28px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background .2s ease, color .2s ease;
+  }
+  .cmp-cta__primary {
+    background: #B99253;
+    color: #1A1A1A;
+  }
+  .cmp-cta__primary:hover { background: #F6F3EC; }
+  .cmp-cta__secondary {
+    background: transparent;
+    color: #F6F3EC;
+    border: 1px solid rgba(246, 243, 236, .4);
+  }
+  .cmp-cta__secondary:hover {
+    background: rgba(246, 243, 236, .08);
+    border-color: #F6F3EC;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 880px) {
+    .cmp, .cmp-samples, .cmp-decide { padding: 48px 20px; }
+    .cmp__h2 { font-size: 22px; }
+    .cmp-sample {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 18px;
+    }
+    .cmp-sample__media { max-width: 320px; }
+    .cmp-decide__list { grid-template-columns: 1fr; }
+    .cmp-cta { padding: 56px 20px; }
+    .cmp-cta h2 { font-size: 22px; }
+  }
+  @media (max-width: 560px) {
+    .cmp-sample__grid {
+      grid-template-columns: 1fr;
+    }
+    .cmp-sample__col--yahoo {
+      border-right: none;
+      border-bottom: 1px solid rgba(26, 26, 26, .1);
+    }
+    .cmp-sample__title { font-size: 16px; }
+    .cmp-decide__rec { font-size: 18px; }
+  }
+</style>
+
+</body>
+</html>

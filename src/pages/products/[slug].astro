@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { products, findProduct, formatYen, type Product } from "../../data/products";
 import { productImageForKey } from "../../data/sourceImages";
+import { reviewsByProduct, averageRating } from "../../data/reviews";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
@@ -24,6 +25,26 @@ const categoryHref = product.category === 'specialty' ? '/#ranking' : '/#ranking
 
 // サムネ用 (現状は同一画像を 4 枚並べる。後日 productImages 追加対応の枠)
 const thumbs = [productImage, productImage, productImage, productImage];
+
+// レビュー集計
+const productReviews = reviewsByProduct(product.slug);
+const reviewCount = productReviews.length;
+const avgRaw = averageRating(product.slug);
+const avgRating = Math.round(avgRaw * 10) / 10;
+const ratingBuckets = [5, 4, 3, 2, 1].map((star) => {
+  const count = productReviews.filter((r) => r.rating === star).length;
+  const pct = reviewCount > 0 ? Math.round((count / reviewCount) * 100) : 0;
+  return { star, count, pct };
+});
+const sortedReviews = [...productReviews].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
+const initialShownCount = Math.min(3, sortedReviews.length);
+function starString(n: number): string {
+  return '★★★★★☆☆☆☆☆'.slice(5 - n, 10 - n);
+}
+function formatJaDate(d: string): string {
+  const [y, m, day] = d.split('-');
+  return `${y}.${m}.${day}`;
+}
 ---
 
 <Base title={`${product.title}｜北の逸品堂`} description={product.summary} bodyClass="product-page product-page--rich">
@@ -205,6 +226,84 @@ const thumbs = [productImage, productImage, productImage, productImage];
       </section>
     )}
 
+    <!-- レビュー -->
+    <section class="pdp-reviews" id="reviews">
+      <div class="pdp-reviews__inner">
+        <span class="section-eyebrow">REVIEWS</span>
+        <h2>お客様の声</h2>
+        <hr class="section-rule" />
+
+        {reviewCount > 0 ? (
+          <>
+            <div class="pdp-reviews__summary">
+              <div class="pdp-reviews__avg">
+                <span class="pdp-reviews__avg-num">{avgRating.toFixed(1)}</span>
+                <span class="pdp-reviews__avg-stars" aria-label={`平均 ${avgRating} / 5`}>{starString(Math.round(avgRaw))}</span>
+                <span class="pdp-reviews__avg-count">{reviewCount}件のレビュー</span>
+              </div>
+              <ul class="pdp-reviews__dist">
+                {ratingBuckets.map((b) => (
+                  <li class="pdp-reviews__dist-row">
+                    <span class="pdp-reviews__dist-label">★{b.star}</span>
+                    <span class="pdp-reviews__dist-bar"><span class="pdp-reviews__dist-fill" style={`width: ${b.pct}%`}></span></span>
+                    <span class="pdp-reviews__dist-count">{b.count}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <ul class="pdp-reviews__list" data-shown={initialShownCount}>
+              {sortedReviews.map((r, i) => (
+                <li class={`pdp-reviews__card${i >= 3 ? ' is-hidden' : ''}`} data-review-index={i}>
+                  <div class="pdp-reviews__head">
+                    <span class="pdp-reviews__avatar" aria-hidden="true">{r.reviewerInitial}</span>
+                    <div class="pdp-reviews__id">
+                      <span class="pdp-reviews__name">{r.reviewerName} 様</span>
+                      <span class="pdp-reviews__meta">
+                        <span class="pdp-reviews__stars" aria-label={`評価 ${r.rating} / 5`}>{starString(r.rating)}</span>
+                        <span class="pdp-reviews__date">{formatJaDate(r.postedAt)}</span>
+                        {r.verified && <span class="pdp-reviews__verified">購入確認済み</span>}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="pdp-reviews__body">
+                    <p class="pdp-reviews__title">{r.title}</p>
+                    <p class="pdp-reviews__text">{r.body}</p>
+                  </div>
+                  <div class="pdp-reviews__foot">
+                    <span class="pdp-reviews__useful">役に立った {r.useful}</span>
+                  </div>
+                  {r.reply && (
+                    <blockquote class="pdp-reviews__reply">
+                      <span class="pdp-reviews__reply-head">
+                        <b>{r.reply.from}</b>
+                        <span class="pdp-reviews__reply-date">{formatJaDate(r.reply.date)}</span>
+                      </span>
+                      <p>{r.reply.body}</p>
+                    </blockquote>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            {sortedReviews.length > 3 && (
+              <div class="pdp-reviews__more-wrap">
+                <button type="button" class="btn btn--outline pdp-reviews__more" data-review-more>
+                  もっと見る（残り {sortedReviews.length - 3} 件）
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div class="pdp-reviews__empty">
+            <p class="pdp-reviews__empty-text">この商品にはまだレビューがありません。</p>
+            <p class="pdp-reviews__empty-sub">最初の一言を、お寄せいただけませんか。</p>
+            <a href="https://line.me/" class="btn btn--outline" target="_blank" rel="noopener">LINE でレビューを送る</a>
+          </div>
+        )}
+      </div>
+    </section>
+
     <!-- 関連商品 -->
     {relatedProductCards.length > 0 && (
       <section class="cross-sell">
@@ -284,5 +383,25 @@ const thumbs = [productImage, productImage, productImage, productImage];
         t.classList.add('is-active');
       });
     });
+
+    // レビュー「もっと見る」 3→6→全件
+    const moreBtn = document.querySelector('[data-review-more]');
+    if (moreBtn) {
+      const cards = Array.from(document.querySelectorAll('.pdp-reviews__card'));
+      let shown = 3;
+      moreBtn.addEventListener('click', () => {
+        const next = Math.min(shown + 3, cards.length);
+        for (let i = shown; i < next; i++) {
+          cards[i].classList.remove('is-hidden');
+        }
+        shown = next;
+        const remaining = cards.length - shown;
+        if (remaining <= 0) {
+          moreBtn.remove();
+        } else {
+          moreBtn.textContent = 'もっと見る（残り ' + remaining + ' 件）';
+        }
+      });
+    }
   </script>
 </Base>

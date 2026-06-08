@@ -13,25 +13,35 @@ const meta = {
 };
 
 const productBySlug = new Map(products.map((product) => [product.slug, product]));
-const featuredSlugs = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg", "patagonia-r1-air-hoodie", "patagonia-r1-zip-neck"];
 
-// 今週のおすすめ — 特産品 + Patagonia を同じ棚で見せる
-const ranking = featuredSlugs
-  .map((slug, index) => {
-    const product = productBySlug.get(slug);
-    if (!product) return null;
+// 産直のおすすめ — 同じ棚に混在させない (商談合意)
+const specialtyFeatured = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg"]
+  .map((slug) => productBySlug.get(slug))
+  .filter(Boolean)
+  .map((product) => ({
+    ...product,
+    priceLabel: formatYen(product.price),
+    unit: product.priceUnit,
+    stock: product.stockLabel,
+    low: product.stock <= 5,
+    image: productImageForKey(product.imageKey, product.title),
+  }));
 
-    return {
-      ...product,
-      rank: `${index + 1}位`,
-      priceLabel: formatYen(product.price),
-      unit: product.priceUnit,
-      stock: product.stockLabel,
-      low: product.stock <= 5,
-      image: productImageForKey(product.imageKey, product.title),
-    };
-  })
-  .filter(Boolean);
+// アパレルのおすすめ — 別セクションで見せる
+const apparelFeatured = ["patagonia-r1-air-hoodie", "patagonia-r1-zip-neck"]
+  .map((slug) => productBySlug.get(slug))
+  .filter(Boolean)
+  .map((product) => ({
+    ...product,
+    priceLabel: formatYen(product.price),
+    unit: product.priceUnit,
+    stock: product.stockLabel,
+    low: product.stock <= 5,
+    image: productImageForKey(product.imageKey, product.title),
+  }));
+
+// セット提案用 (既存)
+const ranking = [...specialtyFeatured, ...apparelFeatured];
 
 const bundles = [
   {
@@ -144,24 +154,27 @@ const tours = [
           <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
         </a>
         <nav class="gnav" aria-label="主要メニュー">
-          <a href="#ranking">特産品 ・ アパレル</a>
-          <a href="#bundles">セット提案</a>
-          <a href="#tour" class="is-tour">ツアー予約</a>
-          <a href="#story">ストーリー</a>
-          <a href="#company">会社</a>
+          <a href="/products/specialty/">産直</a>
+          <a href="/products/apparel/">アパレル</a>
+          <a href="/bundles/">セット</a>
+          <a href="/stories/">ストーリー</a>
+          <a href="/ranking/">ランキング</a>
         </nav>
         <div class="header-utility">
-          <a href="#login" class="utility-link">ログイン</a>
+          <a href="/account/" class="utility-link">マイページ</a>
           <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
           <details class="mobile-nav">
             <summary aria-label="メニューを開く">
               <span></span><span></span><span></span>
             </summary>
             <ul>
-              <li><a href="#ranking">特産品・アパレル</a></li>
-              <li><a href="#bundles">セット提案</a></li>
-              <li><a href="#tour">ツアー予約</a></li>
-              <li><a href="#story">ストーリー</a></li>
+              <li><a href="/products/specialty/">産直</a></li>
+              <li><a href="/products/apparel/">アパレル</a></li>
+              <li><a href="/bundles/">セット</a></li>
+              <li><a href="/stories/">ストーリー</a></li>
+              <li><a href="/ranking/">ランキング</a></li>
+              <li><a href="/gift/">ギフト</a></li>
+              <li><a href="/account/">マイページ</a></li>
               <li><a href="/cart">カート</a></li>
               <li><a href="#company">会社</a></li>
             </ul>
@@ -331,7 +344,84 @@ const tours = [
         </div>
       </section>
 
-      <!-- ============ 今週のおすすめ3商品（特産品2＋アパレル1 統合） ============ -->
+      <!-- ============ 産直のおすすめ ============ -->
+      <section class="featured-block" id="featured-specialty" aria-label="産直のおすすめ">
+        <div class="featured-block__inner">
+          <span class="featured-eyebrow">SPECIALTY ・ 産直のおすすめ</span>
+          <h2 class="mincho">今週、店主が選んだ食べるもの。</h2>
+          <hr class="section-rule" />
+          <div class="featured-grid">
+            {specialtyFeatured.map((item) => (
+              <article class="featured-card">
+                <a href={`/products/${item.slug}`} class="featured-card__link">
+                  <div class="featured-card__img">
+                    {item.image.src ? (
+                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
+                    )}
+                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
+                  </div>
+                  <div class="featured-card__body">
+                    <span class="featured-card__origin">{item.origin}</span>
+                    <h3 class="featured-card__title">{item.title}</h3>
+                    <div class="featured-card__meta">
+                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
+                      <span class="featured-card__delivery">{item.delivery}</span>
+                    </div>
+                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
+                  </div>
+                </a>
+                <button type="button" class="featured-card__cart" data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+              </article>
+            ))}
+          </div>
+          <div class="featured-block__cta">
+            <a href="/products/specialty/" class="featured-link">産直一覧をすべて見る (84商品) →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ アパレルのおすすめ ============ -->
+      <section class="featured-block featured-block--alt" id="featured-apparel" aria-label="アパレルのおすすめ">
+        <div class="featured-block__inner">
+          <span class="featured-eyebrow">APPAREL ・ アパレルのおすすめ</span>
+          <h2 class="mincho">店主が現場で使う、着るもの。</h2>
+          <hr class="section-rule" />
+          <div class="featured-grid">
+            {apparelFeatured.map((item) => (
+              <article class="featured-card">
+                <a href={`/products/${item.slug}`} class="featured-card__link">
+                  <div class="featured-card__img">
+                    {item.image.src ? (
+                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
+                    )}
+                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
+                  </div>
+                  <div class="featured-card__body">
+                    <span class="featured-card__origin">{item.origin}</span>
+                    <h3 class="featured-card__title">{item.title}</h3>
+                    <div class="featured-card__meta">
+                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
+                      <span class="featured-card__delivery">{item.delivery}</span>
+                    </div>
+                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
+                  </div>
+                </a>
+                <button type="button" class="featured-card__cart" data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+              </article>
+            ))}
+          </div>
+          <div class="featured-block__cta">
+            <a href="/products/apparel/" class="featured-link">アパレル一覧をすべて見る (533商品) →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 旧: 今週のおすすめ統合（非表示／コメントアウト用） ============ -->
+      <section class="section section--white" id="ranking" aria-label="今週のおすすめ" style="display:none">
       <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
         <div class="section__inner">
           <span class="section-eyebrow">PICK UP</span>
@@ -609,11 +699,12 @@ const tours = [
           <div>
             <h4>ショッピング</h4>
             <ul>
-              <li><a href="/products/asparagus-1kg">朝採りアスパラ</a></li>
-              <li><a href="/products/potato-onion-set">じゃがいも・玉ねぎ直送便</a></li>
-              <li><a href="/products/potato-danshaku-30kg">男爵じゃがいも30kg</a></li>
-              <li><a href="/products/patagonia-r1-air-hoodie">Patagonia R1</a></li>
-              <li><a href="#">ギフト・のし対応</a></li>
+              <li><a href="/products/specialty/">産直一覧</a></li>
+              <li><a href="/products/apparel/">アパレル一覧</a></li>
+              <li><a href="/bundles/">セット販売</a></li>
+              <li><a href="/gift/">ギフト</a></li>
+              <li><a href="/ranking/">ランキング</a></li>
+              <li><a href="/stories/">ストーリー</a></li>
             </ul>
           </div>
           <div>
@@ -628,6 +719,9 @@ const tours = [
           <div>
             <h4>サポート / 会社</h4>
             <ul>
+              <li><a href="/account/">マイページ</a></li>
+              <li><a href="/comparison/">他社EC比較</a></li>
+              <li><a href="/furusato/">ふるさと納税</a></li>
               <li><a href="#">送料・配送について</a></li>
               <li><a href="#">特定商取引法に基づく表記</a></li>
               <li><a href="#">旅行業約款・取引条件説明書</a></li>

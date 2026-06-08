@@ -31,7 +31,7 @@ export function imageSlot(stem: string, alt: string, label: string, fallback: st
 }
 
 export const siteMedia = {
-  hero: imageSlot("hero-shiretoko", "知床連山・斜里岳と朝のオホーツク海", "hero-shiretoko", ["files/tour-hero-shiretoko-goko-spring.jpg"]),
+  hero: imageSlot("hero-shiretoko", "斜里岳の朝霧・清里町のアスパラ畑とホステル", "hero-shiretoko", ["files/hero-shiretoko-okhotsk.jpg", "files/tour-hero-shiretoko-goko-spring.jpg"]),
   tourHero: imageSlot("tour-shiretoko", "知床五湖と斜里岳の早朝、ガイドツアー", "tour-shiretoko", ["files/tour-hero-shiretoko-goko-spring.jpg"]),
   story: imageSlot("story-ishida", "代表 石田富雄のポートレート", "story-ishida", ["files/staff-01.jpg"]),
   lineQr: imageSlot("line-qr", "LINE公式アカウント登録用QRコード", "line-qr"),

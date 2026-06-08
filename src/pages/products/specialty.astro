@@ -19,7 +19,8 @@ function countBy(items, key) {
 
 const cats = countBy(specialtyItems, "specialtyCategory");
 const weights = countBy(specialtyItems, "weight");
-const items = specialtyItems;
+// 画像なしの商品は一旦非表示
+const items = specialtyItems.filter((p) => p.image);
 ---
 <!doctype html>
 <html lang="ja">
@@ -46,18 +47,23 @@ const items = specialtyItems;
     <nav class="gnav" aria-label="主要メニュー">
       <a href="/products/specialty/" class="is-tour">産直</a>
       <a href="/products/apparel/">アパレル</a>
-      <a href="/#tour">ツアー</a>
-      <a href="/#story">ストーリー</a>
+      <a href="/bundles/">セット</a>
+      <a href="/stories/">ストーリー</a>
+      <a href="/ranking/">ランキング</a>
     </nav>
     <div class="header-utility">
+      <a href="/account/" class="utility-link">マイページ</a>
       <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
           <li><a href="/products/specialty/">産直</a></li>
           <li><a href="/products/apparel/">アパレル</a></li>
-          <li><a href="/#tour">ツアー</a></li>
-          <li><a href="/#story">ストーリー</a></li>
+          <li><a href="/bundles/">セット</a></li>
+          <li><a href="/stories/">ストーリー</a></li>
+          <li><a href="/ranking/">ランキング</a></li>
+          <li><a href="/gift/">ギフト</a></li>
+          <li><a href="/account/">マイページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
       </details>

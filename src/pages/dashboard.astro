@@ -1,0 +1,488 @@
+---
+// 北の逸品堂 / 運用ダッシュボード (デモ)
+// 店主向け管理画面イメージ。実データ接続前のUIプレビュー用途。
+import "../styles/global.css";
+import {
+  salesKpis,
+  lineKpis,
+  cartKpis,
+  productRows,
+  STOCK_ALERT_THRESHOLD,
+} from "../data/dashboard";
+import { productImageForKey } from "../data/sourceImages";
+
+const meta = {
+  title: "運用ダッシュボード (デモ)｜北の逸品堂",
+  description: "店主向け管理画面のイメージ。売上 / 商品ランキング / LINE / カート指標を一画面で。",
+};
+
+const yen = (n: number) => "¥" + n.toLocaleString("ja-JP");
+
+const rowsWithImages = productRows.map((row, idx) => ({
+  ...row,
+  rank: idx + 1,
+  salesLabel: yen(row.sales),
+  ordersLabel: row.orders.toLocaleString("ja-JP") + " 件",
+  stockLabel: row.stock.toLocaleString("ja-JP"),
+  isLow: row.stock < STOCK_ALERT_THRESHOLD,
+  image: productImageForKey(row.slug, row.title),
+}));
+
+function trendClass(trend?: string) {
+  if (trend === "up") return "delta delta--up";
+  if (trend === "down") return "delta delta--down";
+  return "delta delta--flat";
+}
+function trendMark(trend?: string) {
+  if (trend === "up") return "↑";
+  if (trend === "down") return "↓";
+  return "→";
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="dash-body">
+    <!-- ============ DEMO topbar ============ -->
+    <div class="topbar topbar--v3">
+      <span class="topbar__pill topbar__pill--demo">DEMO</span>
+      <span class="topbar__msg">これは公開デモ用の管理画面イメージです。本番では実データに置き換わります。</span>
+      <span class="topbar__divider" aria-hidden="true">・</span>
+      <a href="/" class="topbar__cta">トップへ戻る</a>
+    </div>
+
+    <!-- ============ ヘッダ ============ -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="brand">
+          <span class="brand__mark">北の逸品堂</span>
+          <span class="brand__sub">ADMIN ・ 運用ダッシュボード</span>
+        </a>
+        <nav class="gnav" aria-label="管理メニュー">
+          <a href="#sales">売上</a>
+          <a href="#ranking">商品ランキング</a>
+          <a href="#line">LINE</a>
+          <a href="#cart">カート</a>
+        </nav>
+        <div class="header-utility">
+          <span class="utility-link">店主アカウント</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-main">
+      <!-- ============ ヒーロー ============ -->
+      <section class="listing-hero">
+        <div class="listing-hero__inner">
+          <span class="eyebrow">ADMIN ・ 運用ダッシュボード (デモ)</span>
+          <h1 class="mincho">今日の北の逸品堂。</h1>
+          <p>これは管理画面のイメージです。売上・商品・LINE・カートの主要指標を一画面で。</p>
+          <p class="dash-stamp">最終更新: 2026-06-09 09:14 ・ 表示通貨 JPY ・ 店舗: 北の逸品堂 EC</p>
+        </div>
+      </section>
+
+      <!-- ============ 売上KPI ============ -->
+      <section class="dash-section" id="sales" aria-label="売上指標">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">SALES</span>
+            <h2 class="mincho">売上指標</h2>
+            <hr class="section-rule" />
+          </div>
+          <div class="kpi-grid kpi-grid--sales">
+            {salesKpis.map((kpi) => (
+              <div class="kpi-card">
+                <div class="kpi-card__label">{kpi.label}</div>
+                <div class="kpi-card__value">{kpi.value}</div>
+                <div class="kpi-card__meta">
+                  {kpi.delta && (
+                    <span class={trendClass(kpi.trend)}>
+                      <span class="delta__mark" aria-hidden="true">{trendMark(kpi.trend)}</span>
+                      {kpi.delta}
+                    </span>
+                  )}
+                  {kpi.hint && <span class="kpi-card__hint">{kpi.hint}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 商品ランキング ============ -->
+      <section class="dash-section dash-section--white" id="ranking" aria-label="商品ランキング Top 10">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">TOP 10</span>
+            <h2 class="mincho">商品ランキング</h2>
+            <hr class="section-rule" />
+            <p class="dash-section__lead">今月の売上順 Top 10。在庫 {STOCK_ALERT_THRESHOLD} 未満は在庫アラート対象です。</p>
+          </div>
+          <div class="dash-table-wrap">
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th class="col-rank">順位</th>
+                  <th class="col-img" aria-label="サムネ"></th>
+                  <th class="col-name">商品名</th>
+                  <th class="col-num">売上</th>
+                  <th class="col-num">注文数</th>
+                  <th class="col-num">在庫</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowsWithImages.map((row) => (
+                  <tr class={row.isLow ? "is-low" : ""}>
+                    <td class="col-rank"><span class="rank-pill">{row.rank}</span></td>
+                    <td class="col-img">
+                      <div class="thumb">
+                        {row.image.src ? (
+                          <img src={row.image.src} alt="" loading="lazy" decoding="async" />
+                        ) : (
+                          <div class="thumb__ph" aria-hidden="true"></div>
+                        )}
+                      </div>
+                    </td>
+                    <td class="col-name">
+                      <span class="row-title">{row.title}</span>
+                      <span class="row-slug">{row.slug}</span>
+                    </td>
+                    <td class="col-num tnum">{row.salesLabel}</td>
+                    <td class="col-num tnum">{row.ordersLabel}</td>
+                    <td class="col-num tnum">
+                      <span class={row.isLow ? "stock stock--low" : "stock"}>{row.stockLabel}</span>
+                      {row.isLow && <span class="stock-badge">在庫アラート</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LINE指標 ============ -->
+      <section class="dash-section" id="line" aria-label="LINE指標">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">LINE</span>
+            <h2 class="mincho">LINE 指標</h2>
+            <hr class="section-rule" />
+          </div>
+          <div class="kpi-grid kpi-grid--line">
+            {lineKpis.map((kpi) => (
+              <div class="kpi-card kpi-card--compact">
+                <div class="kpi-card__label">{kpi.label}</div>
+                <div class="kpi-card__value">{kpi.value}</div>
+                <div class="kpi-card__meta">
+                  {kpi.delta && (
+                    <span class={trendClass(kpi.trend)}>
+                      <span class="delta__mark" aria-hidden="true">{trendMark(kpi.trend)}</span>
+                      {kpi.delta}
+                    </span>
+                  )}
+                  {kpi.hint && <span class="kpi-card__hint">{kpi.hint}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ カート指標 ============ -->
+      <section class="dash-section dash-section--white" id="cart" aria-label="カート指標">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">CART</span>
+            <h2 class="mincho">カート指標</h2>
+            <hr class="section-rule" />
+          </div>
+          <div class="kpi-grid kpi-grid--cart">
+            {cartKpis.map((kpi) => (
+              <div class="kpi-card kpi-card--compact">
+                <div class="kpi-card__label">{kpi.label}</div>
+                <div class="kpi-card__value">{kpi.value}</div>
+                <div class="kpi-card__meta">
+                  {kpi.delta && (
+                    <span class={trendClass(kpi.trend)}>
+                      <span class="delta__mark" aria-hidden="true">{trendMark(kpi.trend)}</span>
+                      {kpi.delta}
+                    </span>
+                  )}
+                  {kpi.hint && <span class="kpi-card__hint">{kpi.hint}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 注意書き ============ -->
+      <section class="dash-disclaimer" aria-label="注意書き">
+        <div class="dash-disclaimer__inner">
+          <p>
+            本ダッシュボードは公開デモ用のサンプル数値です。本番では実データに置き換わります。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__legal">
+          <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+          <span class="payments">ADMIN DEMO ・ noindex</span>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      /* ===== ダッシュボード専用スタイル ===== */
+      .dash-body { background: #F6F3EC; }
+      .dash-main { padding-bottom: 3rem; }
+
+      .topbar__pill--demo {
+        background: #1A1A1A;
+        color: #fff;
+        letter-spacing: 0.12em;
+      }
+
+      .dash-stamp {
+        margin-top: 0.6rem;
+        font-family: "Inter", "Noto Sans JP", sans-serif;
+        font-size: 0.78rem;
+        color: #6b6b6b;
+        font-feature-settings: "tnum" 1;
+        letter-spacing: 0.04em;
+      }
+
+      .dash-section { padding: 2.4rem 1.6rem; }
+      .dash-section--white { background: #fff; }
+      .dash-section__inner { max-width: 1200px; margin: 0 auto; }
+      .dash-section__head { margin-bottom: 1.4rem; }
+      .dash-section__head h2 {
+        font-size: 1.6rem;
+        margin: 0.2rem 0 0.4rem;
+        color: #1A1A1A;
+      }
+      .dash-section__lead {
+        font-size: 0.88rem;
+        color: #4a4a4a;
+        margin-top: 0.6rem;
+      }
+
+      /* ===== KPI カード ===== */
+      .kpi-grid {
+        display: grid;
+        gap: 0.9rem;
+      }
+      .kpi-grid--sales { grid-template-columns: repeat(4, 1fr); }
+      .kpi-grid--line  { grid-template-columns: repeat(5, 1fr); }
+      .kpi-grid--cart  { grid-template-columns: repeat(4, 1fr); }
+
+      .kpi-card {
+        background: #fff;
+        border: 1px solid #E6E1D6;
+        border-radius: 3px;
+        padding: 1.1rem 1.1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .dash-section--white .kpi-card { background: #F6F3EC; border-color: #E6E1D6; }
+
+      .kpi-card__label {
+        font-size: 0.78rem;
+        color: #6b6b6b;
+        letter-spacing: 0.03em;
+      }
+      .kpi-card__value {
+        font-family: "Inter", "Noto Sans JP", sans-serif;
+        font-feature-settings: "tnum" 1;
+        font-weight: 700;
+        font-size: 1.7rem;
+        line-height: 1.15;
+        color: #1A1A1A;
+        letter-spacing: -0.01em;
+      }
+      .kpi-card--compact .kpi-card__value { font-size: 1.45rem; }
+
+      .kpi-card__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 0.2rem;
+      }
+      .kpi-card__hint {
+        font-size: 0.72rem;
+        color: #8a8a8a;
+        line-height: 1.5;
+      }
+
+      .delta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-family: "Inter", "Noto Sans JP", sans-serif;
+        font-feature-settings: "tnum" 1;
+        font-weight: 600;
+        font-size: 0.82rem;
+        width: fit-content;
+      }
+      .delta__mark { font-size: 0.9rem; line-height: 1; }
+      .delta--up { color: #2E7D52; }
+      .delta--down { color: #C0392B; }
+      .delta--flat { color: #8a8a8a; }
+
+      /* ===== 商品ランキングテーブル ===== */
+      .dash-table-wrap {
+        overflow-x: auto;
+        border: 1px solid #E6E1D6;
+        border-radius: 3px;
+        background: #fff;
+      }
+      .dash-section--white .dash-table-wrap { background: #F6F3EC; }
+
+      .dash-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        min-width: 720px;
+      }
+      .dash-table thead th {
+        text-align: left;
+        font-size: 0.74rem;
+        font-weight: 600;
+        color: #6b6b6b;
+        letter-spacing: 0.06em;
+        padding: 0.8rem 0.9rem;
+        border-bottom: 1px solid #E6E1D6;
+        background: #fff;
+        text-transform: uppercase;
+      }
+      .dash-section--white .dash-table thead th { background: #F6F3EC; }
+
+      .dash-table tbody td {
+        padding: 0.85rem 0.9rem;
+        border-bottom: 1px solid #EFEAE0;
+        vertical-align: middle;
+        color: #1A1A1A;
+      }
+      .dash-table tbody tr:last-child td { border-bottom: none; }
+      .dash-table tbody tr.is-low { background: rgba(192,57,43,0.03); }
+
+      .col-rank { width: 56px; }
+      .col-img  { width: 64px; }
+      .col-name { min-width: 260px; }
+      .col-num  { text-align: right; white-space: nowrap; }
+
+      .tnum { font-family: "Inter", "Noto Sans JP", sans-serif; font-feature-settings: "tnum" 1; }
+
+      .rank-pill {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 28px; height: 28px;
+        background: #1A1A1A;
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border-radius: 2px;
+      }
+
+      .thumb {
+        width: 48px; height: 48px;
+        overflow: hidden;
+        border-radius: 2px;
+        background: #F6F3EC;
+        border: 1px solid #E6E1D6;
+      }
+      .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .thumb__ph { width: 100%; height: 100%; background: #EFEAE0; }
+
+      .row-title { display: block; font-size: 0.9rem; line-height: 1.45; color: #1A1A1A; }
+      .row-slug {
+        display: block;
+        font-family: "Inter", monospace;
+        font-size: 0.7rem;
+        color: #8a8a8a;
+        margin-top: 0.15rem;
+      }
+
+      .stock {
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+      .stock--low { color: #C0392B; font-weight: 700; }
+      .stock-badge {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.15rem 0.5rem;
+        background: #C0392B;
+        color: #fff;
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        border-radius: 2px;
+        white-space: nowrap;
+        vertical-align: middle;
+      }
+
+      /* ===== 注意書き ===== */
+      .dash-disclaimer {
+        padding: 1.6rem 1.6rem 0.8rem;
+      }
+      .dash-disclaimer__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px dashed #B99253;
+        border-radius: 3px;
+        padding: 1rem 1.2rem;
+      }
+      .dash-disclaimer p {
+        margin: 0;
+        font-size: 0.84rem;
+        color: #6b6b6b;
+        line-height: 1.7;
+      }
+
+      /* ===== レスポンシブ ===== */
+      @media (max-width: 1024px) {
+        .kpi-grid--sales { grid-template-columns: repeat(3, 1fr); }
+        .kpi-grid--line  { grid-template-columns: repeat(3, 1fr); }
+        .kpi-grid--cart  { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 720px) {
+        .dash-section { padding: 1.8rem 1rem; }
+        .kpi-grid--sales,
+        .kpi-grid--line,
+        .kpi-grid--cart { grid-template-columns: repeat(2, 1fr); }
+        .kpi-card__value { font-size: 1.4rem; }
+        .kpi-card--compact .kpi-card__value { font-size: 1.25rem; }
+        .dash-section__head h2 { font-size: 1.35rem; }
+      }
+      @media (max-width: 480px) {
+        .kpi-grid--sales,
+        .kpi-grid--line,
+        .kpi-grid--cart { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .kpi-card { padding: 0.85rem 0.85rem 0.8rem; }
+        .kpi-card__value { font-size: 1.25rem; }
+      }
+    </style>
+  </body>
+</html>
