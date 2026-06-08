@@ -122,9 +122,18 @@ const tours = [
     <script src="/cart.js" is:inline></script>
   </head>
   <body>
-    <!-- ============ 上部告知バー ============ -->
-    <div class="topbar">
-      6月限定 / アスパラ・じゃがいも・玉ねぎを北海道から直送中 ・ ¥5,000以上で<b>送料無料</b> ・ <a href="#retention">LINE登録で¥500 OFF</a>
+    <!-- ============ 上部告知バー (送料無料カウンター付き) ============ -->
+    <div class="topbar topbar--v3" data-shipping-bar>
+      <span class="topbar__pill">6月限定</span>
+      <span class="topbar__msg">朝採りアスパラを北海道から直送中</span>
+      <span class="topbar__divider" aria-hidden="true">・</span>
+      <span class="topbar__shipping">
+        <span class="topbar__shipping-label">¥5,000以上で送料無料</span>
+        <span class="topbar__shipping-remain" data-shipping-remain hidden>あと <b data-remain-amount>¥5,000</b></span>
+        <span class="topbar__shipping-done" data-shipping-done hidden>✓ 送料無料</span>
+      </span>
+      <span class="topbar__divider" aria-hidden="true">・</span>
+      <a href="#retention" class="topbar__cta">LINE登録 ¥500 OFF</a>
     </div>
 
     <!-- ============ ヘッダ ============ -->
@@ -208,37 +217,79 @@ const tours = [
         </div>
       </section>
 
+      <!-- ============ 7入口タイル (BEAMS流) ============ -->
+      <section class="quick-tiles" aria-label="ショップの入口">
+        <div class="quick-tiles__inner">
+          <a href="#ranking" class="qtile">
+            <span class="qtile__no">01</span>
+            <span class="qtile__label mincho">新着</span>
+            <span class="qtile__sub">NEW ARRIVAL</span>
+          </a>
+          <a href="#ranking" class="qtile qtile--accent">
+            <span class="qtile__no">02</span>
+            <span class="qtile__label mincho">ランキング</span>
+            <span class="qtile__sub">WEEKLY RANKING</span>
+          </a>
+          <a href="/products/specialty/" class="qtile">
+            <span class="qtile__no">03</span>
+            <span class="qtile__label mincho">産直</span>
+            <span class="qtile__sub">SPECIALTY</span>
+          </a>
+          <a href="/products/apparel/" class="qtile">
+            <span class="qtile__no">04</span>
+            <span class="qtile__label mincho">アパレル</span>
+            <span class="qtile__sub">APPAREL</span>
+          </a>
+          <a href="#bundles" class="qtile">
+            <span class="qtile__no">05</span>
+            <span class="qtile__label mincho">特集・セット</span>
+            <span class="qtile__sub">COLLECTIONS</span>
+          </a>
+          <a href="#ranking" class="qtile qtile--sale">
+            <span class="qtile__no">06</span>
+            <span class="qtile__label mincho">6月限定</span>
+            <span class="qtile__sub">JUNE OFFER</span>
+          </a>
+          <a href="#bundles" class="qtile">
+            <span class="qtile__no">07</span>
+            <span class="qtile__label mincho">ギフト</span>
+            <span class="qtile__sub">GIFT・のし対応</span>
+          </a>
+        </div>
+      </section>
+
       <!-- ============ 2大入口（産直 / アパレル） ============ -->
       <section class="entrances" aria-label="2大入口">
         <div class="entrances__inner">
           <span class="section-eyebrow">2 ENTRANCES</span>
-          <h2>食べるもの / 着るもの、入口を分けます。</h2>
+          <h2 class="mincho">食べるもの / 着るもの、<br />入口を分けます。</h2>
           <hr class="section-rule" />
           <p class="entrances__lead">
-            産直とアパレルは目的が違うので、トップから先は道を分けます。同じ店主が選ぶ世界観でつながりつつ、お客様は最短で目的の棚にたどり着けます。
+            産直とアパレルは目的が違うので、トップから先は道を分けます。
+            同じ店主が選ぶ世界観でつながりつつ、お客様は最短で目的の棚にたどり着けます。
           </p>
           <div class="entrances__grid">
             <a href="/products/specialty/" class="entrance entrance--specialty">
-              <span class="entrance__tag">産直入口</span>
-              <h3>北海道・知床の産直食材</h3>
-              <p>アスパラ / じゃがいも / 玉ねぎ / 季節食材 / ギフト</p>
-              <ul>
-                <li>季節 / 配送温度 / 内容量 / ギフト対応で絞込</li>
-                <li>朝採り収穫日・産地・生産者を明記</li>
-                <li>LINE登録で再入荷・収穫速報</li>
-              </ul>
-              <span class="entrance__cta">産直一覧を見る →</span>
+              <div class="entrance__media">
+                <img src="/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" alt="北海道オホーツク産アスパラガス" loading="lazy" />
+              </div>
+              <div class="entrance__body">
+                <span class="entrance__tag">SPECIALTY ・ 産直入口</span>
+                <h3 class="mincho">北海道・知床の<br />産直食材</h3>
+                <p>アスパラ / じゃがいも / 玉ねぎ / 季節食材 / ギフト</p>
+                <span class="entrance__cta">産直一覧を見る →</span>
+              </div>
             </a>
             <a href="/products/apparel/" class="entrance entrance--apparel">
-              <span class="entrance__tag">アパレル入口</span>
-              <h3>店主が現場で使うアウトドアウェア</h3>
-              <p>Patagonia / フーディー / ジャケット / ベスト / シャツ</p>
-              <ul>
-                <li>ブランド / カテゴリ / サイズ / カラー / 価格帯で絞込</li>
-                <li>新品 / 美品 / 中古 の状態タグ</li>
-                <li>LINE 1:1 でサイズ相談・入荷相談</li>
-              </ul>
-              <span class="entrance__cta">アパレル一覧を見る →</span>
+              <div class="entrance__media">
+                <img src="/source-images/files/product-2989-new-m-patagonia-ms-r1-air-full-zip-hoodie-patagonia-clement-blue-clmb-2984-p1010080-1.jpg" alt="Patagonia R1 Air Hoodie 店主厳選" loading="lazy" />
+              </div>
+              <div class="entrance__body">
+                <span class="entrance__tag">APPAREL ・ アパレル入口</span>
+                <h3 class="mincho">店主が現場で<br />使うアウトドアウェア</h3>
+                <p>Patagonia / フーディー / ジャケット / ベスト / シャツ</p>
+                <span class="entrance__cta">アパレル一覧を見る →</span>
+              </div>
             </a>
           </div>
         </div>
@@ -508,6 +559,35 @@ const tours = [
           }
         });
       });
+
+      // 送料無料カウンター
+      (function () {
+        const THRESHOLD = 5000;
+        const remainEl = document.querySelector('[data-shipping-remain]');
+        const remainAmount = document.querySelector('[data-remain-amount]');
+        const doneEl = document.querySelector('[data-shipping-done]');
+        function fmtYen(n) { return '¥' + n.toLocaleString('ja-JP'); }
+        function update() {
+          const sub = window.cart && window.cart.subtotal ? window.cart.subtotal() : 0;
+          if (sub <= 0) {
+            if (remainEl) { remainEl.hidden = true; }
+            if (doneEl) doneEl.hidden = true;
+            return;
+          }
+          const remain = THRESHOLD - sub;
+          if (remain > 0) {
+            if (remainAmount) remainAmount.textContent = fmtYen(remain);
+            if (remainEl) remainEl.hidden = false;
+            if (doneEl) doneEl.hidden = true;
+          } else {
+            if (remainEl) remainEl.hidden = true;
+            if (doneEl) doneEl.hidden = false;
+          }
+        }
+        update();
+        document.addEventListener('cart:change', update);
+        window.addEventListener('storage', update);
+      })();
     </script>
 
     <!-- ============ フッタ ============ -->
