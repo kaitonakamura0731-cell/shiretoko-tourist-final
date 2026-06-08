@@ -19,6 +19,11 @@ export type Product = {
   imageKey: string;
   related: string[];
   relatedTour?: { slug: string; title: string; price: string };
+  // Patagonia 流リッチ化フィールド (B-1)
+  storyMemo?: string; // 店主の手書きメモ (約50字)
+  environmental?: string; // 環境訴求コピー (約60字)
+  usageScene?: string; // 使ってる場所
+  careNote?: string; // お手入れ / 保存方法
 };
 
 export const products: Product[] = [
@@ -50,6 +55,10 @@ export const products: Product[] = [
     imageKey: 'asparagus',
     related: ['potato-onion-set', 'potato-danshaku-30kg', 'patagonia-r1-air-hoodie'],
     relatedTour: { slug: 'shiretoko-5lakes', title: '知床五湖ガイドハイキング', price: '¥6,800' },
+    storyMemo: '朝5時、霜の畑から。茹でた瞬間の甘さは小清水町の遅い春そのもの。',
+    environmental: '産地から中1日で出荷。佐藤農園とは取扱20年、地域経済と一緒に育てた畑です。',
+    usageScene: '清里町の自宅キッチンで、店主が一番最初に茹でる初夏の味',
+    careNote: '到着後は立てて冷蔵5度・5日以内を推奨。茹で過ぎず塩少々で素材の甘さを引き出してください。',
   },
   {
     slug: 'potato-onion-set',
@@ -76,6 +85,10 @@ export const products: Product[] = [
     imageKey: 'potato-onion',
     related: ['potato-danshaku-30kg', 'asparagus-1kg', 'patagonia-r1-air-hoodie'],
     relatedTour: { slug: 'kaminoko-snowshoe', title: '神の子池スノーシューツアー', price: '¥7,500' },
+    storyMemo: '清里・小清水の畑をぐるっと回って、毎日台所で使えるものだけ詰めました。',
+    environmental: '無選別で形のばらつきも全部出荷。捨てないことが、地域の農家と続ける一番の近道。',
+    usageScene: '北の逸品堂スタッフの家で、カレー・肉じゃが・ポトフの土台になっている定番',
+    careNote: '到着後は新聞紙で包み、風通しの良い冷暗所で保管。冷蔵庫には入れず常温で。',
   },
   {
     slug: 'potato-8kg',
@@ -102,6 +115,10 @@ export const products: Product[] = [
     imageKey: 'potato-danshaku',
     related: ['potato-onion-set', 'potato-danshaku-30kg', 'asparagus-1kg'],
     relatedTour: { slug: 'kaminoko-snowshoe', title: '神の子池スノーシューツアー', price: '¥7,500' },
+    storyMemo: '8kgは一人暮らし〜家族3人がちょうど食べ切れる、店主が考えた日常サイズ。',
+    environmental: 'オホーツクの畑から無選別で出荷。形を揃えるための廃棄を出さない仕入れ方針です。',
+    usageScene: '清里町の店主宅で、コロッケとポテサラのために毎週減っていく定番ストック',
+    careNote: '到着後は新聞紙に包んで冷暗所へ。光に当てると緑化するので、暗所保管を徹底してください。',
   },
   {
     slug: 'potato-danshaku-30kg',
@@ -129,6 +146,10 @@ export const products: Product[] = [
     imageKey: 'potato-danshaku',
     related: ['potato-onion-set', 'asparagus-1kg', 'patagonia-r1-air-hoodie'],
     relatedTour: { slug: 'kaminoko-snowshoe', title: '神の子池スノーシューツアー', price: '¥7,500' },
+    storyMemo: '30kg箱は飲食店さんと、雪が降る前にまとめ買いするご家庭向け。',
+    environmental: '無選別・大容量で輸送効率を最大化。33年続く小清水の畑との取引を守る単位です。',
+    usageScene: '清里・斜里の食堂で、毎朝の仕込みに使われている男爵',
+    careNote: '常温冷暗所で1〜2ヶ月。湿気で芽が出やすいので段ボールごと風通しの良い場所へ。',
   },
   {
     slug: 'patagonia-r1-air-hoodie',
@@ -156,6 +177,10 @@ export const products: Product[] = [
     imageKey: 'patagonia-hoodie',
     related: ['asparagus-1kg', 'potato-onion-set', 'patagonia-r1-zip-neck'],
     relatedTour: { slug: 'shiretoko-5lakes', title: '知床五湖ガイドハイキング', price: '¥6,800' },
+    storyMemo: '店主が知床五湖ガイドで毎日着てる、薄手フリースの決定版。これ一枚で四季。',
+    environmental: 'リペア可・長く着る選択。ほつれは直して10年着る。それが知床の使い方です。',
+    usageScene: '知床五湖ガイドハイキングで店主が毎日着用、清里の朝の散歩でも',
+    careNote: '洗濯ネット使用・中性洗剤で単独洗い。乾燥機NG、陰干しで形を保ってください。',
   },
   {
     slug: 'patagonia-r1-zip-neck',
@@ -183,6 +208,10 @@ export const products: Product[] = [
     imageKey: 'patagonia-r1-zip-neck',
     related: ['patagonia-r1-air-hoodie', 'asparagus-1kg', 'potato-onion-set'],
     relatedTour: { slug: 'shiretoko-5lakes', title: '知床五湖ガイドハイキング', price: '¥6,800' },
+    storyMemo: 'フルジップが暑い人へ。店主は春秋の知床、朝夕の温度差にこれを選んでます。',
+    environmental: 'リペアして長く着る前提。サイズ違いは7日間無料交換、無駄な廃棄を出しません。',
+    usageScene: '知床の朝夕、神の子池の散策、清里の自宅まわりのミドルレイヤーに',
+    careNote: '洗濯ネット・中性洗剤で単独洗い。乾燥機NG、陰干し。毛玉はフリースブラシで軽く整えて。',
   },
 ];
 

@@ -14,28 +14,37 @@ const relatedProducts = product.related
   .map((slug) => findProduct(slug))
   .filter((p): p is Product => !!p);
 const productImage = productImageForKey(product.imageKey, product.title);
-const relatedProductCards = relatedProducts.map((item) => ({
+const relatedProductCards = relatedProducts.slice(0, 3).map((item) => ({
   item,
   image: productImageForKey(item.imageKey, item.title),
 }));
+
+const categoryLabel = product.category === 'specialty' ? '産直' : 'アパレル';
+const categoryHref = product.category === 'specialty' ? '/#ranking' : '/#ranking';
+
+// サムネ用 (現状は同一画像を 4 枚並べる。後日 productImages 追加対応の枠)
+const thumbs = [productImage, productImage, productImage, productImage];
 ---
 
-<Base title={`${product.title}｜北の逸品堂`} description={product.summary} bodyClass="product-page">
+<Base title={`${product.title}｜北の逸品堂`} description={product.summary} bodyClass="product-page product-page--rich">
   <main>
+    <!-- パンくず -->
     <nav class="breadcrumbs" aria-label="パンくず">
       <div class="breadcrumbs__inner">
-        <a href="/">トップ</a> <span class="sep">/</span>
-        <a href={product.category === 'specialty' ? '/#ranking' : '/#ranking'}>{product.category === 'specialty' ? '特産品' : 'アパレル'}</a>
+        <a href="/">TOP</a>
+        <span class="sep">/</span>
+        <a href={categoryHref}>{categoryLabel}</a>
         <span class="sep">/</span>
         <span class="current">{product.title}</span>
       </div>
     </nav>
 
-    <section class="product-detail">
-      <div class="product-detail__inner">
-        <!-- 商品ビジュアル -->
-        <div class="product-gallery">
-          <div class="product-gallery__main" data-image-key={product.imageKey}>
+    <!-- メイン2カラム -->
+    <section class="pdp">
+      <div class="pdp__inner">
+        <!-- 左: ギャラリー -->
+        <div class="pdp__gallery">
+          <div class="pdp-main" data-image-key={product.imageKey}>
             {productImage.src ? (
               <img src={productImage.src} alt={productImage.alt} decoding="async" />
             ) : (
@@ -45,41 +54,61 @@ const relatedProductCards = relatedProducts.map((item) => ({
               </div>
             )}
           </div>
-          <div class="product-gallery__thumbs" aria-hidden="true">
-            <div class="thumb thumb--active"></div>
-            <div class="thumb"></div>
-            <div class="thumb"></div>
+          <div class="pdp-thumbs" role="list">
+            {thumbs.map((t, i) => (
+              <button type="button" class={`pdp-thumb${i === 0 ? ' is-active' : ''}`} aria-label={`サムネイル ${i + 1}`} data-thumb-index={i}>
+                {t.src ? (
+                  <img src={t.src} alt="" loading="lazy" decoding="async" />
+                ) : (
+                  <span class="pdp-thumb__ph">{t.label}</span>
+                )}
+              </button>
+            ))}
           </div>
         </div>
 
-        <!-- 商品情報 -->
-        <div class="product-info">
-          <span class="product-info__origin">{product.origin}</span>
-          <h1 class="product-info__title">{product.title}</h1>
-          <p class="product-info__summary">{product.summary}</p>
-
-          <div class="product-info__meta">
-            <div>
-              <span class="meta-label">{product.category === 'specialty' ? '産地・収穫' : '在庫'}</span>
-              <span class="meta-value">{product.harvestDate || product.stockLabel}</span>
-            </div>
-            <div>
-              <span class="meta-label">配送</span>
-              <span class="meta-value">{product.delivery}</span>
-            </div>
-            <div>
-              <span class="meta-label">在庫</span>
-              <span class="meta-value">{product.stockLabel}</span>
-            </div>
+        <!-- 右: 情報 -->
+        <div class="pdp__info">
+          <div class="pdp-tags">
+            <span class={`pdp-tag pdp-tag--${product.badge.toLowerCase()}`}>{product.badge}</span>
+            <span class="pdp-tag pdp-tag--origin">{product.origin}</span>
           </div>
 
-          <div class="product-info__price">
-            <span class="price">{formatYen(product.price)}</span>
-            <small>{product.priceUnit}</small>
+          <h1 class="pdp-title">{product.title}</h1>
+          <p class="pdp-summary">{product.summary}</p>
+
+          <div class="pdp-price">
+            <span class="pdp-price__num">{formatYen(product.price)}</span>
+            <span class="pdp-price__unit">{product.priceUnit}</span>
           </div>
 
-          <div class="product-info__purchase">
-            <div class="qty-control">
+          <dl class="pdp-meta">
+            <div class="pdp-meta__row">
+              <dt>在庫</dt>
+              <dd>{product.stockLabel}</dd>
+            </div>
+            <div class="pdp-meta__row">
+              <dt>配送</dt>
+              <dd>{product.delivery}</dd>
+            </div>
+            {product.harvestDate && (
+              <div class="pdp-meta__row">
+                <dt>収穫</dt>
+                <dd>{product.harvestDate}</dd>
+              </div>
+            )}
+          </dl>
+
+          {product.storyMemo && (
+            <aside class="pdp-memo" aria-label="店主のメモ">
+              <span class="pdp-memo__label">店主のメモ</span>
+              <p class="pdp-memo__text">{product.storyMemo}</p>
+              <span class="pdp-memo__sign">— 北の逸品堂 店主</span>
+            </aside>
+          )}
+
+          <div class="pdp-purchase">
+            <div class="pdp-qty">
               <label for={`qty-${product.slug}`}>数量</label>
               <select id={`qty-${product.slug}`} class="qty-select" aria-label="購入数量">
                 <option value="1">1</option>
@@ -91,75 +120,124 @@ const relatedProductCards = relatedProducts.map((item) => ({
             </div>
             <button
               type="button"
-              class="btn btn--primary btn--add-cart"
+              class="btn btn--primary btn--block btn--add-cart"
               data-add-slug={product.slug}
               data-add-name={product.title}
               data-add-price={String(product.price)}
             >
               カゴに追加
             </button>
-            <a href="/cart" class="btn btn--outline">そのまま注文へ</a>
+            <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener">LINE でサイズ・在庫を相談</a>
           </div>
 
-          <ul class="product-info__notes">
-            <li>¥5,000以上のお買い物で全国送料無料（北海道発・本州中1-2日）</li>
+          <ul class="pdp-notes">
+            <li>¥5,000以上で全国送料無料（北海道発・本州中1-2日）</li>
             <li>特産品ご購入で次回ツアー <b>¥1,000 OFF</b> クーポン進呈</li>
-            <li>のし・ラッピング・産地証明書PDFはカート画面で選択できます</li>
+            <li>のし・ラッピング・産地証明書PDFはカート画面で選択</li>
+          </ul>
+
+          <details class="pdp-spec">
+            <summary>商品スペック</summary>
+            <table class="spec-table">
+              <tbody>
+                {product.spec.map(([k, v]) => (
+                  <tr>
+                    <th>{k}</th>
+                    <td>{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="pdp-spec__desc">{product.description}</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 現場で使う -->
+    {(product.usageScene || product.careNote) && (
+      <section class="pdp-usage">
+        <div class="pdp-usage__inner">
+          <span class="section-eyebrow">IN THE FIELD</span>
+          <h2>現場で使う</h2>
+          <hr class="section-rule" />
+          <div class="pdp-usage__grid">
+            {product.usageScene && (
+              <div class="pdp-usage__card">
+                <span class="pdp-usage__label">使っている場所</span>
+                <p>{product.usageScene}</p>
+              </div>
+            )}
+            {product.careNote && (
+              <div class="pdp-usage__card">
+                <span class="pdp-usage__label">お手入れ・保存</span>
+                <p>{product.careNote}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- 環境訴求 -->
+    {product.environmental && (
+      <section class="pdp-env">
+        <div class="pdp-env__inner">
+          <span class="section-eyebrow">OUR FOOTPRINT</span>
+          <h2>長く使うこと、産地を続けること。</h2>
+          <hr class="section-rule section-rule--dark" />
+          <p class="pdp-env__copy">{product.environmental}</p>
+          <ul class="pdp-env__pillars">
+            <li>
+              <span class="pdp-env__pillar-num">01</span>
+              <span class="pdp-env__pillar-text">リペアして長く使う前提。アパレルはほつれ修理、特産品は無選別出荷で廃棄を減らします。</span>
+            </li>
+            <li>
+              <span class="pdp-env__pillar-num">02</span>
+              <span class="pdp-env__pillar-text">産地と20年単位の取引。地域の畑と農家が続くことが、知床の景観を残す一番の近道です。</span>
+            </li>
+            <li>
+              <span class="pdp-env__pillar-num">03</span>
+              <span class="pdp-env__pillar-text">EC ⇄ ツアー連動。買って終わりではなく、産地を歩いて確かめてもらう導線を用意しています。</span>
+            </li>
           </ul>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
-    <!-- 仕様 -->
-    <section class="product-spec-section">
-      <div class="product-spec-section__inner">
-        <h2>商品スペック</h2>
-        <table class="spec-table">
-          <tbody>
-            {product.spec.map(([k, v]) => (
-              <tr>
-                <th>{k}</th>
-                <td>{v}</td>
-              </tr>
+    <!-- 関連商品 -->
+    {relatedProductCards.length > 0 && (
+      <section class="cross-sell">
+        <div class="cross-sell__inner">
+          <span class="section-eyebrow">RELATED</span>
+          <h2>あわせて選ばれています</h2>
+          <hr class="section-rule" />
+          <div class="cross-grid">
+            {relatedProductCards.map(({ item: rp, image }) => (
+              <a href={`/products/${rp.slug}`} class="cross-card">
+                <div class="cross-card__img" data-image-key={rp.imageKey}>
+                  {image.src ? (
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                  ) : (
+                    <div class="source-placeholder" role="img" aria-label={`${rp.title}の画像枠`}>
+                      <span>{image.label}</span>
+                      <small>画像を追加</small>
+                    </div>
+                  )}
+                </div>
+                <div class="cross-card__body">
+                  <span class="cross-card__origin">{rp.origin}</span>
+                  <p class="cross-card__title">{rp.title}</p>
+                  <span class="cross-card__price">{formatYen(rp.price)}<small>{rp.priceUnit}</small></span>
+                </div>
+              </a>
             ))}
-          </tbody>
-        </table>
-        <h3 class="spec-h3">商品について</h3>
-        <p class="spec-desc">{product.description}</p>
-      </div>
-    </section>
-
-    <!-- クロスセル: 関連商品 -->
-    <section class="cross-sell">
-      <div class="cross-sell__inner">
-        <span class="section-eyebrow">RELATED</span>
-        <h2>あわせて選ばれています</h2>
-        <hr class="section-rule" />
-        <div class="cross-grid">
-          {relatedProductCards.map(({ item: rp, image }) => (
-            <a href={`/products/${rp.slug}`} class="cross-card">
-              <div class="cross-card__img" data-image-key={rp.imageKey}>
-                {image.src ? (
-                  <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
-                ) : (
-                  <div class="source-placeholder" role="img" aria-label={`${rp.title}の画像枠`}>
-                    <span>{image.label}</span>
-                    <small>画像を追加</small>
-                  </div>
-                )}
-              </div>
-              <div class="cross-card__body">
-                <span class="cross-card__origin">{rp.origin}</span>
-                <p class="cross-card__title">{rp.title}</p>
-                <span class="cross-card__price">{formatYen(rp.price)}<small>{rp.priceUnit}</small></span>
-              </div>
-            </a>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
-    <!-- クロスセル: 関連ツアー（決定打: EC↔ツアー連動） -->
+    <!-- ツアー連動 -->
     {product.relatedTour && (
       <section class="cross-tour">
         <div class="cross-tour__inner">
@@ -192,7 +270,18 @@ const relatedProductCards = relatedProducts.map((item) => ({
         const price = parseInt(btn.dataset.addPrice, 10);
         const sel = document.getElementById('qty-' + slug);
         const qty = sel ? parseInt(sel.value, 10) : 1;
-        window.cart.add(slug, name, price, qty);
+        if (window.cart && typeof window.cart.add === 'function') {
+          window.cart.add(slug, name, price, qty);
+        }
+      });
+    });
+
+    // サムネ切替 (同一画像でもアクティブ表示を切り替える)
+    const thumbs = document.querySelectorAll('.pdp-thumb');
+    thumbs.forEach((t) => {
+      t.addEventListener('click', () => {
+        thumbs.forEach((x) => x.classList.remove('is-active'));
+        t.classList.add('is-active');
       });
     });
   </script>

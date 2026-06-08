@@ -1,0 +1,488 @@
+---
+// ギフト対応 — のし / ラッピング / メッセージカード / 配送日指定
+import "../styles/global.css";
+import {
+  noshiOptions,
+  wrappingOptions,
+  messageCardOptions,
+  deliveryDateOptions,
+} from "../data/giftOptions";
+import { imageSlot } from "../data/sourceImages";
+
+const meta = {
+  title: "ギフト対応｜北の逸品堂 (知床ツーリスト)",
+  description:
+    "知床から、贈る。のし・ラッピング・メッセージカード・配送日指定。父の日・お中元・敬老の日にも対応する、北海道産直のギフト。",
+};
+
+const noshiKeiji = noshiOptions.filter((n) => n.category === "keiji");
+const noshiChouji = noshiOptions.filter((n) => n.category === "chouji");
+const noshiBlank = noshiOptions.filter((n) => n.category === "noshigami");
+
+const noshiGroups = [
+  { key: "keiji", label: "慶事", desc: "お祝い事・季節の贈答に", items: noshiKeiji, imageKey: "noshi-keiji" },
+  { key: "chouji", label: "弔事", desc: "お悔やみ・法要のお返しに", items: noshiChouji, imageKey: "noshi-chouji" },
+  { key: "noshigami", label: "熨斗紙", desc: "簡易のし・名入れ対応", items: noshiBlank, imageKey: "noshi-blank" },
+];
+
+const wrapImages = wrappingOptions.map((w) => ({
+  ...w,
+  img: imageSlot(`gift-${w.imageKey || w.slug}`, w.label, w.slug, [
+    "files/banner-potato-onion-sales.jpg",
+  ]),
+}));
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="/cart.js" is:inline></script>
+</head>
+<body class="page-listing">
+
+<div class="topbar">6月限定 / アスパラ・じゃがいも・玉ねぎを北海道から直送中 ・ ¥5,000以上で<b>送料無料</b></div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark">北の逸品堂</span>
+      <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+    </a>
+    <nav class="gnav" aria-label="主要メニュー">
+      <a href="/products/specialty/">産直</a>
+      <a href="/products/apparel/">アパレル</a>
+      <a href="/bundles/">セット</a>
+      <a href="/gift/" class="is-tour">ギフト</a>
+      <a href="/#story">ストーリー</a>
+    </nav>
+    <div class="header-utility">
+      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <details class="mobile-nav">
+        <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+        <ul>
+          <li><a href="/products/specialty/">産直</a></li>
+          <li><a href="/products/apparel/">アパレル</a></li>
+          <li><a href="/bundles/">セット</a></li>
+          <li><a href="/gift/">ギフト</a></li>
+          <li><a href="/#story">ストーリー</a></li>
+          <li><a href="/cart">カート</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</header>
+
+<section class="listing-hero">
+  <div class="listing-hero__inner">
+    <span class="eyebrow">GIFT ・ 贈り物として</span>
+    <h1 class="mincho">知床から、<br />贈る。</h1>
+    <p>
+      のし・ラッピング・メッセージカード・配送日指定。
+      北海道の旬を、贈り先の暮らしのリズムに合わせてお届けします。
+      父の日・お中元・敬老の日のお品物にも。
+    </p>
+  </div>
+</section>
+
+<section class="gift-section">
+  <div class="gift-section__inner">
+    <header class="gift-section__head">
+      <span class="eyebrow">01 ・ NOSHI</span>
+      <h2 class="mincho">のし対応</h2>
+      <p>慶事・弔事・熨斗紙のみまで、シーンに合わせて選べます。</p>
+    </header>
+
+    <div class="gift-grid gift-grid--3">
+      {noshiGroups.map((g) => (
+        <article class="gift-card">
+          <div class="gift-card__media gift-card__media--noshi" data-key={g.key}>
+            <span class="gift-card__noshi-mark" aria-hidden="true">
+              {g.key === "keiji" ? "御祝" : g.key === "chouji" ? "御供" : "のし"}
+            </span>
+          </div>
+          <div class="gift-card__body">
+            <span class="tag tag--brand">{g.label}</span>
+            <h3 class="mincho gift-card__title">{g.label} のし</h3>
+            <p class="gift-card__desc">{g.desc}</p>
+            <ul class="gift-card__list">
+              {g.items.map((n) => (
+                <li>
+                  <b>{n.label}</b>
+                  <span>{n.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="gift-section gift-section--alt">
+  <div class="gift-section__inner">
+    <header class="gift-section__head">
+      <span class="eyebrow">02 ・ WRAPPING</span>
+      <h2 class="mincho">ラッピング</h2>
+      <p>素朴なクラフトから、改まった化粧箱まで。3パターンからお選びください。</p>
+    </header>
+
+    <div class="gift-grid gift-grid--3">
+      {wrapImages.map((w) => (
+        <article class="gift-card">
+          <div class="gift-card__media">
+            {w.img.src ? (
+              <img src={w.img.src} alt={w.label} loading="lazy" decoding="async" />
+            ) : (
+              <div class="gift-card__placeholder" aria-hidden="true">
+                <span>{w.label}</span>
+              </div>
+            )}
+          </div>
+          <div class="gift-card__body">
+            <div class="gift-card__price-row">
+              <h3 class="mincho gift-card__title">{w.label}</h3>
+              <span class="gift-card__price">
+                {w.priceAdd === 0 ? "標準 (無料)" : `+ ¥${w.priceAdd.toLocaleString("ja-JP")}`}
+              </span>
+            </div>
+            <p class="gift-card__desc">{w.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="gift-section">
+  <div class="gift-section__inner">
+    <header class="gift-section__head">
+      <span class="eyebrow">03 ・ MESSAGE</span>
+      <h2 class="mincho">メッセージカード</h2>
+      <p>シーン別の定型文を5パターン。自由文への差し替えも可能です。</p>
+    </header>
+
+    <div class="gift-grid gift-grid--3 gift-grid--cards">
+      {messageCardOptions.map((m) => (
+        <article class="msg-card">
+          <span class="msg-card__scene">{m.scene}</span>
+          <h4 class="mincho msg-card__title">{m.label}</h4>
+          <blockquote class="msg-card__body">
+            <span class="msg-card__mark" aria-hidden="true">”</span>
+            {m.body}
+          </blockquote>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="gift-section gift-section--alt">
+  <div class="gift-section__inner">
+    <header class="gift-section__head">
+      <span class="eyebrow">04 ・ DELIVERY</span>
+      <h2 class="mincho">配送日指定</h2>
+      <p>季節のイベントに合わせて、お届け日を指定できます。収穫・在庫状況により前後する場合があります。</p>
+    </header>
+
+    <ul class="delivery-list">
+      {deliveryDateOptions.map((d) => (
+        <li class="delivery-row">
+          <div class="delivery-row__label">
+            <b>{d.label}</b>
+            {d.date !== "asap" && d.date !== "custom" && (
+              <span class="delivery-row__date">{d.date}</span>
+            )}
+          </div>
+          <p class="delivery-row__note">{d.note}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="delivery-callout">
+      <span class="eyebrow">SEASONAL</span>
+      <p>
+        <b>七夕・お中元・敬老の日</b>は、3日前までのご注文を推奨します。
+        収穫期の生鮮品 (アスパラ等) は前後する可能性があるため、余裕をもってご指定ください。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="gift-cta">
+  <div class="gift-cta__inner">
+    <h2 class="mincho">ギフトに、北の逸品堂を。</h2>
+    <p>のし・ラッピング・メッセージカード・配送日指定に対応した商品をご覧いただけます。</p>
+    <div class="gift-cta__actions">
+      <a href="/products/specialty/" class="btn btn--primary">ギフト対応商品を見る →</a>
+      <a href="/bundles/" class="btn btn--ghost">セット販売も見る</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__legal">
+      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .gift-section {
+    padding: clamp(48px, 7vw, 96px) 0;
+    background: #F6F3EC;
+  }
+  .gift-section--alt { background: #fff; }
+  .gift-section__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .gift-section__head {
+    margin-bottom: clamp(28px, 4vw, 48px);
+    max-width: 720px;
+  }
+  .gift-section__head .eyebrow {
+    color: #B99253;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+  }
+  .gift-section__head h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    color: #1A1A1A;
+    margin: 8px 0 12px;
+  }
+  .gift-section__head p {
+    color: #444;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .gift-grid {
+    display: grid;
+    gap: clamp(16px, 2.4vw, 28px);
+  }
+  .gift-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 820px) {
+    .gift-grid--3 { grid-template-columns: 1fr; }
+  }
+
+  .gift-card {
+    background: #fff;
+    border: 1px solid rgba(26,26,26,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .gift-section--alt .gift-card { background: #F6F3EC; }
+  .gift-card__media {
+    aspect-ratio: 1 / 1;
+    background: #EEEAE0;
+    overflow: hidden;
+    position: relative;
+  }
+  .gift-card__media img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+  }
+  .gift-card:hover .gift-card__media img { transform: scale(1.06); }
+  .gift-card__placeholder {
+    width: 100%; height: 100%;
+    display: grid; place-items: center;
+    color: rgba(26,26,26,0.4); font-size: 14px;
+  }
+  .gift-card__media--noshi {
+    display: grid; place-items: center;
+    background: #fff;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .gift-card__media--noshi[data-key="chouji"] { background: #EEEAE0; }
+  .gift-card__media--noshi[data-key="noshigami"] { background: #F6F3EC; }
+  .gift-card__noshi-mark {
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 600;
+    color: #1A1A1A;
+    border: 2px solid #1A1A1A;
+    padding: 16px 28px;
+    letter-spacing: 0.2em;
+  }
+  .gift-card__media--noshi[data-key="chouji"] .gift-card__noshi-mark { color: #555; border-color: #555; }
+  .gift-card__media--noshi[data-key="noshigami"] .gift-card__noshi-mark {
+    color: #B99253; border-color: #B99253;
+    font-size: clamp(24px, 3vw, 32px);
+  }
+  .gift-card__body {
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .gift-card__title {
+    font-size: 18px;
+    color: #1A1A1A;
+    margin: 0;
+  }
+  .gift-card__desc {
+    font-size: 14px; line-height: 1.7;
+    color: #444; margin: 0;
+  }
+  .gift-card__list {
+    list-style: none; padding: 12px;
+    margin: 0;
+    background: #fff;
+    border-left: 2px solid #B99253;
+    display: grid; gap: 8px;
+    font-size: 13px;
+  }
+  .gift-section--alt .gift-card__list { background: #F6F3EC; }
+  .gift-card__list b { display: block; color: #1A1A1A; margin-bottom: 2px; }
+  .gift-card__list span { color: #666; line-height: 1.6; }
+  .gift-card__price-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .gift-card__price {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #3C8186;
+    font-variant-numeric: tabular-nums;
+  }
+  .tag {
+    display: inline-block; padding: 4px 10px;
+    font-size: 12px; letter-spacing: 0.04em;
+    background: #EEEAE0; color: #1A1A1A;
+    border-radius: 2px;
+    width: fit-content;
+  }
+  .tag--brand { background: #B99253; color: #fff; }
+
+  .gift-grid--cards { gap: clamp(14px, 2vw, 20px); }
+  .msg-card {
+    background: #fff;
+    border: 1px solid rgba(26,26,26,0.08);
+    border-radius: 4px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .gift-section--alt .msg-card { background: #F6F3EC; }
+  .msg-card__scene {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #B99253;
+    text-transform: uppercase;
+  }
+  .msg-card__title {
+    font-size: 16px; color: #1A1A1A; margin: 0;
+  }
+  .msg-card__body {
+    position: relative;
+    margin: 0;
+    padding: 12px 14px 12px 28px;
+    background: #F6F3EC;
+    border-left: 2px solid #3C8186;
+    font-family: "Noto Serif JP", serif;
+    font-size: 13px; line-height: 1.8;
+    color: #1A1A1A;
+  }
+  .gift-section--alt .msg-card__body { background: #fff; }
+  .msg-card__mark {
+    position: absolute; left: 8px; top: 8px;
+    font-size: 20px; color: #3C8186; line-height: 1;
+  }
+
+  .delivery-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    background: #fff;
+    border: 1px solid rgba(26,26,26,0.08);
+    border-radius: 4px;
+  }
+  .gift-section--alt .delivery-list { background: #F6F3EC; }
+  .delivery-row {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    padding: 20px 24px;
+    border-top: 1px solid rgba(26,26,26,0.08);
+  }
+  .delivery-row:first-child { border-top: none; }
+  @media (max-width: 720px) {
+    .delivery-row { grid-template-columns: 1fr; gap: 6px; }
+  }
+  .delivery-row__label { display: flex; flex-direction: column; gap: 4px; }
+  .delivery-row__label b {
+    font-size: 15px; color: #1A1A1A;
+  }
+  .delivery-row__date {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: #B99253;
+    font-variant-numeric: tabular-nums;
+  }
+  .delivery-row__note {
+    margin: 0; font-size: 13px; line-height: 1.7; color: #555;
+  }
+  .delivery-callout {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: rgba(60, 129, 134, 0.08);
+    border-left: 3px solid #3C8186;
+    border-radius: 2px;
+  }
+  .delivery-callout .eyebrow {
+    color: #3C8186; font-family: "Inter", sans-serif;
+    font-size: 11px; letter-spacing: 0.16em;
+  }
+  .delivery-callout p {
+    margin: 8px 0 0; font-size: 14px; line-height: 1.8; color: #1A1A1A;
+  }
+
+  .gift-cta {
+    background: #1A1A1A; color: #F6F3EC;
+    padding: clamp(56px, 8vw, 96px) 0;
+    text-align: center;
+  }
+  .gift-cta__inner {
+    max-width: 720px; margin: 0 auto; padding: 0 24px;
+  }
+  .gift-cta h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    color: #F6F3EC;
+    margin: 0 0 12px;
+  }
+  .gift-cta p {
+    margin: 0 0 28px;
+    color: rgba(246,243,236,0.75);
+    font-size: 15px; line-height: 1.8;
+  }
+  .gift-cta__actions {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px;
+    font-size: 14px; font-weight: 600;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 200ms, color 200ms;
+    text-decoration: none;
+  }
+  .btn--primary { background: #B99253; color: #fff; }
+  .btn--primary:hover { background: #3C8186; }
+  .btn--ghost { background: transparent; color: #F6F3EC; border-color: #F6F3EC; }
+  .btn--ghost:hover { background: #F6F3EC; color: #1A1A1A; }
+</style>
+</body>
+</html>

@@ -1,0 +1,533 @@
+---
+// 週間ランキング — BEAMS流タブ切替+リストUI
+// 配色: #F6F3EC / #1A1A1A / #B99253 / #3C8186
+// データ: src/data/ranking.ts (overall20 / specialty6 / apparel20)
+import "../styles/global.css";
+import { catalog } from "../data/catalog";
+import {
+  rankingOverall,
+  rankingSpecialty,
+  rankingApparel,
+  type RankingEntry,
+} from "../data/ranking";
+
+const meta = {
+  title: "週間ランキング｜北の逸品堂 (知床ツーリスト)",
+  description: "今週、北海道・知床のセレクトショップ「北の逸品堂」で選ばれた商品。総合 / 産直 / アパレル の3部門で更新。店主の補足コメント付き。",
+};
+
+// catalog から id 引きするための索引
+const catalogById = new Map(catalog.map((c) => [c.id, c]));
+
+type ResolvedEntry = RankingEntry & {
+  title: string;
+  brand: string;
+  category: "specialty" | "apparel";
+  image: string;
+  href: string;
+  diff: number;
+  diffDir: "up" | "down" | "same";
+};
+
+function resolve(entries: RankingEntry[]): ResolvedEntry[] {
+  return entries.map((e) => {
+    const item = catalogById.get(e.catalogId);
+    const diff = e.prevRank - e.rank;
+    const diffDir: "up" | "down" | "same" = diff > 0 ? "up" : diff < 0 ? "down" : "same";
+    return {
+      ...e,
+      title: item?.title ?? `(unknown ${e.catalogId})`,
+      brand: item?.brand ?? (item?.category === "specialty" ? "北の逸品堂 産直" : ""),
+      category: item?.category ?? "apparel",
+      image: item?.image ?? "/source-images/files/placeholder.jpg",
+      href: item ? `/products/${item.id}/` : "#",
+      diff,
+      diffDir,
+    };
+  });
+}
+
+const overall = resolve(rankingOverall);
+const specialty = resolve(rankingSpecialty);
+const apparel = resolve(rankingApparel);
+
+const tabs: { id: "overall" | "specialty" | "apparel"; label: string; sub: string; entries: ResolvedEntry[] }[] = [
+  { id: "overall",   label: "総合",    sub: "Overall",   entries: overall },
+  { id: "specialty", label: "産直",    sub: "Specialty", entries: specialty },
+  { id: "apparel",   label: "アパレル", sub: "Apparel",   entries: apparel },
+];
+
+const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="/cart.js" is:inline></script>
+</head>
+<body class="page-listing page-ranking">
+
+<div class="topbar">今週、選ばれたもの ・ 集計は毎週月曜更新 ・ 店主の補足コメント付き</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark">北の逸品堂</span>
+      <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+    </a>
+    <nav class="gnav" aria-label="主要メニュー">
+      <a href="/products/specialty/">産直</a>
+      <a href="/products/apparel/">アパレル</a>
+      <a href="/ranking/" class="is-tour">ランキング</a>
+      <a href="/#tour">ツアー</a>
+      <a href="/#story">ストーリー</a>
+    </nav>
+    <div class="header-utility">
+      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <details class="mobile-nav">
+        <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+        <ul>
+          <li><a href="/products/specialty/">産直</a></li>
+          <li><a href="/products/apparel/">アパレル</a></li>
+          <li><a href="/ranking/">ランキング</a></li>
+          <li><a href="/#tour">ツアー</a></li>
+          <li><a href="/#story">ストーリー</a></li>
+          <li><a href="/cart">カート</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</header>
+
+<section class="listing-hero">
+  <div class="listing-hero__inner">
+    <span class="eyebrow">RANKING ・ 週間ランキング</span>
+    <h1 class="mincho">今週、選ばれたもの。</h1>
+    <p>
+      過去7日間に注文の多かった商品を、総合・産直・アパレルの3部門で。
+      数字は売上件数、矢印は先週からの順位変動。
+      店主が気になったロットには、ひとことコメントを添えています。
+    </p>
+    <p class="ranking-meta">{lastUpdated}</p>
+  </div>
+</section>
+
+<section class="ranking-tabs-wrap">
+  <div class="ranking-tabs__inner">
+    <div class="ranking-tabs" role="tablist" aria-label="ランキング部門">
+      {tabs.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          class={`ranking-tab${i === 0 ? " is-active" : ""}`}
+          data-tab-trigger={t.id}
+          aria-selected={i === 0 ? "true" : "false"}
+          aria-controls={`panel-${t.id}`}
+        >
+          <span class="ranking-tab__label">{t.label}</span>
+          <span class="ranking-tab__sub">{t.sub}</span>
+          <span class="ranking-tab__count">{t.entries.length}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="listing">
+  <div class="listing__inner">
+
+    {tabs.map((t, i) => (
+      <div
+        id={`panel-${t.id}`}
+        class={`ranking-panel${i === 0 ? " is-active" : ""}`}
+        data-tab-panel={t.id}
+        role="tabpanel"
+        hidden={i !== 0}
+      >
+        <ol class="ranking-list">
+          {t.entries.map((e) => (
+            <li class={`rank-row rank-row--${e.diffDir}`} data-rank={e.rank}>
+              <div class="rank-row__rank">
+                <span class="rank-row__num">{e.rank}</span>
+                <span class={`rank-row__diff rank-row__diff--${e.diffDir}`}>
+                  {e.diffDir === "up" && (<><span aria-hidden="true">↑</span><b>{Math.abs(e.diff)}</b></>)}
+                  {e.diffDir === "down" && (<><span aria-hidden="true">↓</span><b>{Math.abs(e.diff)}</b></>)}
+                  {e.diffDir === "same" && (<><span aria-hidden="true">=</span><b>—</b></>)}
+                </span>
+              </div>
+
+              <a class="rank-row__media" href={e.href} aria-label={e.title}>
+                <img src={e.image} alt={e.title} loading="lazy" />
+              </a>
+
+              <div class="rank-row__body">
+                {e.brand && <p class="rank-row__brand">{e.brand}</p>}
+                <h3 class="rank-row__title mincho"><a href={e.href}>{e.title}</a></h3>
+                <p class="rank-row__sales">
+                  <span class="rank-row__sales-num">{e.sales.toLocaleString()}</span>
+                  <span class="rank-row__sales-unit">件 / 週</span>
+                  <span class="rank-row__sales-sep">・</span>
+                  <span class="rank-row__prev">先週 {e.prevRank}位</span>
+                </p>
+                {e.storeNote && (
+                  <blockquote class="rank-row__note">
+                    <span class="rank-row__note-mark" aria-hidden="true">店主補足</span>
+                    <p class="mincho">{e.storeNote}</p>
+                  </blockquote>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+
+  </div>
+</section>
+
+<section class="ranking-foot">
+  <div class="ranking-foot__inner">
+    <p class="mincho">
+      集計は注文件数ベース。価格・割引・在庫量による補正はしていません。<br />
+      数字に出ないロットの良し悪しは、店主補足や LINE で個別にご相談ください。
+    </p>
+    <a href="/" class="ranking-foot__cta">トップに戻る</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__legal">
+      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .page-ranking { background: #F6F3EC; color: #1A1A1A; }
+
+  .ranking-meta {
+    margin-top: 12px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: #6b6b6b;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+  }
+
+  /* タブ */
+  .ranking-tabs-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(246, 243, 236, .96);
+    backdrop-filter: saturate(140%) blur(2px);
+    border-bottom: 1px solid rgba(26, 26, 26, .08);
+  }
+  .ranking-tabs__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 14px 24px;
+  }
+  .ranking-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(26, 26, 26, .14);
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .ranking-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(26, 26, 26, .08);
+    color: #1A1A1A;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  .ranking-tab:last-child { border-right: none; }
+  .ranking-tab:hover { background: rgba(60, 129, 134, .06); }
+  .ranking-tab.is-active {
+    background: #1A1A1A;
+    color: #F6F3EC;
+  }
+  .ranking-tab__label {
+    font-family: "Noto Serif JP", serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: .04em;
+  }
+  .ranking-tab__sub {
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: inherit;
+    opacity: .7;
+  }
+  .ranking-tab__count {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    margin-top: 2px;
+    color: #B99253;
+    font-variant-numeric: tabular-nums;
+  }
+  .ranking-tab.is-active .ranking-tab__count { color: #B99253; }
+
+  /* パネル */
+  .ranking-panel { display: none; }
+  .ranking-panel.is-active { display: block; }
+
+  /* リスト */
+  .ranking-list {
+    list-style: none;
+    margin: 32px 0 64px;
+    padding: 0;
+    display: grid;
+    gap: 24px;
+  }
+  .rank-row {
+    display: grid;
+    grid-template-columns: 88px 168px 1fr;
+    gap: 24px;
+    align-items: stretch;
+    padding: 20px 4px;
+    border-bottom: 1px solid rgba(26, 26, 26, .08);
+  }
+  .rank-row:first-child {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 28px;
+  }
+
+  /* 順位列 */
+  .rank-row__rank {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4px;
+    gap: 8px;
+  }
+  .rank-row__num {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
+    color: #1A1A1A;
+    font-variant-numeric: tabular-nums;
+  }
+  .rank-row[data-rank="1"] .rank-row__num { color: #B99253; font-size: 64px; }
+  .rank-row[data-rank="2"] .rank-row__num,
+  .rank-row[data-rank="3"] .rank-row__num { color: #3C8186; }
+
+  .rank-row__diff {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .rank-row__diff--up   { color: #3C8186; background: rgba(60, 129, 134, .1); }
+  .rank-row__diff--down { color: #b04a3a; background: rgba(176, 74, 58, .1); }
+  .rank-row__diff--same { color: #6b6b6b; background: rgba(26, 26, 26, .06); }
+
+  /* 画像列 */
+  .rank-row__media {
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #ECE7DC;
+    border-radius: 2px;
+  }
+  .rank-row__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+  }
+  .rank-row__media:hover img { transform: scale(1.06); }
+
+  /* 本文列 */
+  .rank-row__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .rank-row__brand {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: .16em;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .rank-row__title {
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 600;
+    margin: 0;
+  }
+  .rank-row__title a {
+    color: #1A1A1A;
+    text-decoration: none;
+    background-image: linear-gradient(#1A1A1A, #1A1A1A);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size .3s ease;
+  }
+  .rank-row__title a:hover { background-size: 100% 1px; }
+
+  .rank-row__sales {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 13px;
+    color: #4a4a4a;
+  }
+  .rank-row__sales-num {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #1A1A1A;
+    font-variant-numeric: tabular-nums;
+  }
+  .rank-row__sales-unit { color: #6b6b6b; }
+  .rank-row__sales-sep  { color: #b8b8b8; }
+  .rank-row__prev { color: #6b6b6b; font-size: 12px; }
+
+  /* 店主補足 */
+  .rank-row__note {
+    margin: 12px 0 0;
+    padding: 10px 14px;
+    border-left: 3px solid #B99253;
+    background: rgba(185, 146, 83, .06);
+  }
+  .rank-row__note-mark {
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: #B99253;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .rank-row__note p {
+    margin: 0;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #2a2a2a;
+  }
+
+  /* フッタCTA */
+  .ranking-foot {
+    background: #1A1A1A;
+    color: #F6F3EC;
+    padding: 56px 24px;
+    margin-top: 24px;
+  }
+  .ranking-foot__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .ranking-foot__inner p {
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(246, 243, 236, .78);
+    margin: 0 0 24px;
+  }
+  .ranking-foot__cta {
+    display: inline-block;
+    padding: 14px 36px;
+    background: transparent;
+    border: 1px solid #B99253;
+    color: #B99253;
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    transition: background .2s ease, color .2s ease;
+  }
+  .ranking-foot__cta:hover { background: #B99253; color: #1A1A1A; }
+
+  /* レスポンシブ */
+  @media (max-width: 720px) {
+    .ranking-tabs__inner { padding: 10px 16px; }
+    .ranking-tab { padding: 10px 6px; }
+    .ranking-tab__label { font-size: 14px; }
+    .ranking-tab__sub { font-size: 9px; }
+
+    .rank-row {
+      grid-template-columns: 56px 110px 1fr;
+      gap: 14px;
+      padding: 16px 4px;
+    }
+    .rank-row__num { font-size: 36px; }
+    .rank-row[data-rank="1"] .rank-row__num { font-size: 44px; }
+    .rank-row__title { font-size: 14px; }
+    .rank-row__sales-num { font-size: 16px; }
+    .rank-row__note { padding: 8px 12px; }
+    .rank-row__note p { font-size: 13px; }
+  }
+  @media (max-width: 420px) {
+    .rank-row {
+      grid-template-columns: 44px 84px 1fr;
+      gap: 10px;
+    }
+    .rank-row__num { font-size: 30px; }
+    .rank-row[data-rank="1"] .rank-row__num { font-size: 36px; }
+  }
+</style>
+
+<script is:inline>
+(() => {
+  const triggers = document.querySelectorAll('[data-tab-trigger]');
+  const panels = document.querySelectorAll('[data-tab-panel]');
+  triggers.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab-trigger');
+      triggers.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach((p) => {
+        const active = p.getAttribute('data-tab-panel') === target;
+        p.classList.toggle('is-active', active);
+        if (active) {
+          p.removeAttribute('hidden');
+        } else {
+          p.setAttribute('hidden', '');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

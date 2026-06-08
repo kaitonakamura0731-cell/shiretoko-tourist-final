@@ -1,0 +1,171 @@
+---
+import Base from "../../layouts/Base.astro";
+import { articles } from "../../data/stories";
+
+function formatDate(iso: string): string {
+  const [y, m, d] = iso.split("-");
+  return `${y}.${m}.${d}`;
+}
+---
+
+<Base
+  title="STORIES｜店主のフィールドノート｜北の逸品堂"
+  description="清里町・知床の現場から店主が書く読み物。産地・道具・10年着るという思想を一人称で。"
+  bodyClass="stories-index"
+>
+  <main>
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <div class="breadcrumbs__inner">
+        <a href="/">トップ</a> <span class="sep">/</span>
+        <span class="current">STORIES</span>
+      </div>
+    </nav>
+
+    <section class="listing-hero">
+      <div class="listing-hero__inner">
+        <span class="section-eyebrow">STORIES ・ 店主のフィールドノート</span>
+        <h1 class="listing-hero__title">店主が見たもの、選んだもの。</h1>
+        <p class="listing-hero__lead">
+          清里町の畑、知床五湖のガイド現場、10年使った Patagonia の縫い目。
+          売り場では書ききれない「産地でしか分からない当たり前」を、店主の一人称で残しておきます。
+        </p>
+      </div>
+    </section>
+
+    <section class="stories-grid-section">
+      <div class="stories-grid-section__inner">
+        <div class="stories-grid">
+          {articles.map((a) => (
+            <a href={`/stories/${a.slug}`} class="story-card">
+              <div class="story-card__img">
+                <img src={a.heroImage} alt={a.title} loading="lazy" decoding="async" />
+              </div>
+              <div class="story-card__body">
+                <div class="story-card__meta">
+                  <span class="story-card__date">{formatDate(a.publishedAt)}</span>
+                  <span class="story-card__sep">・</span>
+                  <span class="story-card__read">読了 約{a.readMinutes}分</span>
+                </div>
+                <h2 class="story-card__title">{a.title}</h2>
+                <p class="story-card__excerpt">{a.excerpt}</p>
+                <span class="story-card__link">記事を読む &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .listing-hero {
+      padding: clamp(56px, 8vw, 96px) 24px clamp(40px, 6vw, 64px);
+      background: #F6F3EC;
+    }
+    .listing-hero__inner {
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .listing-hero__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(28px, 4.4vw, 48px);
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      color: #1A1A1A;
+      margin: 16px 0 24px;
+    }
+    .listing-hero__lead {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      opacity: 0.82;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .stories-grid-section {
+      padding: clamp(40px, 6vw, 80px) 24px clamp(80px, 10vw, 120px);
+      background: #F6F3EC;
+    }
+    .stories-grid-section__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .stories-grid {
+      display: grid;
+      gap: clamp(40px, 5vw, 64px);
+    }
+    .story-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .story-card__img {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #e8e3d4;
+    }
+    .story-card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+    }
+    .story-card:hover .story-card__img img,
+    .story-card:focus-visible .story-card__img img {
+      transform: scale(1.06);
+    }
+    .story-card__body {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 8px;
+    }
+    .story-card__meta {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #1A1A1A;
+      opacity: 0.6;
+      font-feature-settings: "tnum";
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .story-card__sep { margin: 0 8px; }
+    .story-card__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(22px, 2.6vw, 30px);
+      line-height: 1.5;
+      color: #1A1A1A;
+      margin: 0 0 16px;
+    }
+    .story-card__excerpt {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14.5px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      opacity: 0.78;
+      margin: 0 0 18px;
+    }
+    .story-card__link {
+      display: inline-block;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #3C8186;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #3C8186;
+      padding-bottom: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .story-card__body { padding: 0; }
+    }
+  </style>
+</Base>

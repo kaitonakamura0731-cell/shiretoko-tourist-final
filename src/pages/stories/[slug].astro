@@ -1,0 +1,541 @@
+---
+import Base from "../../layouts/Base.astro";
+import { articles, type Article } from "../../data/stories";
+import { findProduct, formatYen, type Product } from "../../data/products";
+import { productImageForKey } from "../../data/sourceImages";
+
+export function getStaticPaths() {
+  return articles.map((a) => ({ params: { slug: a.slug }, props: { article: a } }));
+}
+
+interface Props { article: Article }
+const { article } = Astro.props;
+
+function formatDate(iso: string): string {
+  const [y, m, d] = iso.split("-");
+  return `${y}.${m}.${d}`;
+}
+
+// 簡易 Markdown → HTML 風ブロック (## h2, ### h3, "> quote", 数字リスト, 段落)
+type Block =
+  | { type: "h2"; text: string }
+  | { type: "h3"; text: string }
+  | { type: "quote"; text: string }
+  | { type: "ol"; items: string[] }
+  | { type: "p"; text: string };
+
+function parseBody(md: string): Block[] {
+  const lines = md.split("\n");
+  const blocks: Block[] = [];
+  let paraBuf: string[] = [];
+  let olBuf: string[] = [];
+
+  const flushPara = () => {
+    if (paraBuf.length) {
+      blocks.push({ type: "p", text: paraBuf.join(" ") });
+      paraBuf = [];
+    }
+  };
+  const flushOl = () => {
+    if (olBuf.length) {
+      blocks.push({ type: "ol", items: olBuf });
+      olBuf = [];
+    }
+  };
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) {
+      flushPara();
+      flushOl();
+      continue;
+    }
+    if (line.startsWith("### ")) {
+      flushPara(); flushOl();
+      blocks.push({ type: "h3", text: line.slice(4).trim() });
+      continue;
+    }
+    if (line.startsWith("## ")) {
+      flushPara(); flushOl();
+      blocks.push({ type: "h2", text: line.slice(3).trim() });
+      continue;
+    }
+    if (line.startsWith("> ")) {
+      flushPara(); flushOl();
+      blocks.push({ type: "quote", text: line.slice(2).trim() });
+      continue;
+    }
+    const olMatch = line.match(/^(\d+)[\.\)]\s+(.+)$/);
+    if (olMatch) {
+      flushPara();
+      olBuf.push(olMatch[2]);
+      continue;
+    }
+    flushOl();
+    paraBuf.push(line);
+  }
+  flushPara();
+  flushOl();
+  return blocks;
+}
+
+const bodyBlocks = parseBody(article.body);
+
+const relatedProducts = article.relatedProducts
+  .map((slug) => findProduct(slug))
+  .filter((p): p is Product => !!p);
+
+const relatedProductCards = relatedProducts.map((item) => ({
+  item,
+  image: productImageForKey(item.imageKey, item.title),
+}));
+
+const otherArticles = articles.filter((a) => a.slug !== article.slug);
+
+const categoryLabel = article.slug.startsWith("story-r1") || article.slug.includes("gear")
+  ? "GEAR ・ 道具"
+  : "FIELD ・ 産地";
+---
+
+<Base
+  title={`${article.title}｜STORIES｜北の逸品堂`}
+  description={article.excerpt}
+  bodyClass="story-detail"
+>
+  <main>
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <div class="breadcrumbs__inner">
+        <a href="/">トップ</a> <span class="sep">/</span>
+        <a href="/stories">STORIES</a> <span class="sep">/</span>
+        <span class="current">{article.title}</span>
+      </div>
+    </nav>
+
+    <article class="story">
+      <!-- ヒーロー画像 -->
+      <div class="story__hero">
+        <img src={article.heroImage} alt={article.title} decoding="async" />
+      </div>
+
+      <!-- 記事ヘッダ -->
+      <header class="story__header">
+        <div class="story__meta">
+          <span class="story__category">{categoryLabel}</span>
+          <span class="story__sep">・</span>
+          <span class="story__date">{formatDate(article.publishedAt)}</span>
+          <span class="story__sep">・</span>
+          <span class="story__read">読了 約{article.readMinutes}分</span>
+        </div>
+        <h1 class="story__title">{article.title}</h1>
+        <p class="story__excerpt">{article.excerpt}</p>
+      </header>
+
+      <!-- 本文 -->
+      <div class="story__body">
+        {bodyBlocks.map((b) => {
+          if (b.type === "h2") return <h2 class="story__h2">{b.text}</h2>;
+          if (b.type === "h3") return <h3 class="story__h3">{b.text}</h3>;
+          if (b.type === "quote") return <blockquote class="story__quote">{b.text}</blockquote>;
+          if (b.type === "ol") return (
+            <ol class="story__ol">
+              {b.items.map((it) => <li>{it}</li>)}
+            </ol>
+          );
+          return <p class="story__p">{b.text}</p>;
+        })}
+      </div>
+
+      <!-- 著者署名 -->
+      <div class="story__sign">
+        <span>店主・知床ツーリスト 北の逸品堂</span>
+      </div>
+    </article>
+
+    <!-- 店主からのおすすめ -->
+    {relatedProductCards.length > 0 && (
+      <section class="story-related">
+        <div class="story-related__inner">
+          <span class="section-eyebrow">STAFF PICKS</span>
+          <h2>店主からのおすすめ</h2>
+          <hr class="section-rule" />
+          <p class="story-related__lead">
+            この記事に登場した、店で扱っている逸品。産地と作り手の顔が見えるものだけを並べています。
+          </p>
+          <div class="story-related__grid">
+            {relatedProductCards.map(({ item, image }) => (
+              <a href={`/products/${item.slug}`} class="story-prod-card">
+                <div class="story-prod-card__img">
+                  {image.src ? (
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                  ) : (
+                    <div class="source-placeholder" role="img" aria-label={`${item.title}の画像枠`}>
+                      <span>{image.label}</span>
+                    </div>
+                  )}
+                </div>
+                <div class="story-prod-card__body">
+                  <span class="story-prod-card__origin">{item.origin}</span>
+                  <p class="story-prod-card__title">{item.title}</p>
+                  <span class="story-prod-card__price">{formatYen(item.price)}<small>{item.priceUnit}</small></span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- ツアー連動 -->
+    {article.relatedTour && (
+      <section class="story-tour">
+        <div class="story-tour__inner">
+          <span class="section-eyebrow">EC × TOUR</span>
+          <h2>記事の現場を、店主と歩く。</h2>
+          <hr class="section-rule" />
+          <p class="story-tour__lead">
+            記事に登場した現場を、知床ガイドが半日でご案内します。記事をお読みいただいた方には、
+            次回ツアー <b>¥1,000 OFF</b> でご案内しています。
+          </p>
+          <div class="story-tour__card">
+            <h3>{article.relatedTour.title}</h3>
+            <p>世界自然遺産・知床を、現場ガイドが半日でご案内。北海道知事登録旅行業 第2-453号。</p>
+            <a href="/#tour" class="btn btn--outline btn--on-dark">ツアー詳細を見る</a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- 他のフィールドノート -->
+    {otherArticles.length > 0 && (
+      <section class="story-other">
+        <div class="story-other__inner">
+          <span class="section-eyebrow">MORE STORIES</span>
+          <h2>他のフィールドノート</h2>
+          <hr class="section-rule" />
+          <div class="story-other__grid">
+            {otherArticles.map((a) => (
+              <a href={`/stories/${a.slug}`} class="story-other-card">
+                <div class="story-other-card__img">
+                  <img src={a.heroImage} alt={a.title} loading="lazy" decoding="async" />
+                </div>
+                <div class="story-other-card__body">
+                  <div class="story-other-card__meta">
+                    <span>{formatDate(a.publishedAt)}</span>
+                    <span class="story__sep">・</span>
+                    <span>読了 約{a.readMinutes}分</span>
+                  </div>
+                  <p class="story-other-card__title">{a.title}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <style>
+    main { background: #F6F3EC; }
+
+    /* ヒーロー */
+    .story__hero {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      aspect-ratio: 21 / 9;
+      overflow: hidden;
+      background: #e8e3d4;
+    }
+    .story__hero img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 720px) {
+      .story__hero { aspect-ratio: 16 / 9; }
+    }
+
+    /* 記事ヘッダ */
+    .story__header {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: clamp(40px, 6vw, 72px) 24px clamp(24px, 4vw, 40px);
+      text-align: center;
+    }
+    .story__meta {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #1A1A1A;
+      opacity: 0.6;
+      text-transform: uppercase;
+      font-feature-settings: "tnum";
+      margin-bottom: 20px;
+    }
+    .story__sep { margin: 0 8px; }
+    .story__category { color: #3C8186; font-weight: 600; }
+    .story__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(26px, 4.2vw, 42px);
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+      color: #1A1A1A;
+      margin: 0 0 24px;
+    }
+    .story__excerpt {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      opacity: 0.78;
+      margin: 0;
+    }
+
+    /* 本文 */
+    .story__body {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px clamp(48px, 6vw, 80px);
+    }
+    .story__h2 {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(20px, 2.4vw, 26px);
+      line-height: 1.6;
+      color: #1A1A1A;
+      margin: 3.2rem 0 1.4rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(26,26,26,0.12);
+    }
+    .story__h3 {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.6;
+      color: #1A1A1A;
+      margin: 2.4rem 0 1rem;
+    }
+    .story__p {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15.5px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      margin: 0 0 2rem;
+    }
+    .story__quote {
+      font-family: "Noto Serif JP", serif;
+      font-size: 16px;
+      line-height: 1.9;
+      color: #1A1A1A;
+      opacity: 0.85;
+      border-left: 3px solid #B99253;
+      padding: 0.6rem 0 0.6rem 1.4rem;
+      margin: 2.2rem 0;
+    }
+    .story__ol {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15.5px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      padding-left: 1.4rem;
+      margin: 0 0 2rem;
+    }
+    .story__ol li { margin-bottom: 0.8rem; }
+
+    /* 署名 */
+    .story__sign {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px clamp(60px, 7vw, 96px);
+      font-family: "Noto Serif JP", serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: #1A1A1A;
+      opacity: 0.6;
+      text-align: right;
+      border-top: 1px solid rgba(26,26,26,0.12);
+      padding-top: 24px;
+    }
+
+    /* 店主からのおすすめ */
+    .story-related, .story-tour, .story-other {
+      padding: clamp(48px, 6vw, 80px) 24px;
+    }
+    .story-related { background: #ffffff; }
+    .story-related__inner, .story-tour__inner, .story-other__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .story-related__lead, .story-tour__lead {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14.5px;
+      line-height: 1.9;
+      color: #1A1A1A;
+      opacity: 0.8;
+      max-width: 640px;
+      margin: 16px 0 32px;
+    }
+    .story-related__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 2.4vw, 32px);
+    }
+    @media (max-width: 720px) {
+      .story-related__grid { grid-template-columns: 1fr; }
+    }
+    .story-prod-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .story-prod-card__img {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #e8e3d4;
+    }
+    .story-prod-card__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+    }
+    .story-prod-card:hover .story-prod-card__img img {
+      transform: scale(1.06);
+    }
+    .story-prod-card__body { padding: 16px 4px 0; }
+    .story-prod-card__origin {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #3C8186;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .story-prod-card__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: #1A1A1A;
+      margin: 0 0 10px;
+    }
+    .story-prod-card__price {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1A1A;
+      font-feature-settings: "tnum";
+    }
+    .story-prod-card__price small {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.7;
+      margin-left: 4px;
+    }
+
+    /* ツアー連動 */
+    .story-tour { background: #1A1A1A; color: #F6F3EC; }
+    .story-tour h2 { color: #F6F3EC; font-family: "Noto Serif JP", serif; font-weight: 600; font-size: clamp(22px, 3vw, 30px); margin: 12px 0 0; }
+    .story-tour .section-eyebrow { color: #B99253; }
+    .story-tour__lead { color: #F6F3EC; opacity: 0.85; }
+    .story-tour__card {
+      border: 1px solid rgba(246,243,236,0.2);
+      padding: clamp(24px, 3.2vw, 40px);
+      border-radius: 3px;
+      max-width: 720px;
+    }
+    .story-tour__card h3 {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(18px, 2.2vw, 22px);
+      margin: 0 0 12px;
+      color: #F6F3EC;
+    }
+    .story-tour__card p {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14.5px;
+      line-height: 1.9;
+      color: #F6F3EC;
+      opacity: 0.82;
+      margin: 0 0 24px;
+    }
+
+    /* 他のフィールドノート */
+    .story-other { background: #F6F3EC; padding-bottom: clamp(80px, 10vw, 120px); }
+    .story-other__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(24px, 3vw, 40px);
+      margin-top: 32px;
+    }
+    @media (max-width: 720px) {
+      .story-other__grid { grid-template-columns: 1fr; }
+    }
+    .story-other-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .story-other-card__img {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #e8e3d4;
+    }
+    .story-other-card__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+    }
+    .story-other-card:hover .story-other-card__img img {
+      transform: scale(1.06);
+    }
+    .story-other-card__body { padding: 18px 4px 0; }
+    .story-other-card__meta {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
+      color: #1A1A1A;
+      opacity: 0.6;
+      text-transform: uppercase;
+      font-feature-settings: "tnum";
+      margin-bottom: 10px;
+    }
+    .story-other-card__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.6;
+      color: #1A1A1A;
+      margin: 0;
+    }
+
+    .section-eyebrow {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #3C8186;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+    }
+    .story-related h2, .story-other h2 {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(22px, 3vw, 30px);
+      color: #1A1A1A;
+      margin: 12px 0 0;
+    }
+    .section-rule {
+      border: 0;
+      border-top: 1px solid rgba(26,26,26,0.18);
+      margin: 18px 0 20px;
+      max-width: 60px;
+    }
+    .story-tour .section-rule {
+      border-top-color: rgba(246,243,236,0.3);
+    }
+  </style>
+</Base>
