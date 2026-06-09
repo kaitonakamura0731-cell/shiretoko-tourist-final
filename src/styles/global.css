@@ -1277,7 +1277,9 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .bundle-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* 自動調整: 幅に応じて列数が決まる。狭い画面では自動で1列に畳まれ、
+     カスケード順序に依存しないためモバイル崩れを構造的に防ぐ。 */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 1.25rem;
 }
 .bundle-card {
