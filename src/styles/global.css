@@ -2036,21 +2036,18 @@ body.lock-scroll { overflow: hidden; }
   font-size: 0.68rem; letter-spacing: 0.18em;
   color: var(--ink-soft); font-weight: 500;
 }
-.qtile--accent {
-  background: var(--ink); color: #fff; border-color: var(--ink);
-}
-.qtile--accent .qtile__no { color: var(--gold, #D4A574); }
-.qtile--accent .qtile__label { color: #fff; }
-.qtile--accent .qtile__sub { color: rgba(255,255,255,.7); }
-.qtile--accent:hover { background: var(--camel-deep); border-color: var(--camel-deep); }
-.qtile--sale {
-  background: linear-gradient(135deg, var(--crimson, #B7472A) 0%, #8a2f1c 100%);
-  color: #fff; border: none;
-}
-.qtile--sale .qtile__no { color: rgba(255,255,255,.85); }
-.qtile--sale .qtile__label { color: #fff; }
-.qtile--sale .qtile__sub { color: rgba(255,255,255,.75); }
-.qtile--sale:hover { filter: brightness(1.05); }
+/* v5 — 全タイル白統一・番号の色だけアクセントに統一 (BEAMS流ミニマル) */
+.qtile--accent { background: #fff; border-color: var(--line); color: var(--ink); }
+.qtile--accent .qtile__no { color: var(--ink); font-weight: 800; }
+.qtile--accent .qtile__label { color: var(--ink); }
+.qtile--accent .qtile__sub { color: var(--ink-soft, #6B5F4F); }
+.qtile--accent:hover { background: var(--paper-deep); border-color: var(--camel); }
+
+.qtile--sale { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+.qtile--sale .qtile__no { color: var(--crimson, #B7472A); font-weight: 800; }
+.qtile--sale .qtile__label { color: var(--ink); }
+.qtile--sale .qtile__sub { color: var(--crimson, #B7472A); font-weight: 600; }
+.qtile--sale:hover { background: var(--paper-deep); border-color: var(--crimson, #B7472A); }
 
 /* ============== 2大入口 v3 (画像強化 / 写真上 + 文字下) ============== */
 .entrances {
@@ -2206,9 +2203,12 @@ body.lock-scroll { overflow: hidden; }
   .topbar__pill { font-size: 0.62rem; padding: 0.14em 0.45em; }
   .topbar__shipping-label { display: none; }
   .topbar__cta { font-size: 0.65rem; }
-  .quick-tiles__inner { grid-template-columns: repeat(2, 1fr); }
-  .qtile:nth-child(2),.qtile--accent { grid-column: 1 / -1; }
-  .qtile--sale { grid-column: 1 / -1; }
+  .quick-tiles__inner { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
+  /* v5: 全タイル均等2列、7番目だけ最後に全幅 */
+  .qtile:nth-child(n) { grid-column: auto; }
+  .qtile:nth-child(7) { grid-column: 1 / -1; }
+  .qtile { padding: 0.85rem 0.75rem; }
+  .qtile__label { font-size: 0.9rem; }
 }
 
 /* =====================================================================
