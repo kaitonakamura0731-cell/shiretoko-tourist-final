@@ -231,16 +231,10 @@ const lastName = customer.name.split(" ")[0];
 
     <section class="referral-section">
       <div class="referral-inner">
-        <span class="section-eyebrow">REFERRAL</span>
-        <h2 class="section-title">友達を紹介する</h2>
-        <p class="referral-lead">お友だちを紹介すると、紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。</p>
-        <ol class="referral-steps">
-          {referral.steps.map((step) => <li>{step}</li>)}
-        </ol>
-        <div class="referral-link">
-          <input type="text" readonly value="https://kitanoippindo.example/r/MEMBER480" aria-label="あなたの紹介リンク" />
-          <button type="button" class="btn btn--primary">リンクをコピー</button>
-        </div>
+        <span class="section-eyebrow">REFERRAL ・ 友達紹介</span>
+        <h2 class="section-title">友達を紹介すると、双方に {referral.rewardLabel}</h2>
+        <p class="referral-lead">紹介リンクを発行してお友だちに送るだけ。紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。</p>
+        <a href="/referral/" class="btn btn--primary">紹介ページへ &rarr;</a>
         <p class="referral-note">{referral.note}</p>
       </div>
     </section>
@@ -996,9 +990,13 @@ const lastName = customer.name.split(" ")[0];
       padding: clamp(56px, 8vw, 96px) 24px;
     }
     .referral-inner {
-      max-width: 720px;
+      max-width: 640px;
       margin: 0 auto;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
     .referral-lead {
       font-family: "Noto Sans JP", sans-serif;
@@ -1006,72 +1004,16 @@ const lastName = customer.name.split(" ")[0];
       line-height: 1.95;
       color: #1A1A1A;
       opacity: 0.85;
-      margin: 14px 0 28px;
+      max-width: 520px;
+      margin: 0;
     }
     .referral-lead b { color: #3C8186; }
-    .referral-steps {
-      list-style: none;
-      counter-reset: ref;
-      padding: 0;
-      margin: 0 auto 28px;
-      max-width: 520px;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .referral-steps li {
-      counter-increment: ref;
-      position: relative;
-      padding-left: 40px;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 14px;
-      line-height: 1.7;
-      color: #1A1A1A;
-    }
-    .referral-steps li::before {
-      content: counter(ref);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #B99253;
-      color: #fff;
-      border-radius: 50%;
-      font-family: "Inter", sans-serif;
-      font-size: 0.84rem;
-      font-weight: 600;
-    }
-    .referral-link {
-      display: flex;
-      gap: 10px;
-      max-width: 560px;
-      margin: 0 auto 16px;
-    }
-    .referral-link input {
-      flex: 1;
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 0.84rem;
-      padding: 11px 14px;
-      border: 1px solid rgba(26, 26, 26, 0.18);
-      border-radius: 3px;
-      background: #fff;
-      color: #1A1A1A;
-    }
-    .referral-link .btn { white-space: nowrap; }
     .referral-note {
       font-family: "Noto Sans JP", sans-serif;
       font-size: 0.82rem;
       line-height: 1.8;
       color: #6B5F4F;
       margin: 0;
-    }
-    @media (max-width: 560px) {
-      .referral-link { flex-direction: column; }
     }
 
     /* 再入荷通知 */
