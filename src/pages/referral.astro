@@ -1,0 +1,569 @@
+---
+import Base from "../layouts/Base.astro";
+import { referral } from "../data/promotions";
+---
+
+<Base
+  title="友達紹介プログラム｜北の逸品堂"
+  description="お友だちを紹介すると、紹介した方・された方の双方に500円OFFクーポンを進呈します。北の逸品堂の友達紹介プログラム。"
+  bodyClass="referral"
+>
+  <main>
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <div class="breadcrumbs__inner">
+        <a href="/">トップ</a> <span class="sep">/</span>
+        <a href="/account/">マイページ</a> <span class="sep">/</span>
+        <span class="current" aria-current="page">友達紹介</span>
+      </div>
+    </nav>
+
+    <section class="ref-hero">
+      <div class="ref-hero__inner">
+        <span class="section-eyebrow">REFERRAL ・ 友達紹介</span>
+        <h1 class="ref-hero__title">紹介した方も、された方も<br />¥500 OFF</h1>
+        <p class="ref-hero__lead">
+          北の逸品堂を気に入っていただけたら、ぜひお友だちにも。<br />
+          紹介リンク経由で初回購入があると、紹介した方・された方の双方に<br />
+          <strong>{referral.rewardLabel}</strong>をお届けします。
+        </p>
+      </div>
+    </section>
+
+    <section class="ref-steps-section">
+      <div class="section-inner">
+        <header class="section-head">
+          <span class="section-eyebrow">HOW IT WORKS</span>
+          <h2 class="section-title">仕組み</h2>
+        </header>
+        <ol class="ref-steps">
+          {referral.steps.map((step) => <li>{step}</li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section class="ref-code-section">
+      <div class="ref-code-inner">
+        <span class="section-eyebrow">YOUR CODE ・ あなたの紹介コード</span>
+        <h2 class="ref-code-title">紹介コードを発行する</h2>
+        <p class="ref-code-lead">
+          下のボタンを押すと、あなた専用の紹介コードが発行されます。<br />
+          このコードは次回以降も同じものが表示されます。
+        </p>
+
+        <div class="ref-code-box" id="ref-code-box" aria-live="polite">
+          <span class="ref-code-placeholder">コードを発行するには下のボタンを押してください</span>
+        </div>
+
+        <div class="ref-actions">
+          <button type="button" class="btn btn--primary" id="ref-generate-btn">
+            コードを発行する
+          </button>
+          <button type="button" class="btn btn--outline" id="ref-copy-btn" hidden>
+            リンクをコピー
+          </button>
+        </div>
+
+        <div class="ref-share" id="ref-share" hidden>
+          <p class="ref-share__label">シェアする</p>
+          <div class="ref-share__btns">
+            <a class="ref-share__line" id="ref-line-btn" href="#" target="_blank" rel="noopener noreferrer">
+              LINE で送る
+            </a>
+            <a class="ref-share__twitter" id="ref-twitter-btn" href="#" target="_blank" rel="noopener noreferrer">
+              X (Twitter) で投稿
+            </a>
+          </div>
+        </div>
+
+        <p class="ref-code-note">{referral.note}</p>
+        <p class="ref-code-demo">商談用モックです。コードはお使いのブラウザにのみ保存され、実際の決済とは連携していません。</p>
+      </div>
+    </section>
+
+    <section class="ref-reward-section">
+      <div class="section-inner">
+        <header class="section-head">
+          <span class="section-eyebrow">REWARDS</span>
+          <h2 class="section-title">特典の内容</h2>
+        </header>
+        <div class="ref-reward-grid">
+          <article class="ref-reward-card ref-reward-card--referrer">
+            <span class="ref-reward-card__role">紹介した方</span>
+            <p class="ref-reward-card__amount">¥{referral.referrerReward.toLocaleString("ja-JP")}<small>OFF</small></p>
+            <p class="ref-reward-card__desc">お友だちが初回購入を完了した後、次回注文で使えるクーポンをお届けします。</p>
+          </article>
+          <div class="ref-reward-divider" aria-hidden="true">＋</div>
+          <article class="ref-reward-card ref-reward-card--referee">
+            <span class="ref-reward-card__role">紹介された方</span>
+            <p class="ref-reward-card__amount">¥{referral.refereeReward.toLocaleString("ja-JP")}<small>OFF</small></p>
+            <p class="ref-reward-card__desc">初回注文時にクーポンが自動で適用されます。¥3,000以上のご注文でご利用いただけます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ref-cta-section">
+      <div class="ref-cta-inner">
+        <p class="ref-cta__text">まずはコードを発行して、大切な方にシェアしてみてください。</p>
+        <a href="#ref-code-box" class="btn btn--primary">コードを発行する</a>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const STORAGE_KEY = 'kitano_referral_code';
+      const BASE_URL = 'https://shiretoko-tourist-final.vercel.app/referral/';
+
+      function generateCode() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let code = 'SHRT-';
+        for (let i = 0; i < 6; i++) {
+          code += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return code;
+      }
+
+      function getOrCreateCode() {
+        let code = localStorage.getItem(STORAGE_KEY);
+        if (!code) {
+          code = generateCode();
+          localStorage.setItem(STORAGE_KEY, code);
+        }
+        return code;
+      }
+
+      function buildShareUrl(code) {
+        return BASE_URL + '?ref=' + code;
+      }
+
+      function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        // fallback for older Safari
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.style.position = 'fixed';
+        el.style.opacity = '0';
+        document.body.appendChild(el);
+        el.focus();
+        el.select();
+        try {
+          document.execCommand('copy');
+        } finally {
+          document.body.removeChild(el);
+        }
+        return Promise.resolve();
+      }
+
+      function activateUI(code) {
+        const shareUrl = buildShareUrl(code);
+
+        // コードボックスを更新
+        const box = document.getElementById('ref-code-box');
+        if (box) {
+          box.innerHTML =
+            '<span class="ref-code-value">' + code + '</span>' +
+            '<span class="ref-code-url">' + shareUrl + '</span>';
+        }
+
+        // 発行ボタンを非表示、コピーボタンを表示
+        const genBtn = document.getElementById('ref-generate-btn');
+        const copyBtn = document.getElementById('ref-copy-btn');
+        if (genBtn) genBtn.hidden = true;
+        if (copyBtn) copyBtn.hidden = false;
+
+        // シェアエリアを表示
+        const shareArea = document.getElementById('ref-share');
+        if (shareArea) shareArea.hidden = false;
+
+        // LINEシェアURL
+        const lineBtn = document.getElementById('ref-line-btn');
+        if (lineBtn) {
+          const lineMsg = encodeURIComponent(
+            '北の逸品堂で¥500OFFになる紹介リンクです。知床直送の食材やアパレルがそろっています。\n' + shareUrl
+          );
+          lineBtn.href = 'https://line.me/R/msg/text/?' + lineMsg;
+        }
+
+        // Twitter/Xシェアurl
+        const twitterBtn = document.getElementById('ref-twitter-btn');
+        if (twitterBtn) {
+          const twitterText = encodeURIComponent(
+            '北の逸品堂の紹介リンクです。このリンクから初回購入すると¥500OFF。知床直送の食材です。 ' + shareUrl
+          );
+          twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + twitterText;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // 既存コードがあれば即座にUIを有効化
+        const existingCode = localStorage.getItem(STORAGE_KEY);
+        if (existingCode) {
+          activateUI(existingCode);
+        }
+
+        // 発行ボタン
+        const genBtn = document.getElementById('ref-generate-btn');
+        if (genBtn) {
+          genBtn.addEventListener('click', function () {
+            const code = getOrCreateCode();
+            activateUI(code);
+          });
+        }
+
+        // コピーボタン
+        const copyBtn = document.getElementById('ref-copy-btn');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function () {
+            const code = localStorage.getItem(STORAGE_KEY);
+            if (!code) return;
+            const shareUrl = buildShareUrl(code);
+            copyToClipboard(shareUrl).then(function () {
+              const orig = copyBtn.textContent;
+              copyBtn.textContent = 'コピーしました';
+              setTimeout(function () {
+                copyBtn.textContent = orig;
+              }, 2000);
+            });
+          });
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    /* パンくず */
+    .breadcrumbs {
+      background: #F6F3EC;
+      padding: 16px 24px 0;
+    }
+    .breadcrumbs__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      color: #1A1A1A;
+      opacity: 0.7;
+    }
+    .breadcrumbs a { color: inherit; text-decoration: none; }
+    .breadcrumbs a:hover { color: #3C8186; }
+    .breadcrumbs .sep { margin: 0 8px; opacity: 0.4; }
+
+    /* ヒーロー */
+    .ref-hero {
+      background: #F6F3EC;
+      padding: clamp(48px, 7vw, 88px) 24px clamp(40px, 6vw, 72px);
+    }
+    .ref-hero__inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .section-eyebrow {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #B99253;
+      text-transform: uppercase;
+    }
+    .ref-hero__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(28px, 4.4vw, 48px);
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      color: #1A1A1A;
+      margin: 16px 0 24px;
+    }
+    .ref-hero__lead {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      line-height: 1.95;
+      color: #1A1A1A;
+      opacity: 0.85;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .ref-hero__lead strong { color: #3C8186; font-weight: 600; }
+
+    /* 仕組みステップ */
+    .ref-steps-section {
+      padding: clamp(56px, 8vw, 96px) 0;
+      background: #fff;
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: clamp(32px, 5vw, 48px);
+    }
+    .section-title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(24px, 3.4vw, 36px);
+      line-height: 1.5;
+      color: #1A1A1A;
+      margin: 12px 0 0;
+    }
+    .ref-steps {
+      list-style: none;
+      counter-reset: ref;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ref-steps li {
+      counter-increment: ref;
+      position: relative;
+      padding-left: 48px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #1A1A1A;
+    }
+    .ref-steps li::before {
+      content: counter(ref);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #B99253;
+      color: #fff;
+      border-radius: 50%;
+      font-family: "Inter", sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    /* コード発行エリア */
+    .ref-code-section {
+      background: #F6F3EC;
+      padding: clamp(56px, 8vw, 96px) 24px;
+    }
+    .ref-code-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .ref-code-title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.5;
+      color: #1A1A1A;
+      margin: 12px 0 14px;
+    }
+    .ref-code-lead {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #1A1A1A;
+      opacity: 0.8;
+      margin: 0 0 28px;
+    }
+    .ref-code-box {
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 3px;
+      padding: 24px 28px;
+      margin: 0 auto 24px;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .ref-code-placeholder {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 13.5px;
+      color: #1A1A1A;
+      opacity: 0.45;
+    }
+    .ref-code-value {
+      font-family: "Inter", monospace;
+      font-feature-settings: "tnum";
+      font-size: clamp(28px, 4.5vw, 40px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #B99253;
+    }
+    .ref-code-url {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: #1A1A1A;
+      opacity: 0.5;
+      word-break: break-all;
+    }
+    .ref-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .ref-share {
+      margin-bottom: 20px;
+    }
+    .ref-share__label {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: #1A1A1A;
+      opacity: 0.55;
+      margin: 0 0 10px;
+    }
+    .ref-share__btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .ref-share__line,
+    .ref-share__twitter {
+      display: inline-block;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #3C8186;
+      border: 1px solid rgba(60, 129, 134, 0.45);
+      border-radius: 3px;
+      padding: 8px 18px;
+      text-decoration: none;
+      transition: background 200ms, color 200ms;
+    }
+    .ref-share__line:hover,
+    .ref-share__twitter:hover {
+      background: #3C8186;
+      color: #fff;
+    }
+    .ref-code-note {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #6B5F4F;
+      margin: 0 0 8px;
+    }
+    .ref-code-demo {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #6B5F4F;
+      opacity: 0.7;
+      margin: 0;
+      padding: 8px 12px;
+      border: 1px solid rgba(185, 146, 83, 0.3);
+      border-radius: 3px;
+      background: #fff;
+      display: inline-block;
+    }
+
+    /* 特典カード */
+    .ref-reward-section {
+      padding: clamp(56px, 8vw, 96px) 0;
+      background: #fff;
+    }
+    .ref-reward-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(16px, 3vw, 32px);
+      flex-wrap: wrap;
+    }
+    .ref-reward-card {
+      background: #F6F3EC;
+      border: 1px solid #C9BFA8;
+      border-radius: 4px;
+      padding: clamp(28px, 4vw, 40px);
+      text-align: center;
+      width: 260px;
+      flex-shrink: 0;
+    }
+    .ref-reward-card--referrer { border-top: 3px solid #B99253; }
+    .ref-reward-card--referee { border-top: 3px solid #3C8186; }
+    .ref-reward-card__role {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: #6B5F4F;
+      text-transform: uppercase;
+    }
+    .ref-reward-card--referee .ref-reward-card__role { color: #3C8186; }
+    .ref-reward-card__amount {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: clamp(36px, 5.5vw, 52px);
+      font-weight: 700;
+      color: #1A1A1A;
+      line-height: 1.1;
+      margin: 12px 0 8px;
+    }
+    .ref-reward-card--referee .ref-reward-card__amount { color: #3C8186; }
+    .ref-reward-card__amount small {
+      font-size: 0.38em;
+      font-weight: 600;
+      margin-left: 2px;
+      opacity: 0.75;
+    }
+    .ref-reward-card__desc {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 13px;
+      line-height: 1.85;
+      color: #1A1A1A;
+      opacity: 0.78;
+      margin: 0;
+    }
+    .ref-reward-divider {
+      font-family: "Inter", sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #C9BFA8;
+      flex-shrink: 0;
+    }
+
+    /* 下部CTA */
+    .ref-cta-section {
+      background: #F6F3EC;
+      padding: clamp(56px, 8vw, 80px) 24px;
+    }
+    .ref-cta-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .ref-cta__text {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.85;
+      color: #1A1A1A;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .ref-reward-grid { flex-direction: column; }
+      .ref-reward-divider { transform: rotate(90deg); }
+      .ref-reward-card { width: 100%; }
+    }
+  </style>
+</Base>
