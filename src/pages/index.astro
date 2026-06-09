@@ -1,97 +1,25 @@
 ---
-// 北の逸品堂 / 知床ツーリスト — TOPページモック (Slim版: 8セクション)
-// 構成: ヘッダ → ヒーロー → 信頼バッジ3点 → 季節カレンダー → 今週のおすすめ3商品
-//       → ツアー予約特集(決定打) → ストーリー → リテンション → フッタ
-// 既存ブランド #3C8186 / #B99253 を主軸、日本語タイポ主役、AIスロップ禁忌厳守。
+// 北の逸品堂 / 知床ツーリスト — TOPページ (story-first構成)
+// 構成: ヒーロー → NEWS → OUR STORY → SHOP ENTRANCE → LINE帯
 import "../styles/global.css";
-import { productImageForKey, siteMedia as media } from "../data/sourceImages";
-import { products, formatYen } from "../data/products";
-import { apparelItems } from "../data/catalog";
+import { siteMedia as media } from "../data/sourceImages";
 
 const meta = {
   title: "知床から、食べるものと着るものを選ぶ｜北の逸品堂(1992清里町)",
   description: "北海道・知床のセレクトショップ「北の逸品堂」。1992年清里町から、店主が選ぶ産直食材と現場で使うアウトドアウェア(Patagonia等)。LINE登録で再入荷・収穫速報。",
 };
 
-const productBySlug = new Map(products.map((product) => [product.slug, product]));
-
-// 産直のおすすめ — 同じ棚に混在させない (商談合意)
-const specialtyFeatured = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg"]
-  .map((slug) => productBySlug.get(slug))
-  .filter(Boolean)
-  .map((product) => ({
-    ...product,
-    priceLabel: formatYen(product.price),
-    unit: product.priceUnit,
-    stock: product.stockLabel,
-    low: product.stock <= 5,
-    image: productImageForKey(product.imageKey, product.title),
-  }));
-
-// アパレルのおすすめ — 別セクションで見せる
-const apparelFeatured = ["patagonia-r1-air-hoodie", "patagonia-r1-zip-neck"]
-  .map((slug) => productBySlug.get(slug))
-  .filter(Boolean)
-  .map((product) => ({
-    ...product,
-    priceLabel: formatYen(product.price),
-    unit: product.priceUnit,
-    stock: product.stockLabel,
-    low: product.stock <= 5,
-    image: productImageForKey(product.imageKey, product.title),
-  }));
-
-// 入口「中チラ見せ」用プレビュー写真
-// 産直: specialtyFeatured の商品画像から3枚
-const specialtyPreviews = specialtyFeatured
-  .slice(0, 3)
-  .map((item) => ({ src: item.image.src, alt: item.image.alt }))
-  .filter((p) => p.src);
-
-// アパレル: catalog の apparel で画像があるもの先頭3つ
-const apparelPreviews = apparelItems
-  .filter((p) => p.image)
-  .slice(0, 3)
-  .map((p) => ({ src: p.image, alt: p.title }));
-
-// セット提案用 (既存)
-const ranking = [...specialtyFeatured, ...apparelFeatured];
-
-const bundles = [
-  {
-    season: "SPRING TRIP",
-    title: "朝採りアスパラ + R1 Air Hoodie",
-    desc: "初夏の知床に来る人にも、北海道ギフトを贈る人にも。届いた食材から旅支度まで、同じ店主の目利きで選べるセット提案。",
-    primary: ranking[0],
-    secondary: ranking[2],
-    note: "EC購入でツアー予約 ¥1,000 OFF",
-  },
-  {
-    season: "GIFT & DAILY",
-    title: "じゃがいも・玉ねぎ + 現場フリース",
-    desc: "保存のきく定番野菜と、長く着られるアウトドアウェアを同じカートへ。単品購入で終わらせず、客単価を自然に上げる導線です。",
-    primary: ranking[1],
-    secondary: ranking[2],
-    note: "¥5,000以上で送料無料 / まとめ買い向き",
-  },
-  {
-    season: "TOUR AFTER",
-    title: "旅のあとに届く、北の定期便",
-    desc: "知床を歩いた記憶を、季節の食材と店主の道具選びでリピート購入へ。OTAでは作れない自社サイトならではの関係性を育てます。",
-    primary: ranking[0],
-    secondary: ranking[1],
-    note: "LINE登録で再入荷・収穫速報",
-  },
-];
-
-const tours = [
-  { period: "春-秋 / 6-10月", title: "知床五湖ガイドハイキング", desc: "世界自然遺産・知床五湖を、現場ガイドが半日でご案内。ヒグマ対応の正式登録ガイドが同行します。", price: "¥6,800", unit: "/ 大人1名" },
-  { period: "冬 / 1-3月", title: "北海道流氷熱気球フリーフライト", desc: "冬期限定・流氷の上を熱気球で飛ぶ。鳥と同じ目線でオホーツクを見渡す非日常体験。", price: "¥38,000", unit: "/ 大人1名" },
-  { period: "冬 / 12-3月", title: "神の子池スノーシューツアー", desc: "凍らずに青く湧き出る神の子池まで、スノーシューで歩く半日コース。装備一式レンタル込。", price: "¥7,500", unit: "/ 大人1名" },
-];
-
 const currentYear = new Date().getFullYear();
 const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
+
+// NEWSデータ (静的。将来CMSに切り替え可)
+const newsItems = [
+  { date: "2026.06.09", category: "産直",    categorySlug: "specialty", title: "朝採りアスパラ 1kg・3kg・8kg 出荷開始。6月末まで出荷予定。" },
+  { date: "2026.05.21", category: "アパレル", categorySlug: "apparel",   title: "Patagonia R1 Air Hoodie 2026SS 全色入荷しました。" },
+  { date: "2026.04.15", category: "メディア", categorySlug: "media",     title: "北海道新聞「知床の味覚」特集に掲載されました。" },
+  { date: "2026.03.01", category: "ツアー",   categorySlug: "tour",      title: "2026年春夏ツアー(知床五湖ガイド)の受付を開始しました。" },
+  { date: "2025.12.10", category: "産直",    categorySlug: "specialty",  title: "冬の定番・オホーツク鮭フレーク(170g)の予約受付を開始。" },
+];
 ---
 
 <!doctype html>
@@ -204,405 +132,60 @@ const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u0
     </header>
 
     <main>
-      <!-- ============ ヒーロー ============ -->
-      <section class="hero" aria-label="ヒーロー">
-        <div class="hero__inner">
-          <div class="hero__copy">
-            <span class="hero__eyebrow">北海道・知床のセレクトショップ</span>
-            <h1>
-              知床から、<br />
-              <span class="accent">食べるもの</span>と<span class="accent">着るもの</span>を選ぶ。
-            </h1>
-            <p class="lead">
-              1992年から清里町で、ユースホステル・自然ガイド・旅行業を続けてきた知床ツーリストの公式EC。
-              同じ店主・同じ地域・同じ目利きで選ぶ、産直食材とアウトドアウェアのセレクトショップ「北の逸品堂」。
-            </p>
-            <div class="hero__meta">
-              <span>1992年・清里町から33年</span>
-              <span>産直 84商品 / アパレル 533商品</span>
-              <span>店主厳選・現場使い</span>
-            </div>
-            <div class="hero__cta">
-              <a href="/products/specialty/" class="btn btn--primary">産直入口へ</a>
-              <a href="/products/apparel/" class="btn btn--outline">アパレル入口へ</a>
-            </div>
+      <!-- ============ HERO (fullbleed) ============ -->
+      <section class="hero-fb" aria-label="ヒーロー">
+        {media.hero.src ? (
+          <img
+            class="hero-fb__img"
+            src={media.hero.src}
+            alt={media.hero.alt}
+            fetchpriority="high"
+            decoding="async"
+          />
+        ) : (
+          <div class="hero-fb__placeholder">
+            <strong>北海道・知床 / 斜里岳の朝。店主が33年選び続けた場所。</strong>
+            <span>public/source-images/hero-shiretoko.jpg を追加（後ろ姿・手元など人の気配のある1枚）</span>
           </div>
-          <div class="hero__visual">
-            {media.hero.src ? (
-              <img src={media.hero.src} alt={media.hero.alt} decoding="async" fetchpriority="high" />
-            ) : (
-              <div class="source-placeholder source-placeholder--hero" role="img" aria-label={`${media.hero.alt}の画像枠`}>
-                <span>{media.hero.label}</span>
-                <small>assets/source-images に画像を追加</small>
-              </div>
-            )}
-            <span class="hero__caption" aria-hidden="true">イメージ: 斜里岳・オホーツク海 / 清里町</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ 信頼バッジ帯（3点に簡素化） ============ -->
-      <section class="trust-band" aria-label="信頼指標">
-        <div class="trust-band__inner">
-          <span><b>1992年</b> 清里町で創業<small>(33年)</small></span>
-          <span><b>北海道知事登録</b> 旅行業 第2-453号<small>(2003-)</small></span>
-          <span>産地・収穫日を<b>商品ページに明記</b></span>
-        </div>
-      </section>
-
-      <!-- ============ 7入口タイル (BEAMS流) ============ -->
-      <section class="quick-tiles" aria-label="ショップの入口">
-        <div class="quick-tiles__inner">
-          <a href="/stories/" class="qtile">
-            <span class="qtile__no">01</span>
-            <span class="qtile__label mincho">店主の手記</span>
-            <span class="qtile__sub">STORIES</span>
-          </a>
-          <a href="/ranking/" class="qtile qtile--accent">
-            <span class="qtile__no">02</span>
-            <span class="qtile__label mincho">ランキング</span>
-            <span class="qtile__sub">WEEKLY RANKING</span>
-          </a>
-          <a href="/products/specialty/" class="qtile">
-            <span class="qtile__no">03</span>
-            <span class="qtile__label mincho">産直</span>
-            <span class="qtile__sub">SPECIALTY</span>
-          </a>
-          <a href="/products/apparel/" class="qtile">
-            <span class="qtile__no">04</span>
-            <span class="qtile__label mincho">アパレル</span>
-            <span class="qtile__sub">APPAREL</span>
-          </a>
-          <a href="/bundles/" class="qtile">
-            <span class="qtile__no">05</span>
-            <span class="qtile__label mincho">特集・セット</span>
-            <span class="qtile__sub">COLLECTIONS</span>
-          </a>
-          <a href="/ranking/" class="qtile qtile--sale">
-            <span class="qtile__no">06</span>
-            <span class="qtile__label mincho">6月限定</span>
-            <span class="qtile__sub">JUNE OFFER</span>
-          </a>
-          <a href="/gift/" class="qtile">
-            <span class="qtile__no">07</span>
-            <span class="qtile__label mincho">ギフト</span>
-            <span class="qtile__sub">GIFT・のし対応</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============ 2大入口（産直 / アパレル）中チラ見せ ============ -->
-      <section class="entrances" aria-label="2大入口">
-        <div class="entrances__inner">
-          <span class="section-eyebrow">2 ENTRANCES</span>
-          <h2 class="mincho">食べるもの / 着るもの、<br />どちらから見ますか。</h2>
-          <hr class="section-rule" />
-
-          <div class="entrances__grid">
-            <!-- 産直カラム -->
-            <div class="entrance entrance--specialty">
-              <span class="entrance__tag">SPECIALTY ・ 産直</span>
-              <div class="entrance__key">
-                <img src="/source-images/files/key-specialty-warm.jpg" alt="朝採りアスパラと清里町の畑" loading="lazy" decoding="async" />
-              </div>
-              <div class="entrance__previews" aria-hidden="true">
-                {specialtyPreviews.map((p) => (
-                  <span class="entrance__thumb">
-                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
-                  </span>
-                ))}
-              </div>
-              <p class="entrance__note">
-                朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
-              </p>
-              <a href="/products/specialty/" class="entrance__cta">産直を見る →</a>
-            </div>
-
-            <!-- アパレルカラム -->
-            <div class="entrance entrance--apparel">
-              <span class="entrance__tag">APPAREL ・ アパレル</span>
-              <div class="entrance__key">
-                <img src="/source-images/files/key-apparel-cool.jpg" alt="知床の岩場で着るアウトドアフリース" loading="lazy" decoding="async" />
-              </div>
-              <div class="entrance__previews" aria-hidden="true">
-                {apparelPreviews.map((p) => (
-                  <span class="entrance__thumb">
-                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
-                  </span>
-                ))}
-              </div>
-              <p class="entrance__note">
-                店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
-              </p>
-              <a href="/products/apparel/" class="entrance__cta">アパレルを見る →</a>
-            </div>
-          </div>
-
-          <a href="#story" class="entrances__band">
-            <span class="entrances__band-text">同じ店主が、食べるものも着るものも選んでいます。</span>
-            <span class="entrances__band-cta">店主のこと →</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============ 季節カレンダー（年間サイクル＝LTV設計の可視化） ============ -->
-      <section class="season-band" aria-label="季節カレンダー">
-        <div class="season-band__inner">
-          <span class="section-eyebrow">SEASONAL CALENDAR</span>
-          <h2>北の年間カレンダー</h2>
-          <hr class="section-rule" />
-          <div class="season-grid">
-            <div class="season-cell season-cell--spring">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">春</div>
-              <div class="season-cell__period">APR – MAY</div>
-              <div class="season-cell__items">山菜・行者にんにく<br />清里町の遅い春の便り</div>
-            </div>
-            <div class="season-cell season-cell--summer is-now">
-              <div class="season-cell__bar"></div>
-              <span class="now-tag">NOW</span>
-              <div class="season-cell__season">夏</div>
-              <div class="season-cell__period">JUN – AUG</div>
-              <div class="season-cell__items">アスパラ・じゃがいも・玉ねぎ<br />知床五湖ガイドツアー</div>
-            </div>
-            <div class="season-cell season-cell--autumn">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">秋</div>
-              <div class="season-cell__period">SEP – NOV</div>
-              <div class="season-cell__items">きのこ・北海道米<br />オホーツク鮭フレーク</div>
-            </div>
-            <div class="season-cell season-cell--winter">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">冬</div>
-              <div class="season-cell__period">DEC – MAR</div>
-              <div class="season-cell__items">流氷熱気球フリーフライト<br />神の子池スノーシュー</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ 産直のおすすめ ============ -->
-      <section class="featured-block" id="featured-specialty" aria-label="産直のおすすめ">
-        <div class="featured-block__inner">
-          <span class="featured-eyebrow">SPECIALTY ・ 産直のおすすめ</span>
-          <h2 class="mincho">今週、店主が選んだ食べるもの。</h2>
-          <hr class="section-rule" />
-          <div class="featured-grid">
-            {specialtyFeatured.map((item) => (
-              <article class="featured-card">
-                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
-                  <div class="featured-card__img">
-                    {item.image.src ? (
-                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
-                    ) : (
-                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
-                    )}
-                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
-                  </div>
-                  <div class="featured-card__body">
-                    <span class="featured-card__origin">{item.origin}</span>
-                    <h3 class="featured-card__title">{item.title}</h3>
-                    <div class="featured-card__meta">
-                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
-                      <span class="featured-card__delivery">{item.delivery}</span>
-                    </div>
-                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
-                  </div>
-                </a>
-                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
-              </article>
-            ))}
-          </div>
-          <div class="featured-block__cta">
-            <a href="/products/specialty/" class="featured-link">産直一覧をすべて見る (84商品) →</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ アパレルのおすすめ ============ -->
-      <section class="featured-block featured-block--alt" id="featured-apparel" aria-label="アパレルのおすすめ">
-        <div class="featured-block__inner">
-          <span class="featured-eyebrow">APPAREL ・ アパレルのおすすめ</span>
-          <h2 class="mincho">店主が現場で使う、着るもの。</h2>
-          <hr class="section-rule" />
-          <div class="featured-grid">
-            {apparelFeatured.map((item) => (
-              <article class="featured-card">
-                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
-                  <div class="featured-card__img">
-                    {item.image.src ? (
-                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
-                    ) : (
-                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
-                    )}
-                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
-                  </div>
-                  <div class="featured-card__body">
-                    <span class="featured-card__origin">{item.origin}</span>
-                    <h3 class="featured-card__title">{item.title}</h3>
-                    <div class="featured-card__meta">
-                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
-                      <span class="featured-card__delivery">{item.delivery}</span>
-                    </div>
-                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
-                  </div>
-                </a>
-                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
-              </article>
-            ))}
-          </div>
-          <div class="featured-block__cta">
-            <a href="/products/apparel/" class="featured-link">アパレル一覧をすべて見る (533商品) →</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ 旧: 今週のおすすめ統合 ============ -->
-      <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
-        <div class="section__inner">
-          <span class="section-eyebrow">PICK UP</span>
-          <h2>今週のおすすめ</h2>
-          <hr class="section-rule" />
-          <div class="ranking ranking--wide">
-            {ranking.map((item) => (
-              <article class="ranking-card">
-                <a href={`/products/${item.slug}`} class="ranking-card__link" aria-label={`${item.title}の詳細を見る`}>
-                <span class="ranking-card__rank">{item.rank}</span>
-                <span class={`ranking-card__badge ranking-card__badge--${item.badge.toLowerCase()}`}>{item.badge}</span>
-                {item.low && <span class="ranking-card__lowbadge">残り僅か</span>}
-                <div class="ranking-card__img" data-image-key={item.imageKey}>
-                  {item.image.src ? (
-                    <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
-                  ) : (
-                    <div class="source-placeholder" role="img" aria-label={`${item.image.alt}の画像枠`}>
-                      <span>{item.image.label}</span>
-                      <small>画像を追加</small>
-                    </div>
-                  )}
-                </div>
-                <div class="ranking-card__body">
-                  <span class="ranking-card__origin">{item.origin}</span>
-                  <p class="ranking-card__title">{item.title}</p>
-                  <div class="ranking-card__meta">
-                    <span class={item.low ? "ranking-card__stock low" : "ranking-card__stock"}>{item.stock}</span>
-                    <span class="ranking-card__delivery">{item.delivery}</span>
-                  </div>
-                  <span class="ranking-card__price">
-                    {item.priceLabel}
-                    <small>{item.unit}</small>
-                  </span>
-                </div>
-                </a>
-                <div class="ranking-card__actions">
-                  <button
-                    type="button"
-                    class="ranking-card__cart"
-                    aria-label={`${item.title}をカートに追加`}
-                    data-add-slug={item.slug}
-                    data-add-name={item.title}
-                    data-add-price={String(item.price)}
-                  >
-                    カゴに追加
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-          <p class="ranking-note">
-            特産品（食）<b>84商品</b> ／ アウトドアウェア（Patagonia等）<b>533商品</b> から、まずは売れ筋5商品を商品ページ化。
-            <a href="/ranking/">全商品を見る →</a>
+        )}
+        <div class="hero-fb__copy">
+          <h1 class="hero-fb__headline">1992年から、ここで選んでいる。</h1>
+          <p class="hero-fb__sub">
+            北海道・清里町。知床のガイドが畑と岩場で見つけた食べるものと着るものを、この店から届けています。
           </p>
+          <a href="/products/specialty/" class="hero-fb__cta">ショップを見る</a>
         </div>
       </section>
 
-      <!-- ============ 特産品 + アパレル 併売提案 ============ -->
-      <section class="bundle-section" id="bundles" aria-label="セット提案">
-        <div class="bundle-section__inner">
-          <span class="section-eyebrow">BUY TOGETHER</span>
-          <h2>食と道具を、同じストーリーで選ぶ。</h2>
-          <hr class="section-rule" />
-          <p class="bundle-section__lead">
-            「特産品だけ」「アパレルだけ」に分けず、知床で暮らす店主の目利きを軸に買い合わせを提案します。
-            贈る、食べる、着る、旅に出るまでをひとつにすると、客単価とリピートの両方が伸ばせます。
-          </p>
-          <div class="bundle-grid">
-            {bundles.map((bundle) => (
-              <article class="bundle-card">
-                <div class="bundle-card__media" aria-hidden="true">
-                  <div class="bundle-card__image" data-image-key={bundle.primary.imageKey}>
-                    {bundle.primary.image.src ? (
-                      <img src={bundle.primary.image.src} alt="" loading="lazy" decoding="async" />
-                    ) : (
-                      <div class="source-placeholder">
-                        <span>{bundle.primary.image.label}</span>
-                        <small>画像を追加</small>
-                      </div>
-                    )}
-                  </div>
-                  <div class="bundle-card__image" data-image-key={bundle.secondary.imageKey}>
-                    {bundle.secondary.image.src ? (
-                      <img src={bundle.secondary.image.src} alt="" loading="lazy" decoding="async" />
-                    ) : (
-                      <div class="source-placeholder">
-                        <span>{bundle.secondary.image.label}</span>
-                        <small>画像を追加</small>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div class="bundle-card__body">
-                  <span class="bundle-card__season">{bundle.season}</span>
-                  <h3>{bundle.title}</h3>
-                  <p>{bundle.desc}</p>
-                  <div class="bundle-card__note">{bundle.note}</div>
-                  <a href="/bundles/" class="btn btn--ghost">この組み合わせを見る</a>
-                </div>
-              </article>
-            ))}
+      <!-- ============ NEWS (ヒーロー直下) ============ -->
+      <section class="news-section" aria-label="お知らせ">
+        <div class="news-section__inner">
+          <div class="news-section__header">
+            <h2 class="news-section__title">お知らせ</h2>
+            <a href="/stories/" class="news-section__more">過去のお知らせ →</a>
           </div>
+          <ul class="news-rows" role="list">
+            {newsItems.map((item) => (
+              <li class="news-row">
+                <span class="news-row__date">{item.date}</span>
+                <span class={`news-row__tag news-row__tag--${item.categorySlug}`}>{item.category}</span>
+                <span class="news-row__title">{item.title}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <!-- ============ ツアー連動 (縮小: 既存ツアーページへのリンクのみ) ============ -->
-      <section class="tour-link" id="tour" aria-label="ツアー連動">
-        <div class="tour-link__inner">
-          <span class="section-eyebrow">TOUR LINK</span>
-          <h2>店主と歩く、知床。</h2>
-          <hr class="section-rule" />
-          <p class="tour-link__lead">
-            知床ツーリストは北海道知事登録旅行業 第2-453号を持つ旅行業者です。
-            ツアーのお申し込み・お問い合わせは既存サイトで継続承っています。
-          </p>
-          <a href="https://shiretokotourist.com/" class="tour-link__card" target="_blank" rel="noopener noreferrer">
-            <div class="tour-link__media">
-              {media.tourHero.src ? (
-                <img src={media.tourHero.src} alt={media.tourHero.alt} loading="lazy" decoding="async" />
-              ) : (
-                <div class="source-placeholder source-placeholder--dark" role="img" aria-label={`${media.tourHero.alt}の画像枠`}>
-                  <span>{media.tourHero.label}</span>
-                </div>
-              )}
-            </div>
-            <div class="tour-link__body">
-              <span class="tour-link__period">通年 / 春-秋 4ツアー + 冬 4ツアー</span>
-              <h3>知床五湖ガイド / 流氷熱気球 / 神の子池スノーシュー ほか</h3>
-              <p>世界自然遺産・知床の現場ガイドが直接ご案内。少人数制・装備込・全国旅行業協会 (ANTA) 所属。お申し込みは既存サイトから。</p>
-              <span class="tour-link__cta">ツアー一覧へ (shiretokotourist.com) →</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============ ストーリー ============ -->
-      <section class="story" id="story" aria-label="ストーリー">
+      <!-- ============ OUR STORY ============ -->
+      <section class="story" id="story" aria-label="店主の物語">
         <div class="story__inner">
           <div class="story__portrait">
             {media.story.src ? (
               <img src={media.story.src} alt={media.story.alt} loading="lazy" decoding="async" />
             ) : (
-              <div class="source-placeholder source-placeholder--portrait" role="img" aria-label={`${media.story.alt}の画像枠`}>
-                <span>{media.story.label}</span>
-                <small>画像を追加</small>
+              <div class="source-placeholder source-placeholder--portrait" role="img" aria-label="代表 石田富雄のポートレート画像枠">
+                <span>story-ishida</span>
+                <small>public/source-images/story-ishida.jpg を追加</small>
               </div>
             )}
           </div>
@@ -613,7 +196,8 @@ const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u0
             <p>
               代表の石田富雄は、東京から清里町に移り、1992年に小さなユースホステルを始めました。
               熱気球、自然ガイド、旅行業と、知床とオホーツクの自然のなかで生きる仕事を、ひとつずつ増やしてきました。
-              「北の逸品堂」は、その33年で出会った農家、漁師、メーカーと、店主自身が現場で使う道具を並べる店です。
+              「北の逸品堂」は、その33年で出会った農家、漁師、メーカーと、
+              店主自身が現場で使う道具を並べる店です。
             </p>
             <ul class="story__chronology">
               <li><span class="year">1992</span><span>清里町でユースホステル開業</span></li>
@@ -626,66 +210,79 @@ const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u0
               「特産品もアパレルも、知床のガイドも、ぜんぶ同じ人間がやっています。」<br />
               — 代表 石田 富雄
             </p>
+            <p style="margin-top: 1.2em;">
+              <a href="/stories/" class="hero-fb__cta">店主の手記を読む</a>
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- ============ リテンション（メルマガ + LINE） ============ -->
-      <section class="retention" id="retention" aria-label="メルマガ・LINE登録">
-        <div class="retention__inner">
-          <div class="retention__card">
-            <h3>店主の「今月の収穫便り」</h3>
-            <p>収穫期・出荷開始・季節限定品の入荷を、月に1-2通だけお届けします。</p>
-            <ul class="benefit">
-              <li>登録特典: 次回購入で使える 500円OFFクーポン</li>
-              <li>会員限定: アスパラ・じゃがいもの予約受付（一般公開より3日早く）</li>
-              <li>送料無料便（年4回・春アスパラ / 秋じゃがいも / 冬鮭フレーク / ギフトシーズン）</li>
-            </ul>
-            <form class="mail-form" onsubmit="event.preventDefault();">
-              <input type="email" placeholder="メールアドレス" aria-label="メールアドレス" required pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" />
-              <button type="submit">登録する</button>
-            </form>
+      <!-- ============ SHOP ENTRANCE ============ -->
+      <section class="shop-entrance" aria-label="ショップへの入口">
+        <div class="shop-entrance__inner">
+          <div class="shop-entrance__header">
+            <span class="shop-entrance__eyebrow">SHOP</span>
+            <h2 class="shop-entrance__headline">同じ人間が、畑で選んで岩場で着る。</h2>
+            <p class="shop-entrance__sub">産直と現場ウェア、それぞれの入口から。</p>
           </div>
-          <div class="retention__card">
-            <h3>LINE公式アカウント</h3>
-            <p>収穫・出荷のリアルタイム速報と、店主が現場で撮ったツアーの写真を週1でお届け。</p>
-            <ul class="benefit">
-              <li>登録特典: ツアー予約 500円OFFクーポン</li>
-              <li>LINE限定: 在庫切れ商品の再入荷通知</li>
-              <li>1:1チャット: 店主に直接質問できます（産地・サイズ・季節）</li>
-            </ul>
-            <div class="line-block">
-              <div class="line-qr">
-                {media.lineQr.src ? (
-                  <img src={media.lineQr.src} alt={media.lineQr.alt} loading="lazy" decoding="async" />
-                ) : (
-                  <div class="source-placeholder source-placeholder--qr" role="img" aria-label={`${media.lineQr.alt}の画像枠`}>
-                    <span>{media.lineQr.label}</span>
-                  </div>
-                )}
+          <div class="shop-entrance__grid">
+            <!-- 産直カード -->
+            <a href="/products/specialty/" class="entrance-card entrance-card--specialty">
+              <div class="entrance-card__img">
+                <img
+                  src="/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg"
+                  alt="朝採りアスパラ・清里町の畑"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
-              <div class="meta">
-                スマートフォンで読み取ってください<br />
-                @kitanoippindo（友だち追加）
+              <div class="entrance-card__body">
+                <span class="entrance-card__tag">SPECIALTY ・ 産直</span>
+                <h3 class="entrance-card__name">食べるもの</h3>
+                <p class="entrance-card__desc">
+                  朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
+                </p>
+                <span class="entrance-card__link">産直を見る (84商品)</span>
               </div>
-            </div>
+            </a>
+
+            <!-- アパレルカード -->
+            <a href="/products/apparel/" class="entrance-card entrance-card--apparel">
+              <div class="entrance-card__img">
+                <img
+                  src="/source-images/files/product-2989-new-m-patagonia-ms-r1-air-full-zip-hoodie-patagonia-clement-blue-clmb-2984-p1010080-1.jpg"
+                  alt="知床の岩場で着るPatagoniaフリース"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="entrance-card__body">
+                <span class="entrance-card__tag">APPAREL ・ アパレル</span>
+                <h3 class="entrance-card__name">着るもの</h3>
+                <p class="entrance-card__desc">
+                  店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
+                </p>
+                <span class="entrance-card__link">アパレルを見る (533商品)</span>
+              </div>
+            </a>
           </div>
         </div>
+        <!-- 全幅帯リンク -->
+        <a href="/products/specialty/" class="shop-entrance__band">
+          <span>すべての商品(産直・アパレル)を見る</span>
+        </a>
       </section>
+
+      <!-- ============ LINE 細帯 ============ -->
+      <div class="line-band" id="retention" role="complementary" aria-label="LINE登録">
+        <div class="line-band__inner">
+          <span class="line-band__text">収穫便りをLINEで受け取る — 再入荷通知・収穫速報</span>
+          <a href="https://line.me/R/ti/p/@kitanoippindo" class="line-band__btn" target="_blank" rel="noopener noreferrer">LINE登録 ¥500 OFF →</a>
+        </div>
+      </div>
     </main>
 
     <script is:inline>
-      document.querySelectorAll('[data-add-slug]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const slug = btn.dataset.addSlug;
-          const name = btn.dataset.addName;
-          const price = parseInt(btn.dataset.addPrice, 10);
-          if (window.cart && slug && name && Number.isFinite(price)) {
-            window.cart.add(slug, name, price, 1);
-          }
-        });
-      });
-
       // 送料無料カウンター
       (function () {
         const THRESHOLD = 5000;
