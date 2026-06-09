@@ -101,7 +101,7 @@ const earnedPoints = Math.floor(product.price * pointsInfo.rateValue);
         <span class="sep">/</span>
         <a href={categoryHref}>{categoryLabel}</a>
         <span class="sep">/</span>
-        <span class="current">{product.title}</span>
+        <span class="current" aria-current="page">{product.title}</span>
       </div>
     </nav>
 
@@ -201,7 +201,7 @@ const earnedPoints = Math.floor(product.price * pointsInfo.rateValue);
             >
               カゴに追加
             </button>
-            <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener">LINE でサイズ・在庫を相談</a>
+            <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE でサイズ・在庫を相談</a>
           </div>
 
           <!-- 定期便オプション -->
@@ -240,7 +240,7 @@ const earnedPoints = Math.floor(product.price * pointsInfo.rateValue);
           <!-- 再入荷通知（アパレル） -->
           {isApparel && (
             <div class="pdp-restock">
-              <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener">
+              <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">
                 再入荷を LINE で知らせる
               </a>
               <p class="pdp-restock__note">
@@ -401,7 +401,7 @@ const earnedPoints = Math.floor(product.price * pointsInfo.rateValue);
           <div class="pdp-reviews__empty">
             <p class="pdp-reviews__empty-text">この商品にはまだレビューがありません。</p>
             <p class="pdp-reviews__empty-sub">最初の一言を、お寄せいただけませんか。</p>
-            <a href="https://line.me/" class="btn btn--outline" target="_blank" rel="noopener">LINE でレビューを送る</a>
+            <a href="https://line.me/" class="btn btn--outline" target="_blank" rel="noopener noreferrer">LINE でレビューを送る</a>
           </div>
         )}
       </div>

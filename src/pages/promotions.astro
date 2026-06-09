@@ -57,7 +57,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -309,7 +309,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
         再入荷通知・収穫速報・予約販売の先行案内をLINEでお届けします。
         友だち追加は無料、いつでも解除できます。
       </p>
-      <a href="#" class="line-cta__btn">LINEで友だち追加</a>
+      <a href="https://line.me/" class="line-cta__btn" target="_blank" rel="noopener noreferrer">LINEで友だち追加</a>
       <span class="line-cta__sub">登録するとポイントや誕生月クーポンの案内も受け取れます</span>
     </div>
   </section>
@@ -341,7 +341,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .promo-anchors a {
     flex: 0 0 auto;
     padding: 7px 14px; border-radius: 3px;
-    font-size: 13px; font-weight: 600; color: #6B5F4F;
+    font-size: 0.84rem; font-weight: 600; color: #6B5F4F;
     text-decoration: none; white-space: nowrap;
     transition: background .2s, color .2s;
   }
@@ -369,17 +369,17 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   }
   .sub-card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .sub-card__badge {
-    background: #B7472A; color: #fff; font-size: 12px; font-weight: 700;
+    background: #B7472A; color: #fff; font-size: 0.82rem; font-weight: 700;
     padding: 4px 10px; border-radius: 3px;
   }
-  .sub-card__interval { font-size: 12px; color: #6B5F4F; }
+  .sub-card__interval { font-size: 0.82rem; color: #6B5F4F; }
   .sub-card__title { margin: 0 0 14px; font-size: 17px; line-height: 1.5; color: #1A1A1A; }
   .sub-card__price { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; }
-  .sub-card__was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .sub-card__was { font-size: 0.84rem; color: #999; text-decoration: line-through; }
   .sub-card__now { font-family: Inter, sans-serif; color: #866326; }
   .sub-card__now b { font-size: 26px; font-weight: 700; }
-  .sub-card__now small { font-size: 13px; margin-left: 4px; color: #6B5F4F; }
-  .sub-card__note { margin: 0 0 18px; font-size: 13px; line-height: 1.8; color: #555; flex: 1; }
+  .sub-card__now small { font-size: 0.84rem; margin-left: 4px; color: #6B5F4F; }
+  .sub-card__note { margin: 0 0 18px; font-size: 0.84rem; line-height: 1.8; color: #555; flex: 1; }
   .sub-card__link { font-size: 14px; font-weight: 600; color: #3C8186; text-decoration: none; }
   .sub-card__link:hover { text-decoration: underline; }
 
@@ -394,10 +394,10 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .points-visual__label { font-size: 14px; letter-spacing: .2em; color: #EDE7D9; margin-top: 4px; }
   .points-visual__sample {
     margin-top: 22px; padding-top: 18px; border-top: 1px solid #3a3a3a;
-    display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #d8d2c4;
+    display: flex; flex-direction: column; gap: 4px; font-size: 0.84rem; color: #d8d2c4;
   }
   .points-visual__sample b { font-family: Inter, sans-serif; font-size: 24px; color: #fff; }
-  .points-visual__expiry { margin: 16px 0 0; font-size: 12px; color: #b0a892; }
+  .points-visual__expiry { margin: 16px 0 0; font-size: 0.82rem; color: #b0a892; }
   .points-detail {
     background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 28px;
   }
@@ -418,7 +418,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .ladder { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 8px 24px 24px; }
   .ladder__table { width: 100%; border-collapse: collapse; }
   .ladder__table th {
-    text-align: left; font-size: 12px; font-weight: 600; color: #6B5F4F;
+    text-align: left; font-size: 0.82rem; font-weight: 600; color: #6B5F4F;
     padding: 14px 12px; border-bottom: 2px solid #EDE7D9;
   }
   .ladder__barhead { width: 34%; }
@@ -427,13 +427,13 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .ladder__table tr.is-popular { background: #FBF7EE; }
   .ladder__weight { font-weight: 700; color: #1A1A1A; font-size: 15px; }
   .ladder__pop {
-    margin-left: 8px; font-size: 11px; font-weight: 700; color: #fff;
+    margin-left: 8px; font-size: 0.78rem; font-weight: 700; color: #fff;
     background: #B7472A; padding: 2px 8px; border-radius: 3px; vertical-align: middle;
   }
   .tnum { font-family: Inter, sans-serif; font-feature-settings: "tnum"; }
   .ladder__price { color: #1A1A1A; }
   .ladder__perkg { color: #866326; font-weight: 600; }
-  .ladder__off { display: block; font-size: 11px; color: #3C8186; font-weight: 600; }
+  .ladder__off { display: block; font-size: 0.78rem; color: #3C8186; font-weight: 600; }
   .ladder__bar { background: transparent; }
   .ladder__barfill {
     display: block; height: 10px; border-radius: 5px;
@@ -449,32 +449,32 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .preorder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .preorder-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; }
   .preorder-card__top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .preorder-card__badge { background: #3C8186; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 3px; flex: 0 0 auto; }
+  .preorder-card__badge { background: #3C8186; color: #fff; font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 3px; flex: 0 0 auto; }
   .preorder-card__title { margin: 0; font-size: 17px; line-height: 1.4; color: #1A1A1A; }
   .preorder-card__price { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
-  .preorder-card__was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .preorder-card__was { font-size: 0.84rem; color: #999; text-decoration: line-through; }
   .preorder-card__now { font-family: Inter, sans-serif; color: #866326; }
   .preorder-card__now b { font-size: 26px; font-weight: 700; }
-  .preorder-card__now small { font-size: 12px; margin-left: 6px; color: #6B5F4F; }
+  .preorder-card__now small { font-size: 0.82rem; margin-left: 6px; color: #6B5F4F; }
   .preorder-card__spec { margin: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
-  .preorder-card__spec div { display: flex; gap: 12px; font-size: 13px; }
+  .preorder-card__spec div { display: flex; gap: 12px; font-size: 0.84rem; }
   .preorder-card__spec dt { flex: 0 0 64px; color: #6B5F4F; }
   .preorder-card__spec dd { margin: 0; color: #1A1A1A; font-weight: 600; }
-  .preorder-card__note { margin: 0 0 18px; font-size: 13px; line-height: 1.8; color: #555; flex: 1; }
+  .preorder-card__note { margin: 0 0 18px; font-size: 0.84rem; line-height: 1.8; color: #555; flex: 1; }
   .preorder-card__link { font-size: 14px; font-weight: 600; color: #3C8186; text-decoration: none; }
   .preorder-card__link:hover { text-decoration: underline; }
 
   /* そのほかの特典 */
   .perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .perk-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; }
-  .perk-card__tag { display: inline-block; font-size: 12px; font-weight: 700; color: #B99253; letter-spacing: .04em; margin-bottom: 10px; }
+  .perk-card__tag { display: inline-block; font-size: 0.82rem; font-weight: 700; color: #B99253; letter-spacing: .04em; margin-bottom: 10px; }
   .perk-card h3 { margin: 0 0 14px; font-size: 16px; line-height: 1.5; color: #1A1A1A; }
-  .perk-card__lead { margin: 0 0 12px; font-size: 13px; line-height: 1.8; color: #444; }
-  .perk-card__note { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid #F0EBDD; font-size: 12px; line-height: 1.7; color: #6B5F4F; }
+  .perk-card__lead { margin: 0 0 12px; font-size: 0.84rem; line-height: 1.8; color: #444; }
+  .perk-card__note { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid #F0EBDD; font-size: 0.82rem; line-height: 1.7; color: #6B5F4F; }
   .step-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
-  .step-list li { font-size: 13px; line-height: 1.7; color: #444; }
+  .step-list li { font-size: 0.84rem; line-height: 1.7; color: #444; }
   .restock-targets { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .restock-targets li { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; line-height: 1.5; padding: 8px 0; border-top: 1px solid #F0EBDD; }
+  .restock-targets li { display: flex; justify-content: space-between; gap: 10px; font-size: 0.82rem; line-height: 1.5; padding: 8px 0; border-top: 1px solid #F0EBDD; }
   .restock-targets li span { color: #1A1A1A; }
   .restock-targets li b { color: #3C8186; flex: 0 0 auto; font-weight: 600; }
 
@@ -491,7 +491,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   }
   .threshold-band__body h3 { margin: 0 0 8px; font-size: 20px; color: #fff; }
   .threshold-band__body p { margin: 0; font-size: 14px; line-height: 1.85; color: #EDE7D9; }
-  .threshold-band__note { display: block; margin-top: 12px; font-size: 12px; color: #c9bfa9; }
+  .threshold-band__note { display: block; margin-top: 12px; font-size: 0.82rem; color: #c9bfa9; }
 
   /* LINE CTA */
   .line-cta { padding: 0 16px 80px; }
@@ -500,7 +500,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
     background: #fff; border: 1px solid #EDE7D9; border-radius: 4px;
     padding: 48px 32px;
   }
-  .line-cta__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #B99253; }
+  .line-cta__eyebrow { font-size: 0.82rem; font-weight: 700; letter-spacing: .12em; color: #B99253; }
   .line-cta h2 { margin: 12px 0 14px; font-size: clamp(22px, 4vw, 28px); color: #1A1A1A; }
   .line-cta p { margin: 0 auto 24px; max-width: 48ch; font-size: 15px; line-height: 1.85; color: #6B5F4F; }
   .line-cta__btn {
@@ -510,7 +510,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
     transition: opacity .2s;
   }
   .line-cta__btn:hover { opacity: .9; }
-  .line-cta__sub { display: block; margin-top: 14px; font-size: 12px; color: #999; }
+  .line-cta__sub { display: block; margin-top: 14px; font-size: 0.82rem; color: #999; }
 
   /* レスポンシブ */
   @media (max-width: 900px) {
@@ -523,7 +523,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
     .promo-head { gap: 12px; margin-bottom: 28px; }
     .sub-grid, .perk-grid { grid-template-columns: 1fr; }
     .ladder { padding: 4px 14px 18px; }
-    .ladder__table th, .ladder__table td { padding: 12px 8px; font-size: 13px; }
+    .ladder__table th, .ladder__table td { padding: 12px 8px; font-size: 0.84rem; }
     .ladder__barhead, .ladder__bar { display: none; }
     .threshold-band__inner { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 16px; }
     .points-visual { padding: 28px; }

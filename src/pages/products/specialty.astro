@@ -45,7 +45,7 @@ const items = specialtyItems.filter((p) => p.image);
       <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
     </a>
     <nav class="gnav" aria-label="主要メニュー">
-      <a href="/products/specialty/" class="is-tour">産直</a>
+      <a href="/products/specialty/" class="is-tour" aria-current="page">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
       <a href="/stories/">ストーリー</a>
@@ -53,7 +53,7 @@ const items = specialtyItems.filter((p) => p.image);
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -165,7 +165,7 @@ const items = specialtyItems.filter((p) => p.image);
               data-weight={p.weight || ""}
               data-id={p.id}
             >
-              <a href={p.url} target="_blank" rel="noopener" class="card-product__link">
+              <a href={p.url} target="_blank" rel="noopener noreferrer" class="card-product__link">
                 <div class="card-product__media">
                   {p.image ? (
                     <img src={p.image} alt={p.title} loading="lazy" decoding="async" />

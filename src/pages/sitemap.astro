@@ -1,0 +1,60 @@
+---
+import Base from "../layouts/Base.astro";
+
+const sections = [
+  {
+    title: "買い物",
+    links: [
+      { href: "/products/specialty/", label: "産直食材一覧" },
+      { href: "/products/apparel/", label: "アウトドアアパレル一覧" },
+      { href: "/ranking/", label: "週間ランキング" },
+      { href: "/bundles/", label: "セット販売" },
+      { href: "/gift/", label: "ギフト・のし対応" },
+      { href: "/cart", label: "カート" },
+    ],
+  },
+  {
+    title: "読み物・会員",
+    links: [
+      { href: "/stories/", label: "店主のフィールドノート" },
+      { href: "/promotions/", label: "お得な使い方・サービス" },
+      { href: "/account/", label: "マイページ" },
+    ],
+  },
+  {
+    title: "提案用ページ",
+    links: [
+      { href: "/comparison/", label: "Yahoo!ショッピング比較" },
+      { href: "/furusato/", label: "ふるさと納税案内" },
+      { href: "/dashboard/", label: "管理ダッシュボード" },
+    ],
+  },
+];
+---
+
+<Base
+  title="サイトマップ｜北の逸品堂"
+  description="北の逸品堂の主要ページ一覧。産直、アパレル、ランキング、ギフト、ストーリー、会員ページへ移動できます。"
+  bodyClass="sitemap-page"
+>
+  <main class="simple-page">
+    <section class="simple-page__inner">
+      <span class="section-eyebrow">SITEMAP</span>
+      <h1 class="mincho">サイトマップ</h1>
+      <p>北の逸品堂の主要ページを一覧できます。</p>
+      <div class="sitemap-sections">
+        {sections.map((section) => (
+          <section class="sitemap-section" aria-labelledby={`sitemap-${section.title}`}>
+            <h2 id={`sitemap-${section.title}`}>{section.title}</h2>
+            <ul>
+              {section.links.map((link) => (
+                <li><a href={link.href}>{link.label}</a></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  </main>
+</Base>
+

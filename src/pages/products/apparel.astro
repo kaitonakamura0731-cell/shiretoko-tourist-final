@@ -42,7 +42,7 @@ const items = apparelItems.filter((p) => p.image);
 </head>
 <body class="page-listing page-apparel">
 
-<div class="topbar">店主厳選パタゴニア / R1 シリーズ入荷中 ・ サイズ相談は<a href="#">LINE</a>で 1:1 対応</div>
+<div class="topbar">店主厳選パタゴニア / R1 シリーズ入荷中 ・ サイズ相談は<a href="https://line.me/" target="_blank" rel="noopener noreferrer">LINE</a>で 1:1 対応</div>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -52,14 +52,14 @@ const items = apparelItems.filter((p) => p.image);
     </a>
     <nav class="gnav" aria-label="主要メニュー">
       <a href="/products/specialty/">産直</a>
-      <a href="/products/apparel/" class="is-tour">アパレル</a>
+      <a href="/products/apparel/" class="is-tour" aria-current="page">アパレル</a>
       <a href="/bundles/">セット</a>
       <a href="/stories/">ストーリー</a>
       <a href="/ranking/">ランキング</a>
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -185,7 +185,7 @@ const items = apparelItems.filter((p) => p.image);
               data-color={p.color || ""}
               data-id={p.id}
             >
-              <a href={p.url} target="_blank" rel="noopener" class="card-product__link">
+              <a href={p.url} target="_blank" rel="noopener noreferrer" class="card-product__link">
                 <div class="card-product__media">
                   {p.image ? (
                     <img src={p.image} alt={p.title} loading="lazy" decoding="async" />

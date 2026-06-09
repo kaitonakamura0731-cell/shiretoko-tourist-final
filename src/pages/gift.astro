@@ -63,7 +63,7 @@ const wrapImages = wrappingOptions.map((w) => ({
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -72,7 +72,7 @@ const wrapImages = wrappingOptions.map((w) => ({
           <li><a href="/bundles/">セット</a></li>
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
-          <li><a href="/gift/" class="is-tour">ギフト</a></li>
+          <li><a href="/gift/" class="is-tour" aria-current="page">ギフト</a></li>
           <li><a href="/account/">マイページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
@@ -256,7 +256,7 @@ const wrapImages = wrappingOptions.map((w) => ({
   .gift-section__head .eyebrow {
     color: #B99253;
     font-family: "Inter", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: 0.16em;
   }
   .gift-section__head h2 {
@@ -344,7 +344,7 @@ const wrapImages = wrappingOptions.map((w) => ({
     background: #fff;
     border-left: 2px solid #B99253;
     display: grid; gap: 8px;
-    font-size: 13px;
+    font-size: 0.82rem;
   }
   .gift-section--alt .gift-card__list { background: #F6F3EC; }
   .gift-card__list b { display: block; color: #1A1A1A; margin-bottom: 2px; }
@@ -362,7 +362,7 @@ const wrapImages = wrappingOptions.map((w) => ({
   }
   .tag {
     display: inline-block; padding: 4px 10px;
-    font-size: 12px; letter-spacing: 0.04em;
+    font-size: 0.82rem; letter-spacing: 0.04em;
     background: #EEEAE0; color: #1A1A1A;
     border-radius: 2px;
     width: fit-content;
@@ -380,7 +380,7 @@ const wrapImages = wrappingOptions.map((w) => ({
   .gift-section--alt .msg-card { background: #F6F3EC; }
   .msg-card__scene {
     font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-size: 0.82rem;
     letter-spacing: 0.12em;
     color: #B99253;
     text-transform: uppercase;
@@ -395,7 +395,7 @@ const wrapImages = wrappingOptions.map((w) => ({
     background: #F6F3EC;
     border-left: 2px solid #3C8186;
     font-family: "Noto Serif JP", serif;
-    font-size: 13px; line-height: 1.8;
+    font-size: 0.82rem; line-height: 1.8;
     color: #1A1A1A;
   }
   .gift-section--alt .msg-card__body { background: #fff; }
@@ -429,12 +429,12 @@ const wrapImages = wrappingOptions.map((w) => ({
   }
   .delivery-row__date {
     font-family: "Inter", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     color: #B99253;
     font-variant-numeric: tabular-nums;
   }
   .delivery-row__note {
-    margin: 0; font-size: 13px; line-height: 1.7; color: #555;
+    margin: 0; font-size: 0.82rem; line-height: 1.7; color: #555;
   }
   .delivery-callout {
     margin-top: 24px;
@@ -445,7 +445,7 @@ const wrapImages = wrappingOptions.map((w) => ({
   }
   .delivery-callout .eyebrow {
     color: #3C8186; font-family: "Inter", sans-serif;
-    font-size: 11px; letter-spacing: 0.16em;
+    font-size: 0.82rem; letter-spacing: 0.16em;
   }
   .delivery-callout p {
     margin: 8px 0 0; font-size: 14px; line-height: 1.8; color: #1A1A1A;

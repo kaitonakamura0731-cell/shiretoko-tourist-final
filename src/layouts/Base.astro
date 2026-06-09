@@ -10,6 +10,20 @@ interface Props {
 }
 const { title, description, bodyClass = "", robots } = Astro.props;
 const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ねぎ、Patagoniaウェアを北海道から直送。世界自然遺産・知床の現場ガイドが選ぶ北の食材と、店主と歩く知床ツアー。";
+const path = Astro.url.pathname;
+const currentYear = new Date().getFullYear();
+const navItems = [
+  { href: "/products/specialty/", label: "産直" },
+  { href: "/products/apparel/", label: "アパレル" },
+  { href: "/bundles/", label: "セット" },
+  { href: "/gift/", label: "ギフト" },
+  { href: "/stories/", label: "ストーリー" },
+  { href: "/ranking/", label: "ランキング" },
+];
+
+function isActive(href: string): boolean {
+  return path === href || path.startsWith(href);
+}
 ---
 
 <!doctype html>
@@ -48,26 +62,31 @@ const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ね�
           <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
         </a>
         <nav class="gnav" aria-label="主要メニュー">
-          <a href="/#ranking">特産品 ・ アパレル</a>
-          <a href="/#bundles">セット提案</a>
-          <a href="/#tour" class="is-tour">ツアー予約</a>
-          <a href="/#story">ストーリー</a>
-          <a href="/#company">会社</a>
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class={isActive(item.href) ? "is-tour" : undefined}
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
         <div class="header-utility">
-          <a href="#login" class="utility-link">ログイン</a>
-          <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+          <a href="/account/" class="utility-link" aria-current={isActive("/account/") ? "page" : undefined}>マイページ</a>
+          <a href="/cart" class="utility-cart" data-cart-link>カート</a>
           <details class="mobile-nav">
             <summary aria-label="メニューを開く">
               <span></span><span></span><span></span>
             </summary>
             <ul>
-              <li><a href="/#ranking">特産品・アパレル</a></li>
-              <li><a href="/#bundles">セット提案</a></li>
-              <li><a href="/#tour">ツアー予約</a></li>
-              <li><a href="/#story">ストーリー</a></li>
+              {navItems.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+                </li>
+              ))}
+              <li><a href="/account/" aria-current={isActive("/account/") ? "page" : undefined}>マイページ</a></li>
               <li><a href="/cart">カート</a></li>
-              <li><a href="/#company">会社</a></li>
             </ul>
           </details>
         </div>
@@ -104,28 +123,28 @@ const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ね�
             </ul>
           </div>
           <div>
-            <h4>ツアー・体験</h4>
+            <h4>特集</h4>
             <ul>
-              <li><a href="/#tour">知床五湖ガイド</a></li>
-              <li><a href="/#tour">流氷熱気球フリーフライト</a></li>
-              <li><a href="/#tour">神の子池スノーシュー</a></li>
-              <li><a href="/#tour">8ツアーすべて</a></li>
+              <li><a href="/ranking/">週間ランキング</a></li>
+              <li><a href="/bundles/">セット販売</a></li>
+              <li><a href="/gift/">ギフト・のし対応</a></li>
+              <li><a href="/stories/">店主のフィールドノート</a></li>
             </ul>
           </div>
           <div>
             <h4>サポート / 会社</h4>
             <ul>
-              <li><a href="#">送料・配送について</a></li>
-              <li><a href="#">特定商取引法に基づく表記</a></li>
-              <li><a href="#">旅行業約款・取引条件説明書</a></li>
-              <li><a href="#">プライバシーポリシー</a></li>
-              <li><a href="#">会社概要</a></li>
-              <li><a href="#">お問い合わせ</a></li>
+              <li><a href="/account/">送料・配送について</a></li>
+              <li><a href="/account/">特定商取引法に基づく表記</a></li>
+              <li><a href="https://shiretokotourist.com/" target="_blank" rel="noopener noreferrer">旅行業約款・取引条件説明書</a></li>
+              <li><a href="/account/">プライバシーポリシー</a></li>
+              <li><a href="/stories/">会社概要</a></li>
+              <li><a href="/sitemap/">サイトマップ</a></li>
             </ul>
           </div>
         </div>
         <div class="site-footer__legal">
-          <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+          <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
           <span class="payments">クレジットカード / コード決済 / 銀行振込 / 代引き</span>
         </div>
       </div>

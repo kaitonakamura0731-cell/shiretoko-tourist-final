@@ -5,6 +5,7 @@
 // 秘匿ガード: カード手数料は「2.5%」表記のみ。内部コスト構造は一切出さない。
 import "../styles/global.css";
 import { rows, productSamples } from "../data/comparison";
+import { productImageForKey } from "../data/sourceImages";
 
 const meta = {
   title: "Yahoo!店と自社ECの違い｜北の逸品堂 (知床ツーリスト)",
@@ -19,6 +20,16 @@ const advLabel: Record<"yahoo" | "own" | "tie", string> = {
 };
 
 const yen = (n: number) => `¥${n.toLocaleString()}`;
+const currentYear = new Date().getFullYear();
+const sampleImageKeys: Record<string, string> = {
+  "asparagus-1kg": "asparagus",
+  "potato-danshaku-30kg": "potato-danshaku",
+  "patagonia-r1-air-hoodie": "patagonia-hoodie",
+};
+const samples = productSamples.map((p) => ({
+  ...p,
+  image: productImageForKey(sampleImageKeys[p.slug] ?? p.slug, p.title),
+}));
 
 // ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、自社 5〜10% の中央値で 7%
 const yahooPoints = (n: number) => Math.round((n * 3) / 100);
@@ -77,6 +88,7 @@ const scenarios = [
       <a href="/products/specialty/">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
+      <a href="/gift/">ギフト</a>
       <a href="/stories/">ストーリー</a>
       <a href="/ranking/">ランキング</a>
       <a href="/comparison/" aria-current="page">店舗比較</a>
@@ -84,7 +96,7 @@ const scenarios = [
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -94,7 +106,7 @@ const scenarios = [
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
-          <li><a href="/comparison/" class="is-tour">店舗比較</a></li>
+          <li><a href="/comparison/" class="is-tour" aria-current="page">店舗比較</a></li>
           <li><a href="/account/">マイページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
@@ -179,31 +191,22 @@ const scenarios = [
     </p>
 
     <ol class="cmp-samples__list">
-      {productSamples.map((p) => {
+      {samples.map((p) => {
         const yPts = yahooPoints(p.yahooPrice);
         const oPts = ownPoints(p.ownPrice);
         return (
           <li class="cmp-sample">
             <a class="cmp-sample__media" href={`/products/${p.slug}/`} aria-label={p.title}>
-              <span class="cmp-sample__media-fallback" aria-hidden="true">{p.title}</span>
+              {p.image.src ? (
+                <img src={p.image.src} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span class="cmp-sample__media-fallback" aria-hidden="true">{p.title}</span>
+              )}
             </a>
             <div class="cmp-sample__body">
               <h3 class="cmp-sample__title mincho">{p.title}</h3>
 
               <div class="cmp-sample__grid">
-                <div class="cmp-sample__col cmp-sample__col--yahoo">
-                  <p class="cmp-sample__col-label">Yahoo!ショッピング店</p>
-                  <dl class="cmp-sample__dl">
-                    <div><dt>表示価格</dt><dd class="num">{yen(p.yahooPrice)}</dd></div>
-                    <div><dt>ポイント</dt><dd class="num">+{yPts.toLocaleString()} 相当 <span class="sub">(目安 3%)</span></dd></div>
-                    <div><dt>送料</dt><dd>店舗ごとに別送料</dd></div>
-                    <div><dt>出荷</dt><dd>2〜3 営業日</dd></div>
-                  </dl>
-                  <a class="cmp-sample__yahoo-link" href={p.yahooUrl} target="_blank" rel="noopener noreferrer">
-                    Yahoo!店で見る
-                  </a>
-                </div>
-
                 <div class="cmp-sample__col cmp-sample__col--own">
                   <p class="cmp-sample__col-label">自社EC</p>
                   <dl class="cmp-sample__dl">
@@ -214,6 +217,19 @@ const scenarios = [
                   </dl>
                   <a class="cmp-sample__own-link" href={`/products/${p.slug}/`}>
                     自社ECで見る
+                  </a>
+                </div>
+
+                <div class="cmp-sample__col cmp-sample__col--yahoo">
+                  <p class="cmp-sample__col-label">Yahoo!ショッピング店</p>
+                  <dl class="cmp-sample__dl">
+                    <div><dt>表示価格</dt><dd class="num">{yen(p.yahooPrice)}</dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{yPts.toLocaleString()} 相当 <span class="sub">(目安 3%)</span></dd></div>
+                    <div><dt>送料</dt><dd>店舗ごとに別送料</dd></div>
+                    <div><dt>出荷</dt><dd>2〜3 営業日</dd></div>
+                  </dl>
+                  <a class="cmp-sample__yahoo-link" href={p.yahooUrl} target="_blank" rel="noopener noreferrer">
+                    Yahoo!店も確認する
                   </a>
                 </div>
               </div>
@@ -295,7 +311,7 @@ const scenarios = [
       </div>
     </div>
     <div class="site-footer__legal">
-      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
       <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
     </div>
   </div>
@@ -357,7 +373,7 @@ const scenarios = [
   .cmp-table__col-sub {
     display: block;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     letter-spacing: .18em;
     margin-top: 4px;
     opacity: .7;
@@ -396,7 +412,7 @@ const scenarios = [
     border-left: 2px solid #B99253;
   }
   .cmp-row__note {
-    font-size: 12px;
+    font-size: 0.82rem;
     color: rgba(26, 26, 26, .6);
     line-height: 1.7;
     border-top: 1px dashed rgba(26, 26, 26, .14);
@@ -408,7 +424,7 @@ const scenarios = [
   .cmp-badge {
     display: inline-block;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: .18em;
     padding: 3px 8px;
@@ -420,7 +436,7 @@ const scenarios = [
   .cmp-badge--tie   { background: rgba(26, 26, 26, .08); color: rgba(26, 26, 26, .72); }
 
   .cmp-foot-note {
-    font-size: 12px;
+    font-size: 0.82rem;
     color: rgba(26, 26, 26, .6);
     line-height: 1.7;
     margin: 16px 0 0;
@@ -459,6 +475,12 @@ const scenarios = [
   .cmp-sample__media:hover {
     background: linear-gradient(135deg, rgba(60, 129, 134, .14), rgba(185, 146, 83, .14));
   }
+  .cmp-sample__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .cmp-sample__media-fallback {
     font-family: "Noto Serif JP", serif;
     font-size: 15px;
@@ -493,16 +515,16 @@ const scenarios = [
     padding: 16px;
     background: #fff;
   }
-  .cmp-sample__col--yahoo {
-    border-right: 1px solid rgba(26, 26, 26, .1);
-    background: rgba(185, 146, 83, .04);
-  }
   .cmp-sample__col--own {
-    background: rgba(60, 129, 134, .06);
+    border-right: 1px solid rgba(26, 26, 26, .1);
+    background: rgba(60, 129, 134, .08);
+  }
+  .cmp-sample__col--yahoo {
+    background: rgba(185, 146, 83, .04);
   }
   .cmp-sample__col-label {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     letter-spacing: .18em;
     text-transform: uppercase;
     color: rgba(26, 26, 26, .6);
@@ -518,13 +540,13 @@ const scenarios = [
     gap: 10px;
     padding: 6px 0;
     border-bottom: 1px dashed rgba(26, 26, 26, .08);
-    font-size: 13px;
+    font-size: 0.84rem;
     line-height: 1.6;
   }
   .cmp-sample__dl > div:last-child { border-bottom: none; }
   .cmp-sample__dl dt {
     color: rgba(26, 26, 26, .6);
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: .04em;
     padding-top: 2px;
   }
@@ -535,7 +557,7 @@ const scenarios = [
     font-weight: 600;
   }
   .cmp-sample__dl dd .sub {
-    font-size: 12px;
+    font-size: 0.82rem;
     color: rgba(26, 26, 26, .6);
     font-weight: 400;
     margin-left: 4px;
@@ -546,7 +568,7 @@ const scenarios = [
     display: inline-block;
     margin-top: 12px;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: .12em;
     text-decoration: none;
     padding: 8px 14px;
@@ -569,7 +591,7 @@ const scenarios = [
     padding: 12px 16px;
     background: #1A1A1A;
     color: #F6F3EC;
-    font-size: 13px;
+    font-size: 0.84rem;
     line-height: 1.8;
     border-radius: 2px;
   }
@@ -597,7 +619,7 @@ const scenarios = [
   .cmp-decide__card--yahoo { border-left: 3px solid #B99253; }
   .cmp-decide__tag {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: .14em;
     color: rgba(26, 26, 26, .6);
     text-transform: uppercase;
@@ -631,7 +653,7 @@ const scenarios = [
   }
   .cmp-cta__eyebrow {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: .24em;
     color: #B99253;
     margin: 0 0 16px;
@@ -660,7 +682,7 @@ const scenarios = [
     display: inline-block;
     padding: 14px 28px;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.84rem;
     letter-spacing: .14em;
     text-decoration: none;
     border-radius: 2px;
@@ -699,7 +721,7 @@ const scenarios = [
     .cmp-sample__grid {
       grid-template-columns: 1fr;
     }
-    .cmp-sample__col--yahoo {
+    .cmp-sample__col--own {
       border-right: none;
       border-bottom: 1px solid rgba(26, 26, 26, .1);
     }

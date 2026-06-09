@@ -32,12 +32,13 @@ const lastName = customer.name.split(" ")[0];
   title="マイページ｜北の逸品堂"
   description="累計購入額・ランク特典・購入履歴を一つの場所で。北の逸品堂 会員マイページ。"
   bodyClass="account"
+  robots="noindex,nofollow"
 >
   <main>
     <nav class="breadcrumbs" aria-label="パンくず">
       <div class="breadcrumbs__inner">
         <a href="/">トップ</a> <span class="sep">/</span>
-        <span class="current">マイページ</span>
+        <span class="current" aria-current="page">マイページ</span>
       </div>
     </nav>
 
@@ -49,6 +50,7 @@ const lastName = customer.name.split(" ")[0];
           {customer.joinedAt.slice(0, 4)} 年からのお付き合い、ありがとうございます。
           今年も旬の便りをお届けします。
         </p>
+        <p class="account-demo-label">商談用モックです。実際の購入履歴や個人情報ではありません。</p>
       </div>
     </section>
 
@@ -105,7 +107,7 @@ const lastName = customer.name.split(" ")[0];
             <p class="promo-card__value">{birthdayCoupon.amountLabel}</p>
             <p class="promo-card__sub">{birthdayCoupon.description}</p>
             <p class="promo-card__note">{birthdayCoupon.note}</p>
-            <a class="promo-card__action" href="#">誕生月を登録する</a>
+            <button class="promo-card__action" type="button" disabled>誕生月を登録する</button>
           </article>
         </div>
       </div>
@@ -187,8 +189,8 @@ const lastName = customer.name.split(" ")[0];
                 ))}
               </ul>
               <div class="history-card__actions">
-                <a class="history-card__action" href="#">同じ内容で再注文</a>
-                <a class="history-card__action" href="#">明細を見る</a>
+                <button class="history-card__action" type="button" disabled>同じ内容で再注文</button>
+                <button class="history-card__action" type="button" disabled>明細を見る</button>
               </div>
             </article>
           ))}
@@ -217,8 +219,8 @@ const lastName = customer.name.split(" ")[0];
               <p class="sub-card__interval">お届け：{s.interval}</p>
               <p class="sub-card__note">{s.note}</p>
               <div class="sub-card__actions">
-                <a class="sub-card__action" href="#">この便を申し込む</a>
-                <a class="sub-card__action sub-card__action--ghost" href="#">解約・スキップ</a>
+                <button class="sub-card__action" type="button" disabled>この便を申し込む</button>
+                <button class="sub-card__action sub-card__action--ghost" type="button" disabled>解約・スキップ</button>
               </div>
             </article>
           ))}
@@ -259,7 +261,7 @@ const lastName = customer.name.split(" ")[0];
               </div>
               <div class="restock-item__side">
                 <span class="restock-item__badge">{restockInfo.channel} 登録済</span>
-                <a class="restock-item__cancel" href="#">解除</a>
+                <button class="restock-item__cancel" type="button" disabled>解除</button>
               </div>
             </li>
           ))}
@@ -298,7 +300,7 @@ const lastName = customer.name.split(" ")[0];
       max-width: 1100px;
       margin: 0 auto;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12px;
+      font-size: 0.82rem;
       letter-spacing: 0.06em;
       color: #1A1A1A;
       opacity: 0.7;
@@ -324,7 +326,7 @@ const lastName = customer.name.split(" ")[0];
     }
     .section-eyebrow {
       font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 11px;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.18em;
       color: #B99253;
@@ -347,6 +349,17 @@ const lastName = customer.name.split(" ")[0];
       opacity: 0.82;
       max-width: 680px;
       margin: 0 auto;
+    }
+    .account-demo-label {
+      display: inline-block;
+      margin: 18px auto 0;
+      padding: 6px 10px;
+      border: 1px solid rgba(185, 146, 83, 0.4);
+      border-radius: 3px;
+      color: #6B5F4F;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      background: #fff;
     }
 
     /* ランクカード */
@@ -380,7 +393,7 @@ const lastName = customer.name.split(" ")[0];
     }
     .rank-card__badge-label {
       font-family: "Inter", sans-serif;
-      font-size: 11px;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.22em;
       opacity: 0.8;
@@ -402,7 +415,7 @@ const lastName = customer.name.split(" ")[0];
       font-family: "Noto Sans JP", sans-serif;
     }
     .rank-card__row-label {
-      font-size: 13px;
+      font-size: 0.84rem;
       color: #1A1A1A;
       opacity: 0.7;
     }
@@ -415,7 +428,7 @@ const lastName = customer.name.split(" ")[0];
     }
     .rank-card__row-value strong { color: #3C8186; }
     .rank-card__row-sub {
-      font-size: 12px;
+      font-size: 0.82rem;
       font-weight: 400;
       opacity: 0.65;
       margin-left: 10px;
@@ -436,7 +449,7 @@ const lastName = customer.name.split(" ")[0];
       margin-top: 8px;
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: 11px;
+      font-size: 0.78rem;
       letter-spacing: 0.06em;
       color: #1A1A1A;
       opacity: 0.6;
@@ -537,8 +550,9 @@ const lastName = customer.name.split(" ")[0];
       gap: 20px;
     }
     .rank-tile.is-current {
-      border-color: #B99253;
-      box-shadow: 0 0 0 1px #B99253;
+      border-color: var(--camel);
+      outline: 1px solid var(--camel);
+      outline-offset: -1px;
     }
     .rank-tile__current {
       position: absolute;
@@ -570,7 +584,7 @@ const lastName = customer.name.split(" ")[0];
       display: block;
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: 12px;
+      font-size: 0.82rem;
       letter-spacing: 0.08em;
       color: #1A1A1A;
       opacity: 0.65;
@@ -602,7 +616,7 @@ const lastName = customer.name.split(" ")[0];
     .rank-tile__note {
       font-family: "Noto Serif JP", serif;
       font-style: italic;
-      font-size: 13px;
+      font-size: 0.84rem;
       line-height: 1.8;
       color: #1A1A1A;
       opacity: 0.75;
@@ -641,7 +655,7 @@ const lastName = customer.name.split(" ")[0];
     .history-card__date {
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: 13px;
+      font-size: 0.84rem;
       letter-spacing: 0.08em;
       color: #1A1A1A;
       opacity: 0.7;
@@ -677,7 +691,7 @@ const lastName = customer.name.split(" ")[0];
     .history-card__item-meta {
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: 12.5px;
+      font-size: 0.82rem;
       opacity: 0.7;
       white-space: nowrap;
     }
@@ -688,16 +702,27 @@ const lastName = customer.name.split(" ")[0];
       padding-top: 4px;
     }
     .history-card__action {
+      appearance: none;
+      background: transparent;
+      border: 0;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #3C8186;
       text-decoration: none;
       border-bottom: 1px solid #3C8186;
       padding-bottom: 1px;
       letter-spacing: 0.04em;
+      cursor: pointer;
     }
     .history-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
+    .history-card__action:disabled,
+    .promo-card__action:disabled,
+    .sub-card__action:disabled,
+    .restock-item__cancel:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
 
     /* 店主からのメッセージ */
     .howto-section {
@@ -766,7 +791,7 @@ const lastName = customer.name.split(" ")[0];
     .promo-card--birthday { background: #F6F3EC; border: 1px solid rgba(60,129,134,0.25); }
     .promo-card__eyebrow {
       font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 11px;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.16em;
       color: #B99253;
@@ -806,7 +831,7 @@ const lastName = customer.name.split(" ")[0];
     }
     .promo-card__list li {
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       line-height: 1.65;
       color: #1A1A1A;
       opacity: 0.8;
@@ -828,15 +853,19 @@ const lastName = customer.name.split(" ")[0];
       padding-top: 6px;
     }
     .promo-card__action {
+      appearance: none;
+      background: transparent;
+      border: 0;
       align-self: flex-start;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #3C8186;
       text-decoration: none;
       border-bottom: 1px solid #3C8186;
       padding-bottom: 1px;
       margin-top: 6px;
+      cursor: pointer;
     }
     .promo-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
     @media (max-width: 720px) {
@@ -878,7 +907,7 @@ const lastName = customer.name.split(" ")[0];
     .sub-card__discount {
       flex-shrink: 0;
       font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 11px;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       color: #fff;
@@ -902,21 +931,21 @@ const lastName = customer.name.split(" ")[0];
     .sub-card__price-was {
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: 12px;
+      font-size: 0.82rem;
       color: #6B5F4F;
       text-decoration: line-through;
       opacity: 0.7;
     }
     .sub-card__interval {
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 13px;
+      font-size: 0.84rem;
       color: #1A1A1A;
       opacity: 0.8;
       margin: 0;
     }
     .sub-card__note {
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       line-height: 1.8;
       color: #1A1A1A;
       opacity: 0.78;
@@ -929,13 +958,17 @@ const lastName = customer.name.split(" ")[0];
       padding-top: 6px;
     }
     .sub-card__action {
+      appearance: none;
+      background: transparent;
+      border: 0;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #3C8186;
       text-decoration: none;
       border-bottom: 1px solid #3C8186;
       padding-bottom: 1px;
+      cursor: pointer;
     }
     .sub-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
     .sub-card__action--ghost {
@@ -947,7 +980,7 @@ const lastName = customer.name.split(" ")[0];
       margin: clamp(24px, 4vw, 36px) auto 0;
       text-align: center;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 13px;
+      font-size: 0.84rem;
       line-height: 1.9;
       color: #1A1A1A;
       opacity: 0.8;
@@ -1010,7 +1043,7 @@ const lastName = customer.name.split(" ")[0];
       color: #fff;
       border-radius: 50%;
       font-family: "Inter", sans-serif;
-      font-size: 13px;
+      font-size: 0.84rem;
       font-weight: 600;
     }
     .referral-link {
@@ -1022,7 +1055,7 @@ const lastName = customer.name.split(" ")[0];
     .referral-link input {
       flex: 1;
       font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 13px;
+      font-size: 0.84rem;
       padding: 11px 14px;
       border: 1px solid rgba(26, 26, 26, 0.18);
       border-radius: 3px;
@@ -1032,7 +1065,7 @@ const lastName = customer.name.split(" ")[0];
     .referral-link .btn { white-space: nowrap; }
     .referral-note {
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       line-height: 1.8;
       color: #6B5F4F;
       margin: 0;
@@ -1077,7 +1110,7 @@ const lastName = customer.name.split(" ")[0];
     }
     .restock-item__status {
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12px;
+      font-size: 0.82rem;
       color: #6B5F4F;
     }
     .restock-item__side {
@@ -1097,13 +1130,17 @@ const lastName = customer.name.split(" ")[0];
       white-space: nowrap;
     }
     .restock-item__cancel {
+      appearance: none;
+      background: transparent;
+      border: 0;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12px;
+      font-size: 0.82rem;
       color: #6B5F4F;
       text-decoration: none;
       border-bottom: 1px solid rgba(107, 95, 79, 0.5);
       padding-bottom: 1px;
       white-space: nowrap;
+      cursor: pointer;
     }
     .restock-item__cancel:hover { color: #1A1A1A; border-color: #1A1A1A; }
     .restock-note {
@@ -1111,7 +1148,7 @@ const lastName = customer.name.split(" ")[0];
       margin: 20px auto 0;
       text-align: center;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 12.5px;
+      font-size: 0.82rem;
       line-height: 1.8;
       color: #6B5F4F;
     }

@@ -17,6 +17,7 @@ const meta = {
 };
 
 const yen = (n: number) => "¥" + n.toLocaleString("ja-JP");
+const currentYear = new Date().getFullYear();
 
 const rowsWithImages = productRows.map((row, idx) => ({
   ...row,
@@ -59,7 +60,7 @@ function trendMark(trend?: string) {
     <!-- ============ DEMO topbar ============ -->
     <div class="topbar topbar--v3">
       <span class="topbar__pill topbar__pill--demo">DEMO</span>
-      <span class="topbar__msg">これは公開デモ用の管理画面イメージです。本番では実データに置き換わります。</span>
+      <span class="topbar__msg">これは公開デモ用の管理画面イメージです。認証前提の本番データは含みません。</span>
       <span class="topbar__divider" aria-hidden="true">・</span>
       <a href="/" class="topbar__cta">トップへ戻る</a>
     </div>
@@ -90,6 +91,7 @@ function trendMark(trend?: string) {
           <span class="eyebrow">ADMIN ・ 運用ダッシュボード (デモ)</span>
           <h1 class="mincho">今日の北の逸品堂。</h1>
           <p>これは管理画面のイメージです。売上・商品・LINE・カートの主要指標を一画面で。</p>
+          <p class="dash-demo-note">商談用モックです。本番公開時は Vercel Deployment Protection 等で認証をかけます。</p>
           <p class="dash-stamp">最終更新: 2026-06-09 09:14 ・ 表示通貨 JPY ・ 店舗: 北の逸品堂 EC</p>
         </div>
       </section>
@@ -234,7 +236,7 @@ function trendMark(trend?: string) {
       <section class="dash-disclaimer" aria-label="注意書き">
         <div class="dash-disclaimer__inner">
           <p>
-            本ダッシュボードは公開デモ用のサンプル数値です。本番では実データに置き換わります。
+            本ダッシュボードは公開デモ用のサンプル数値です。本番では認証を有効化し、実データに置き換えます。
           </p>
         </div>
       </section>
@@ -243,7 +245,7 @@ function trendMark(trend?: string) {
     <footer class="site-footer">
       <div class="site-footer__inner">
         <div class="site-footer__legal">
-          <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+          <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
           <span class="payments">ADMIN DEMO ・ noindex</span>
         </div>
       </div>
@@ -267,6 +269,17 @@ function trendMark(trend?: string) {
         color: #6b6b6b;
         font-feature-settings: "tnum" 1;
         letter-spacing: 0.04em;
+      }
+      .dash-demo-note {
+        display: inline-block;
+        margin: 0.8rem 0 0;
+        padding: 0.45rem 0.65rem;
+        border: 1px solid rgba(185, 146, 83, 0.45);
+        border-radius: 3px;
+        background: rgba(185, 146, 83, 0.08);
+        font-size: 0.84rem;
+        line-height: 1.6;
+        color: #4a3b22;
       }
 
       .dash-section { padding: 2.4rem 1.6rem; }

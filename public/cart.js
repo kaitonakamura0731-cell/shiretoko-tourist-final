@@ -1,19 +1,21 @@
-// 北の逸品堂 — クライアントサイドカート (localStorage)
-// 商談デモ用モック。本番では RATIO の決済 API に置換。
+// 北の逸品堂 — クライアントサイドカート (sessionStorage)
+// 商談デモ用モック。本番では決済・受注 API に置換。
 (function () {
   const KEY = 'kn-cart-v1';
+  const storage = window.sessionStorage;
 
   const cart = {
     get() {
       try {
-        return JSON.parse(localStorage.getItem(KEY) || '[]');
+        return JSON.parse(storage.getItem(KEY) || '[]');
       } catch (e) {
         return [];
       }
     },
     set(items) {
-      localStorage.setItem(KEY, JSON.stringify(items));
+      storage.setItem(KEY, JSON.stringify(items));
       this.render();
+      document.dispatchEvent(new CustomEvent('cart:change'));
     },
     add(slug, name, price, qty) {
       // 引数を正規化: bundles等から {slug,title,price,qty,type} を渡されても受ける

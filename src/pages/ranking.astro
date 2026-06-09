@@ -39,8 +39,8 @@ function resolve(entries: RankingEntry[]): ResolvedEntry[] {
       title: item?.title ?? `(unknown ${e.catalogId})`,
       brand: item?.brand ?? (item?.category === "specialty" ? "北の逸品堂 産直" : ""),
       category: item?.category ?? "apparel",
-      image: item?.image ?? "/source-images/files/placeholder.jpg",
-      href: item ? `/products/${item.id}/` : "#",
+      image: item?.image ?? "/source-images/files/ec-main-image-324x243.jpeg",
+      href: item ? `/products/${item.id}/` : "/products/specialty/",
       diff,
       diffDir,
     };
@@ -86,11 +86,11 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
       <a href="/stories/">ストーリー</a>
-      <a href="/ranking/" class="is-tour">ランキング</a>
+      <a href="/ranking/" class="is-tour" aria-current="page">ランキング</a>
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -218,7 +218,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
 
   .ranking-meta {
     margin-top: 12px;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: .08em;
     color: #6b6b6b;
     font-family: "Inter", "Noto Sans JP", sans-serif;
@@ -281,7 +281,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   }
   .ranking-tab__count {
     font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-size: 0.82rem;
     margin-top: 2px;
     color: #B99253;
     font-variant-numeric: tabular-nums;
@@ -339,7 +339,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     align-items: center;
     gap: 2px;
     font-family: "Inter", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     font-weight: 600;
     padding: 3px 8px;
     border-radius: 2px;
@@ -376,7 +376,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   }
   .rank-row__brand {
     font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-size: 0.82rem;
     letter-spacing: .16em;
     color: #6b6b6b;
     text-transform: uppercase;
@@ -406,7 +406,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     gap: 6px;
     margin: 6px 0 0;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.82rem;
     color: #4a4a4a;
   }
   .rank-row__sales-num {
@@ -418,7 +418,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   }
   .rank-row__sales-unit { color: #6b6b6b; }
   .rank-row__sales-sep  { color: #b8b8b8; }
-  .rank-row__prev { color: #6b6b6b; font-size: 12px; }
+  .rank-row__prev { color: #6b6b6b; font-size: 0.82rem; }
 
   /* 店主補足 */
   .rank-row__note {
@@ -470,7 +470,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     color: #B99253;
     text-decoration: none;
     font-family: "Inter", sans-serif;
-    font-size: 13px;
+    font-size: 0.82rem;
     letter-spacing: .18em;
     text-transform: uppercase;
     transition: background .2s ease, color .2s ease;
@@ -494,7 +494,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     .rank-row__title { font-size: 14px; }
     .rank-row__sales-num { font-size: 16px; }
     .rank-row__note { padding: 8px 12px; }
-    .rank-row__note p { font-size: 13px; }
+    .rank-row__note p { font-size: 0.82rem; }
   }
   @media (max-width: 420px) {
     .rank-row {

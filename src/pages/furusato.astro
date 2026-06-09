@@ -11,6 +11,7 @@ const meta = {
 
 const yen = (n: number) => `¥${n.toLocaleString("ja-JP")}`;
 const num = (n: number) => n.toLocaleString("ja-JP");
+const currentYear = new Date().getFullYear();
 
 const cards = items.map((it) => {
   const m = findMunic(it.munic);
@@ -48,7 +49,7 @@ const cards = items.map((it) => {
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
-      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
@@ -58,7 +59,7 @@ const cards = items.map((it) => {
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
-          <li><a href="/furusato/" class="is-tour">ふるさと納税</a></li>
+          <li><a href="/furusato/" class="is-tour" aria-current="page">ふるさと納税</a></li>
           <li><a href="/account/">マイページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
@@ -71,7 +72,7 @@ const cards = items.map((it) => {
   <nav class="breadcrumbs" aria-label="パンくず">
     <div class="breadcrumbs__inner">
       <a href="/">トップ</a> <span class="sep">/</span>
-      <span class="current">FURUSATO</span>
+      <span class="current" aria-current="page">FURUSATO</span>
     </div>
   </nav>
 
@@ -275,7 +276,7 @@ const cards = items.map((it) => {
       <a href="/account/">マイページ</a>
     </nav>
     <div class="site-footer__legal">
-      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
       <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
     </div>
   </div>
@@ -287,7 +288,7 @@ const cards = items.map((it) => {
   .breadcrumbs__inner {
     max-width: 1120px; margin: 0 auto;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     letter-spacing: 0.04em;
     color: rgba(26,26,26,0.6);
   }
@@ -300,7 +301,7 @@ const cards = items.map((it) => {
   .eyebrow {
     display: inline-block;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     color: #B99253;
@@ -375,7 +376,7 @@ const cards = items.map((it) => {
   .munic-card__code {
     display: inline-block;
     font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     letter-spacing: 0.12em;
     color: #B99253;
     font-weight: 600;
@@ -403,7 +404,7 @@ const cards = items.map((it) => {
   }
   .munic-card__stats dt {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     letter-spacing: 0.1em;
     color: rgba(26,26,26,0.5);
     text-transform: uppercase;
@@ -419,7 +420,7 @@ const cards = items.map((it) => {
   .munic-card__spec-label {
     display: block;
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     letter-spacing: 0.1em;
     color: rgba(26,26,26,0.5);
     text-transform: uppercase;
@@ -441,7 +442,7 @@ const cards = items.map((it) => {
     align-self: flex-start;
     margin-top: auto;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.84rem;
     font-weight: 600;
     color: #3C8186;
     letter-spacing: 0.04em;
@@ -484,7 +485,7 @@ const cards = items.map((it) => {
     padding: 4px 12px;
     background: #B99253;
     color: #fff;
-    font-size: 12px;
+    font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     border-radius: 2px;
@@ -496,7 +497,7 @@ const cards = items.map((it) => {
     flex: 1;
   }
   .items-block__count {
-    font-size: 13px;
+    font-size: 0.84rem;
     color: rgba(26,26,26,0.6);
   }
   .items-grid {
@@ -542,7 +543,7 @@ const cards = items.map((it) => {
   }
   .item-card__munic {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     color: #B99253;
@@ -578,7 +579,7 @@ const cards = items.map((it) => {
   }
   .item-card__donation-label {
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     color: rgba(26,26,26,0.6);
   }
   .item-card__donation-value {
@@ -589,7 +590,7 @@ const cards = items.map((it) => {
   .item-card__cta {
     align-self: flex-start;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.84rem;
     font-weight: 600;
     color: #3C8186;
     letter-spacing: 0.04em;
@@ -745,13 +746,13 @@ const cards = items.map((it) => {
   }
   .portal-card__desc {
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.84rem;
     color: rgba(246,243,236,0.72);
     line-height: 1.7;
   }
   .portal-card__cta {
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13px;
+    font-size: 0.84rem;
     font-weight: 600;
     color: #B99253;
     letter-spacing: 0.04em;
@@ -759,7 +760,7 @@ const cards = items.map((it) => {
   }
   .portals__caveat {
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 0.82rem;
     color: rgba(246,243,236,0.5);
     line-height: 1.7;
     margin: 0;
