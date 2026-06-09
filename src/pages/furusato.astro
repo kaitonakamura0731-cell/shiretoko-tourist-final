@@ -44,6 +44,7 @@ const cards = items.map((it) => {
       <a href="/bundles/">セット</a>
       <a href="/stories/">ストーリー</a>
       <a href="/ranking/">ランキング</a>
+      <a href="/furusato/" aria-current="page">ふるさと納税</a>
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
@@ -238,21 +239,21 @@ const cards = items.map((it) => {
         実際の寄付・決済・受領証明書の発行は、各自治体提携のポータルサイトを通じて行ってください。
       </p>
       <div class="portals__cards">
-        <a href="#" class="portal-card" rel="noopener" aria-label="さとふる (モック)">
+        <span class="portal-card portal-card--mock" aria-label="さとふる (本サイトではモック表示)">
           <span class="portal-card__name">さとふる</span>
           <span class="portal-card__desc">清里町・斜里町 取扱あり</span>
-          <span class="portal-card__cta">ポータルへ →</span>
-        </a>
-        <a href="#" class="portal-card" rel="noopener" aria-label="楽天ふるさと納税 (モック)">
+          <span class="portal-card__cta">モック表示</span>
+        </span>
+        <span class="portal-card portal-card--mock" aria-label="楽天ふるさと納税 (本サイトではモック表示)">
           <span class="portal-card__name">楽天ふるさと納税</span>
           <span class="portal-card__desc">楽天ポイント還元あり</span>
-          <span class="portal-card__cta">ポータルへ →</span>
-        </a>
-        <a href="#" class="portal-card" rel="noopener" aria-label="ふるなび (モック)">
+          <span class="portal-card__cta">モック表示</span>
+        </span>
+        <span class="portal-card portal-card--mock" aria-label="ふるなび (本サイトではモック表示)">
           <span class="portal-card__name">ふるなび</span>
           <span class="portal-card__desc">家電・特産品ラインナップ</span>
-          <span class="portal-card__cta">ポータルへ →</span>
-        </a>
+          <span class="portal-card__cta">モック表示</span>
+        </span>
       </div>
       <p class="portals__caveat">
         ※ 上記リンクは本サイト内では遷移しないモック表示です。実際の寄付申し込み先は各自治体公式ページよりご確認ください。
@@ -263,6 +264,16 @@ const cards = items.map((it) => {
 
 <footer class="site-footer">
   <div class="site-footer__inner">
+    <nav class="site-footer__nav" aria-label="フッターメニュー">
+      <a href="/products/specialty/">産直</a>
+      <a href="/products/apparel/">アパレル</a>
+      <a href="/bundles/">セット</a>
+      <a href="/stories/">ストーリー</a>
+      <a href="/ranking/">ランキング</a>
+      <a href="/gift/">ギフト</a>
+      <a href="/furusato/" aria-current="page">ふるさと納税</a>
+      <a href="/account/">マイページ</a>
+    </nav>
     <div class="site-footer__legal">
       <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
       <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
@@ -348,7 +359,7 @@ const cards = items.map((it) => {
     grid-template-columns: 1fr 1fr;
     gap: clamp(20px, 3vw, 32px);
   }
-  @media (max-width: 760px) {
+  @media (max-width: 640px) {
     .munic-grid { grid-template-columns: 1fr; }
   }
   .munic-card {
@@ -490,8 +501,11 @@ const cards = items.map((it) => {
   }
   .items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: clamp(20px, 3vw, 32px);
+  }
+  @media (max-width: 540px) {
+    .items-grid { grid-template-columns: 1fr; }
   }
   .item-card {
     display: flex;
@@ -505,10 +519,13 @@ const cards = items.map((it) => {
   .item-card:hover { transform: translateY(-2px); }
   .item-card__media {
     aspect-ratio: 1 / 1;
-    background: #EEEAE0;
+    background:
+      linear-gradient(135deg, rgba(185,146,83,0.08), rgba(60,129,134,0.06)),
+      #F6F3EC;
     display: grid;
     place-items: center;
     overflow: hidden;
+    border-bottom: 1px solid rgba(26,26,26,0.06);
   }
   .item-card__placeholder {
     font-family: "Noto Serif JP", serif;
@@ -634,15 +651,23 @@ const cards = items.map((it) => {
   }
   .step__desc {
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 13.5px;
-    line-height: 1.85;
+    font-size: 14px;
+    line-height: 1.9;
     color: #1A1A1A;
-    opacity: 0.8;
+    opacity: 0.82;
     margin: 0;
   }
   @media (max-width: 880px) {
+    .steps {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .step--arrow { display: none; }
+    .step:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) {
     .steps { grid-template-columns: 1fr; }
-    .step--arrow { transform: rotate(90deg); padding: 8px 0; }
+    .step:last-child { grid-column: auto; }
   }
 
   .tax-note {
@@ -695,6 +720,9 @@ const cards = items.map((it) => {
     margin-bottom: 24px;
   }
   @media (max-width: 760px) {
+    .portals__cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
     .portals__cards { grid-template-columns: 1fr; }
   }
   .portal-card {

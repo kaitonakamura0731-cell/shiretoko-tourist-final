@@ -2,7 +2,7 @@
 // Yahoo!ショッピング店 vs 自社EC 比較ページ — 北の逸品堂
 // 配色: #F6F3EC / #1A1A1A / #B99253 / #3C8186
 // データ: src/data/comparison.ts (rows / productSamples)
-// 秘匿: カード手数料は「2.5%」のみ。原価・差益・利益率は書かない。
+// 秘匿ガード: カード手数料は「2.5%」表記のみ。内部コスト構造は一切出さない。
 import "../styles/global.css";
 import { rows, productSamples } from "../data/comparison";
 
@@ -79,6 +79,8 @@ const scenarios = [
       <a href="/bundles/">セット</a>
       <a href="/stories/">ストーリー</a>
       <a href="/ranking/">ランキング</a>
+      <a href="/comparison/" aria-current="page">店舗比較</a>
+      <a href="/furusato/">ふるさと納税</a>
     </nav>
     <div class="header-utility">
       <a href="/account/" class="utility-link">マイページ</a>
@@ -127,39 +129,42 @@ const scenarios = [
       <table class="cmp-table">
         <thead>
           <tr>
-            <th scope="col" class="cmp-table__axis">軸</th>
-            <th scope="col" class="cmp-table__yahoo">
+            <th scope="col" id="cmp-axis" class="cmp-table__axis">軸</th>
+            <th scope="col" id="cmp-yahoo" class="cmp-table__yahoo">
               <span class="cmp-table__col-label">Yahoo!ショッピング店</span>
               <span class="cmp-table__col-sub">モール内出店</span>
             </th>
-            <th scope="col" class="cmp-table__own">
+            <th scope="col" id="cmp-own" class="cmp-table__own">
               <span class="cmp-table__col-label">自社EC</span>
               <span class="cmp-table__col-sub">北の逸品堂</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr class={`cmp-row cmp-row--${r.advantage}`}>
-              <th scope="row" class="cmp-row__axis">
-                <span class="mincho">{r.axis}</span>
-                <span class={`cmp-badge cmp-badge--${r.advantage}`}>{advLabel[r.advantage]}</span>
-              </th>
-              <td class="cmp-row__yahoo">
-                <p>{r.yahoo}</p>
-              </td>
-              <td class="cmp-row__own">
-                <p>{r.own}</p>
-                {r.note && <p class="cmp-row__note">{r.note}</p>}
-              </td>
-            </tr>
-          ))}
+          {rows.map((r, i) => {
+            const rowId = `cmp-axis-${i}`;
+            return (
+              <tr class={`cmp-row cmp-row--${r.advantage}`}>
+                <th scope="row" id={rowId} class="cmp-row__axis">
+                  <span class="mincho">{r.axis}</span>
+                  <span class={`cmp-badge cmp-badge--${r.advantage}`}>{advLabel[r.advantage]}</span>
+                </th>
+                <td class="cmp-row__yahoo" headers={`cmp-yahoo ${rowId}`}>
+                  <p>{r.yahoo}</p>
+                </td>
+                <td class="cmp-row__own" headers={`cmp-own ${rowId}`}>
+                  <p>{r.own}</p>
+                  {r.note && <p class="cmp-row__note">{r.note}</p>}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
 
     <p class="cmp-foot-note">
-      ※ 決済まわりの店舗負担に関する記載は、自社ECのカード手数料 2.5% を前提にした比較です。原価や利益の内訳には触れていません。
+      ※ 表中の数値はキャンペーン日や時期によって変動します。実際の購入画面の表示価格・送料・ポイント条件をご確認ください。
     </p>
 
   </div>
@@ -180,8 +185,7 @@ const scenarios = [
         return (
           <li class="cmp-sample">
             <a class="cmp-sample__media" href={`/products/${p.slug}/`} aria-label={p.title}>
-              <img src={`/source-images/files/${p.slug}.jpg`} alt={p.title} loading="lazy"
-                onerror="this.src='/source-images/files/placeholder.jpg'" />
+              <span class="cmp-sample__media-fallback" aria-hidden="true">{p.title}</span>
             </a>
             <div class="cmp-sample__body">
               <h3 class="cmp-sample__title mincho">{p.title}</h3>
@@ -261,6 +265,35 @@ const scenarios = [
 
 <footer class="site-footer">
   <div class="site-footer__inner">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <span class="brand__mark">北の逸品堂</span>
+        <span class="brand__sub">SHIRETOKO TOURIST / 1992</span>
+        <p class="addr">
+          株式会社 知床ツーリスト<br />
+          〒099-4403 北海道斜里郡清里町字向陽282番地
+        </p>
+      </div>
+      <div>
+        <h3>ショッピング</h3>
+        <ul>
+          <li><a href="/products/specialty/">産直一覧</a></li>
+          <li><a href="/products/apparel/">アパレル一覧</a></li>
+          <li><a href="/bundles/">セット販売</a></li>
+          <li><a href="/gift/">ギフト</a></li>
+          <li><a href="/ranking/">ランキング</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>サポート / 会社</h3>
+        <ul>
+          <li><a href="/comparison/">店舗比較</a></li>
+          <li><a href="/furusato/">ふるさと納税</a></li>
+          <li><a href="/stories/">ストーリー</a></li>
+          <li><a href="/account/">マイページ</a></li>
+        </ul>
+      </div>
+    </div>
     <div class="site-footer__legal">
       <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
       <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
@@ -286,7 +319,7 @@ const scenarios = [
   .cmp__lead {
     font-size: 14px;
     line-height: 1.9;
-    color: #4a4a4a;
+    color: rgba(26, 26, 26, .72);
     max-width: 720px;
     margin: 0 0 32px;
   }
@@ -301,7 +334,7 @@ const scenarios = [
   .cmp-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 720px;
+    min-width: 560px;
   }
   .cmp-table thead th {
     text-align: left;
@@ -323,8 +356,8 @@ const scenarios = [
   }
   .cmp-table__col-sub {
     display: block;
-    font-family: "Inter", sans-serif;
-    font-size: 10px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 11px;
     letter-spacing: .18em;
     margin-top: 4px;
     opacity: .7;
@@ -349,7 +382,7 @@ const scenarios = [
     font-size: 15px;
     margin-bottom: 8px;
   }
-  .cmp-row__yahoo, .cmp-row__own { color: #2a2a2a; }
+  .cmp-row__yahoo, .cmp-row__own { color: #1A1A1A; }
   .cmp-row__yahoo p, .cmp-row__own p { margin: 0 0 8px; }
   .cmp-row__own {
     background: rgba(60, 129, 134, .04);
@@ -364,7 +397,7 @@ const scenarios = [
   }
   .cmp-row__note {
     font-size: 12px;
-    color: #6b6b6b;
+    color: rgba(26, 26, 26, .6);
     line-height: 1.7;
     border-top: 1px dashed rgba(26, 26, 26, .14);
     padding-top: 8px;
@@ -374,8 +407,8 @@ const scenarios = [
   /* 勝者バッジ */
   .cmp-badge {
     display: inline-block;
-    font-family: "Inter", sans-serif;
-    font-size: 10px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: .18em;
     padding: 3px 8px;
@@ -384,11 +417,11 @@ const scenarios = [
   }
   .cmp-badge--own   { background: #3C8186; color: #F6F3EC; }
   .cmp-badge--yahoo { background: #B99253; color: #1A1A1A; }
-  .cmp-badge--tie   { background: rgba(26, 26, 26, .08); color: #4a4a4a; }
+  .cmp-badge--tie   { background: rgba(26, 26, 26, .08); color: rgba(26, 26, 26, .72); }
 
   .cmp-foot-note {
-    font-size: 11px;
-    color: #6b6b6b;
+    font-size: 12px;
+    color: rgba(26, 26, 26, .6);
     line-height: 1.7;
     margin: 16px 0 0;
   }
@@ -404,7 +437,7 @@ const scenarios = [
   }
   .cmp-sample {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: minmax(220px, 280px) 1fr;
     gap: 32px;
     background: #F6F3EC;
     border: 1px solid rgba(26, 26, 26, .1);
@@ -412,20 +445,29 @@ const scenarios = [
     padding: 24px;
   }
   .cmp-sample__media {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: #fff;
+    background: linear-gradient(135deg, rgba(60, 129, 134, .08), rgba(185, 146, 83, .08));
     border-radius: 2px;
+    text-decoration: none;
+    padding: 16px;
+    transition: background 300ms ease;
   }
-  .cmp-sample__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+  .cmp-sample__media:hover {
+    background: linear-gradient(135deg, rgba(60, 129, 134, .14), rgba(185, 146, 83, .14));
   }
-  .cmp-sample__media:hover img { transform: scale(1.06); }
+  .cmp-sample__media-fallback {
+    font-family: "Noto Serif JP", serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1A1A1A;
+    text-align: center;
+    line-height: 1.6;
+    letter-spacing: .02em;
+  }
 
   .cmp-sample__body {
     display: flex;
@@ -459,11 +501,11 @@ const scenarios = [
     background: rgba(60, 129, 134, .06);
   }
   .cmp-sample__col-label {
-    font-family: "Inter", sans-serif;
-    font-size: 10px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 11px;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: #6b6b6b;
+    color: rgba(26, 26, 26, .6);
     margin: 0 0 10px;
   }
   .cmp-sample__col--own .cmp-sample__col-label { color: #3C8186; }
@@ -481,8 +523,8 @@ const scenarios = [
   }
   .cmp-sample__dl > div:last-child { border-bottom: none; }
   .cmp-sample__dl dt {
-    color: #6b6b6b;
-    font-size: 11px;
+    color: rgba(26, 26, 26, .6);
+    font-size: 12px;
     letter-spacing: .04em;
     padding-top: 2px;
   }
@@ -493,8 +535,8 @@ const scenarios = [
     font-weight: 600;
   }
   .cmp-sample__dl dd .sub {
-    font-size: 11px;
-    color: #6b6b6b;
+    font-size: 12px;
+    color: rgba(26, 26, 26, .6);
     font-weight: 400;
     margin-left: 4px;
   }
@@ -503,8 +545,8 @@ const scenarios = [
   .cmp-sample__own-link {
     display: inline-block;
     margin-top: 12px;
-    font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 12px;
     letter-spacing: .12em;
     text-decoration: none;
     padding: 8px 14px;
@@ -539,7 +581,7 @@ const scenarios = [
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
   }
   .cmp-decide__card {
@@ -555,9 +597,9 @@ const scenarios = [
   .cmp-decide__card--yahoo { border-left: 3px solid #B99253; }
   .cmp-decide__tag {
     font-family: "Inter", "Noto Sans JP", sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: .14em;
-    color: #6b6b6b;
+    color: rgba(26, 26, 26, .6);
     text-transform: uppercase;
     margin: 0;
   }
@@ -571,9 +613,9 @@ const scenarios = [
   .cmp-decide__card--yahoo .cmp-decide__rec { color: #B99253; }
   .cmp-decide__reason {
     margin: 0;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.85;
-    color: #2a2a2a;
+    color: #1A1A1A;
   }
 
   /* CTA */
@@ -588,8 +630,8 @@ const scenarios = [
     text-align: center;
   }
   .cmp-cta__eyebrow {
-    font-family: "Inter", sans-serif;
-    font-size: 11px;
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    font-size: 12px;
     letter-spacing: .24em;
     color: #B99253;
     margin: 0 0 16px;

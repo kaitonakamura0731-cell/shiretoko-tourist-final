@@ -18,15 +18,24 @@ const productJson = JSON.stringify(
       },
     ])
   )
-);
+).replace(/<\/script/gi, '<\\/script');
 ---
 
-<Base title="お買い物カート｜北の逸品堂" description="ご注文内容のご確認" bodyClass="cart-page">
+<Base title="お買い物カート｜北の逸品堂" description="ご注文内容のご確認" bodyClass="cart-page" robots="noindex,nofollow">
   <main>
+    <nav class="gnav-sub" aria-label="サブメニュー">
+      <div class="breadcrumbs__inner">
+        <a href="/products/specialty/">特産品</a>
+        <a href="/products/apparel/">アパレル</a>
+        <a href="/bundles/">セット提案</a>
+        <a href="/stories/">ストーリー</a>
+        <a href="/account/">マイページ</a>
+      </div>
+    </nav>
     <nav class="breadcrumbs" aria-label="パンくず">
       <div class="breadcrumbs__inner">
         <a href="/">トップ</a> <span class="sep">/</span>
-        <span class="current">お買い物カート</span>
+        <span class="current" aria-current="page">お買い物カート</span>
       </div>
     </nav>
 
@@ -38,7 +47,7 @@ const productJson = JSON.stringify(
 
         <div id="cart-empty" class="cart-empty" hidden>
           <p>カートは空です。</p>
-          <a href="/#ranking" class="btn btn--primary">商品を見る</a>
+          <a href="/products/specialty/" class="btn btn--primary">商品を見る</a>
         </div>
 
         <div id="cart-content" class="cart-grid" hidden>
@@ -54,7 +63,7 @@ const productJson = JSON.stringify(
               </label>
               <div class="noshi-detail" id="noshi-detail" hidden>
                 <label>用途
-                  <select>
+                  <select id="noshi-purpose" name="noshi-purpose">
                     <option>お中元</option>
                     <option>お歳暮</option>
                     <option>御礼</option>
@@ -63,13 +72,13 @@ const productJson = JSON.stringify(
                   </select>
                 </label>
                 <label>表書き
-                  <input type="text" placeholder="表書き（任意）" />
+                  <input type="text" id="noshi-text" name="noshi-text" maxlength="20" placeholder="表書き（任意）" />
                 </label>
               </div>
 
               <h3 style="margin-top: 1.4em;">クーポン</h3>
               <div class="coupon-row">
-                <input type="text" id="coupon-code" placeholder="クーポンコード（例: TOUR1000）" />
+                <input type="text" id="coupon-code" maxlength="20" pattern="[A-Za-z0-9]+" autocomplete="off" placeholder="クーポンコード（例: TOUR1000）" />
                 <button type="button" id="coupon-apply" class="btn btn--outline">適用</button>
               </div>
               <p class="coupon-note">EC↔ツアー連動特典で発行された <code>TOUR1000</code> をお試しください（モック）。</p>
@@ -99,7 +108,6 @@ const productJson = JSON.stringify(
             <button type="button" class="btn btn--primary btn--checkout" id="checkout-btn">レジに進む</button>
             <p class="cart-summary__note">
               カード決済・コード決済・銀行振込・代引きに対応。
-              カード決済手数料は <b>2.5%</b>（当社負担分含む）。
             </p>
             <ul class="cart-summary__perks">
               <li>送料: ¥5,000以上で全国無料</li>
@@ -112,6 +120,22 @@ const productJson = JSON.stringify(
     </section>
   </main>
 
+  <style>
+    .gnav-sub { background:#fff; border-bottom:1px solid var(--line, #e8e3d4); }
+    .gnav-sub .breadcrumbs__inner { display:flex; flex-wrap:wrap; gap:1.2rem; padding:0.6rem 1.4rem; max-width:1280px; margin:0 auto; font-size:0.86rem; }
+    .gnav-sub a { color:var(--ink, #1A1A1A); text-decoration:none; }
+    .gnav-sub a:hover { color:var(--camel, #B99253); }
+    .cart-toast {
+      position:fixed; left:50%; bottom:32px; transform:translateX(-50%) translateY(20px);
+      background:#1A1A1A; color:#F6F3EC; padding:0.9rem 1.4rem; border-radius:4px;
+      font-size:0.92rem; box-shadow:0 6px 24px rgba(0,0,0,0.18);
+      opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+      max-width:90vw; z-index:9999;
+    }
+    .cart-toast.is-visible { opacity:1; transform:translateX(-50%) translateY(0); }
+    .cart-toast[data-kind="success"] { background:#3C8186; }
+    .cart-toast[data-kind="error"] { background:#1A1A1A; border:1px solid #B99253; }
+  </style>
   <script id="product-data" type="application/json" set:html={productJson}></script>
   <script is:inline>
     (function () {
@@ -163,20 +187,21 @@ const productJson = JSON.stringify(
           const meta = PRODUCTS[it.slug] || { title: it.name, origin: '', priceUnit: '', imageKey: '', delivery: '' };
           const li = document.createElement('li');
           li.className = 'cart-item';
+          const safeSlug = escapeHtml(it.slug);
           li.innerHTML = `
-            <a class="cart-item__img" href="/products/${it.slug}">${mediaFor(meta)}</a>
+            <a class="cart-item__img" href="/products/${safeSlug}/">${mediaFor(meta)}</a>
             <div class="cart-item__body">
-              <span class="cart-item__origin">${meta.origin}</span>
-              <a class="cart-item__title" href="/products/${it.slug}">${meta.title || it.name}</a>
-              <span class="cart-item__delivery">${meta.delivery || ''}</span>
+              <span class="cart-item__origin">${escapeHtml(meta.origin)}</span>
+              <a class="cart-item__title" href="/products/${safeSlug}/">${escapeHtml(meta.title || it.name)}</a>
+              <span class="cart-item__delivery">${escapeHtml(meta.delivery || '')}</span>
             </div>
             <div class="cart-item__qty">
               <label>数量
-                <select data-qty="${it.slug}">
+                <select data-qty="${safeSlug}" aria-label="${escapeHtml((meta.title || it.name) + 'の数量')}">
                   ${[1,2,3,4,5,6,7,8,9,10].map(n => `<option value="${n}" ${n===it.qty?'selected':''}>${n}</option>`).join('')}
                 </select>
               </label>
-              <button type="button" class="cart-item__remove" data-remove="${it.slug}">削除</button>
+              <button type="button" class="cart-item__remove" data-remove="${safeSlug}" aria-label="${escapeHtml((meta.title || it.name) + 'をカートから削除')}">削除</button>
             </div>
             <div class="cart-item__price">
               ${yen(it.price * it.qty)}
@@ -211,14 +236,38 @@ const productJson = JSON.stringify(
         }
       };
 
+      const showToast = (message, kind) => {
+        let toast = document.getElementById('cart-toast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.id = 'cart-toast';
+          toast.className = 'cart-toast';
+          toast.setAttribute('role', 'status');
+          toast.setAttribute('aria-live', 'polite');
+          document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.dataset.kind = kind || 'info';
+        toast.classList.add('is-visible');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('is-visible'), 3200);
+      };
+
       document.getElementById('coupon-apply').addEventListener('click', () => {
-        const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+        const raw = document.getElementById('coupon-code').value.trim().toUpperCase().slice(0, 20);
+        const code = raw.replace(/[^A-Z0-9]/g, '');
+        if (!code) {
+          appliedCoupon = null;
+          showToast('クーポンコードを入力してください。', 'error');
+          window.renderCartPage();
+          return;
+        }
         if (validCoupons[code]) {
           appliedCoupon = { code: code, ...validCoupons[code] };
-          alert(`クーポン「${code}」(${validCoupons[code].label})を適用しました。¥${validCoupons[code].value} 値引きされます。`);
+          showToast('クーポン「' + code + '」を適用しました。¥' + validCoupons[code].value.toLocaleString('ja-JP') + ' 値引き。', 'success');
         } else {
           appliedCoupon = null;
-          alert('クーポンコードが見つかりません。例: TOUR1000');
+          showToast('クーポンコードが見つかりません。例: TOUR1000', 'error');
         }
         window.renderCartPage();
       });
@@ -228,7 +277,7 @@ const productJson = JSON.stringify(
       });
 
       document.getElementById('checkout-btn').addEventListener('click', () => {
-        alert('（モック）決済画面へ遷移します。本番では RATIO のセキュアな決済処理に進みます。');
+        showToast('（モック）決済画面へ遷移します。本番では安全な決済処理に進みます。', 'info');
       });
 
       document.addEventListener('DOMContentLoaded', () => window.renderCartPage());

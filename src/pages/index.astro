@@ -84,15 +84,18 @@ const tours = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
-    <link rel="canonical" href="https://kitanoippindo.example.com/" />
+    <link rel="canonical" href="https://shiretoko-tourist-final.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content="https://shiretoko-tourist-final.vercel.app/" />
+    <meta property="og:image" content="https://shiretoko-tourist-final.vercel.app/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" />
     <meta property="og:site_name" content="北の逸品堂 / 知床ツーリスト" />
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content="https://shiretoko-tourist-final.vercel.app/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -209,14 +212,14 @@ const tours = [
           </div>
           <div class="hero__visual">
             {media.hero.src ? (
-              <img src={media.hero.src} alt={media.hero.alt} decoding="async" />
+              <img src={media.hero.src} alt={media.hero.alt} decoding="async" fetchpriority="high" />
             ) : (
               <div class="source-placeholder source-placeholder--hero" role="img" aria-label={`${media.hero.alt}の画像枠`}>
                 <span>{media.hero.label}</span>
                 <small>assets/source-images に画像を追加</small>
               </div>
             )}
-            <span class="hero__caption">イメージ: 斜里岳・オホーツク海 / 清里町</span>
+            <span class="hero__caption" aria-hidden="true">イメージ: 斜里岳・オホーツク海 / 清里町</span>
           </div>
         </div>
       </section>
@@ -353,7 +356,7 @@ const tours = [
           <div class="featured-grid">
             {specialtyFeatured.map((item) => (
               <article class="featured-card">
-                <a href={`/products/${item.slug}`} class="featured-card__link">
+                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
                   <div class="featured-card__img">
                     {item.image.src ? (
                       <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
@@ -372,7 +375,7 @@ const tours = [
                     <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
                   </div>
                 </a>
-                <button type="button" class="featured-card__cart" data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
               </article>
             ))}
           </div>
@@ -391,7 +394,7 @@ const tours = [
           <div class="featured-grid">
             {apparelFeatured.map((item) => (
               <article class="featured-card">
-                <a href={`/products/${item.slug}`} class="featured-card__link">
+                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
                   <div class="featured-card__img">
                     {item.image.src ? (
                       <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
@@ -410,7 +413,7 @@ const tours = [
                     <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
                   </div>
                 </a>
-                <button type="button" class="featured-card__cart" data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
               </article>
             ))}
           </div>
@@ -420,8 +423,7 @@ const tours = [
         </div>
       </section>
 
-      <!-- ============ 旧: 今週のおすすめ統合（非表示／コメントアウト用） ============ -->
-      <section class="section section--white" id="ranking" aria-label="今週のおすすめ" style="display:none">
+      <!-- ============ 旧: 今週のおすすめ統合 ============ -->
       <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
         <div class="section__inner">
           <span class="section-eyebrow">PICK UP</span>
@@ -474,7 +476,7 @@ const tours = [
           </div>
           <p class="ranking-note">
             特産品（食）<b>84商品</b> ／ アウトドアウェア（Patagonia等）<b>533商品</b> から、まずは売れ筋5商品を商品ページ化。
-            <a href="#">全商品を見る →</a>
+            <a href="/ranking/">全商品を見る →</a>
           </p>
         </div>
       </section>
@@ -519,7 +521,7 @@ const tours = [
                   <h3>{bundle.title}</h3>
                   <p>{bundle.desc}</p>
                   <div class="bundle-card__note">{bundle.note}</div>
-                  <a href="#ranking" class="btn btn--ghost">この組み合わせを見る</a>
+                  <a href="/bundles/" class="btn btn--ghost">この組み合わせを見る</a>
                 </div>
               </article>
             ))}
@@ -697,7 +699,7 @@ const tours = [
             </p>
           </div>
           <div>
-            <h4>ショッピング</h4>
+            <h3>ショッピング</h3>
             <ul>
               <li><a href="/products/specialty/">産直一覧</a></li>
               <li><a href="/products/apparel/">アパレル一覧</a></li>
@@ -708,26 +710,17 @@ const tours = [
             </ul>
           </div>
           <div>
-            <h4>ツアー・体験</h4>
-            <ul>
-              <li><a href="#">知床五湖ガイド</a></li>
-              <li><a href="#">流氷熱気球フリーフライト</a></li>
-              <li><a href="#">神の子池スノーシュー</a></li>
-              <li><a href="#">8ツアーすべて</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>サポート / 会社</h4>
+            <h3>サポート / 会社</h3>
             <ul>
               <li><a href="/account/">マイページ</a></li>
               <li><a href="/comparison/">他社EC比較</a></li>
               <li><a href="/furusato/">ふるさと納税</a></li>
-              <li><a href="#">送料・配送について</a></li>
-              <li><a href="#">特定商取引法に基づく表記</a></li>
-              <li><a href="#">旅行業約款・取引条件説明書</a></li>
-              <li><a href="#">プライバシーポリシー</a></li>
-              <li><a href="#">会社概要</a></li>
-              <li><a href="#">お問い合わせ</a></li>
+              <li><a href="/account/">送料・配送について</a></li>
+              <li><a href="/account/">特定商取引法に基づく表記</a></li>
+              <li><a href="https://shiretokotourist.com/" target="_blank" rel="noopener">旅行業約款・取引条件説明書</a></li>
+              <li><a href="/account/">プライバシーポリシー</a></li>
+              <li><a href="/stories/">会社概要</a></li>
+              <li><a href="/account/">お問い合わせ</a></li>
             </ul>
           </div>
         </div>

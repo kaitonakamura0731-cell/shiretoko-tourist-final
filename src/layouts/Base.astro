@@ -6,8 +6,9 @@ interface Props {
   title: string;
   description?: string;
   bodyClass?: string;
+  robots?: string;
 }
-const { title, description, bodyClass = "" } = Astro.props;
+const { title, description, bodyClass = "", robots } = Astro.props;
 const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ねぎ、Patagoniaウェアを北海道から直送。世界自然遺産・知床の現場ガイドが選ぶ北の食材と、店主と歩く知床ツアー。";
 ---
 
@@ -18,6 +19,7 @@ const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ね�
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description ?? defaultDesc} />
+    {robots && <meta name="robots" content={robots} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description ?? defaultDesc} />

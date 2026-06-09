@@ -56,6 +56,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 a { color: var(--teal-dark); text-decoration: none; }
@@ -202,7 +203,7 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center;
 }
 .hero__copy h1 {
-  font-size: clamp(1.6rem, 3.2vw, 2.45rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.45rem);
   line-height: 1.5;
   letter-spacing: 0.06em;
   margin-bottom: 0.6em;
@@ -268,6 +269,9 @@ img { max-width: 100%; height: auto; display: block; }
   background: var(--bg-soft);
   border-radius: var(--radius-lg);
   overflow: hidden;
+}
+@media (max-width: 720px) {
+  .hero__visual { aspect-ratio: 3 / 2; }
 }
 .hero__visual img,
 .ranking-card__img img,
@@ -369,7 +373,7 @@ img { max-width: 100%; height: auto; display: block; }
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 1.2rem 2.4rem;
+  gap: 0.6rem 1.4rem;
   font-size: 0.82rem;
   color: var(--ink-soft);
 }
@@ -941,9 +945,10 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--camel);
   font-weight: 700;
 }
-.mail-form { display: flex; gap: 0.4rem; margin-top: auto; }
+.mail-form { display: flex; gap: 0.4rem; margin-top: auto; flex-wrap: wrap; }
 .mail-form input {
-  flex: 1;
+  flex: 1 1 200px;
+  min-width: 0;
   padding: 0.7rem 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.95);
@@ -980,6 +985,7 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center;
   gap: 1.2rem;
   margin-top: auto;
+  flex-wrap: wrap;
 }
 .line-qr {
   width: 92px;
@@ -1079,6 +1085,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 560px) {
   .ranking { grid-template-columns: 1fr 1fr; }
   .bundle-card__body { padding: 1rem; }
+  .bundle-card__media { grid-template-columns: 1fr; }
   .category-grid { grid-template-columns: 1fr 1fr; }
   .season-grid { grid-template-columns: 1fr; }
   .season-cell { border-right: none; border-bottom: 1px solid var(--line); }
@@ -1423,7 +1430,7 @@ img { max-width: 100%; height: auto; display: block; }
   position: absolute;
   top: 52px;
   right: 0;
-  width: 220px;
+  width: min(280px, calc(100vw - 1.5rem));
   list-style: none;
   margin: 0;
   padding: 0.6rem 0;
@@ -1481,7 +1488,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ============== 商品詳細 ============== */
 .product-detail { background: var(--bg-card); padding: var(--section-y) 0; border-bottom: 1px solid var(--line); }
-.product-detail__inner { max-width: var(--max-w); margin: 0 auto; padding: 0 1.25rem; display: grid; grid-template-columns: 0.55fr 0.45fr; gap: 3rem; align-items: start; }
+.product-detail__inner { max-width: var(--max-w); margin: 0 auto; padding: 0 1.25rem; display: grid; grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr); gap: 3rem; align-items: start; }
 .product-gallery__main { aspect-ratio: 1 / 1; background: var(--bg-soft); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 0.8rem; }
 .product-gallery__thumbs { display: none; }
 .thumb { aspect-ratio: 1 / 1; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius); }
@@ -1512,7 +1519,7 @@ img { max-width: 100%; height: auto; display: block; }
 .product-spec-section h2 { font-size: 1.3rem; text-align: left; margin-bottom: 1em; }
 .spec-table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--line); }
 .spec-table th, .spec-table td { padding: 0.85em 1em; border-bottom: 1px solid var(--line); font-size: 0.9rem; text-align: left; }
-.spec-table th { background: var(--bg-soft); color: var(--ink); width: 30%; font-weight: 500; }
+.spec-table th { background: var(--bg-soft); color: var(--ink); width: 32%; min-width: 7em; font-weight: 500; }
 .spec-h3 { font-family: var(--font-serif); font-size: 1.05rem; margin: 2em 0 0.8em; }
 .spec-desc { color: var(--ink-soft); line-height: 1.95; }
 
@@ -1522,7 +1529,7 @@ img { max-width: 100%; height: auto; display: block; }
 .cross-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; max-width: 760px; margin: 0 auto; }
 .cross-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; display: flex; transition: border-color 150ms ease, transform 150ms ease; }
 .cross-card:hover { border-color: var(--teal); transform: translateY(-2px); text-decoration: none; }
-.cross-card__img { width: 110px; flex-shrink: 0; background: var(--bg-soft); }
+.cross-card__img { width: clamp(88px, 22vw, 110px); flex-shrink: 0; background: var(--bg-soft); }
 .cross-card__body { padding: 0.9em 1.1em; display: flex; flex-direction: column; justify-content: center; flex: 1; }
 .cross-card__origin { font-size: 0.7rem; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 0.3em; }
 .cross-card__title { margin: 0 0 0.5em; font-size: 0.88rem; color: var(--ink); line-height: 1.5; font-family: var(--font-sans); font-weight: 500; }
@@ -1609,8 +1616,12 @@ img { max-width: 100%; height: auto; display: block; }
   .product-info__meta { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
-  .cart-item { grid-template-columns: 70px 1fr; gap: 0.8rem; }
-  .cart-item__qty, .cart-item__price { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; text-align: left; align-items: center; }
+  .cart-item { grid-template-columns: 70px 1fr; grid-template-rows: auto auto auto; gap: 0.6rem 0.8rem; }
+  .cart-item__img { grid-row: 1 / span 2; }
+  .cart-item__body { grid-column: 2 / 3; }
+  .cart-item__qty { grid-column: 2 / 3; grid-row: 2; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5em; }
+  .cart-item__price { grid-column: 1 / -1; grid-row: 3; text-align: right; min-width: 0; }
+  .cart-item__remove { grid-column: 1 / -1; grid-row: 4; justify-self: end; }
   .product-info__meta { grid-template-columns: 1fr; }
 }
 
@@ -1735,7 +1746,7 @@ body.lock-scroll { overflow: hidden; }
 /* モバイル: フィルタトグルボタン */
 .filter-toggle {
   display: none;
-  position: sticky; top: 0; z-index: 50;
+  position: relative; z-index: 5;
   width: 100%; padding: 0.95rem 1.2rem;
   background: #fff; color: var(--ink); border: 0;
   border-bottom: 1px solid var(--line);
@@ -1948,15 +1959,16 @@ body.lock-scroll { overflow: hidden; }
 
 /* 560px以下 — グリッドそのまま2列、余白縮小 */
 @media (max-width: 560px) {
-  .listing-bar { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .listing-bar { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  .listing-bar select, .listing-bar > * { max-width: 100%; }
   .card-product__title { font-size: 0.82rem; }
   .card-product__meta { font-size: 0.7rem; }
   .ask-cta { font-size: 0.66rem; }
 }
 
-/* 400px以下 — 1列も検討するが2列の方が情報密度高 */
+/* 400px以下 — 狭小は1列で可読性優先 */
 @media (max-width: 400px) {
-  .card-grid { gap: 1rem 0.7rem; }
+  .card-grid { grid-template-columns: 1fr; gap: 1rem; }
   .listing-hero h1 { font-size: 1.7rem; }
   .listing-hero p { font-size: 0.86rem; line-height: 1.85; }
 }
@@ -2177,9 +2189,7 @@ body.lock-scroll { overflow: hidden; }
 /* ============== レスポンシブ for v3 ============== */
 @media (max-width: 1100px) {
   .quick-tiles__inner { grid-template-columns: repeat(4, 1fr); }
-  .qtile:nth-child(5) { grid-column: 1 / 2; }
-  .qtile:nth-child(6) { grid-column: 2 / 3; }
-  .qtile:nth-child(7) { grid-column: 3 / 5; }
+  .qtile:nth-child(n) { grid-column: auto; }
 }
 @media (max-width: 900px) {
   .topbar.topbar--v3 { font-size: 0.72rem; gap: 0.5rem; padding: 0.5rem 0.8rem; }
@@ -2196,7 +2206,6 @@ body.lock-scroll { overflow: hidden; }
   .qtile__label { font-size: 0.95rem; }
   .qtile__sub { font-size: 0.62rem; }
   .qtile:nth-child(n) { grid-column: auto; }
-  .qtile:nth-child(7) { grid-column: 1 / -1; }
 }
 @media (max-width: 560px) {
   .topbar.topbar--v3 { padding: 0.45rem 0.7rem; font-size: 0.7rem; }
@@ -2204,9 +2213,8 @@ body.lock-scroll { overflow: hidden; }
   .topbar__shipping-label { display: none; }
   .topbar__cta { font-size: 0.65rem; }
   .quick-tiles__inner { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
-  /* v5: 全タイル均等2列、7番目だけ最後に全幅 */
+  /* v5: 全タイル均等2列 */
   .qtile:nth-child(n) { grid-column: auto; }
-  .qtile:nth-child(7) { grid-column: 1 / -1; }
   .qtile { padding: 0.85rem 0.75rem; }
   .qtile__label { font-size: 0.9rem; }
 }
@@ -2229,7 +2237,7 @@ body.lock-scroll { overflow: hidden; }
 .pdp-gallery__main { aspect-ratio: 1 / 1; background: #ECE7DA; overflow: hidden; border-radius: 2px; }
 .pdp-gallery__main img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
 .pdp-gallery__main:hover img { transform: scale(1.06); }
-.pdp-gallery__thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+.pdp-gallery__thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; }
 .pdp-gallery__thumb { aspect-ratio: 1 / 1; background: #ECE7DA; overflow: hidden; border-radius: 2px; cursor: pointer; opacity: 0.7; transition: opacity 200ms; }
 .pdp-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .pdp-gallery__thumb.is-active,
@@ -2398,7 +2406,7 @@ body.lock-scroll { overflow: hidden; }
 .gift-wrap-card__price { font-family: 'Inter', sans-serif; font-feature-settings: 'tnum'; font-size: 0.78rem; color: #6f6a60; }
 
 /* ============== stories ============== */
-.stories-hero { position: relative; aspect-ratio: 21 / 9; min-height: 340px; background: #1A1A1A; overflow: hidden; }
+.stories-hero { position: relative; aspect-ratio: 16 / 7; min-height: 280px; background: #1A1A1A; overflow: hidden; }
 .stories-hero__media { position: absolute; inset: 0; }
 .stories-hero__media img { width: 100%; height: 100%; object-fit: cover; opacity: 0.78; }
 .stories-hero__inner { position: relative; max-width: 1180px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 1.4rem 3rem; color: #F6F3EC; }
@@ -2441,8 +2449,8 @@ body.lock-scroll { overflow: hidden; }
 .story-quote__cite { display: block; font-size: 0.78rem; color: #6f6a60; margin-top: 0.6rem; font-family: 'Noto Sans JP', sans-serif; letter-spacing: 0.08em; }
 
 /* ============== v3 ADDITIONS レスポンシブ ============== */
-@media (max-width: 1280px) {
-  .environmental, .usage-scene, .gift-option-grid, .stories-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1100px) {
+  .environmental, .usage-scene { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 900px) {
   .pdp-hero { grid-template-columns: 1fr; gap: 2rem; }
@@ -2454,6 +2462,7 @@ body.lock-scroll { overflow: hidden; }
   .ranking-card > :nth-child(4) { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
 
   .bundle-card-row { grid-template-columns: 1fr; gap: 0; }
+  .bundle-card-row__media { aspect-ratio: 16 / 9; max-height: 320px; }
   .bundle-card-row__body { padding: 1.6rem 1.5rem 1.8rem; }
 
   .gift-option-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2499,7 +2508,7 @@ body.lock-scroll { overflow: hidden; }
   .pdp-chip { font-size: 0.76rem; padding: 0.4rem 0.75rem; }
   .ranking-card { grid-template-columns: 36px 60px 1fr; gap: 0.7rem; padding: 0.75rem 0.8rem; }
   .ranking-card__rank { font-size: 1.3rem; }
-  .gift-wrap-row { grid-template-columns: 1fr 1fr; }
+  .gift-wrap-row { grid-template-columns: 1fr; }
 }
 
 /* ===================================================================
@@ -2603,7 +2612,7 @@ body.lock-scroll { overflow: hidden; }
   .featured-card__price { font-size: 1.05rem; }
 }
 @media (max-width: 480px) {
-  .featured-grid { gap: 1.2rem 0.75rem; }
+  .featured-grid { grid-template-columns: 1fr; gap: 1.2rem; }
 }
 
 /* ================================ PDP Reviews ================================ */

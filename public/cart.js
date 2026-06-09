@@ -16,7 +16,19 @@
       this.render();
     },
     add(slug, name, price, qty) {
-      qty = qty || 1;
+      // 引数を正規化: bundles等から {slug,title,price,qty,type} を渡されても受ける
+      if (typeof slug === 'object' && slug !== null) {
+        const obj = slug;
+        slug = obj.slug;
+        name = obj.name || obj.title || '';
+        price = obj.price;
+        qty = obj.qty;
+      }
+      qty = parseInt(qty, 10) || 1;
+      price = parseInt(price, 10) || 0;
+      name = String(name || '').slice(0, 200);
+      slug = String(slug || '');
+      if (!slug) return;
       const items = this.get();
       const ex = items.find((i) => i.slug === slug);
       if (ex) ex.qty += qty;
