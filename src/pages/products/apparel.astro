@@ -169,6 +169,8 @@ const items = apparelItems.filter((p) => p.image);
                 <option value="default">標準</option>
                 <option value="new">新着順</option>
                 <option value="title">名前順</option>
+                <option value="price-asc">価格が安い順</option>
+                <option value="price-desc">価格が高い順</option>
               </select>
             </label>
           </div>
@@ -183,6 +185,7 @@ const items = apparelItems.filter((p) => p.image);
               data-size={p.size || ""}
               data-condition={p.condition}
               data-color={p.color || ""}
+              data-price={p.price ?? ""}
               data-id={p.id}
             >
               <a href={p.url} target="_blank" rel="noopener noreferrer" class="card-product__link">
@@ -285,9 +288,12 @@ const items = apparelItems.filter((p) => p.image);
   if (sortSel) {
     sortSel.addEventListener('change', () => {
       const mode = sortSel.value;
+      const priceOf = (c) => { const n = Number(c.dataset.price); return Number.isFinite(n) ? n : Infinity; };
       const sorted = [...cards];
       if (mode === 'title') sorted.sort((a, b) => (a.querySelector('.card-product__title').textContent || '').localeCompare(b.querySelector('.card-product__title').textContent || ''));
       else if (mode === 'new') sorted.sort((a, b) => Number(b.dataset.id) - Number(a.dataset.id));
+      else if (mode === 'price-asc') sorted.sort((a, b) => priceOf(a) - priceOf(b));
+      else if (mode === 'price-desc') sorted.sort((a, b) => priceOf(b) - priceOf(a));
       else sorted.sort((a, b) => cards.indexOf(a) - cards.indexOf(b));
       sorted.forEach((c) => gridEl.appendChild(c));
     });

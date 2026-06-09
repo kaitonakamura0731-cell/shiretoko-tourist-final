@@ -3341,6 +3341,25 @@ body.lock-scroll { overflow: hidden; }
   gap: 0.3em;
 }
 .entrance-card:hover .entrance-card__link { text-decoration: underline; text-underline-offset: 3px; }
+.entrance-card__previews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin: 0.4em 0 0.7em;
+}
+.entrance-card__thumb {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--bg-soft);
+  display: block;
+}
+.entrance-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .shop-entrance__band {
   display: block;
   background: var(--teal-soft);

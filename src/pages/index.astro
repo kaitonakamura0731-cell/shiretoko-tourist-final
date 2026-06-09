@@ -1,8 +1,10 @@
 ---
-// 北の逸品堂 / 知床ツーリスト — TOPページ (story-first構成)
-// 構成: ヒーロー → NEWS → OUR STORY → SHOP ENTRANCE → LINE帯
+// 北の逸品堂 / 知床ツーリスト — TOPページ (shop-first構成)
+// 構成: ヒーロー → SHOP ENTRANCE → NEWS → LINE帯
 import "../styles/global.css";
-import { siteMedia as media } from "../data/sourceImages";
+import { productImageForKey, siteMedia as media } from "../data/sourceImages";
+import { products } from "../data/products";
+import { apparelItems } from "../data/catalog";
 
 const meta = {
   title: "知床から、食べるものと着るものを選ぶ｜北の逸品堂(1992清里町)",
@@ -11,6 +13,20 @@ const meta = {
 
 const currentYear = new Date().getFullYear();
 const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
+
+// SHOP ENTRANCE「中チラ見せ」用プレビュー (shop.astro と同じ作り方)
+const productBySlug = new Map(products.map((product) => [product.slug, product]));
+const specialtyPreviews = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg"]
+  .map((slug) => productBySlug.get(slug))
+  .filter(Boolean)
+  .map((product) => ({ ...productImageForKey(product.imageKey, product.title) }))
+  .slice(0, 3)
+  .filter((p) => p.src);
+
+const apparelPreviews = apparelItems
+  .filter((p) => p.image)
+  .slice(0, 3)
+  .map((p) => ({ src: p.image, alt: p.title }));
 
 // NEWSデータ (静的。将来CMSに切り替え可)
 const newsItems = [
@@ -159,67 +175,7 @@ const newsItems = [
         </div>
       </section>
 
-      <!-- ============ NEWS (ヒーロー直下) ============ -->
-      <section class="news-section" aria-label="お知らせ">
-        <div class="news-section__inner">
-          <div class="news-section__header">
-            <h2 class="news-section__title">お知らせ</h2>
-            <a href="/stories/" class="news-section__more">過去のお知らせ →</a>
-          </div>
-          <ul class="news-rows" role="list">
-            {newsItems.map((item) => (
-              <li class="news-row">
-                <span class="news-row__date">{item.date}</span>
-                <span class={`news-row__tag news-row__tag--${item.categorySlug}`}>{item.category}</span>
-                <span class="news-row__title">{item.title}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <!-- ============ OUR STORY ============ -->
-      <section class="story" id="story" aria-label="店主の物語">
-        <div class="story__inner">
-          <div class="story__portrait">
-            {media.story.src ? (
-              <img src={media.story.src} alt={media.story.alt} loading="lazy" decoding="async" />
-            ) : (
-              <div class="source-placeholder source-placeholder--portrait" role="img" aria-label="代表 石田富雄のポートレート画像枠">
-                <span>story-ishida</span>
-                <small>public/source-images/story-ishida.jpg を追加</small>
-              </div>
-            )}
-          </div>
-          <div class="story__copy">
-            <span class="section-eyebrow">OUR STORY</span>
-            <h2>1992年、清里町から。</h2>
-            <hr class="section-rule" />
-            <p>
-              代表の石田富雄は、東京から清里町に移り、1992年に小さなユースホステルを始めました。
-              熱気球、自然ガイド、旅行業と、知床とオホーツクの自然のなかで生きる仕事を、ひとつずつ増やしてきました。
-              「北の逸品堂」は、その33年で出会った農家、漁師、メーカーと、
-              店主自身が現場で使う道具を並べる店です。
-            </p>
-            <ul class="story__chronology">
-              <li><span class="year">1992</span><span>清里町でユースホステル開業</span></li>
-              <li><span class="year">1996</span><span>熱気球事業開始</span></li>
-              <li><span class="year">2000</span><span>自然ガイド事業開始</span></li>
-              <li><span class="year">2002</span><span>株式会社 知床ツーリスト 法人化</span></li>
-              <li><span class="year">2003</span><span>北海道知事登録旅行業 第2-453号</span></li>
-            </ul>
-            <p class="story__credit">
-              「特産品もアパレルも、知床のガイドも、ぜんぶ同じ人間がやっています。」<br />
-              — 代表 石田 富雄
-            </p>
-            <p style="margin-top: 1.2em;">
-              <a href="/stories/" class="hero-fb__cta">店主の手記を読む</a>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ SHOP ENTRANCE ============ -->
+      <!-- ============ SHOP ENTRANCE (ヒーロー直下) ============ -->
       <section class="shop-entrance" aria-label="ショップへの入口">
         <div class="shop-entrance__inner">
           <div class="shop-entrance__header">
@@ -244,6 +200,15 @@ const newsItems = [
                 <p class="entrance-card__desc">
                   朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
                 </p>
+                {specialtyPreviews.length > 0 && (
+                  <div class="entrance-card__previews" aria-hidden="true">
+                    {specialtyPreviews.map((p) => (
+                      <span class="entrance-card__thumb">
+                        <img src={p.src} alt="" loading="lazy" decoding="async" />
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <span class="entrance-card__link">産直を見る →</span>
               </div>
             </a>
@@ -264,6 +229,15 @@ const newsItems = [
                 <p class="entrance-card__desc">
                   店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
                 </p>
+                {apparelPreviews.length > 0 && (
+                  <div class="entrance-card__previews" aria-hidden="true">
+                    {apparelPreviews.map((p) => (
+                      <span class="entrance-card__thumb">
+                        <img src={p.src} alt="" loading="lazy" decoding="async" />
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <span class="entrance-card__link">アパレルを見る →</span>
               </div>
             </a>
@@ -273,6 +247,25 @@ const newsItems = [
         <a href="/shop" class="shop-entrance__band">
           <span>すべての商品(産直・アパレル)を見る</span>
         </a>
+      </section>
+
+      <!-- ============ NEWS (ショップ入口の後) ============ -->
+      <section class="news-section" aria-label="お知らせ">
+        <div class="news-section__inner">
+          <div class="news-section__header">
+            <h2 class="news-section__title">お知らせ</h2>
+            <a href="/stories/" class="news-section__more">過去のお知らせ →</a>
+          </div>
+          <ul class="news-rows" role="list">
+            {newsItems.map((item) => (
+              <li class="news-row">
+                <span class="news-row__date">{item.date}</span>
+                <span class={`news-row__tag news-row__tag--${item.categorySlug}`}>{item.category}</span>
+                <span class="news-row__title">{item.title}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       <!-- ============ LINE 細帯 ============ -->

@@ -15,6 +15,7 @@ export type CatalogItem = {
   color?: string;
   specialtyCategory?: string;
   weight?: string;
+  price?: number;
 };
 
 export const catalog: CatalogItem[] = [

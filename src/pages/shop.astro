@@ -1,11 +1,11 @@
 ---
 // 北の逸品堂 / 知床ツーリスト — ショップ一覧ハブ (/shop)
 // TOP(story-first)から移設したEC本体セクションを集約。
-// 構成: ページヘッダ(パンくず+タブ) → 7入口タイル → 2大入口 → ランキング
-//       → 産直おすすめ → アパレルおすすめ → セット併売 → 季節カレンダー → ツアー連動 → LINE帯
+// 構成: ページヘッダ(パンくず+タブ) → 2大入口 → ランキング
+//       → 産直おすすめ → アパレルおすすめ → セット併売 → 季節カレンダー → LINE帯
 // 既存ブランド #3C8186 / #B99253 を主軸、AIスロップ禁忌厳守。秘匿ガード厳守。
 import "../styles/global.css";
-import { productImageForKey, siteMedia as media } from "../data/sourceImages";
+import { productImageForKey } from "../data/sourceImages";
 import { products, formatYen } from "../data/products";
 import { apparelItems, specialtyItems } from "../data/catalog";
 
@@ -195,48 +195,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ============ [2] 7入口タイル (BEAMS流) ============ -->
-      <section class="quick-tiles" aria-label="ショップの入口">
-        <div class="quick-tiles__inner">
-          <a href="/stories/" class="qtile">
-            <span class="qtile__no">01</span>
-            <span class="qtile__label mincho">店主の手記</span>
-            <span class="qtile__sub">STORIES</span>
-          </a>
-          <a href="/ranking/" class="qtile qtile--accent">
-            <span class="qtile__no">02</span>
-            <span class="qtile__label mincho">ランキング</span>
-            <span class="qtile__sub">WEEKLY RANKING</span>
-          </a>
-          <a href="#specialty" class="qtile">
-            <span class="qtile__no">03</span>
-            <span class="qtile__label mincho">産直</span>
-            <span class="qtile__sub">SPECIALTY</span>
-          </a>
-          <a href="#apparel" class="qtile">
-            <span class="qtile__no">04</span>
-            <span class="qtile__label mincho">アパレル</span>
-            <span class="qtile__sub">APPAREL</span>
-          </a>
-          <a href="/bundles/" class="qtile">
-            <span class="qtile__no">05</span>
-            <span class="qtile__label mincho">特集・セット</span>
-            <span class="qtile__sub">COLLECTIONS</span>
-          </a>
-          <a href="/ranking/" class="qtile qtile--sale">
-            <span class="qtile__no">06</span>
-            <span class="qtile__label mincho">6月限定</span>
-            <span class="qtile__sub">JUNE OFFER</span>
-          </a>
-          <a href="/gift/" class="qtile">
-            <span class="qtile__no">07</span>
-            <span class="qtile__label mincho">ギフト</span>
-            <span class="qtile__sub">GIFT・のし対応</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============ [3] 2大入口（産直 / アパレル）中チラ見せ ============ -->
+      <!-- ============ [2] 2大入口（産直 / アパレル）中チラ見せ ============ -->
       <section class="entrances" aria-label="2大入口">
         <div class="entrances__inner">
           <span class="section-eyebrow">2 ENTRANCES</span>
@@ -503,37 +462,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ============ [9] ツアー連動 ============ -->
-      <section class="tour-link" id="tour" aria-label="ツアー連動">
-        <div class="tour-link__inner">
-          <span class="section-eyebrow">TOUR LINK</span>
-          <h2>店主と歩く、知床。</h2>
-          <hr class="section-rule" />
-          <p class="tour-link__lead">
-            知床ツーリストは北海道知事登録旅行業 第2-453号を持つ旅行業者です。
-            ツアーのお申し込み・お問い合わせは既存サイトで継続承っています。
-          </p>
-          <a href="https://shiretokotourist.com/" class="tour-link__card" target="_blank" rel="noopener noreferrer">
-            <div class="tour-link__media">
-              {media.tourHero.src ? (
-                <img src={media.tourHero.src} alt={media.tourHero.alt} loading="lazy" decoding="async" />
-              ) : (
-                <div class="source-placeholder source-placeholder--dark" role="img" aria-label={`${media.tourHero.alt}の画像枠`}>
-                  <span>{media.tourHero.label}</span>
-                </div>
-              )}
-            </div>
-            <div class="tour-link__body">
-              <span class="tour-link__period">通年 / 春-秋 4ツアー + 冬 4ツアー</span>
-              <h3>知床五湖ガイド / 流氷熱気球 / 神の子池スノーシュー ほか</h3>
-              <p>世界自然遺産・知床の現場ガイドが直接ご案内。少人数制・装備込・全国旅行業協会 (ANTA) 所属。お申し込みは既存サイトから。</p>
-              <span class="tour-link__cta">ツアー一覧へ (shiretokotourist.com) →</span>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- ============ [10] LINE 細帯 ============ -->
+      <!-- ============ [9] LINE 細帯 ============ -->
       <div class="line-band" id="retention" role="complementary" aria-label="LINE登録">
         <div class="line-band__inner">
           <span class="line-band__text">収穫便りをLINEで受け取る — 再入荷通知・収穫速報</span>
