@@ -168,7 +168,7 @@ const items = specialtyItems.filter((p) => p.image);
               data-price={p.price ?? ""}
               data-id={p.id}
             >
-              <a href={p.url} target="_blank" rel="noopener noreferrer" class="card-product__link">
+              <a href={`/products/${p.slug}/`} class="card-product__link">
                 <div class="card-product__media">
                   {p.image ? (
                     <img src={p.image} alt={p.title} loading="lazy" decoding="async" />
