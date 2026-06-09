@@ -1,0 +1,636 @@
+---
+// 北の逸品堂 / 知床ツーリスト — ショップ一覧ハブ (/shop)
+// TOP(story-first)から移設したEC本体セクションを集約。
+// 構成: ページヘッダ(パンくず+タブ) → 7入口タイル → 2大入口 → ランキング
+//       → 産直おすすめ → アパレルおすすめ → セット併売 → 季節カレンダー → ツアー連動 → LINE帯
+// 既存ブランド #3C8186 / #B99253 を主軸、AIスロップ禁忌厳守。秘匿ガード厳守。
+import "../styles/global.css";
+import { productImageForKey, siteMedia as media } from "../data/sourceImages";
+import { products, formatYen } from "../data/products";
+import { apparelItems, specialtyItems } from "../data/catalog";
+
+const meta = {
+  title: "ショップ一覧｜北の逸品堂(産直・アパレル)",
+  description: "北海道・知床のセレクトショップ「北の逸品堂」のショップ一覧。店主が選ぶ産直食材と現場で使うアウトドアウェア(Patagonia等)を、産直・アパレル・セット・ランキング・ギフトから探せます。",
+};
+
+const productBySlug = new Map(products.map((product) => [product.slug, product]));
+
+// 産直のおすすめ — 同じ棚に混在させない (商談合意)
+const specialtyFeatured = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg"]
+  .map((slug) => productBySlug.get(slug))
+  .filter(Boolean)
+  .map((product) => ({
+    ...product,
+    priceLabel: formatYen(product.price),
+    unit: product.priceUnit,
+    stock: product.stockLabel,
+    low: product.stock <= 5,
+    image: productImageForKey(product.imageKey, product.title),
+  }));
+
+// アパレルのおすすめ — 別セクションで見せる
+const apparelFeatured = ["patagonia-r1-air-hoodie", "patagonia-r1-zip-neck"]
+  .map((slug) => productBySlug.get(slug))
+  .filter(Boolean)
+  .map((product) => ({
+    ...product,
+    priceLabel: formatYen(product.price),
+    unit: product.priceUnit,
+    stock: product.stockLabel,
+    low: product.stock <= 5,
+    image: productImageForKey(product.imageKey, product.title),
+  }));
+
+// 入口「中チラ見せ」用プレビュー写真
+const specialtyPreviews = specialtyFeatured
+  .slice(0, 3)
+  .map((item) => ({ src: item.image.src, alt: item.image.alt }))
+  .filter((p) => p.src);
+
+const apparelPreviews = apparelItems
+  .filter((p) => p.image)
+  .slice(0, 3)
+  .map((p) => ({ src: p.image, alt: p.title }));
+
+// セット提案用
+const ranking = [...specialtyFeatured, ...apparelFeatured];
+
+const bundles = [
+  {
+    season: "SPRING TRIP",
+    title: "朝採りアスパラ + R1 Air Hoodie",
+    desc: "初夏の知床に来る人にも、北海道ギフトを贈る人にも。届いた食材から旅支度まで、同じ店主の目利きで選べるセット提案。",
+    primary: ranking[0],
+    secondary: ranking[2],
+    note: "EC購入でツアー予約 ¥1,000 OFF",
+  },
+  {
+    season: "GIFT & DAILY",
+    title: "じゃがいも・玉ねぎ + 現場フリース",
+    desc: "保存のきく定番野菜と、長く着られるアウトドアウェアを同じカートへ。単品購入で終わらせず、客単価を自然に上げる導線です。",
+    primary: ranking[1],
+    secondary: ranking[2],
+    note: "¥5,000以上で送料無料 / まとめ買い向き",
+  },
+  {
+    season: "TOUR AFTER",
+    title: "旅のあとに届く、北の定期便",
+    desc: "知床を歩いた記憶を、季節の食材と店主の道具選びでリピート購入へ。OTAでは作れない自社サイトならではの関係性を育てます。",
+    primary: ranking[0],
+    secondary: ranking[1],
+    note: "LINE登録で再入荷・収穫速報",
+  },
+];
+
+// カタログ実データの件数 (固定値を埋め込まず配列長から算出)
+const specialtyCount = specialtyItems.length;
+const apparelCount = apparelItems.length;
+const totalCount = specialtyCount + apparelCount;
+
+const currentYear = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href="https://shiretoko-tourist-final.vercel.app/shop" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content="https://shiretoko-tourist-final.vercel.app/shop" />
+    <meta property="og:image" content="https://shiretoko-tourist-final.vercel.app/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" />
+    <meta property="og:site_name" content="北の逸品堂 / 知床ツーリスト" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content="https://shiretoko-tourist-final.vercel.app/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/cart.js" is:inline></script>
+  </head>
+  <body>
+    <!-- ============ 上部告知バー (送料無料カウンター付き) ============ -->
+    <div class="topbar topbar--v3" data-shipping-bar>
+      <span class="topbar__pill">6月限定</span>
+      <span class="topbar__msg">朝採りアスパラを北海道から直送中</span>
+      <span class="topbar__divider" aria-hidden="true">・</span>
+      <span class="topbar__shipping">
+        <span class="topbar__shipping-label">¥5,000以上で送料無料</span>
+        <span class="topbar__shipping-remain" data-shipping-remain hidden>あと <b data-remain-amount>¥5,000</b></span>
+        <span class="topbar__shipping-done" data-shipping-done hidden>✓ 送料無料</span>
+      </span>
+      <span class="topbar__divider" aria-hidden="true">・</span>
+      <a href="/#retention" class="topbar__cta">LINE登録 ¥500 OFF</a>
+    </div>
+
+    <!-- ============ ヘッダ ============ -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="brand">
+          <span class="brand__mark">北の逸品堂</span>
+          <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+        </a>
+        <nav class="gnav" aria-label="主要メニュー">
+          <a href="/shop">SHOP</a>
+          <a href="/products/specialty/">産直</a>
+          <a href="/products/apparel/">アパレル</a>
+          <a href="/bundles/">セット</a>
+          <a href="/stories/">ストーリー</a>
+          <a href="/ranking/">ランキング</a>
+        </nav>
+        <div class="header-utility">
+          <a href="/account/" class="utility-link">マイページ</a>
+          <a href="/cart" class="utility-cart" data-cart-link>カート</a>
+          <details class="mobile-nav">
+            <summary aria-label="メニューを開く">
+              <span></span><span></span><span></span>
+            </summary>
+            <ul>
+              <li><a href="/shop">SHOP</a></li>
+              <li><a href="/products/specialty/">産直</a></li>
+              <li><a href="/products/apparel/">アパレル</a></li>
+              <li><a href="/bundles/">セット</a></li>
+              <li><a href="/stories/">ストーリー</a></li>
+              <li><a href="/ranking/">ランキング</a></li>
+              <li><a href="/gift/">ギフト</a></li>
+              <li><a href="/account/">マイページ</a></li>
+              <li><a href="/cart">カート</a></li>
+              <li><a href="#company">会社</a></li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============ [1] ページヘッダ帯 (パンくず + h1 + カテゴリタブ) ============ -->
+      <section class="shop-page-header" aria-label="ショップ一覧ヘッダ">
+        <div class="shop-page-header__inner">
+          <nav class="shop-page-header__crumbs" aria-label="パンくず">
+            <a href="/">TOP</a>
+            <span aria-hidden="true">›</span>
+            <span aria-current="page">SHOP</span>
+          </nav>
+          <h1 class="shop-page-header__title">北の逸品堂 — すべての商品</h1>
+          <p class="shop-page-header__count">
+            産直 {specialtyCount}商品 / アパレル {apparelCount}商品 ・ 合計 {totalCount}商品
+          </p>
+          <div class="shop-tabs" role="list">
+            <a href="#specialty" class="shop-tab" role="listitem">産直</a>
+            <a href="#apparel" class="shop-tab" role="listitem">アパレル</a>
+            <a href="#bundles" class="shop-tab" role="listitem">セット</a>
+            <a href="#ranking" class="shop-tab" role="listitem">ランキング</a>
+            <a href="/gift/" class="shop-tab" role="listitem">ギフト</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [2] 7入口タイル (BEAMS流) ============ -->
+      <section class="quick-tiles" aria-label="ショップの入口">
+        <div class="quick-tiles__inner">
+          <a href="/stories/" class="qtile">
+            <span class="qtile__no">01</span>
+            <span class="qtile__label mincho">店主の手記</span>
+            <span class="qtile__sub">STORIES</span>
+          </a>
+          <a href="/ranking/" class="qtile qtile--accent">
+            <span class="qtile__no">02</span>
+            <span class="qtile__label mincho">ランキング</span>
+            <span class="qtile__sub">WEEKLY RANKING</span>
+          </a>
+          <a href="#specialty" class="qtile">
+            <span class="qtile__no">03</span>
+            <span class="qtile__label mincho">産直</span>
+            <span class="qtile__sub">SPECIALTY</span>
+          </a>
+          <a href="#apparel" class="qtile">
+            <span class="qtile__no">04</span>
+            <span class="qtile__label mincho">アパレル</span>
+            <span class="qtile__sub">APPAREL</span>
+          </a>
+          <a href="/bundles/" class="qtile">
+            <span class="qtile__no">05</span>
+            <span class="qtile__label mincho">特集・セット</span>
+            <span class="qtile__sub">COLLECTIONS</span>
+          </a>
+          <a href="/ranking/" class="qtile qtile--sale">
+            <span class="qtile__no">06</span>
+            <span class="qtile__label mincho">6月限定</span>
+            <span class="qtile__sub">JUNE OFFER</span>
+          </a>
+          <a href="/gift/" class="qtile">
+            <span class="qtile__no">07</span>
+            <span class="qtile__label mincho">ギフト</span>
+            <span class="qtile__sub">GIFT・のし対応</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============ [3] 2大入口（産直 / アパレル）中チラ見せ ============ -->
+      <section class="entrances" aria-label="2大入口">
+        <div class="entrances__inner">
+          <span class="section-eyebrow">2 ENTRANCES</span>
+          <h2 class="mincho">食べるもの / 着るもの、<br />どちらから見ますか。</h2>
+          <hr class="section-rule" />
+
+          <div class="entrances__grid">
+            <!-- 産直カラム -->
+            <div class="entrance entrance--specialty" id="specialty">
+              <span class="entrance__tag">SPECIALTY ・ 産直</span>
+              <div class="entrance__key">
+                <img src="/source-images/files/key-specialty-warm.jpg" alt="朝採りアスパラと清里町の畑" loading="lazy" decoding="async" />
+              </div>
+              <div class="entrance__previews" aria-hidden="true">
+                {specialtyPreviews.map((p) => (
+                  <span class="entrance__thumb">
+                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
+                  </span>
+                ))}
+              </div>
+              <p class="entrance__note">
+                朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
+              </p>
+              <a href="/products/specialty/" class="entrance__cta">産直を見る →</a>
+            </div>
+
+            <!-- アパレルカラム -->
+            <div class="entrance entrance--apparel" id="apparel">
+              <span class="entrance__tag">APPAREL ・ アパレル</span>
+              <div class="entrance__key">
+                <img src="/source-images/files/key-apparel-cool.jpg" alt="知床の岩場で着るアウトドアフリース" loading="lazy" decoding="async" />
+              </div>
+              <div class="entrance__previews" aria-hidden="true">
+                {apparelPreviews.map((p) => (
+                  <span class="entrance__thumb">
+                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
+                  </span>
+                ))}
+              </div>
+              <p class="entrance__note">
+                店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
+              </p>
+              <a href="/products/apparel/" class="entrance__cta">アパレルを見る →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [4] 今週のPICK UP (ランキング) ============ -->
+      <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
+        <div class="section__inner">
+          <span class="section-eyebrow">PICK UP</span>
+          <h2>今週のおすすめ</h2>
+          <hr class="section-rule" />
+          <div class="ranking ranking--wide">
+            {ranking.map((item) => (
+              <article class="ranking-card">
+                <a href={`/products/${item.slug}`} class="ranking-card__link" aria-label={`${item.title}の詳細を見る`}>
+                <span class="ranking-card__rank">{item.rank}</span>
+                <span class={`ranking-card__badge ranking-card__badge--${item.badge.toLowerCase()}`}>{item.badge}</span>
+                {item.low && <span class="ranking-card__lowbadge">残り僅か</span>}
+                <div class="ranking-card__img" data-image-key={item.imageKey}>
+                  {item.image.src ? (
+                    <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+                  ) : (
+                    <div class="source-placeholder" role="img" aria-label={`${item.image.alt}の画像枠`}>
+                      <span>{item.image.label}</span>
+                      <small>画像を追加</small>
+                    </div>
+                  )}
+                </div>
+                <div class="ranking-card__body">
+                  <span class="ranking-card__origin">{item.origin}</span>
+                  <p class="ranking-card__title">{item.title}</p>
+                  <div class="ranking-card__meta">
+                    <span class={item.low ? "ranking-card__stock low" : "ranking-card__stock"}>{item.stock}</span>
+                    <span class="ranking-card__delivery">{item.delivery}</span>
+                  </div>
+                  <span class="ranking-card__price">
+                    {item.priceLabel}
+                    <small>{item.unit}</small>
+                  </span>
+                </div>
+                </a>
+                <div class="ranking-card__actions">
+                  <button
+                    type="button"
+                    class="ranking-card__cart"
+                    aria-label={`${item.title}をカートに追加`}
+                    data-add-slug={item.slug}
+                    data-add-name={item.title}
+                    data-add-price={String(item.price)}
+                  >
+                    カゴに追加
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p class="ranking-note">
+            産直（食）<b>{specialtyCount}商品</b> ／ アウトドアウェア（Patagonia等）<b>{apparelCount}商品</b> から、まずは売れ筋を商品ページ化。
+            <a href="/ranking/">全商品を見る →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ [5] 産直のおすすめ ============ -->
+      <section class="featured-block" id="featured-specialty" aria-label="産直のおすすめ">
+        <div class="featured-block__inner">
+          <span class="featured-eyebrow">SPECIALTY ・ 産直のおすすめ</span>
+          <h2 class="mincho">今週、店主が選んだ食べるもの。</h2>
+          <hr class="section-rule" />
+          <div class="featured-grid">
+            {specialtyFeatured.map((item) => (
+              <article class="featured-card">
+                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
+                  <div class="featured-card__img">
+                    {item.image.src ? (
+                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
+                    )}
+                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
+                  </div>
+                  <div class="featured-card__body">
+                    <span class="featured-card__origin">{item.origin}</span>
+                    <h3 class="featured-card__title">{item.title}</h3>
+                    <div class="featured-card__meta">
+                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
+                      <span class="featured-card__delivery">{item.delivery}</span>
+                    </div>
+                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
+                  </div>
+                </a>
+                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+              </article>
+            ))}
+          </div>
+          <div class="featured-block__cta">
+            <a href="/products/specialty/" class="featured-link">産直一覧をすべて見る ({specialtyCount}商品) →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [6] アパレルのおすすめ ============ -->
+      <section class="featured-block featured-block--alt" id="featured-apparel" aria-label="アパレルのおすすめ">
+        <div class="featured-block__inner">
+          <span class="featured-eyebrow">APPAREL ・ アパレルのおすすめ</span>
+          <h2 class="mincho">店主が現場で使う、着るもの。</h2>
+          <hr class="section-rule" />
+          <div class="featured-grid">
+            {apparelFeatured.map((item) => (
+              <article class="featured-card">
+                <a href={`/products/${item.slug}/`} class="featured-card__link" aria-label={`${item.title}の詳細を見る`}>
+                  <div class="featured-card__img">
+                    {item.image.src ? (
+                      <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="featured-card__placeholder" aria-hidden="true">no image</div>
+                    )}
+                    {item.low && <span class="featured-card__lowbadge">残り僅か</span>}
+                  </div>
+                  <div class="featured-card__body">
+                    <span class="featured-card__origin">{item.origin}</span>
+                    <h3 class="featured-card__title">{item.title}</h3>
+                    <div class="featured-card__meta">
+                      <span class={item.low ? "featured-card__stock low" : "featured-card__stock"}>{item.stock}</span>
+                      <span class="featured-card__delivery">{item.delivery}</span>
+                    </div>
+                    <span class="featured-card__price">{item.priceLabel}<small>{item.unit}</small></span>
+                  </div>
+                </a>
+                <button type="button" class="featured-card__cart" aria-label={`${item.title}をカートに追加`} data-add-slug={item.slug} data-add-name={item.title} data-add-price={String(item.price)}>カゴに追加</button>
+              </article>
+            ))}
+          </div>
+          <div class="featured-block__cta">
+            <a href="/products/apparel/" class="featured-link">アパレル一覧をすべて見る ({apparelCount}商品) →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [7] 特産品 + アパレル 併売提案 ============ -->
+      <section class="bundle-section" id="bundles" aria-label="セット提案">
+        <div class="bundle-section__inner">
+          <span class="section-eyebrow">BUY TOGETHER</span>
+          <h2>食と道具を、同じストーリーで選ぶ。</h2>
+          <hr class="section-rule" />
+          <p class="bundle-section__lead">
+            「特産品だけ」「アパレルだけ」に分けず、知床で暮らす店主の目利きを軸に買い合わせを提案します。
+            贈る、食べる、着る、旅に出るまでをひとつにすると、客単価とリピートの両方が伸ばせます。
+          </p>
+          <div class="bundle-grid">
+            {bundles.map((bundle) => (
+              <article class="bundle-card">
+                <div class="bundle-card__media" aria-hidden="true">
+                  <div class="bundle-card__image" data-image-key={bundle.primary.imageKey}>
+                    {bundle.primary.image.src ? (
+                      <img src={bundle.primary.image.src} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="source-placeholder">
+                        <span>{bundle.primary.image.label}</span>
+                        <small>画像を追加</small>
+                      </div>
+                    )}
+                  </div>
+                  <div class="bundle-card__image" data-image-key={bundle.secondary.imageKey}>
+                    {bundle.secondary.image.src ? (
+                      <img src={bundle.secondary.image.src} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <div class="source-placeholder">
+                        <span>{bundle.secondary.image.label}</span>
+                        <small>画像を追加</small>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div class="bundle-card__body">
+                  <span class="bundle-card__season">{bundle.season}</span>
+                  <h3>{bundle.title}</h3>
+                  <p>{bundle.desc}</p>
+                  <div class="bundle-card__note">{bundle.note}</div>
+                  <a href="/bundles/" class="btn btn--ghost">この組み合わせを見る</a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [8] 季節カレンダー（年間サイクル＝LTV設計の可視化） ============ -->
+      <section class="season-band" aria-label="季節カレンダー">
+        <div class="season-band__inner">
+          <span class="section-eyebrow">SEASONAL CALENDAR</span>
+          <h2>北の年間カレンダー</h2>
+          <hr class="section-rule" />
+          <div class="season-grid">
+            <div class="season-cell season-cell--spring">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">春</div>
+              <div class="season-cell__period">APR – MAY</div>
+              <div class="season-cell__items">山菜・行者にんにく<br />清里町の遅い春の便り</div>
+            </div>
+            <div class="season-cell season-cell--summer is-now">
+              <div class="season-cell__bar"></div>
+              <span class="now-tag">NOW</span>
+              <div class="season-cell__season">夏</div>
+              <div class="season-cell__period">JUN – AUG</div>
+              <div class="season-cell__items">アスパラ・じゃがいも・玉ねぎ<br />知床五湖ガイドツアー</div>
+            </div>
+            <div class="season-cell season-cell--autumn">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">秋</div>
+              <div class="season-cell__period">SEP – NOV</div>
+              <div class="season-cell__items">きのこ・北海道米<br />オホーツク鮭フレーク</div>
+            </div>
+            <div class="season-cell season-cell--winter">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">冬</div>
+              <div class="season-cell__period">DEC – MAR</div>
+              <div class="season-cell__items">流氷熱気球フリーフライト<br />神の子池スノーシュー</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ [9] ツアー連動 ============ -->
+      <section class="tour-link" id="tour" aria-label="ツアー連動">
+        <div class="tour-link__inner">
+          <span class="section-eyebrow">TOUR LINK</span>
+          <h2>店主と歩く、知床。</h2>
+          <hr class="section-rule" />
+          <p class="tour-link__lead">
+            知床ツーリストは北海道知事登録旅行業 第2-453号を持つ旅行業者です。
+            ツアーのお申し込み・お問い合わせは既存サイトで継続承っています。
+          </p>
+          <a href="https://shiretokotourist.com/" class="tour-link__card" target="_blank" rel="noopener noreferrer">
+            <div class="tour-link__media">
+              {media.tourHero.src ? (
+                <img src={media.tourHero.src} alt={media.tourHero.alt} loading="lazy" decoding="async" />
+              ) : (
+                <div class="source-placeholder source-placeholder--dark" role="img" aria-label={`${media.tourHero.alt}の画像枠`}>
+                  <span>{media.tourHero.label}</span>
+                </div>
+              )}
+            </div>
+            <div class="tour-link__body">
+              <span class="tour-link__period">通年 / 春-秋 4ツアー + 冬 4ツアー</span>
+              <h3>知床五湖ガイド / 流氷熱気球 / 神の子池スノーシュー ほか</h3>
+              <p>世界自然遺産・知床の現場ガイドが直接ご案内。少人数制・装備込・全国旅行業協会 (ANTA) 所属。お申し込みは既存サイトから。</p>
+              <span class="tour-link__cta">ツアー一覧へ (shiretokotourist.com) →</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============ [10] LINE 細帯 ============ -->
+      <div class="line-band" id="retention" role="complementary" aria-label="LINE登録">
+        <div class="line-band__inner">
+          <span class="line-band__text">収穫便りをLINEで受け取る — 再入荷通知・収穫速報</span>
+          <a href="https://line.me/R/ti/p/@kitanoippindo" class="line-band__btn" target="_blank" rel="noopener noreferrer">LINE登録 ¥500 OFF →</a>
+        </div>
+      </div>
+    </main>
+
+    <script is:inline>
+      document.querySelectorAll('[data-add-slug]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const slug = btn.dataset.addSlug;
+          const name = btn.dataset.addName;
+          const price = parseInt(btn.dataset.addPrice, 10);
+          if (window.cart && slug && name && Number.isFinite(price)) {
+            window.cart.add(slug, name, price, 1);
+          }
+        });
+      });
+
+      // 送料無料カウンター
+      (function () {
+        const THRESHOLD = 5000;
+        const remainEl = document.querySelector('[data-shipping-remain]');
+        const remainAmount = document.querySelector('[data-remain-amount]');
+        const doneEl = document.querySelector('[data-shipping-done]');
+        function fmtYen(n) { return '¥' + n.toLocaleString('ja-JP'); }
+        function update() {
+          const sub = window.cart && window.cart.subtotal ? window.cart.subtotal() : 0;
+          if (sub <= 0) {
+            if (remainEl) { remainEl.hidden = true; }
+            if (doneEl) doneEl.hidden = true;
+            return;
+          }
+          const remain = THRESHOLD - sub;
+          if (remain > 0) {
+            if (remainAmount) remainAmount.textContent = fmtYen(remain);
+            if (remainEl) remainEl.hidden = false;
+            if (doneEl) doneEl.hidden = true;
+          } else {
+            if (remainEl) remainEl.hidden = true;
+            if (doneEl) doneEl.hidden = false;
+          }
+        }
+        update();
+        document.addEventListener('cart:change', update);
+        window.addEventListener('storage', update);
+      })();
+    </script>
+
+    <!-- ============ フッタ ============ -->
+    <footer class="site-footer" id="company">
+      <div class="site-footer__inner">
+        <div class="site-footer__grid">
+          <div class="site-footer__brand">
+            <span class="brand__mark">北の逸品堂</span>
+            <span class="brand__sub">SHIRETOKO TOURIST / 1992</span>
+            <p class="addr">
+              株式会社 知床ツーリスト<br />
+              〒099-4403 北海道斜里郡清里町字向陽282番地<br />
+              旅行・ガイド: 0152-25-2642<br />
+              ホステル: 0152-25-3995<br />
+              北海道知事登録旅行業 第2-453号<br />
+              全国旅行業協会 (ANTA) 所属
+            </p>
+          </div>
+          <div>
+            <h3>ショッピング</h3>
+            <ul>
+              <li><a href="/products/specialty/">産直一覧</a></li>
+              <li><a href="/products/apparel/">アパレル一覧</a></li>
+              <li><a href="/bundles/">セット販売</a></li>
+              <li><a href="/gift/">ギフト</a></li>
+              <li><a href="/ranking/">ランキング</a></li>
+              <li><a href="/stories/">ストーリー</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>サポート / 会社</h3>
+            <ul>
+              <li><a href="/account/">マイページ</a></li>
+              <li><a href="/comparison/">他社EC比較</a></li>
+              <li><a href="/furusato/">ふるさと納税</a></li>
+              <li><a href="/account/">送料・配送について</a></li>
+              <li><a href="/account/">特定商取引法に基づく表記</a></li>
+              <li><a href="https://shiretokotourist.com/" target="_blank" rel="noopener noreferrer">旅行業約款・取引条件説明書</a></li>
+              <li><a href="/account/">プライバシーポリシー</a></li>
+              <li><a href="/stories/">会社概要</a></li>
+              <li><a href="/account/">お問い合わせ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="site-footer__legal">
+          <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
+          <span class="payments">クレジットカード / コード決済 / 銀行振込 / 代引き</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

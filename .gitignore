@@ -24,3 +24,4 @@ npm-debug.log*
 .omc/
 src/.omc/
 public/source-images/.omc/
+.vercel

@@ -3415,4 +3415,89 @@ body.lock-scroll { overflow: hidden; }
   .story__copy .section-eyebrow { text-align: center; }
   .story__copy .section-rule { margin-left: auto; margin-right: auto; }
 }
+
+/* ---- /shop ページヘッダ帯（パンくず + h1 + カテゴリタブ） ---- */
+.shop-page-header {
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+  padding: 1.8rem 0 1.6rem;
+}
+.shop-page-header__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.shop-page-header__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-bottom: 0.7rem;
+}
+.shop-page-header__crumbs a { color: var(--teal-dark); }
+.shop-page-header__crumbs span[aria-current] { color: var(--ink); font-weight: 600; }
+.shop-page-header__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+}
+.shop-page-header__count {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0 0 1.1rem;
+}
+.shop-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.shop-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.shop-tab:hover {
+  background: var(--camel);
+  border-color: var(--camel);
+  color: #fff;
+  text-decoration: none;
+}
+@media (max-width: 480px) {
+  .shop-page-header { padding: 1.4rem 0 1.3rem; }
+  .shop-tab { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
+}
 /* ============== /story-first TOP ============== */
+
+/* ===== ranking-card 正規化 =====
+   global.css 内に .ranking-card の重複定義があり、後勝ちの grid(64px 110px 1fr auto)が
+   本来の縦型カード設計(471行: 画像上・本文下の flex column)を破壊し、__link が極小列に
+   押し込められて本文が幅7pxに潰れ1文字ずつ縦折れしていた(/shop ランキング・desktop/mobile両方)。
+   末尾で本来の縦型 flex レイアウトに戻す。実在マークアップは1種のみ(死んだ grid 定義に副作用なし)。
+   :has() はビルド時のCSS最適化で除去されるため使わない。 */
+.ranking-card {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+}
+.ranking-card > .ranking-card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ranking-card .ranking-card__body { min-width: 0; }
+.ranking-card > .ranking-card__actions { margin-top: auto; }
