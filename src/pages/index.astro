@@ -6,6 +6,7 @@
 import "../styles/global.css";
 import { productImageForKey, siteMedia as media } from "../data/sourceImages";
 import { products, formatYen } from "../data/products";
+import { apparelItems } from "../data/catalog";
 
 const meta = {
   title: "知床から、食べるものと着るものを選ぶ｜北の逸品堂(1992清里町)",
@@ -39,6 +40,19 @@ const apparelFeatured = ["patagonia-r1-air-hoodie", "patagonia-r1-zip-neck"]
     low: product.stock <= 5,
     image: productImageForKey(product.imageKey, product.title),
   }));
+
+// 入口「中チラ見せ」用プレビュー写真
+// 産直: specialtyFeatured の商品画像から3枚
+const specialtyPreviews = specialtyFeatured
+  .slice(0, 3)
+  .map((item) => ({ src: item.image.src, alt: item.image.alt }))
+  .filter((p) => p.src);
+
+// アパレル: catalog の apparel で画像があるもの先頭3つ
+const apparelPreviews = apparelItems
+  .filter((p) => p.image)
+  .slice(0, 3)
+  .map((p) => ({ src: p.image, alt: p.title }));
 
 // セット提案用 (既存)
 const ranking = [...specialtyFeatured, ...apparelFeatured];
@@ -274,40 +288,57 @@ const tours = [
         </div>
       </section>
 
-      <!-- ============ 2大入口（産直 / アパレル） ============ -->
+      <!-- ============ 2大入口（産直 / アパレル）中チラ見せ ============ -->
       <section class="entrances" aria-label="2大入口">
         <div class="entrances__inner">
           <span class="section-eyebrow">2 ENTRANCES</span>
-          <h2 class="mincho">食べるもの / 着るもの、<br />入口を分けます。</h2>
+          <h2 class="mincho">食べるもの / 着るもの、<br />どちらから見ますか。</h2>
           <hr class="section-rule" />
-          <p class="entrances__lead">
-            産直とアパレルは目的が違うので、トップから先は道を分けます。
-            同じ店主が選ぶ世界観でつながりつつ、お客様は最短で目的の棚にたどり着けます。
-          </p>
+
           <div class="entrances__grid">
-            <a href="/products/specialty/" class="entrance entrance--specialty">
-              <div class="entrance__media">
-                <img src="/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg" alt="北海道オホーツク産アスパラガス" loading="lazy" />
+            <!-- 産直カラム -->
+            <div class="entrance entrance--specialty">
+              <span class="entrance__tag">SPECIALTY ・ 産直</span>
+              <div class="entrance__key">
+                <img src="/source-images/files/key-specialty-warm.jpg" alt="朝採りアスパラと清里町の畑" loading="lazy" decoding="async" />
               </div>
-              <div class="entrance__body">
-                <span class="entrance__tag">SPECIALTY ・ 産直入口</span>
-                <h3 class="mincho">北海道・知床の<br />産直食材</h3>
-                <p>アスパラ / じゃがいも / 玉ねぎ / 季節食材 / ギフト</p>
-                <span class="entrance__cta">産直一覧を見る →</span>
+              <div class="entrance__previews" aria-hidden="true">
+                {specialtyPreviews.map((p) => (
+                  <span class="entrance__thumb">
+                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
+                  </span>
+                ))}
               </div>
-            </a>
-            <a href="/products/apparel/" class="entrance entrance--apparel">
-              <div class="entrance__media">
-                <img src="/source-images/files/product-2989-new-m-patagonia-ms-r1-air-full-zip-hoodie-patagonia-clement-blue-clmb-2984-p1010080-1.jpg" alt="Patagonia R1 Air Hoodie 店主厳選" loading="lazy" />
+              <p class="entrance__note">
+                朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
+              </p>
+              <a href="/products/specialty/" class="entrance__cta">産直を見る →</a>
+            </div>
+
+            <!-- アパレルカラム -->
+            <div class="entrance entrance--apparel">
+              <span class="entrance__tag">APPAREL ・ アパレル</span>
+              <div class="entrance__key">
+                <img src="/source-images/files/key-apparel-cool.jpg" alt="知床の岩場で着るアウトドアフリース" loading="lazy" decoding="async" />
               </div>
-              <div class="entrance__body">
-                <span class="entrance__tag">APPAREL ・ アパレル入口</span>
-                <h3 class="mincho">店主が現場で<br />使うアウトドアウェア</h3>
-                <p>Patagonia / フーディー / ジャケット / ベスト / シャツ</p>
-                <span class="entrance__cta">アパレル一覧を見る →</span>
+              <div class="entrance__previews" aria-hidden="true">
+                {apparelPreviews.map((p) => (
+                  <span class="entrance__thumb">
+                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
+                  </span>
+                ))}
               </div>
-            </a>
+              <p class="entrance__note">
+                店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
+              </p>
+              <a href="/products/apparel/" class="entrance__cta">アパレルを見る →</a>
+            </div>
           </div>
+
+          <a href="#story" class="entrances__band">
+            <span class="entrances__band-text">同じ店主が、食べるものも着るものも選んでいます。</span>
+            <span class="entrances__band-cta">店主のこと →</span>
+          </a>
         </div>
       </section>
 

@@ -1,0 +1,534 @@
+---
+// お得・サービスまとめ — 北の逸品堂 EC (商談用モック)
+// promotions.ts の各施策をユーザー向けに一覧する「お得な使い方」ページ。
+import "../styles/global.css";
+import {
+  subscriptions,
+  pointsInfo,
+  volumeLadder,
+  preOrders,
+  referral,
+  birthdayCoupon,
+  restockInfo,
+  thresholdGift,
+} from "../data/promotions";
+
+const meta = {
+  title: "お得な使い方・サービス｜北の逸品堂 (知床ツーリスト)",
+  description:
+    "定期便・ポイント・まとめ買い割引・予約販売・紹介割・誕生月クーポンなど、北の逸品堂を長くお使いいただくほどお得になるサービスをまとめました。",
+};
+
+const yen = (n: number) => "¥" + n.toLocaleString("ja-JP");
+const productUrl = (slug: string) => `/products/${slug}/`;
+
+// 増量階段: 最安単価との差で逓減を可視化
+const basePerKg = volumeLadder[0]?.perKg ?? 1;
+const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<script src="/cart.js" is:inline></script>
+</head>
+<body class="page-listing page-promotions">
+
+<div class="topbar">会員登録は無料 ・ 1%ポイント還元 + 定期便で最大10%OFF ・ ¥5,000以上で<b>送料無料</b></div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="brand">
+      <span class="brand__mark">北の逸品堂</span>
+      <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
+    </a>
+    <nav class="gnav" aria-label="主要メニュー">
+      <a href="/products/specialty/">産直</a>
+      <a href="/products/apparel/">アパレル</a>
+      <a href="/bundles/">セット</a>
+      <a href="/stories/">ストーリー</a>
+      <a href="/ranking/">ランキング</a>
+    </nav>
+    <div class="header-utility">
+      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/cart" class="utility-cart" data-cart-link>カート (0)</a>
+      <details class="mobile-nav">
+        <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+        <ul>
+          <li><a href="/products/specialty/">産直</a></li>
+          <li><a href="/products/apparel/">アパレル</a></li>
+          <li><a href="/bundles/">セット</a></li>
+          <li><a href="/stories/">ストーリー</a></li>
+          <li><a href="/ranking/">ランキング</a></li>
+          <li><a href="/gift/">ギフト</a></li>
+          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/cart">カート</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</header>
+
+<section class="listing-hero">
+  <div class="listing-hero__inner">
+    <span class="eyebrow">SERVICE ・ お得な使い方</span>
+    <h1 class="mincho">長く付き合うほど、<br />お得に。</h1>
+    <p>
+      旬を切らさない定期便、続けるほど貯まるポイント、まとめ買いの単価割引。
+      北の逸品堂を末永くお使いいただくための仕組みを、ひとつにまとめました。
+    </p>
+  </div>
+</section>
+
+<!-- アンカーナビ -->
+<nav class="promo-anchors" aria-label="サービス一覧">
+  <a href="#subscription">定期便</a>
+  <a href="#points">ポイント</a>
+  <a href="#volume">まとめ買い</a>
+  <a href="#preorder">予約販売</a>
+  <a href="#more">そのほかの特典</a>
+</nav>
+
+<main class="promo">
+
+  <!-- 1. 定期便 -->
+  <section class="promo-section" id="subscription">
+    <div class="promo-section__inner">
+      <header class="promo-head">
+        <span class="promo-head__no">01</span>
+        <div>
+          <h2 class="mincho">定期便</h2>
+          <p>旬の食材を、買い忘れなく。割引価格で自動的にお届けします。解約・スキップはいつでも自由、違約金はありません。</p>
+        </div>
+      </header>
+      <div class="sub-grid">
+        {subscriptions.map((s) => (
+          <article class="sub-card">
+            <div class="sub-card__head">
+              <span class="sub-card__badge">{s.discount}</span>
+              <span class="sub-card__interval">{s.interval}</span>
+            </div>
+            <h3 class="sub-card__title">{s.title}</h3>
+            <div class="sub-card__price">
+              <span class="sub-card__was">通常 {yen(s.normalPrice)}</span>
+              <span class="sub-card__now"><b>{yen(s.subPrice)}</b><small>／回</small></span>
+            </div>
+            <p class="sub-card__note">{s.note}</p>
+            <a href={productUrl(s.slug)} class="sub-card__link">商品を見る →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ポイント -->
+  <section class="promo-section promo-section--alt" id="points">
+    <div class="promo-section__inner">
+      <header class="promo-head">
+        <span class="promo-head__no">02</span>
+        <div>
+          <h2 class="mincho">ポイント還元</h2>
+          <p>{pointsInfo.note}</p>
+        </div>
+      </header>
+      <div class="points-layout">
+        <div class="points-visual">
+          <span class="points-visual__rate">{pointsInfo.rate}</span>
+          <span class="points-visual__label">還元</span>
+          <div class="points-visual__sample">
+            <span>たとえば {yen(10000)} のお買い物で</span>
+            <b>{Math.round(10000 * pointsInfo.rateValue)} pt</b>
+            <span>= {yen(Math.round(10000 * pointsInfo.rateValue))}分</span>
+          </div>
+          <p class="points-visual__expiry">有効期限：{pointsInfo.expiry}</p>
+        </div>
+        <div class="points-detail">
+          <h3>使い方</h3>
+          <ul class="check-list">
+            {pointsInfo.usage.map((u) => <li>{u}</li>)}
+          </ul>
+          <p class="points-detail__balance">
+            現在のポイント残高（サンプル）：<b>{pointsInfo.sampleBalance} pt</b>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 増量階段 (まとめ買い) -->
+  <section class="promo-section" id="volume">
+    <div class="promo-section__inner">
+      <header class="promo-head">
+        <span class="promo-head__no">03</span>
+        <div>
+          <h2 class="mincho">まとめ買いほど、1kgあたりが安く</h2>
+          <p>朝採りアスパラは、量が増えるほど単価が下がります。ご家族・お裾分け・冷凍保存にまとめてどうぞ。</p>
+        </div>
+      </header>
+      <div class="ladder">
+        <table class="ladder__table">
+          <thead>
+            <tr>
+              <th scope="col">内容量</th>
+              <th scope="col">価格</th>
+              <th scope="col">1kgあたり</th>
+              <th scope="col" class="ladder__barhead">お得度</th>
+            </tr>
+          </thead>
+          <tbody>
+            {volumeLadder.map((step) => {
+              const ratio = Math.round((step.perKg / basePerKg) * 100);
+              const off = basePerKg - step.perKg;
+              return (
+                <tr class={step.popular ? "is-popular" : ""}>
+                  <td class="ladder__weight">
+                    {step.weight}
+                    {step.popular && <span class="ladder__pop">人気</span>}
+                  </td>
+                  <td class="ladder__price tnum">{yen(step.price)}</td>
+                  <td class="ladder__perkg tnum">
+                    {yen(step.perKg)}
+                    {off > 0 && <small class="ladder__off">−{yen(off)}</small>}
+                  </td>
+                  <td class="ladder__bar">
+                    <span class="ladder__barfill" style={`width:${ratio}%`}></span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p class="ladder__foot">
+          最安は <b>{yen(minPerKg)}／kg</b>。1kg単品に比べ最大 {yen(basePerKg - minPerKg)}／kg お得です。
+          <a href={productUrl(volumeLadder[0].slug)}>アスパラの商品ページへ →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 予約販売 -->
+  <section class="promo-section promo-section--alt" id="preorder">
+    <div class="promo-section__inner">
+      <header class="promo-head">
+        <span class="promo-head__no">04</span>
+        <div>
+          <h2 class="mincho">予約販売（青田買い）</h2>
+          <p>収穫前に予約すると、予約価格で確保できます。掘りたて・採れたてを順次出荷します。</p>
+        </div>
+      </header>
+      <div class="preorder-grid">
+        {preOrders.map((p) => (
+          <article class="preorder-card">
+            <div class="preorder-card__top">
+              <span class="preorder-card__badge">{p.discount}</span>
+              <h3 class="preorder-card__title">{p.title}</h3>
+            </div>
+            <div class="preorder-card__price">
+              <span class="preorder-card__was">通常 {yen(p.normalPrice)}</span>
+              <span class="preorder-card__now"><b>{yen(p.preOrderPrice)}</b><small>予約価格</small></span>
+            </div>
+            <dl class="preorder-card__spec">
+              <div><dt>出荷</dt><dd>{p.shipTo}</dd></div>
+              <div><dt>予約締切</dt><dd>{p.orderDeadline}</dd></div>
+            </dl>
+            <p class="preorder-card__note">{p.note}</p>
+            <a href={productUrl(p.slug)} class="preorder-card__link">予約する →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. そのほかの特典 (紹介割 / 誕生月 / 再入荷) -->
+  <section class="promo-section" id="more">
+    <div class="promo-section__inner">
+      <header class="promo-head">
+        <span class="promo-head__no">05</span>
+        <div>
+          <h2 class="mincho">そのほかの特典</h2>
+          <p>会員登録ですぐに使える、小さくてうれしい仕組みたち。</p>
+        </div>
+      </header>
+      <div class="perk-grid">
+
+        <article class="perk-card">
+          <span class="perk-card__tag">紹介割</span>
+          <h3>お友だち紹介で双方に{referral.rewardLabel}</h3>
+          <ol class="step-list">
+            {referral.steps.map((s) => <li>{s}</li>)}
+          </ol>
+          <p class="perk-card__note">{referral.note}</p>
+        </article>
+
+        <article class="perk-card">
+          <span class="perk-card__tag">誕生月クーポン</span>
+          <h3>お誕生月に{birthdayCoupon.amountLabel}</h3>
+          <p class="perk-card__lead">{birthdayCoupon.description}</p>
+          <p class="perk-card__note">{birthdayCoupon.note}</p>
+        </article>
+
+        <article class="perk-card">
+          <span class="perk-card__tag">再入荷通知</span>
+          <h3>{restockInfo.channel}で入荷をお知らせ</h3>
+          <p class="perk-card__lead">{restockInfo.description}</p>
+          <ul class="restock-targets">
+            {restockInfo.targets.map((t) => (
+              <li><span>{t.title}</span><b>{t.expectedRestock}</b></li>
+            ))}
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- しきい値ギフトの帯 -->
+  <section class="threshold-band" aria-label="まとめ買い特典">
+    <div class="threshold-band__inner">
+      <span class="threshold-band__amount">{thresholdGift.thresholdLabel}で</span>
+      <div class="threshold-band__body">
+        <h3 class="mincho">{thresholdGift.giftName}</h3>
+        <p>{thresholdGift.description}</p>
+        <span class="threshold-band__note">{thresholdGift.note}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINE登録 CTA -->
+  <section class="line-cta" aria-label="LINE登録">
+    <div class="line-cta__inner">
+      <span class="line-cta__eyebrow">LINE 公式アカウント</span>
+      <h2 class="mincho">入荷・予約開始を、いちばんに。</h2>
+      <p>
+        再入荷通知・収穫速報・予約販売の先行案内をLINEでお届けします。
+        友だち追加は無料、いつでも解除できます。
+      </p>
+      <a href="#" class="line-cta__btn">LINEで友だち追加</a>
+      <span class="line-cta__sub">登録するとポイントや誕生月クーポンの案内も受け取れます</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__legal">
+      <span>(c) 1992-2026 株式会社 知床ツーリスト. All rights reserved.</span>
+      <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .page-promotions { background: #F6F3EC; }
+
+  /* アンカーナビ */
+  .promo-anchors {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; gap: 4px; overflow-x: auto;
+    padding: 10px 16px;
+    background: rgba(246, 243, 236, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #EDE7D9;
+    -webkit-overflow-scrolling: touch;
+  }
+  .promo-anchors a {
+    flex: 0 0 auto;
+    padding: 7px 14px; border-radius: 3px;
+    font-size: 13px; font-weight: 600; color: #6B5F4F;
+    text-decoration: none; white-space: nowrap;
+    transition: background .2s, color .2s;
+  }
+  .promo-anchors a:hover { background: #EDE7D9; color: #1A1A1A; }
+
+  .promo-section { padding: 64px 16px; }
+  .promo-section--alt { background: #EDE7D9; }
+  .promo-section__inner { max-width: 1080px; margin: 0 auto; }
+
+  .promo-head { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 36px; }
+  .promo-head__no {
+    flex: 0 0 auto;
+    font-family: Inter, sans-serif; font-weight: 700; font-size: 15px;
+    color: #B99253; letter-spacing: .08em;
+    padding-top: 8px;
+  }
+  .promo-head h2 { margin: 0 0 8px; font-size: clamp(22px, 4vw, 30px); color: #1A1A1A; line-height: 1.3; }
+  .promo-head p { margin: 0; font-size: 15px; line-height: 1.85; color: #6B5F4F; max-width: 62ch; }
+
+  /* 定期便 */
+  .sub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .sub-card {
+    background: #fff; border: 1px solid #EDE7D9; border-radius: 4px;
+    padding: 24px; display: flex; flex-direction: column;
+  }
+  .sub-card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .sub-card__badge {
+    background: #B7472A; color: #fff; font-size: 12px; font-weight: 700;
+    padding: 4px 10px; border-radius: 3px;
+  }
+  .sub-card__interval { font-size: 12px; color: #6B5F4F; }
+  .sub-card__title { margin: 0 0 14px; font-size: 17px; line-height: 1.5; color: #1A1A1A; }
+  .sub-card__price { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; }
+  .sub-card__was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .sub-card__now { font-family: Inter, sans-serif; color: #866326; }
+  .sub-card__now b { font-size: 26px; font-weight: 700; }
+  .sub-card__now small { font-size: 13px; margin-left: 4px; color: #6B5F4F; }
+  .sub-card__note { margin: 0 0 18px; font-size: 13px; line-height: 1.8; color: #555; flex: 1; }
+  .sub-card__link { font-size: 14px; font-weight: 600; color: #3C8186; text-decoration: none; }
+  .sub-card__link:hover { text-decoration: underline; }
+
+  /* ポイント */
+  .points-layout { display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: stretch; }
+  .points-visual {
+    background: #1A1A1A; color: #F6F3EC; border-radius: 4px;
+    padding: 32px; display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+  }
+  .points-visual__rate { font-family: Inter, sans-serif; font-size: 64px; font-weight: 700; line-height: 1; color: #B99253; }
+  .points-visual__label { font-size: 14px; letter-spacing: .2em; color: #EDE7D9; margin-top: 4px; }
+  .points-visual__sample {
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid #3a3a3a;
+    display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #d8d2c4;
+  }
+  .points-visual__sample b { font-family: Inter, sans-serif; font-size: 24px; color: #fff; }
+  .points-visual__expiry { margin: 16px 0 0; font-size: 12px; color: #b0a892; }
+  .points-detail {
+    background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 28px;
+  }
+  .points-detail h3 { margin: 0 0 14px; font-size: 16px; color: #1A1A1A; }
+  .check-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .check-list li { position: relative; padding-left: 26px; font-size: 14px; line-height: 1.7; color: #444; }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #3C8186;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/12px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/12px no-repeat;
+  }
+  .points-detail__balance { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid #EDE7D9; font-size: 14px; color: #6B5F4F; }
+  .points-detail__balance b { color: #866326; font-family: Inter, sans-serif; }
+
+  /* 増量階段 */
+  .ladder { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 8px 24px 24px; }
+  .ladder__table { width: 100%; border-collapse: collapse; }
+  .ladder__table th {
+    text-align: left; font-size: 12px; font-weight: 600; color: #6B5F4F;
+    padding: 14px 12px; border-bottom: 2px solid #EDE7D9;
+  }
+  .ladder__barhead { width: 34%; }
+  .ladder__table td { padding: 14px 12px; border-bottom: 1px solid #F0EBDD; vertical-align: middle; }
+  .ladder__table tr:last-child td { border-bottom: none; }
+  .ladder__table tr.is-popular { background: #FBF7EE; }
+  .ladder__weight { font-weight: 700; color: #1A1A1A; font-size: 15px; }
+  .ladder__pop {
+    margin-left: 8px; font-size: 11px; font-weight: 700; color: #fff;
+    background: #B7472A; padding: 2px 8px; border-radius: 3px; vertical-align: middle;
+  }
+  .tnum { font-family: Inter, sans-serif; font-feature-settings: "tnum"; }
+  .ladder__price { color: #1A1A1A; }
+  .ladder__perkg { color: #866326; font-weight: 600; }
+  .ladder__off { display: block; font-size: 11px; color: #3C8186; font-weight: 600; }
+  .ladder__bar { background: transparent; }
+  .ladder__barfill {
+    display: block; height: 10px; border-radius: 5px;
+    background: linear-gradient(90deg, #B99253, #866326);
+    min-width: 8px;
+  }
+  .ladder__foot { margin: 18px 0 0; font-size: 14px; line-height: 1.8; color: #6B5F4F; }
+  .ladder__foot b { color: #866326; }
+  .ladder__foot a { color: #3C8186; text-decoration: none; font-weight: 600; margin-left: 6px; }
+  .ladder__foot a:hover { text-decoration: underline; }
+
+  /* 予約販売 */
+  .preorder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .preorder-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; }
+  .preorder-card__top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .preorder-card__badge { background: #3C8186; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 3px; flex: 0 0 auto; }
+  .preorder-card__title { margin: 0; font-size: 17px; line-height: 1.4; color: #1A1A1A; }
+  .preorder-card__price { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+  .preorder-card__was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .preorder-card__now { font-family: Inter, sans-serif; color: #866326; }
+  .preorder-card__now b { font-size: 26px; font-weight: 700; }
+  .preorder-card__now small { font-size: 12px; margin-left: 6px; color: #6B5F4F; }
+  .preorder-card__spec { margin: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
+  .preorder-card__spec div { display: flex; gap: 12px; font-size: 13px; }
+  .preorder-card__spec dt { flex: 0 0 64px; color: #6B5F4F; }
+  .preorder-card__spec dd { margin: 0; color: #1A1A1A; font-weight: 600; }
+  .preorder-card__note { margin: 0 0 18px; font-size: 13px; line-height: 1.8; color: #555; flex: 1; }
+  .preorder-card__link { font-size: 14px; font-weight: 600; color: #3C8186; text-decoration: none; }
+  .preorder-card__link:hover { text-decoration: underline; }
+
+  /* そのほかの特典 */
+  .perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .perk-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; }
+  .perk-card__tag { display: inline-block; font-size: 12px; font-weight: 700; color: #B99253; letter-spacing: .04em; margin-bottom: 10px; }
+  .perk-card h3 { margin: 0 0 14px; font-size: 16px; line-height: 1.5; color: #1A1A1A; }
+  .perk-card__lead { margin: 0 0 12px; font-size: 13px; line-height: 1.8; color: #444; }
+  .perk-card__note { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid #F0EBDD; font-size: 12px; line-height: 1.7; color: #6B5F4F; }
+  .step-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .step-list li { font-size: 13px; line-height: 1.7; color: #444; }
+  .restock-targets { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .restock-targets li { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; line-height: 1.5; padding: 8px 0; border-top: 1px solid #F0EBDD; }
+  .restock-targets li span { color: #1A1A1A; }
+  .restock-targets li b { color: #3C8186; flex: 0 0 auto; font-weight: 600; }
+
+  /* しきい値ギフトの帯 */
+  .threshold-band { padding: 0 16px 64px; }
+  .threshold-band__inner {
+    max-width: 1080px; margin: 0 auto;
+    background: #6B5F4F; color: #F6F3EC; border-radius: 4px;
+    padding: 36px 40px; display: flex; gap: 28px; align-items: center;
+  }
+  .threshold-band__amount {
+    flex: 0 0 auto; font-family: Inter, sans-serif; font-weight: 700;
+    font-size: clamp(20px, 3vw, 28px); color: #E7D9BC; line-height: 1.3;
+  }
+  .threshold-band__body h3 { margin: 0 0 8px; font-size: 20px; color: #fff; }
+  .threshold-band__body p { margin: 0; font-size: 14px; line-height: 1.85; color: #EDE7D9; }
+  .threshold-band__note { display: block; margin-top: 12px; font-size: 12px; color: #c9bfa9; }
+
+  /* LINE CTA */
+  .line-cta { padding: 0 16px 80px; }
+  .line-cta__inner {
+    max-width: 720px; margin: 0 auto; text-align: center;
+    background: #fff; border: 1px solid #EDE7D9; border-radius: 4px;
+    padding: 48px 32px;
+  }
+  .line-cta__eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #B99253; }
+  .line-cta h2 { margin: 12px 0 14px; font-size: clamp(22px, 4vw, 28px); color: #1A1A1A; }
+  .line-cta p { margin: 0 auto 24px; max-width: 48ch; font-size: 15px; line-height: 1.85; color: #6B5F4F; }
+  .line-cta__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #06C755; color: #fff; font-weight: 700; font-size: 15px;
+    padding: 14px 36px; border-radius: 3px; text-decoration: none;
+    transition: opacity .2s;
+  }
+  .line-cta__btn:hover { opacity: .9; }
+  .line-cta__sub { display: block; margin-top: 14px; font-size: 12px; color: #999; }
+
+  /* レスポンシブ */
+  @media (max-width: 900px) {
+    .sub-grid, .perk-grid { grid-template-columns: 1fr 1fr; }
+    .points-layout { grid-template-columns: 1fr; }
+    .preorder-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .promo-section { padding: 48px 16px; }
+    .promo-head { gap: 12px; margin-bottom: 28px; }
+    .sub-grid, .perk-grid { grid-template-columns: 1fr; }
+    .ladder { padding: 4px 14px 18px; }
+    .ladder__table th, .ladder__table td { padding: 12px 8px; font-size: 13px; }
+    .ladder__barhead, .ladder__bar { display: none; }
+    .threshold-band__inner { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 16px; }
+    .points-visual { padding: 28px; }
+    .points-visual__rate { font-size: 52px; }
+  }
+</style>
+</body>
+</html>

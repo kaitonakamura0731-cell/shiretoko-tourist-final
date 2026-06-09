@@ -3,6 +3,15 @@ import Base from "../../layouts/Base.astro";
 import { products, findProduct, formatYen, type Product } from "../../data/products";
 import { productImageForKey } from "../../data/sourceImages";
 import { reviewsByProduct, averageRating } from "../../data/reviews";
+import {
+  subscriptions,
+  volumeLadder,
+  crossSell,
+  thresholdGift,
+  pointsInfo,
+  deliveryEstimate,
+  restockInfo,
+} from "../../data/promotions";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
@@ -45,6 +54,42 @@ function formatJaDate(d: string): string {
   const [y, m, day] = d.split('-');
   return `${y}.${m}.${day}`;
 }
+
+// ── 施策データのひも付け (該当しない商品では各UIを出さない) ──
+const isApparel = product.category === 'apparel';
+
+// 配送日明示: 注文日 + リードタイムから着日を概算 (ビルド時基準)
+const leadDays = isApparel ? 4 : 3;
+const eta = new Date();
+eta.setDate(eta.getDate() + leadDays);
+const etaLabel = `${eta.getMonth() + 1}月${eta.getDate()}日頃`;
+
+// 定期便
+const subPlan = subscriptions.find((s) => s.slug === product.slug);
+
+// 増量階段 (同一 slug の段が2つ以上あるときだけ意味を持つ)
+const ladderSteps = volumeLadder.filter((v) => v.slug === product.slug);
+const hasLadder = ladderSteps.length > 1;
+const ladderBest = hasLadder
+  ? ladderSteps.reduce((a, b) => (b.perKg < a.perKg ? b : a))
+  : null;
+
+// クロスセル (関連商品とは別枠。重複は除外)
+const crossEntry = crossSell.find((c) => c.slug === product.slug);
+const crossItems = (crossEntry?.recommends ?? [])
+  .map((slug) => findProduct(slug))
+  .filter((p): p is Product => !!p)
+  .slice(0, 3)
+  .map((item) => ({ item, image: productImageForKey(item.imageKey, item.title) }));
+
+// しきい値ギフト
+const giftThresholdMet = product.price >= thresholdGift.threshold;
+
+// 再入荷通知 (アパレルのみ。対象に載っていれば入荷見込みを併記)
+const restockTarget = restockInfo.targets.find((t) => t.slug === product.slug);
+
+// ポイント付与
+const earnedPoints = Math.floor(product.price * pointsInfo.rateValue);
 ---
 
 <Base title={`${product.title}｜北の逸品堂`} description={product.summary} bodyClass="product-page product-page--rich">
@@ -101,7 +146,15 @@ function formatJaDate(d: string): string {
           <div class="pdp-price">
             <span class="pdp-price__num">{formatYen(product.price)}</span>
             <span class="pdp-price__unit">{product.priceUnit}</span>
+            <span class="pdp-points">この商品で <b>{earnedPoints}</b> ポイント（{pointsInfo.rate}）</span>
           </div>
+
+          <!-- 配送日明示 -->
+          <p class="pdp-delivery">
+            <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
+            今ご注文で <b>{etaLabel}</b> お届け予定
+            <small>{deliveryEstimate.cutoffNote}</small>
+          </p>
 
           <dl class="pdp-meta">
             <div class="pdp-meta__row">
@@ -151,10 +204,60 @@ function formatJaDate(d: string): string {
             <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener">LINE でサイズ・在庫を相談</a>
           </div>
 
+          <!-- 定期便オプション -->
+          {subPlan && (
+            <div class="pdp-sub">
+              <div class="pdp-sub__head">
+                <span class="pdp-sub__badge">定期便なら {subPlan.discount}</span>
+                <span class="pdp-sub__price">
+                  {formatYen(subPlan.subPrice)}
+                  <s>{formatYen(subPlan.normalPrice)}</s>
+                </span>
+              </div>
+              <p class="pdp-sub__name">{subPlan.title}・{subPlan.interval}</p>
+              <p class="pdp-sub__note">{subPlan.note}</p>
+              <a href="/products" class="pdp-sub__link">定期便の内容を見る →</a>
+            </div>
+          )}
+
+          <!-- 増量階段（サイズ別 単価比較） -->
+          {hasLadder && ladderBest && (
+            <div class="pdp-ladder">
+              <p class="pdp-ladder__head">まとめ買いほど <b>1kgあたりがお得</b></p>
+              <ul class="pdp-ladder__list">
+                {ladderSteps.map((step) => (
+                  <li class={`pdp-ladder__row${step.popular ? ' is-popular' : ''}`}>
+                    <span class="pdp-ladder__weight">{step.weight}{step.popular && <em>人気</em>}</span>
+                    <span class="pdp-ladder__price">{formatYen(step.price)}</span>
+                    <span class="pdp-ladder__perkg">{formatYen(step.perKg)} / kg</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="pdp-ladder__note">最大サイズなら 1kgあたり {formatYen(ladderBest.perKg)} まで下がります。</p>
+            </div>
+          )}
+
+          <!-- 再入荷通知（アパレル） -->
+          {isApparel && (
+            <div class="pdp-restock">
+              <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener">
+                再入荷を LINE で知らせる
+              </a>
+              <p class="pdp-restock__note">
+                {restockTarget ? restockTarget.expectedRestock : restockInfo.note}
+              </p>
+            </div>
+          )}
+
           <ul class="pdp-notes">
             <li>¥5,000以上で全国送料無料（北海道発・本州中1-2日）</li>
             <li>特産品ご購入で次回ツアー <b>¥1,000 OFF</b> クーポン進呈</li>
             <li>のし・ラッピング・産地証明書PDFはカート画面で選択</li>
+            {giftThresholdMet && (
+              <li class="pdp-notes__gift">
+                {thresholdGift.thresholdLabel}のお買い上げで「{thresholdGift.giftName}」を一品添えてお送りします
+              </li>
+            )}
           </ul>
 
           <details class="pdp-spec">
@@ -328,6 +431,38 @@ function formatJaDate(d: string): string {
                   <span class="cross-card__origin">{rp.origin}</span>
                   <p class="cross-card__title">{rp.title}</p>
                   <span class="cross-card__price">{formatYen(rp.price)}<small>{rp.priceUnit}</small></span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- クロスセル: 一緒に買うと便利 -->
+    {crossItems.length > 0 && (
+      <section class="cross-sell cross-sell--combo">
+        <div class="cross-sell__inner">
+          <span class="section-eyebrow">FREQUENTLY BOUGHT</span>
+          <h2>一緒に買うと便利</h2>
+          <hr class="section-rule" />
+          <div class="cross-grid">
+            {crossItems.map(({ item: cp, image }) => (
+              <a href={`/products/${cp.slug}`} class="cross-card">
+                <div class="cross-card__img" data-image-key={cp.imageKey}>
+                  {image.src ? (
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                  ) : (
+                    <div class="source-placeholder" role="img" aria-label={`${cp.title}の画像枠`}>
+                      <span>{image.label}</span>
+                      <small>画像を追加</small>
+                    </div>
+                  )}
+                </div>
+                <div class="cross-card__body">
+                  <span class="cross-card__origin">{cp.origin}</span>
+                  <p class="cross-card__title">{cp.title}</p>
+                  <span class="cross-card__price">{formatYen(cp.price)}<small>{cp.priceUnit}</small></span>
                 </div>
               </a>
             ))}
