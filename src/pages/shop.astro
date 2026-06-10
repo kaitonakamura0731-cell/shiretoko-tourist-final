@@ -195,7 +195,58 @@ const currentYear = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ============ [2] 2大入口（産直 / アパレル）写真+中チラ見せカード ============ -->
+      <!-- ============ [2] 季節カレンダー（最上部・NOWは月から自動判定） ============ -->
+      <section class="season-band" aria-label="季節カレンダー">
+        <div class="season-band__inner">
+          <span class="section-eyebrow">SEASONAL CALENDAR</span>
+          <h2>北の年間カレンダー</h2>
+          <hr class="section-rule" />
+          <div class="season-grid">
+            <div class="season-cell season-cell--spring" data-months="4,5">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">春</div>
+              <div class="season-cell__period">APR – MAY</div>
+              <div class="season-cell__items">山菜・行者にんにく<br />清里町の遅い春の便り</div>
+            </div>
+            <div class="season-cell season-cell--summer" data-months="6,7,8">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">夏</div>
+              <div class="season-cell__period">JUN – AUG</div>
+              <div class="season-cell__items">アスパラ・じゃがいも・玉ねぎ<br />知床五湖ガイドツアー</div>
+            </div>
+            <div class="season-cell season-cell--autumn" data-months="9,10,11">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">秋</div>
+              <div class="season-cell__period">SEP – NOV</div>
+              <div class="season-cell__items">きのこ・北海道米<br />オホーツク鮭フレーク</div>
+            </div>
+            <div class="season-cell season-cell--winter" data-months="12,1,2,3">
+              <div class="season-cell__bar"></div>
+              <div class="season-cell__season">冬</div>
+              <div class="season-cell__period">DEC – MAR</div>
+              <div class="season-cell__items">流氷熱気球フリーフライト<br />神の子池スノーシュー</div>
+            </div>
+          </div>
+        </div>
+        <script is:inline>
+          // 現在月から旬のセルへ NOW を自動付与 (ハードコード廃止)
+          (function () {
+            var month = new Date().getMonth() + 1;
+            document.querySelectorAll(".season-cell[data-months]").forEach(function (cell) {
+              var months = (cell.getAttribute("data-months") || "").split(",").map(Number);
+              if (months.indexOf(month) !== -1) {
+                cell.classList.add("is-now");
+                var tag = document.createElement("span");
+                tag.className = "now-tag";
+                tag.textContent = "NOW";
+                cell.insertBefore(tag, cell.children[1] || null);
+              }
+            });
+          })();
+        </script>
+      </section>
+
+      <!-- ============ [3] 2大入口（産直 / アパレル）写真+中チラ見せカード ============ -->
       <section class="entrances" aria-label="2大入口">
         <div class="entrances__inner">
           <span class="section-eyebrow">2 ENTRANCES</span>
@@ -239,42 +290,6 @@ const currentYear = new Date().getFullYear();
                 店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
               </p>
               <a href="/products/apparel/" class="entrance__cta">アパレルの商品をすべて見る →</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ [3] 季節カレンダー（年間サイクル・上部配置） ============ -->
-      <section class="season-band" aria-label="季節カレンダー">
-        <div class="season-band__inner">
-          <span class="section-eyebrow">SEASONAL CALENDAR</span>
-          <h2>北の年間カレンダー</h2>
-          <hr class="section-rule" />
-          <div class="season-grid">
-            <div class="season-cell season-cell--spring">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">春</div>
-              <div class="season-cell__period">APR – MAY</div>
-              <div class="season-cell__items">山菜・行者にんにく<br />清里町の遅い春の便り</div>
-            </div>
-            <div class="season-cell season-cell--summer is-now">
-              <div class="season-cell__bar"></div>
-              <span class="now-tag">NOW</span>
-              <div class="season-cell__season">夏</div>
-              <div class="season-cell__period">JUN – AUG</div>
-              <div class="season-cell__items">アスパラ・じゃがいも・玉ねぎ<br />知床五湖ガイドツアー</div>
-            </div>
-            <div class="season-cell season-cell--autumn">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">秋</div>
-              <div class="season-cell__period">SEP – NOV</div>
-              <div class="season-cell__items">きのこ・北海道米<br />オホーツク鮭フレーク</div>
-            </div>
-            <div class="season-cell season-cell--winter">
-              <div class="season-cell__bar"></div>
-              <div class="season-cell__season">冬</div>
-              <div class="season-cell__period">DEC – MAR</div>
-              <div class="season-cell__items">流氷熱気球フリーフライト<br />神の子池スノーシュー</div>
             </div>
           </div>
         </div>
