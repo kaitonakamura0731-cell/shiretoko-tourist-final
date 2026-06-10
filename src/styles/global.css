@@ -3937,3 +3937,91 @@ body.lock-scroll { overflow: hidden; }
 }
 .ranking-card .ranking-card__body { min-width: 0; }
 .ranking-card > .ranking-card__actions { margin-top: auto; }
+
+/* ===== PDP 下部セクション: 現場で使う(IN THE FIELD) / OUR FOOTPRINT =====
+   マークアップのみでCSS未定義だったため素のテキストが画面端まで流れていた。 */
+.pdp-usage {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: clamp(2.5rem, 6vw, 4rem) 1.25rem;
+}
+.pdp-usage__inner {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+.pdp-usage__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+  text-align: left;
+}
+.pdp-usage__card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1.3rem 1.4rem;
+}
+.pdp-usage__label {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--teal-dark);
+  margin-bottom: 0.5em;
+}
+.pdp-usage__card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--ink);
+}
+.pdp-env {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  padding: clamp(2.5rem, 6vw, 4rem) 1.25rem;
+}
+.pdp-env__inner {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+.pdp-env__copy {
+  max-width: 36em;
+  margin: 1.4rem auto 2rem;
+  font-size: 0.92rem;
+  line-height: 2;
+  color: var(--ink);
+}
+.pdp-env__pillars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1.2rem;
+  text-align: left;
+}
+.pdp-env__pillars li {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1.2rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.pdp-env__pillar-num {
+  font-family: var(--font-num);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--camel-dark);
+  letter-spacing: 0.08em;
+}
+.pdp-env__pillar-text {
+  font-size: 0.85rem;
+  line-height: 1.85;
+  color: var(--ink);
+}

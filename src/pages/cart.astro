@@ -341,7 +341,7 @@ const productJson = JSON.stringify(
           li.className = 'cart-item';
           const safeSlug = escapeHtml(it.slug);
           const subNote = isSubscription(it.name)
-            ? '<span class="cart-item__sub">定期便: 2回目以降も5%OFFでお届け</span>'
+            ? '<span class="cart-item__sub">定期便: 2回目以降も同じ割引価格でお届け</span>'
             : '';
           li.innerHTML = `
             <a class="cart-item__img" href="/products/${safeSlug}/">${mediaFor(meta)}</a>

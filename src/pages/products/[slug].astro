@@ -81,8 +81,15 @@ const currentVariant = variantGroup?.variants.find((v) => v.slug === currentSlug
 const basePrice = currentVariant?.price ?? product?.price ?? catalogItem?.price ?? 0;
 
 // ── 定期便インライン選択 (specialty のみ) ──
+// 実プラン(subscriptions)がある商品はその実価格・実割引率(例:10%OFF)、無ければ既定5%OFF
 const subEligible = (product?.category ?? catalogItem?.category) === 'specialty' && basePrice > 0;
-const subDiscountPrice = subEligible ? Math.round(basePrice * 0.95) : 0;
+const subPlan = product ? subscriptions.find((s) => s.slug === product.slug) : null;
+const subDiscountPrice = subEligible
+  ? (subPlan?.subPrice ?? Math.round(basePrice * 0.95))
+  : 0;
+const subRateLabel = subEligible && subDiscountPrice > 0 && basePrice > 0
+  ? `${Math.round((1 - subDiscountPrice / basePrice) * 100)}%OFF`
+  : '5%OFF';
 
 // レビュー集計 (共通)
 const slugForReview = product?.slug ?? catalogItem?.slug ?? '';
@@ -111,7 +118,6 @@ const leadDays = isApparel ? 4 : 3;
 const eta = new Date();
 eta.setDate(eta.getDate() + leadDays);
 const etaLabel = `${eta.getMonth() + 1}月${eta.getDate()}日頃`;
-const subPlan = product ? subscriptions.find((s) => s.slug === product.slug) : null;
 const ladderSteps = product ? volumeLadder.filter((v) => v.slug === product.slug) : [];
 const hasLadder = ladderSteps.length > 1;
 const ladderBest = hasLadder ? ladderSteps.reduce((a, b) => (b.perKg < a.perKg ? b : a)) : null;
@@ -221,11 +227,11 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                       </label>
                       <label class="pdp-buyform__opt">
                         <input type="radio" name={`buyform-${product!.slug}`} value="sub" data-buyform-mode />
-                        <span class="pdp-buyform__opt-main">定期便 <em>5%OFF</em></span>
+                        <span class="pdp-buyform__opt-main">定期便 <em>{subRateLabel}</em></span>
                         <span class="pdp-buyform__opt-sub">{formatYen(subDiscountPrice)}</span>
                       </label>
                     </div>
-                    <p class="pdp-buyform__note">定期便は通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
+                    <p class="pdp-buyform__note">定期便は通常価格より{subRateLabel}。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
                   </div>
                 )}
 
@@ -583,11 +589,11 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                           </label>
                           <label class="pdp-buyform__opt">
                             <input type="radio" name={`buyform-${catalogItem!.slug}`} value="sub" data-buyform-mode />
-                            <span class="pdp-buyform__opt-main">定期便 <em>5%OFF</em></span>
+                            <span class="pdp-buyform__opt-main">定期便 <em>{subRateLabel}</em></span>
                             <span class="pdp-buyform__opt-sub">{formatYen(subDiscountPrice)}</span>
                           </label>
                         </div>
-                        <p class="pdp-buyform__note">定期便は通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
+                        <p class="pdp-buyform__note">定期便は通常価格より{subRateLabel}。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
                       </div>
                     )}
 
