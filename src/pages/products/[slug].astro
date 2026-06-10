@@ -223,7 +223,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                 <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE でサイズ・在庫を相談</a>
               </div>
 
-              {subPlan && (
+              {subPlan ? (
                 <div class="pdp-sub">
                   <div class="pdp-sub__head">
                     <span class="pdp-sub__badge">定期便なら {subPlan.discount}</span>
@@ -234,9 +234,18 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                   </div>
                   <p class="pdp-sub__name">{subPlan.title}・{subPlan.interval}</p>
                   <p class="pdp-sub__note">{subPlan.note}</p>
-                  <a href="/products" class="pdp-sub__link">定期便の内容を見る →</a>
+                  <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
                 </div>
-              )}
+              ) : (!isApparel && (
+                <div class="pdp-sub">
+                  <div class="pdp-sub__head">
+                    <span class="pdp-sub__badge">定期便なら 5%OFF</span>
+                  </div>
+                  <p class="pdp-sub__name">収穫期に合わせて、旬のものを継続でお届け</p>
+                  <p class="pdp-sub__note">定期便のお申し込みで通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。</p>
+                  <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
+                </div>
+              ))}
 
               {hasLadder && ladderBest && (
                 <div class="pdp-ladder">
@@ -484,29 +493,98 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
               </dl>
 
               {catalogItem!.price !== undefined ? (
-                <div class="pdp-purchase">
+                <>
+                  {/* 価格 + ポイント付与 */}
                   <div class="pdp-price">
                     <span class="pdp-price__num">{formatYen(catalogItem!.price)}</span>
                     <span class="pdp-price__unit">税込</span>
+                    <span class="pdp-points">この商品で <b>{Math.floor(catalogItem!.price * pointsInfo.rateValue)}</b> ポイント（{pointsInfo.rate}）</span>
                   </div>
-                  <div class="pdp-qty">
-                    <label for={`qty-${catalogItem!.slug}`}>数量</label>
-                    <select id={`qty-${catalogItem!.slug}`} class="qty-select" aria-label="購入数量">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                    </select>
+
+                  {/* 配送目安 */}
+                  <p class="pdp-delivery">
+                    <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
+                    今ご注文で <b>{etaLabel}</b> お届け予定
+                    <small>{deliveryEstimate.cutoffNote}</small>
+                  </p>
+
+                  {/* 在庫表示 */}
+                  <p class="pdp-stock">
+                    {catalogItem!.condition === '新品'
+                      ? <><span class="pdp-stock__dot" aria-hidden="true"></span>新品・在庫あり</>
+                      : <><span class="pdp-stock__dot pdp-stock__dot--last" aria-hidden="true"></span>在庫 1点（現品限り）</>}
+                  </p>
+
+                  {/* 数量セレクタ + カゴに追加 */}
+                  <div class="pdp-purchase">
+                    <div class="pdp-qty pdp-qty--stepper">
+                      <label for={`qty-${catalogItem!.slug}`}>数量</label>
+                      <div class="pdp-stepper" data-stepper>
+                        <button type="button" class="pdp-stepper__btn" data-step="-1" aria-label="数量を減らす">−</button>
+                        <input
+                          id={`qty-${catalogItem!.slug}`}
+                          class="pdp-stepper__val"
+                          type="number"
+                          inputmode="numeric"
+                          value="1"
+                          min="1"
+                          max="9"
+                          aria-label="購入数量"
+                        />
+                        <button type="button" class="pdp-stepper__btn" data-step="1" aria-label="数量を増やす">＋</button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn--primary btn--block btn--add-cart"
+                      data-add-slug={catalogItem!.slug}
+                      data-add-name={catalogItem!.title}
+                      data-add-price={String(catalogItem!.price)}
+                    >
+                      カゴに追加
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    class="btn btn--primary btn--block btn--add-cart"
-                    data-add-slug={catalogItem!.slug}
-                    data-add-name={catalogItem!.title}
-                    data-add-price={String(catalogItem!.price)}
-                  >
-                    カゴに追加
-                  </button>
-                </div>
+
+                  {catalogItem!.category === 'specialty' ? (
+                    <>
+                      {/* 産直: 定期便案内 */}
+                      <div class="pdp-sub">
+                        <div class="pdp-sub__head">
+                          <span class="pdp-sub__badge">定期便なら 5%OFF</span>
+                        </div>
+                        <p class="pdp-sub__name">収穫期に合わせて、旬のものを継続でお届け</p>
+                        <p class="pdp-sub__note">定期便のお申し込みで通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。</p>
+                        <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
+                      </div>
+                      <ul class="pdp-notes">
+                        <li>のし・ラッピング・産地証明書PDFはカート画面で選択いただけます</li>
+                      </ul>
+                    </>
+                  ) : (
+                    <>
+                      {/* アパレル: サイズ・状態を目立たせる */}
+                      <div class="pdp-attrs">
+                        {catalogItem!.size && (
+                          <span class="pdp-attr pdp-attr--size">
+                            <span class="pdp-attr__label">サイズ</span>
+                            <span class="pdp-attr__value">{catalogItem!.size}</span>
+                          </span>
+                        )}
+                        {catalogItem!.condition && <span class="pdp-chip">{catalogItem!.condition}</span>}
+                        {catalogItem!.color && <span class="pdp-chip">{catalogItem!.color}</span>}
+                        {catalogItem!.brand && <span class="pdp-chip">{catalogItem!.brand}</span>}
+                        {catalogItem!.apparelCategory && <span class="pdp-chip">{catalogItem!.apparelCategory}</span>}
+                      </div>
+                      <p class="pdp-attrs__note">
+                        この商品は1点物です。サイズ・寸法の詳細は
+                        <a href="https://line.me/" target="_blank" rel="noopener noreferrer">LINEで1:1相談 →</a>
+                      </p>
+                    </>
+                  )}
+
+                  {/* LINE補助導線 */}
+                  <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE で在庫・配送を相談</a>
+                </>
               ) : (
                 <div class="pdp-price-on-line">
                   <p class="pdp-price-on-line__msg">価格はLINEで相談</p>
@@ -603,6 +681,24 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
   </main>
 
   <script is:inline>
+    // 数量ステッパー (−/数値/＋)
+    document.querySelectorAll('[data-stepper]').forEach((stepper) => {
+      const input = stepper.querySelector('.pdp-stepper__val');
+      if (!input) return;
+      const min = parseInt(input.min, 10) || 1;
+      const max = parseInt(input.max, 10) || 9;
+      const clamp = (v) => Math.min(max, Math.max(min, v));
+      stepper.querySelectorAll('[data-step]').forEach((b) => {
+        b.addEventListener('click', () => {
+          const cur = parseInt(input.value, 10) || min;
+          input.value = String(clamp(cur + parseInt(b.dataset.step, 10)));
+        });
+      });
+      input.addEventListener('change', () => {
+        input.value = String(clamp(parseInt(input.value, 10) || min));
+      });
+    });
+
     // カート追加
     document.querySelectorAll('.btn--add-cart').forEach((btn) => {
       btn.addEventListener('click', () => {

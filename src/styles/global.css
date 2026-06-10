@@ -2484,6 +2484,29 @@ body.lock-scroll { overflow: hidden; }
 .pdp-ext-link { display: inline-block; margin-top: 0.8rem; font-size: 0.78rem; color: #6f6a60; text-decoration: underline; }
 .pdp-ext-link:hover { color: #3C8186; }
 
+/* ── catalog lite: 在庫表示 ── */
+.pdp-stock { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 0; font-size: 0.86rem; color: var(--teal-dark); }
+.pdp-stock__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex: none; }
+.pdp-stock__dot--last { background: var(--camel); }
+
+/* ── catalog lite: 数量ステッパー ── */
+.pdp-qty--stepper { margin-bottom: 0; }
+.pdp-stepper { display: inline-flex; align-items: stretch; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; background: #fff; }
+.pdp-stepper__btn { width: 2.4rem; border: none; background: var(--bg-soft); color: var(--ink); font-size: 1.1rem; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.pdp-stepper__btn:hover { background: var(--line); }
+.pdp-stepper__val { width: 2.8rem; border: none; border-inline: 1px solid var(--line-strong); text-align: center; font-family: var(--font-num); font-size: 0.95rem; color: var(--ink); background: #fff; -moz-appearance: textfield; appearance: textfield; }
+.pdp-stepper__val::-webkit-outer-spin-button,
+.pdp-stepper__val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── catalog lite: アパレル サイズ・属性チップ ── */
+.pdp-attrs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 1.1rem 0 0.7rem; }
+.pdp-attr { display: inline-flex; align-items: baseline; gap: 0.45rem; padding: 0.45rem 0.85rem; border: 1px solid var(--teal); border-radius: var(--radius); background: var(--teal-soft); }
+.pdp-attr__label { font-size: 0.7rem; letter-spacing: 0.08em; color: var(--teal-dark); }
+.pdp-attr__value { font-family: var(--font-num); font-size: 1.2rem; font-weight: 700; color: var(--teal-dark); }
+.pdp-chip { display: inline-block; padding: 0.32rem 0.7rem; border: 1px solid var(--line-strong); border-radius: 2px; background: #fff; font-size: 0.78rem; color: var(--ink-soft); }
+.pdp-attrs__note { margin: 0 0 1rem; font-size: 0.82rem; line-height: 1.7; color: var(--ink-soft); }
+.pdp-attrs__note a { color: var(--teal-dark); font-weight: 600; }
+
 /* ============== ranking ============== */
 .ranking-page { background: #F6F3EC; padding: 2.6rem 1.4rem 5rem; color: #1A1A1A; }
 .ranking-page__inner { max-width: 1180px; margin: 0 auto; }
