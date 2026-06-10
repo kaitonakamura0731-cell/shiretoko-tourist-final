@@ -3504,6 +3504,12 @@ body.lock-scroll { overflow: hidden; }
 @media (max-width: 560px) {
   .shop-gate__bg { height: 320px; }
 }
+/* STORYゲート: SHOPゲートと同型・画像1枚・やや低め */
+.shop-gate--story { border-top: 1px solid var(--line); }
+.shop-gate__bg--single { grid-template-columns: 1fr; height: clamp(280px, 36vw, 400px); }
+@media (max-width: 560px) {
+  .shop-gate__bg--single { height: 280px; }
+}
 
 /* ---- LINE 細帯 ---- */
 .line-band {

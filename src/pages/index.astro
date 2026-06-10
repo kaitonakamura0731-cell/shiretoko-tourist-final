@@ -2,9 +2,7 @@
 // 北の逸品堂 / 知床ツーリスト — TOPページ (shop-first構成)
 // 構成: ヒーロー → SHOP ENTRANCE → NEWS → LINE帯
 import "../styles/global.css";
-import { productImageForKey, siteMedia as media } from "../data/sourceImages";
-import { products } from "../data/products";
-import { apparelItems } from "../data/catalog";
+import { siteMedia as media } from "../data/sourceImages";
 
 const meta = {
   title: "知床から、食べるものと着るものを選ぶ｜北の逸品堂(1992清里町)",
@@ -13,20 +11,6 @@ const meta = {
 
 const currentYear = new Date().getFullYear();
 const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
-
-// SHOP ENTRANCE「中チラ見せ」用プレビュー (shop.astro と同じ作り方)
-const productBySlug = new Map(products.map((product) => [product.slug, product]));
-const specialtyPreviews = ["asparagus-1kg", "potato-onion-set", "potato-danshaku-30kg"]
-  .map((slug) => productBySlug.get(slug))
-  .filter(Boolean)
-  .map((product) => ({ ...productImageForKey(product.imageKey, product.title) }))
-  .slice(0, 3)
-  .filter((p) => p.src);
-
-const apparelPreviews = apparelItems
-  .filter((p) => p.image)
-  .slice(0, 3)
-  .map((p) => ({ src: p.image, alt: p.title }));
 
 // NEWSデータ (静的。将来CMSに切り替え可)
 const newsItems = [
@@ -185,15 +169,6 @@ const newsItems = [
               知床のガイドが、朝採りの食べものと現場で使うウェアを同じ目利きで扱う店です。
             </p>
           </div>
-          {(specialtyPreviews.length > 0 || apparelPreviews.length > 0) && (
-            <div class="shop-entrance__previews" aria-hidden="true">
-              {[...specialtyPreviews, ...apparelPreviews].map((p) => (
-                <span class="entrance-card__thumb">
-                  <img src={p.src} alt="" loading="lazy" decoding="async" />
-                </span>
-              ))}
-            </div>
-          )}
         </div>
         <!-- SHOPゲート (店の入口ビジュアルブロック) -->
         <a href="/shop" class="shop-gate" aria-label="ショップを見る">
@@ -206,6 +181,18 @@ const newsItems = [
             <span class="shop-gate__title">ショップを見る</span>
             <span class="shop-gate__sub">産直の食べものと、現場のアパレル</span>
             <span class="shop-gate__btn">すべての商品はこちら →</span>
+          </div>
+        </a>
+        <!-- STORYゲート (SHOPゲートと同型) -->
+        <a href="/stories/" class="shop-gate shop-gate--story" aria-label="ストーリーを読む">
+          <div class="shop-gate__bg shop-gate__bg--single" aria-hidden="true">
+            <img src={media.story.src ?? "/source-images/files/staff-01.jpg"} alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="shop-gate__overlay">
+            <span class="shop-gate__eyebrow">OUR STORY</span>
+            <span class="shop-gate__title">1992年、清里町から。</span>
+            <span class="shop-gate__sub">店主のフィールドノートと、店の物語</span>
+            <span class="shop-gate__btn">ストーリーを読む →</span>
           </div>
         </a>
       </section>
