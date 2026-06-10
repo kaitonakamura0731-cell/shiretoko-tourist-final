@@ -26,6 +26,18 @@ function progressPercent(): number {
 const progress = progressPercent();
 
 const lastName = customer.name.split(" ")[0];
+
+// 直近の注文を新しい順に
+const recentOrders = customer.history.slice().reverse();
+
+// ページ内アンカータブ
+const tabs = [
+  { href: "#orders", label: "注文履歴" },
+  { href: "#subscription", label: "定期便" },
+  { href: "#coupon", label: "クーポン・紹介" },
+  { href: "#notify", label: "通知" },
+  { href: "#settings", label: "設定" },
+];
 ---
 
 <Base
@@ -42,145 +54,93 @@ const lastName = customer.name.split(" ")[0];
       </div>
     </nav>
 
-    <section class="listing-hero">
-      <div class="listing-hero__inner">
-        <span class="section-eyebrow">ACCOUNT ・ マイページ</span>
-        <h1 class="listing-hero__title">ようこそ、{lastName}さま。</h1>
-        <p class="listing-hero__lead">
-          {customer.joinedAt.slice(0, 4)} 年からのお付き合い、ありがとうございます。
-          今年も旬の便りをお届けします。
-        </p>
-        <p class="account-demo-label">本画面はデモ表示です。実際の購入履歴や個人情報ではありません。</p>
-      </div>
-    </section>
-
-    <section class="rank-card-section">
-      <div class="rank-card">
-        <div class="rank-card__badge" style={`--rank-color: ${currentRank.color}`}>
-          <span class="rank-card__badge-label">RANK</span>
-          <span class="rank-card__badge-name">{currentRank.name}</span>
+    <!-- 1. 会員サマリ (ヒーローカード) -->
+    <section class="summary-section">
+      <div class="summary-inner">
+        <div class="summary-head">
+          <span class="section-eyebrow">ACCOUNT ・ マイページ</span>
+          <h1 class="summary-title">ようこそ、{lastName}さま。</h1>
+          <p class="account-demo-label">本画面はデモ表示です。実際の購入履歴や個人情報ではありません。</p>
         </div>
-        <div class="rank-card__body">
-          <div class="rank-card__row">
-            <span class="rank-card__row-label">累計お買い物</span>
-            <span class="rank-card__row-value">{yen(customer.totalSpent)}</span>
+
+        <div class="summary-card">
+          <div class="summary-card__rank" style={`--rank-color: ${currentRank.color}`}>
+            <span class="summary-card__rank-eyebrow">現在のランク</span>
+            <span class="summary-card__rank-name">{currentRank.name}</span>
+            <span class="summary-card__rank-since">{customer.joinedAt.slice(0, 4)} 年からの会員</span>
           </div>
-          {next ? (
-            <>
-              <div class="rank-card__row">
-                <span class="rank-card__row-label">次のランクまで</span>
-                <span class="rank-card__row-value">
-                  <strong>{yen(remaining)}</strong>
-                  <span class="rank-card__row-sub">で {next.name} に到達</span>
-                </span>
-              </div>
-              <div class="progress" aria-label={`次のランクまで ${progress}%`}>
-                <div class="progress__bar" style={`width: ${progress}%`}></div>
-                <div class="progress__ticks">
-                  <span>{currentRank.name} {yen(currentRank.threshold)}</span>
-                  <span>{next.name} {yen(next.threshold)}</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <p class="rank-card__top">最上位ランクにご到達。いつも本当にありがとうございます。</p>
-          )}
-        </div>
-      </div>
-    </section>
 
-    <section class="promo-cards-section">
-      <div class="section-inner">
-        <div class="promo-cards">
-          <article class="promo-card promo-card--points">
-            <span class="promo-card__eyebrow">POINTS ・ 保有ポイント</span>
-            <p class="promo-card__value">{pointsInfo.sampleBalance.toLocaleString("ja-JP")}<small>p</small></p>
-            <p class="promo-card__sub">1ポイント = 1円。次回のお買い物にそのままお使いいただけます。</p>
-            <ul class="promo-card__list">
-              {pointsInfo.usage.map((u) => <li>{u}</li>)}
-            </ul>
-            <p class="promo-card__note">付与率 {pointsInfo.rate}（税込）／有効期限：{pointsInfo.expiry}</p>
-          </article>
-
-          <article class="promo-card promo-card--birthday">
-            <span class="promo-card__eyebrow">BIRTHDAY ・ 誕生月クーポン</span>
-            <p class="promo-card__value">{birthdayCoupon.amountLabel}</p>
-            <p class="promo-card__sub">{birthdayCoupon.description}</p>
-            <p class="promo-card__note">{birthdayCoupon.note}</p>
-            <button class="promo-card__action" type="button" disabled>誕生月を登録する</button>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="benefits-section">
-      <div class="section-inner">
-        <header class="section-head">
-          <span class="section-eyebrow">YOUR BENEFITS</span>
-          <h2 class="section-title">あなたの特典</h2>
-          <p class="section-lead">{currentRank.name} ランクで現在ご利用いただける特典です。</p>
-        </header>
-        <div class="benefits-grid">
-          {currentRank.benefits.map((b) => (
-            <div class="benefit-card">
-              <span class="benefit-card__icon" aria-hidden="true">●</span>
-              <span class="benefit-card__label">{b.label}</span>
+          <dl class="summary-card__stats">
+            <div class="summary-stat">
+              <dt>保有ポイント</dt>
+              <dd class="summary-stat__num">{pointsInfo.sampleBalance.toLocaleString("ja-JP")}<small>p</small></dd>
+              <p class="summary-stat__sub">1ポイント = 1円</p>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="ranks-section">
-      <div class="section-inner">
-        <header class="section-head">
-          <span class="section-eyebrow">MEMBERSHIP</span>
-          <h2 class="section-title">ランク一覧</h2>
-          <p class="section-lead">年間の累計お買い物額に応じて、特典が変わります。</p>
-        </header>
-        <div class="ranks-grid">
-          {ranks.map((r) => (
-            <article class={`rank-tile ${r.id === customer.rank ? "is-current" : ""}`}>
-              {r.id === customer.rank && (
-                <span class="rank-tile__current">CURRENT</span>
+            <div class="summary-stat">
+              <dt>累計お買い物</dt>
+              <dd class="summary-stat__num">{yen(customer.totalSpent)}</dd>
+              <p class="summary-stat__sub">税抜・これまでの合計</p>
+            </div>
+            <div class="summary-stat">
+              <dt>次のランクまで</dt>
+              {next ? (
+                <>
+                  <dd class="summary-stat__num summary-stat__num--accent">{yen(remaining)}</dd>
+                  <p class="summary-stat__sub">で {next.name} に到達</p>
+                </>
+              ) : (
+                <>
+                  <dd class="summary-stat__num summary-stat__num--accent">最上位</dd>
+                  <p class="summary-stat__sub">ご到達ありがとうございます</p>
+                </>
               )}
-              <div class="rank-tile__head" style={`--rank-color: ${r.color}`}>
-                <span class="rank-tile__name">{r.name}</span>
-                <span class="rank-tile__threshold">
-                  {r.threshold === 0 ? "入会時から" : `${yen(r.threshold)} 以上`}
-                </span>
-              </div>
-              <ul class="rank-tile__benefits">
-                {r.benefits.map((b) => (
-                  <li>{b.label}</li>
-                ))}
-              </ul>
-              <p class="rank-tile__note">「{r.storyNote}」</p>
-            </article>
+            </div>
+          </dl>
+        </div>
+
+        {next && (
+          <div class="summary-progress" aria-label={`次のランクまで ${progress}%`}>
+            <div class="summary-progress__track">
+              <div class="summary-progress__bar" style={`width: ${progress}%`}></div>
+            </div>
+            <div class="summary-progress__ticks">
+              <span>{currentRank.name} {yen(currentRank.threshold)}</span>
+              <span>{next.name} {yen(next.threshold)}</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- 2. ページ内タブ (ヘッダ直下) -->
+      <nav class="account-tabs" aria-label="マイページ内ナビ">
+        <div class="account-tabs__inner">
+          {tabs.map((t) => (
+            <a href={t.href} class="account-tab">{t.label}</a>
           ))}
         </div>
-      </div>
+      </nav>
     </section>
 
-    <section class="history-section">
+    <!-- 3. 注文履歴 -->
+    <section id="orders" class="account-block account-block--alt">
       <div class="section-inner">
-        <header class="section-head">
+        <header class="block-head">
           <span class="section-eyebrow">ORDER HISTORY</span>
-          <h2 class="section-title">購入履歴</h2>
-          <p class="section-lead">直近のご注文 {customer.history.length} 件を表示しています。</p>
+          <h2 class="block-title">注文履歴</h2>
+          <p class="block-lead">直近のご注文 {recentOrders.length} 件を表示しています。</p>
         </header>
-        <div class="history-list">
-          {customer.history.slice().reverse().map((order) => (
-            <article class="history-card">
-              <div class="history-card__head">
-                <span class="history-card__date">{formatDate(order.date)}</span>
-                <span class="history-card__total">{yen(order.total)}</span>
+        <div class="order-list">
+          {recentOrders.map((order) => (
+            <article class="order-card">
+              <div class="order-card__head">
+                <span class="order-card__date">{formatDate(order.date)}</span>
+                <span class="order-card__total">{yen(order.total)}</span>
               </div>
-              <ul class="history-card__items">
+              <ul class="order-card__items">
                 {order.items.map((it) => (
-                  <li class="history-card__item">
-                    <span class="history-card__item-title">{it.title}</span>
-                    <span class="history-card__item-meta">
+                  <li class="order-card__item">
+                    <span class="order-card__item-title">{it.title}</span>
+                    <span class="order-card__item-meta">
                       <span>数量 {it.qty}</span>
                       <span class="dot">・</span>
                       <span>{yen(it.price)}</span>
@@ -188,9 +148,9 @@ const lastName = customer.name.split(" ")[0];
                   </li>
                 ))}
               </ul>
-              <div class="history-card__actions">
-                <button class="history-card__action" type="button" disabled>同じ内容で再注文</button>
-                <button class="history-card__action" type="button" disabled>明細を見る</button>
+              <div class="order-card__actions">
+                <button class="link-action" type="button" disabled>同じ内容で再注文</button>
+                <button class="link-action" type="button" disabled>明細を見る</button>
               </div>
             </article>
           ))}
@@ -198,12 +158,13 @@ const lastName = customer.name.split(" ")[0];
       </div>
     </section>
 
-    <section class="subscriptions-section">
+    <!-- 4. 定期便の管理 -->
+    <section id="subscription" class="account-block">
       <div class="section-inner">
-        <header class="section-head">
+        <header class="block-head">
           <span class="section-eyebrow">SUBSCRIPTION</span>
-          <h2 class="section-title">定期便の管理</h2>
-          <p class="section-lead">旬の便りを切らさずお届け。お届け間隔の変更・スキップ・解約はいつでも自由、違約金はありません。</p>
+          <h2 class="block-title">定期便の管理</h2>
+          <p class="block-lead">旬の便りを切らさずお届け。変更・スキップ・解約はいつでも自由、違約金はありません。</p>
         </header>
         <div class="sub-grid">
           {subscriptions.map((s) => (
@@ -219,32 +180,57 @@ const lastName = customer.name.split(" ")[0];
               <p class="sub-card__interval">お届け：{s.interval}</p>
               <p class="sub-card__note">{s.note}</p>
               <div class="sub-card__actions">
-                <button class="sub-card__action" type="button" disabled>この便を申し込む</button>
-                <button class="sub-card__action sub-card__action--ghost" type="button" disabled>解約・スキップ</button>
+                <button class="link-action" type="button" disabled>この便を申し込む</button>
+                <button class="link-action link-action--ghost" type="button" disabled>解約・スキップ</button>
               </div>
             </article>
           ))}
         </div>
-        <p class="sub-foot">ご利用中の定期便はこちらに表示されます。現在はサンプル表示です。<b>解約はワンクリック</b>、引き止めや電話確認は行いません。</p>
+        <p class="block-foot">ご利用中の定期便はこちらに表示されます。現在はサンプル表示です。<b>解約はワンクリック</b>、引き止めや電話確認は行いません。</p>
       </div>
     </section>
 
-    <section class="referral-section">
-      <div class="referral-inner">
-        <span class="section-eyebrow">REFERRAL ・ 友達紹介</span>
-        <h2 class="section-title">友達を紹介すると、双方に {referral.rewardLabel}</h2>
-        <p class="referral-lead">紹介リンクを発行してお友だちに送るだけ。紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。</p>
-        <a href="/referral/" class="btn btn--primary">紹介ページへ &rarr;</a>
-        <p class="referral-note">{referral.note}</p>
-      </div>
-    </section>
-
-    <section class="restock-section">
+    <!-- 5. クーポン・紹介 -->
+    <section id="coupon" class="account-block account-block--alt">
       <div class="section-inner">
-        <header class="section-head">
-          <span class="section-eyebrow">RESTOCK ・ 再入荷通知</span>
-          <h2 class="section-title">再入荷通知の登録リスト</h2>
-          <p class="section-lead">入荷した瞬間に{restockInfo.channel}でお知らせします。人気の旬商品を逃しません。</p>
+        <header class="block-head">
+          <span class="section-eyebrow">COUPON ・ REFERRAL</span>
+          <h2 class="block-title">クーポン・紹介</h2>
+          <p class="block-lead">お持ちのポイント・クーポンと、お友だち紹介をまとめてご確認いただけます。</p>
+        </header>
+        <div class="coupon-grid">
+          <article class="info-card">
+            <span class="info-card__eyebrow">POINTS ・ 保有ポイント</span>
+            <p class="info-card__value">{pointsInfo.sampleBalance.toLocaleString("ja-JP")}<small>p</small></p>
+            <p class="info-card__sub">1ポイント = 1円。次回のお買い物にそのままお使いいただけます。</p>
+            <p class="info-card__note">付与率 {pointsInfo.rate}（税込）／有効期限：{pointsInfo.expiry}</p>
+          </article>
+
+          <article class="info-card">
+            <span class="info-card__eyebrow">BIRTHDAY ・ 誕生月クーポン</span>
+            <p class="info-card__value">{birthdayCoupon.amountLabel}</p>
+            <p class="info-card__sub">{birthdayCoupon.description}</p>
+            <p class="info-card__note">{birthdayCoupon.note}</p>
+            <button class="link-action" type="button" disabled>誕生月を登録する</button>
+          </article>
+
+          <article class="info-card info-card--referral">
+            <span class="info-card__eyebrow">REFERRAL ・ 友達紹介</span>
+            <p class="info-card__value">{referral.rewardLabel}</p>
+            <p class="info-card__sub">紹介リンクを送るだけ。紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。</p>
+            <a href="/referral/" class="info-card__link">紹介ページへ &rarr;</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. LINE連携・再入荷通知 -->
+    <section id="notify" class="account-block">
+      <div class="section-inner">
+        <header class="block-head">
+          <span class="section-eyebrow">NOTIFICATION ・ 通知</span>
+          <h2 class="block-title">{restockInfo.channel}連携・再入荷通知</h2>
+          <p class="block-lead">入荷した瞬間に{restockInfo.channel}でお知らせします。人気の旬商品を逃しません。</p>
         </header>
         <ul class="restock-list">
           {restockInfo.targets.map((t) => (
@@ -255,32 +241,75 @@ const lastName = customer.name.split(" ")[0];
               </div>
               <div class="restock-item__side">
                 <span class="restock-item__badge">{restockInfo.channel} 登録済</span>
-                <button class="restock-item__cancel" type="button" disabled>解除</button>
+                <button class="link-action link-action--ghost" type="button" disabled>解除</button>
               </div>
             </li>
           ))}
         </ul>
-        <p class="restock-note">{restockInfo.note}</p>
+        <p class="block-foot">{restockInfo.note}</p>
       </div>
     </section>
 
-    <section class="howto-section">
-      <div class="howto-inner">
-        <span class="section-eyebrow">FROM THE OWNER</span>
-        <h2 class="howto-title">お得な使い方</h2>
-        <blockquote class="howto-quote">
-          「{currentRank.storyNote}」
-        </blockquote>
-        <p class="howto-lead">
-          Silver の {lastName} さまには、送料無料と全商品 5%OFF が付いています。
-          一番おすすめなのは、旬のアスパラを箱買いする時。送料分が浮くので、もう一箱ご家族へ送る方が多いです。
-          誕生月クーポン {yen(1000)} は、その月のお買い物に自動で適用されます。
-        </p>
-        <p class="howto-lead">
-          あと {yen(remaining)} で Gold に到達すると、限定品の先行販売や全商品 10%OFF が始まります。
-          毎年 6〜7 月の新じゃが・アスパラの時期に到達される方が一番多いです。
-        </p>
-        <p class="howto-sign">— 店主 高橋</p>
+    <!-- 7. 特典・ランク (二次情報は折りたたみ) -->
+    <section class="account-block account-block--alt">
+      <div class="section-inner">
+        <header class="block-head">
+          <span class="section-eyebrow">YOUR BENEFITS</span>
+          <h2 class="block-title">あなたの特典</h2>
+          <p class="block-lead">{currentRank.name} ランクで現在ご利用いただける特典です。</p>
+        </header>
+        <div class="benefits-grid">
+          {currentRank.benefits.map((b) => (
+            <div class="benefit-card">
+              <span class="benefit-card__icon" aria-hidden="true">●</span>
+              <span class="benefit-card__label">{b.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <details class="rank-details">
+          <summary>ランク一覧と到達条件を見る</summary>
+          <div class="ranks-grid">
+            {ranks.map((r) => (
+              <article class={`rank-tile ${r.id === customer.rank ? "is-current" : ""}`}>
+                {r.id === customer.rank && (
+                  <span class="rank-tile__current">CURRENT</span>
+                )}
+                <div class="rank-tile__head" style={`--rank-color: ${r.color}`}>
+                  <span class="rank-tile__name">{r.name}</span>
+                  <span class="rank-tile__threshold">
+                    {r.threshold === 0 ? "入会時から" : `${yen(r.threshold)} 以上`}
+                  </span>
+                </div>
+                <ul class="rank-tile__benefits">
+                  {r.benefits.map((b) => (
+                    <li>{b.label}</li>
+                  ))}
+                </ul>
+                <p class="rank-tile__note">「{r.storyNote}」</p>
+              </article>
+            ))}
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8. アカウント設定 -->
+    <section id="settings" class="account-block">
+      <div class="section-inner section-inner--narrow">
+        <header class="block-head">
+          <span class="section-eyebrow">SETTINGS</span>
+          <h2 class="block-title">アカウント設定</h2>
+          <p class="block-lead">お届け先・お支払い・会員情報の変更はこちらから。</p>
+        </header>
+        <ul class="settings-list">
+          <li><a class="settings-link" href="/account/"><span>お届け先住所の管理</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/account/"><span>お支払い方法</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/account/"><span>会員情報・誕生月の登録</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/account/"><span>送料・配送について</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/account/"><span>特定商取引法に基づく表記</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/account/"><span>プライバシーポリシー</span><span class="settings-link__arrow">&rarr;</span></a></li>
+        </ul>
       </div>
     </section>
   </main>
@@ -309,15 +338,6 @@ const lastName = customer.name.split(" ")[0];
     .breadcrumbs .sep { margin: 0 8px; opacity: 0.4; }
     .breadcrumbs .current { color: #1A1A1A; }
 
-    .listing-hero {
-      padding: clamp(48px, 7vw, 88px) 24px clamp(32px, 5vw, 56px);
-      background: #F6F3EC;
-    }
-    .listing-hero__inner {
-      max-width: 920px;
-      margin: 0 auto;
-      text-align: center;
-    }
     .section-eyebrow {
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-size: 0.78rem;
@@ -326,27 +346,33 @@ const lastName = customer.name.split(" ")[0];
       color: #B99253;
       text-transform: uppercase;
     }
-    .listing-hero__title {
+
+    /* ── 1. 会員サマリ ────────────────────────── */
+    .summary-section {
+      background: #F6F3EC;
+      padding: clamp(40px, 6vw, 72px) 0 0;
+    }
+    .summary-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .summary-head {
+      text-align: center;
+      margin-bottom: clamp(28px, 4vw, 44px);
+    }
+    .summary-title {
       font-family: "Noto Serif JP", serif;
       font-weight: 600;
-      font-size: clamp(28px, 4.4vw, 48px);
+      font-size: clamp(26px, 4vw, 42px);
       line-height: 1.4;
       letter-spacing: 0.02em;
       color: #1A1A1A;
-      margin: 16px 0 24px;
-    }
-    .listing-hero__lead {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 15px;
-      line-height: 1.95;
-      color: #1A1A1A;
-      opacity: 0.82;
-      max-width: 680px;
-      margin: 0 auto;
+      margin: 14px 0 18px;
     }
     .account-demo-label {
       display: inline-block;
-      margin: 18px auto 0;
+      margin: 0 auto;
       padding: 6px 10px;
       border: 1px solid rgba(185, 146, 83, 0.4);
       border-radius: 3px;
@@ -355,89 +381,102 @@ const lastName = customer.name.split(" ")[0];
       line-height: 1.6;
       background: #fff;
     }
-
-    /* ランクカード */
-    .rank-card-section {
-      background: #F6F3EC;
-      padding: clamp(24px, 4vw, 48px) 24px clamp(48px, 7vw, 80px);
-    }
-    .rank-card {
-      max-width: 880px;
-      margin: 0 auto;
+    .summary-card {
       background: #fff;
-      border: 1px solid rgba(26, 26, 26, 0.08);
+      border: 1px solid #C9BFA8;
       border-radius: 4px;
-      padding: clamp(28px, 4vw, 48px);
+      padding: clamp(24px, 3.5vw, 40px);
       display: grid;
-      grid-template-columns: minmax(180px, 220px) 1fr;
-      gap: clamp(24px, 4vw, 48px);
+      grid-template-columns: minmax(180px, 230px) 1fr;
+      gap: clamp(20px, 3vw, 40px);
       align-items: center;
     }
-    .rank-card__badge {
+    .summary-card__rank {
       --rank-color: #B99253;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      aspect-ratio: 1 / 1;
-      border: 2px solid var(--rank-color);
-      border-radius: 50%;
-      color: var(--rank-color);
-      text-align: center;
+      align-items: flex-start;
+      gap: 6px;
+      padding: clamp(18px, 2.5vw, 26px);
+      border-radius: 3px;
+      background: #F6F3EC;
+      border-left: 4px solid var(--rank-color);
     }
-    .rank-card__badge-label {
-      font-family: "Inter", sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      opacity: 0.8;
-    }
-    .rank-card__badge-name {
-      font-family: "Noto Serif JP", serif;
-      font-weight: 600;
-      font-size: clamp(32px, 4.6vw, 44px);
-      letter-spacing: 0.02em;
-      margin-top: 6px;
-    }
-    .rank-card__body { width: 100%; }
-    .rank-card__row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+    .summary-card__rank-eyebrow {
       font-family: "Noto Sans JP", sans-serif;
-    }
-    .rank-card__row-label {
-      font-size: 0.84rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
       color: #1A1A1A;
       opacity: 0.7;
     }
-    .rank-card__row-value {
+    .summary-card__rank-name {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      color: var(--rank-color);
+    }
+    .summary-card__rank-since {
       font-family: "Inter", "Noto Sans JP", sans-serif;
       font-feature-settings: "tnum";
-      font-size: clamp(20px, 2.4vw, 26px);
-      font-weight: 600;
-      color: #1A1A1A;
-    }
-    .rank-card__row-value strong { color: #3C8186; }
-    .rank-card__row-sub {
-      font-size: 0.82rem;
-      font-weight: 400;
-      opacity: 0.65;
-      margin-left: 10px;
+      font-size: 0.8rem;
       letter-spacing: 0.04em;
+      color: #6B5F4F;
     }
-    .progress {
-      margin-top: 20px;
+    .summary-card__stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: clamp(16px, 2.5vw, 28px);
+      margin: 0;
     }
-    .progress__bar {
+    .summary-stat dt {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      color: #1A1A1A;
+      opacity: 0.7;
+    }
+    .summary-stat__num {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 600;
+      line-height: 1.15;
+      color: #1A1A1A;
+      margin: 6px 0 4px;
+    }
+    .summary-stat__num small {
+      font-size: 0.5em;
+      font-weight: 600;
+      margin-left: 2px;
+      opacity: 0.75;
+    }
+    .summary-stat__num--accent { color: #3C8186; }
+    .summary-stat__sub {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.76rem;
+      line-height: 1.6;
+      color: #6B5F4F;
+      margin: 0;
+    }
+    .summary-progress {
+      max-width: 920px;
+      margin: clamp(20px, 3vw, 28px) auto 0;
+      padding: 0 24px;
+    }
+    .summary-progress__track {
       height: 6px;
+      background: rgba(201, 191, 168, 0.5);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .summary-progress__bar {
+      height: 100%;
       background: linear-gradient(90deg, #B99253, #3C8186);
       border-radius: 3px;
       transition: width 600ms cubic-bezier(.2,.7,.2,1);
     }
-    .progress__ticks {
+    .summary-progress__ticks {
       display: flex;
       justify-content: space-between;
       margin-top: 8px;
@@ -448,71 +487,423 @@ const lastName = customer.name.split(" ")[0];
       color: #1A1A1A;
       opacity: 0.6;
     }
-    .rank-card__top {
-      font-family: "Noto Serif JP", serif;
-      font-size: 15px;
-      line-height: 1.9;
-      color: #1A1A1A;
-      margin: 16px 0 0;
-    }
     @media (max-width: 640px) {
-      .rank-card {
+      .summary-card {
         grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .rank-card__badge {
-        max-width: 180px;
-        margin: 0 auto;
       }
     }
 
-    /* セクション共通 */
+    /* ── 2. ページ内タブ ────────────────────────── */
+    .account-tabs {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: clamp(32px, 5vw, 56px);
+      background: rgba(246, 243, 236, 0.94);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid #C9BFA8;
+      border-bottom: 1px solid #C9BFA8;
+    }
+    .account-tabs__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .account-tabs__inner::-webkit-scrollbar { display: none; }
+    .account-tab {
+      flex: 0 0 auto;
+      padding: 14px 16px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #1A1A1A;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .account-tab:hover {
+      color: #3C8186;
+      border-bottom-color: #3C8186;
+    }
+
+    /* ── セクション共通 ────────────────────────── */
+    .account-block {
+      padding: clamp(48px, 7vw, 88px) 0;
+      background: #fff;
+      scroll-margin-top: 64px;
+    }
+    .account-block--alt { background: #F6F3EC; }
     .section-inner {
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
     }
-    .section-head {
+    .section-inner--narrow { max-width: 760px; }
+    .block-head {
       text-align: center;
-      margin-bottom: clamp(32px, 5vw, 56px);
+      margin-bottom: clamp(28px, 4.5vw, 48px);
     }
-    .section-title {
+    .block-title {
       font-family: "Noto Serif JP", serif;
       font-weight: 600;
-      font-size: clamp(24px, 3.4vw, 36px);
+      font-size: clamp(22px, 3.2vw, 32px);
       line-height: 1.5;
       color: #1A1A1A;
-      margin: 12px 0 14px;
+      margin: 12px 0 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #C9BFA8;
+      display: inline-block;
     }
-    .section-lead {
+    .block-lead {
       font-family: "Noto Sans JP", sans-serif;
       font-size: 14px;
       line-height: 1.9;
       color: #1A1A1A;
       opacity: 0.78;
-      max-width: 560px;
+      max-width: 600px;
       margin: 0 auto;
     }
-
-    /* 特典 */
-    .benefits-section {
-      padding: clamp(56px, 8vw, 96px) 0;
-      background: #fff;
+    .block-foot {
+      max-width: 760px;
+      margin: clamp(22px, 3.5vw, 32px) auto 0;
+      text-align: center;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.84rem;
+      line-height: 1.9;
+      color: #1A1A1A;
+      opacity: 0.8;
     }
-    .benefits-grid {
+    .block-foot b { color: #866326; }
+
+    /* 共通リンク風アクション */
+    .link-action {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #3C8186;
+      text-decoration: none;
+      border-bottom: 1px solid #3C8186;
+      padding: 0 0 1px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+    .link-action:hover { color: #1A1A1A; border-color: #1A1A1A; }
+    .link-action--ghost {
+      color: #6B5F4F;
+      border-color: rgba(107, 95, 79, 0.5);
+    }
+    .link-action:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    /* ── 3. 注文履歴 ────────────────────────── */
+    .order-list {
+      display: grid;
+      gap: 16px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .order-card {
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      padding: clamp(20px, 3vw, 26px);
+    }
+    .order-card__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(201, 191, 168, 0.6);
+      margin-bottom: 14px;
+    }
+    .order-card__date {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      color: #1A1A1A;
+      opacity: 0.7;
+    }
+    .order-card__total {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+    .order-card__items {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .order-card__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14px;
+      color: #1A1A1A;
+    }
+    .order-card__item-title {
+      flex: 1;
+      line-height: 1.6;
+    }
+    .order-card__item-meta {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: 0.82rem;
+      opacity: 0.7;
+      white-space: nowrap;
+    }
+    .order-card__item-meta .dot { margin: 0 6px; opacity: 0.5; }
+    .order-card__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding-top: 4px;
+    }
+
+    /* ── 4. 定期便 ────────────────────────── */
+    .sub-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(16px, 2vw, 24px);
+    }
+    .sub-card {
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      padding: clamp(22px, 3vw, 28px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sub-card__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .sub-card__title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1A1A1A;
+    }
+    .sub-card__discount {
+      flex-shrink: 0;
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: #B7472A;
+      padding: 4px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .sub-card__price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sub-card__price-now {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: 22px;
+      font-weight: 600;
+      color: #866326;
+    }
+    .sub-card__price-was {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: 0.82rem;
+      color: #6B5F4F;
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+    .sub-card__interval {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.84rem;
+      color: #1A1A1A;
+      opacity: 0.8;
+      margin: 0;
+    }
+    .sub-card__note {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #1A1A1A;
+      opacity: 0.78;
+      margin: 0;
+    }
+    .sub-card__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    /* ── 5. クーポン・紹介 ────────────────────────── */
+    .coupon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(16px, 2vw, 24px);
+    }
+    .info-card {
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      padding: clamp(22px, 3vw, 30px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .info-card--referral { background: #F6F3EC; }
+    .account-block--alt .info-card--referral { background: #fff; }
+    .info-card__eyebrow {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: #B99253;
+      text-transform: uppercase;
+    }
+    .info-card__value {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-feature-settings: "tnum";
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.1;
+      margin: 2px 0;
+    }
+    .info-card__value small {
+      font-size: 0.42em;
+      font-weight: 600;
+      margin-left: 2px;
+      opacity: 0.75;
+    }
+    .info-card__sub {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 13.5px;
+      line-height: 1.85;
+      color: #1A1A1A;
+      opacity: 0.85;
+      margin: 0;
+    }
+    .info-card__sub b { color: #3C8186; }
+    .info-card__note {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 11.5px;
+      line-height: 1.7;
+      color: #6B5F4F;
+      margin: auto 0 0;
+      padding-top: 6px;
+    }
+    .info-card__link {
+      align-self: flex-start;
+      margin-top: auto;
+      padding-top: 8px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #3C8186;
+      text-decoration: none;
+      border-bottom: 1px solid #3C8186;
+    }
+    .info-card__link:hover { color: #1A1A1A; border-color: #1A1A1A; }
+
+    /* ── 6. 再入荷通知 ────────────────────────── */
+    .restock-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .restock-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 16px;
+      flex-wrap: wrap;
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      padding: 16px 20px;
+    }
+    .restock-item__body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .restock-item__title {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+    .restock-item__status {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      color: #6B5F4F;
+    }
+    .restock-item__side {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .restock-item__badge {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #3C8186;
+      border: 1px solid rgba(60, 129, 134, 0.45);
+      border-radius: 2px;
+      padding: 4px 9px;
+      white-space: nowrap;
+    }
+
+    /* ── 7. 特典・ランク ────────────────────────── */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      max-width: 880px;
+      margin: 0 auto;
     }
     .benefit-card {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 20px 22px;
-      background: #F6F3EC;
-      border-radius: 3px;
+      padding: 18px 20px;
+      background: #fff;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
       font-family: "Noto Sans JP", sans-serif;
-      font-size: 14.5px;
+      font-size: 14px;
       line-height: 1.7;
       color: #1A1A1A;
     }
@@ -522,30 +913,50 @@ const lastName = customer.name.split(" ")[0];
       line-height: 1;
       flex-shrink: 0;
     }
-
-    /* ランク一覧 */
-    .ranks-section {
-      padding: clamp(56px, 8vw, 96px) 0;
-      background: #F6F3EC;
+    .rank-details {
+      max-width: 880px;
+      margin: clamp(24px, 4vw, 36px) auto 0;
     }
+    .rank-details > summary {
+      cursor: pointer;
+      list-style: none;
+      text-align: center;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #3C8186;
+      padding: 12px 16px;
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      background: #fff;
+    }
+    .account-block--alt .rank-details > summary { background: #F6F3EC; }
+    .rank-details > summary::-webkit-details-marker { display: none; }
+    .rank-details > summary::after {
+      content: " ▾";
+      opacity: 0.6;
+    }
+    .rank-details[open] > summary::after { content: " ▴"; }
+    .rank-details[open] > summary { margin-bottom: 20px; }
     .ranks-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: clamp(16px, 2vw, 24px);
     }
     .rank-tile {
       position: relative;
       background: #fff;
-      border: 1px solid rgba(26, 26, 26, 0.08);
-      border-radius: 4px;
-      padding: clamp(24px, 3vw, 32px);
+      border: 1px solid #C9BFA8;
+      border-radius: 2px;
+      padding: clamp(22px, 3vw, 28px);
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
     .rank-tile.is-current {
-      border-color: var(--camel);
-      outline: 1px solid var(--camel);
+      border-color: #B99253;
+      outline: 1px solid #B99253;
       outline-offset: -1px;
     }
     .rank-tile__current {
@@ -563,14 +974,14 @@ const lastName = customer.name.split(" ")[0];
     }
     .rank-tile__head {
       --rank-color: #B99253;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(201, 191, 168, 0.6);
     }
     .rank-tile__name {
       display: block;
       font-family: "Noto Serif JP", serif;
       font-weight: 600;
-      font-size: clamp(24px, 3vw, 30px);
+      font-size: clamp(22px, 3vw, 28px);
       color: var(--rank-color);
       letter-spacing: 0.04em;
     }
@@ -615,487 +1026,41 @@ const lastName = customer.name.split(" ")[0];
       color: #1A1A1A;
       opacity: 0.75;
       margin: auto 0 0;
-      padding-top: 16px;
-      border-top: 1px solid rgba(26, 26, 26, 0.06);
-    }
-    @media (max-width: 880px) {
-      .ranks-grid { grid-template-columns: 1fr; }
+      padding-top: 14px;
+      border-top: 1px solid rgba(201, 191, 168, 0.5);
     }
 
-    /* 履歴 */
-    .history-section {
-      padding: clamp(56px, 8vw, 96px) 0;
-      background: #fff;
-    }
-    .history-list {
-      display: grid;
-      gap: 18px;
-      max-width: 880px;
-      margin: 0 auto;
-    }
-    .history-card {
-      background: #F6F3EC;
-      border-radius: 3px;
-      padding: clamp(20px, 3vw, 28px);
-    }
-    .history-card__head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(26, 26, 26, 0.1);
-      margin-bottom: 14px;
-    }
-    .history-card__date {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: 0.84rem;
-      letter-spacing: 0.08em;
-      color: #1A1A1A;
-      opacity: 0.7;
-    }
-    .history-card__total {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: clamp(16px, 2vw, 20px);
-      font-weight: 600;
-      color: #1A1A1A;
-    }
-    .history-card__items {
+    /* ── 8. アカウント設定 ────────────────────────── */
+    .settings-list {
       list-style: none;
       padding: 0;
-      margin: 0 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .history-card__item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 14px;
-      color: #1A1A1A;
-    }
-    .history-card__item-title {
-      flex: 1;
-      line-height: 1.6;
-    }
-    .history-card__item-meta {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: 0.82rem;
-      opacity: 0.7;
-      white-space: nowrap;
-    }
-    .history-card__item-meta .dot { margin: 0 6px; opacity: 0.5; }
-    .history-card__actions {
-      display: flex;
-      gap: 18px;
-      padding-top: 4px;
-    }
-    .history-card__action {
-      appearance: none;
-      background: transparent;
-      border: 0;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #3C8186;
-      text-decoration: none;
-      border-bottom: 1px solid #3C8186;
-      padding-bottom: 1px;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-    }
-    .history-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
-    .history-card__action:disabled,
-    .promo-card__action:disabled,
-    .sub-card__action:disabled,
-    .restock-item__cancel:disabled {
-      cursor: not-allowed;
-      opacity: 0.72;
-    }
-
-    /* 店主からのメッセージ */
-    .howto-section {
-      background: #F6F3EC;
-      padding: clamp(64px, 9vw, 112px) 24px clamp(80px, 10vw, 120px);
-    }
-    .howto-inner {
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .howto-title {
-      font-family: "Noto Serif JP", serif;
-      font-weight: 600;
-      font-size: clamp(24px, 3.4vw, 36px);
-      line-height: 1.5;
-      color: #1A1A1A;
-      margin: 12px 0 28px;
-    }
-    .howto-quote {
-      font-family: "Noto Serif JP", serif;
-      font-style: italic;
-      font-size: clamp(18px, 2.4vw, 22px);
-      line-height: 1.8;
-      color: #1A1A1A;
-      margin: 0 0 32px;
-      padding: 0 16px;
-      border-left: none;
-    }
-    .howto-lead {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 15px;
-      line-height: 2.0;
-      color: #1A1A1A;
-      opacity: 0.85;
-      text-align: left;
-      margin: 0 0 20px;
-    }
-    .howto-sign {
-      font-family: "Noto Serif JP", serif;
-      font-size: 14px;
-      color: #1A1A1A;
-      opacity: 0.75;
-      margin-top: 32px;
-      text-align: right;
-    }
-
-    /* ポイント / 誕生月クーポン カード */
-    .promo-cards-section {
-      padding: clamp(48px, 7vw, 80px) 0 clamp(8px, 2vw, 16px);
-      background: #fff;
-    }
-    .promo-cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: clamp(16px, 2.5vw, 24px);
-    }
-    .promo-card {
-      border-radius: 4px;
-      padding: clamp(24px, 3vw, 32px);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .promo-card--points { background: #EDE7D9; border: 1px solid rgba(185,146,83,0.3); }
-    .promo-card--birthday { background: #F6F3EC; border: 1px solid rgba(60,129,134,0.25); }
-    .promo-card__eyebrow {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      color: #B99253;
-      text-transform: uppercase;
-    }
-    .promo-card--birthday .promo-card__eyebrow { color: #3C8186; }
-    .promo-card__value {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: clamp(34px, 5vw, 48px);
-      font-weight: 600;
-      color: #1A1A1A;
-      line-height: 1.1;
-      margin: 4px 0 2px;
-    }
-    .promo-card__value small {
-      font-size: 0.42em;
-      font-weight: 600;
-      margin-left: 2px;
-      opacity: 0.75;
-    }
-    .promo-card__sub {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 13.5px;
-      line-height: 1.85;
-      color: #1A1A1A;
-      opacity: 0.85;
       margin: 0;
-    }
-    .promo-card__list {
-      list-style: none;
-      padding: 0;
-      margin: 4px 0 0;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-    .promo-card__list li {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      line-height: 1.65;
-      color: #1A1A1A;
-      opacity: 0.8;
-      padding-left: 14px;
-      position: relative;
-    }
-    .promo-card__list li::before {
-      content: "・";
-      position: absolute;
-      left: 0;
-      color: #B99253;
-    }
-    .promo-card__note {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 11.5px;
-      line-height: 1.7;
-      color: #6B5F4F;
-      margin: auto 0 0;
-      padding-top: 6px;
-    }
-    .promo-card__action {
-      appearance: none;
-      background: transparent;
-      border: 0;
-      align-self: flex-start;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #3C8186;
-      text-decoration: none;
-      border-bottom: 1px solid #3C8186;
-      padding-bottom: 1px;
-      margin-top: 6px;
-      cursor: pointer;
-    }
-    .promo-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
-    @media (max-width: 720px) {
-      .promo-cards { grid-template-columns: 1fr; }
-    }
-
-    /* 定期便 */
-    .subscriptions-section {
-      padding: clamp(56px, 8vw, 96px) 0;
-      background: #fff;
-    }
-    .sub-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(16px, 2vw, 24px);
-    }
-    .sub-card {
-      background: #F6F3EC;
-      border: 1px solid rgba(26, 26, 26, 0.08);
-      border-radius: 4px;
-      padding: clamp(22px, 3vw, 28px);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .sub-card__head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    .sub-card__title {
-      font-family: "Noto Serif JP", serif;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 1.5;
-      color: #1A1A1A;
-    }
-    .sub-card__discount {
-      flex-shrink: 0;
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: #fff;
-      background: #B7472A;
-      padding: 4px 9px;
+      border: 1px solid #C9BFA8;
       border-radius: 2px;
-      white-space: nowrap;
-    }
-    .sub-card__price {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-    .sub-card__price-now {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: 22px;
-      font-weight: 600;
-      color: #866326;
-    }
-    .sub-card__price-was {
-      font-family: "Inter", "Noto Sans JP", sans-serif;
-      font-feature-settings: "tnum";
-      font-size: 0.82rem;
-      color: #6B5F4F;
-      text-decoration: line-through;
-      opacity: 0.7;
-    }
-    .sub-card__interval {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.84rem;
-      color: #1A1A1A;
-      opacity: 0.8;
-      margin: 0;
-    }
-    .sub-card__note {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      line-height: 1.8;
-      color: #1A1A1A;
-      opacity: 0.78;
-      margin: 0;
-    }
-    .sub-card__actions {
-      display: flex;
-      gap: 14px;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-    .sub-card__action {
-      appearance: none;
-      background: transparent;
-      border: 0;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #3C8186;
-      text-decoration: none;
-      border-bottom: 1px solid #3C8186;
-      padding-bottom: 1px;
-      cursor: pointer;
-    }
-    .sub-card__action:hover { color: #1A1A1A; border-color: #1A1A1A; }
-    .sub-card__action--ghost {
-      color: #6B5F4F;
-      border-color: rgba(107, 95, 79, 0.5);
-    }
-    .sub-foot {
-      max-width: 760px;
-      margin: clamp(24px, 4vw, 36px) auto 0;
-      text-align: center;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.84rem;
-      line-height: 1.9;
-      color: #1A1A1A;
-      opacity: 0.8;
-    }
-    .sub-foot b { color: #866326; }
-    @media (max-width: 880px) {
-      .sub-grid { grid-template-columns: 1fr; }
-    }
-
-    /* 紹介割 */
-    .referral-section {
-      background: #F6F3EC;
-      padding: clamp(56px, 8vw, 96px) 24px;
-    }
-    .referral-inner {
-      max-width: 640px;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .referral-lead {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 15px;
-      line-height: 1.95;
-      color: #1A1A1A;
-      opacity: 0.85;
-      max-width: 520px;
-      margin: 0;
-    }
-    .referral-lead b { color: #3C8186; }
-    .referral-note {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      line-height: 1.8;
-      color: #6B5F4F;
-      margin: 0;
-    }
-
-    /* 再入荷通知 */
-    .restock-section {
-      padding: clamp(56px, 8vw, 96px) 0;
+      overflow: hidden;
       background: #fff;
     }
-    .restock-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-      max-width: 760px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .settings-list li + li {
+      border-top: 1px solid rgba(201, 191, 168, 0.6);
     }
-    .restock-item {
+    .settings-link {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      background: #F6F3EC;
-      border-radius: 3px;
-      padding: 18px 20px;
-    }
-    .restock-item__body {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .restock-item__title {
+      padding: 16px 20px;
       font-family: "Noto Sans JP", sans-serif;
       font-size: 14.5px;
-      font-weight: 600;
       color: #1A1A1A;
-    }
-    .restock-item__status {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      color: #6B5F4F;
-    }
-    .restock-item__side {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .restock-item__badge {
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #3C8186;
-      border: 1px solid rgba(60, 129, 134, 0.45);
-      border-radius: 2px;
-      padding: 4px 9px;
-      white-space: nowrap;
-    }
-    .restock-item__cancel {
-      appearance: none;
-      background: transparent;
-      border: 0;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      color: #6B5F4F;
       text-decoration: none;
-      border-bottom: 1px solid rgba(107, 95, 79, 0.5);
-      padding-bottom: 1px;
-      white-space: nowrap;
-      cursor: pointer;
     }
-    .restock-item__cancel:hover { color: #1A1A1A; border-color: #1A1A1A; }
-    .restock-note {
-      max-width: 760px;
-      margin: 20px auto 0;
-      text-align: center;
-      font-family: "Noto Sans JP", sans-serif;
-      font-size: 0.82rem;
-      line-height: 1.8;
-      color: #6B5F4F;
+    .settings-link:hover {
+      background: #F6F3EC;
+      color: #3C8186;
     }
-    @media (max-width: 560px) {
-      .restock-item { flex-direction: column; align-items: flex-start; }
+    .settings-link__arrow {
+      color: #B99253;
+      flex-shrink: 0;
     }
   </style>
 </Base>
