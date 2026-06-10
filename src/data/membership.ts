@@ -77,16 +77,9 @@ export const customers: Customer[] = [
     id: 'cust-001',
     name: '山田 太郎',
     rank: 'bronze',
-    totalSpent: 12000,
+    totalSpent: 13980,
     joinedAt: '2026-02-14',
     history: [
-      {
-        date: '2026-02-14',
-        items: [
-          { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 1, price: 5800 },
-        ],
-        total: 5800,
-      },
       {
         date: '2026-04-02',
         items: [
@@ -97,9 +90,16 @@ export const customers: Customer[] = [
       {
         date: '2026-05-20',
         items: [
-          { slug: 'potato-onion-set', title: 'じゃがいも・玉ねぎ直送便 10kg', qty: 0, price: 3980 },
+          { slug: 'potato-onion-set', title: 'じゃがいも・玉ねぎ直送便 10kg', qty: 1, price: 3980 },
         ],
-        total: 2000, // 一部商品 (ギフト分割)
+        total: 3980,
+      },
+      {
+        date: '2026-05-28',
+        items: [
+          { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 1, price: 5800 },
+        ],
+        total: 5800,
       },
     ],
   },
@@ -107,7 +107,7 @@ export const customers: Customer[] = [
     id: 'cust-002',
     name: '田中 花子',
     rank: 'silver',
-    totalSpent: 48000,
+    totalSpent: 47760,
     joinedAt: '2025-09-10',
     history: [
       {
@@ -125,19 +125,19 @@ export const customers: Customer[] = [
         total: 19800,
       },
       {
-        date: '2026-02-18',
+        date: '2026-05-30',
+        items: [
+          { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 1, price: 5800 },
+        ],
+        total: 5800,
+      },
+      {
+        date: '2026-06-05',
         items: [
           { slug: 'potato-8kg', title: 'じゃがいも 食べ比べ8kg', qty: 2, price: 4200 },
           { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 1, price: 5800 },
         ],
         total: 14200,
-      },
-      {
-        date: '2026-05-30',
-        items: [
-          { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 1, price: 5800 },
-        ],
-        total: 6040,
       },
     ],
   },
@@ -145,7 +145,7 @@ export const customers: Customer[] = [
     id: 'cust-003',
     name: '鈴木 一郎',
     rank: 'gold',
-    totalSpent: 158000,
+    totalSpent: 155960,
     joinedAt: '2025-04-05',
     history: [
       {
@@ -184,7 +184,7 @@ export const customers: Customer[] = [
           { slug: 'patagonia-r1-air-hoodie', title: 'Patagonia M\'s R1 エア・フルジップ・フーディ', qty: 1, price: 22200 },
           { slug: 'asparagus-1kg', title: '朝採りアスパラガス 1kg 化粧箱', qty: 5, price: 5800 },
         ],
-        total: 53240,
+        total: 51200,
       },
     ],
   },

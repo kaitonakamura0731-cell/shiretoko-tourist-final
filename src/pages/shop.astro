@@ -69,7 +69,7 @@ const bundles = [
   {
     season: "GIFT & DAILY",
     title: "じゃがいも・玉ねぎ + 現場フリース",
-    desc: "保存のきく定番野菜と、長く着られるアウトドアウェアを同じカートへ。単品購入で終わらせず、客単価を自然に上げる導線です。",
+    desc: "保存のきく定番野菜と、長く着られるアウトドアウェアを同じカートへ。まとめてお求めいただくと、送料もまとめてお得になります。",
     primary: ranking[1],
     secondary: ranking[2],
     note: "¥5,000以上で送料無料 / まとめ買い向き",
@@ -77,7 +77,7 @@ const bundles = [
   {
     season: "TOUR AFTER",
     title: "旅のあとに届く、北の定期便",
-    desc: "知床を歩いた記憶を、季節の食材と店主の道具選びでリピート購入へ。OTAでは作れない自社サイトならではの関係性を育てます。",
+    desc: "知床を歩いた記憶のつづきに、季節の食材と店主の道具選びが定期的に届く。旅のあとも、北の暮らしがそばにある楽しみを。",
     primary: ranking[0],
     secondary: ranking[1],
     note: "LINE登録で再入荷・収穫速報",
@@ -297,10 +297,10 @@ const currentYear = new Date().getFullYear();
       </section>
 
       <!-- ============ 今週のPICK UP (ランキング) ============ -->
-      <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
+      <section class="section section--white" id="ranking" aria-label="店主のおすすめ">
         <div class="section__inner">
           <span class="section-eyebrow">PICK UP</span>
-          <h2>今週のおすすめ</h2>
+          <h2>店主のおすすめ</h2>
           <hr class="section-rule" />
           <div class="ranking ranking--wide">
             {ranking.map((item) => (
@@ -348,7 +348,7 @@ const currentYear = new Date().getFullYear();
             ))}
           </div>
           <p class="ranking-note">
-            産直（食）<b>{specialtyCount}商品</b> ／ アウトドアウェア（Patagonia等）<b>{apparelCount}商品</b> から、まずは売れ筋を商品ページ化。
+            産直（食）<b>{specialtyCount}商品</b> ／ アウトドアウェア（Patagonia等）<b>{apparelCount}商品</b>。
             <a href="/ranking/">全商品を見る →</a>
           </p>
         </div>
@@ -358,7 +358,7 @@ const currentYear = new Date().getFullYear();
       <section class="featured-block" id="featured-specialty" aria-label="産直のおすすめ">
         <div class="featured-block__inner">
           <span class="featured-eyebrow">SPECIALTY ・ 産直のおすすめ</span>
-          <h2 class="mincho">今週、店主が選んだ食べるもの。</h2>
+          <h2 class="mincho">店主が選ぶ、食べるもの。</h2>
           <hr class="section-rule" />
           <div class="featured-grid">
             {specialtyFeatured.map((item) => (
@@ -438,7 +438,7 @@ const currentYear = new Date().getFullYear();
           <hr class="section-rule" />
           <p class="bundle-section__lead">
             「特産品だけ」「アパレルだけ」に分けず、知床で暮らす店主の目利きを軸に買い合わせを提案します。
-            贈る、食べる、着る、旅に出るまでをひとつにすると、客単価とリピートの両方が伸ばせます。
+            贈る、食べる、着る、旅に出る。食と道具を同じストーリーで選べるから、暮らしに馴染む一式が、ひと続きで見つかります。
           </p>
           <div class="bundle-grid">
             {bundles.map((bundle) => (

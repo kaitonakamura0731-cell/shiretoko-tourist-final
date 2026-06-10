@@ -147,7 +147,7 @@ export const products: Product[] = [
     related: ['potato-onion-set', 'asparagus-1kg', 'patagonia-r1-air-hoodie'],
     relatedTour: { slug: 'kaminoko-snowshoe', title: '神の子池スノーシューツアー', price: '¥7,500' },
     storyMemo: '30kg箱は飲食店さんと、雪が降る前にまとめ買いするご家庭向け。',
-    environmental: '無選別・大容量で輸送効率を最大化。33年続く小清水の畑との取引を守る単位です。',
+    environmental: '無選別・大容量で輸送効率を最大化。34年続く小清水の畑との取引を守る単位です。',
     usageScene: '清里・斜里の食堂で、毎朝の仕込みに使われている男爵',
     careNote: '常温冷暗所で1〜2ヶ月。湿気で芽が出やすいので段ボールごと風通しの良い場所へ。',
   },

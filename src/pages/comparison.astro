@@ -6,6 +6,7 @@
 import "../styles/global.css";
 import { rows, productSamples } from "../data/comparison";
 import { productImageForKey } from "../data/sourceImages";
+import { pointsInfo } from "../data/promotions";
 
 const meta = {
   title: "Yahoo!店と自社ECの違い｜北の逸品堂 (知床ツーリスト)",
@@ -31,9 +32,13 @@ const samples = productSamples.map((p) => ({
   image: productImageForKey(sampleImageKeys[p.slug] ?? p.slug, p.title),
 }));
 
-// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、自社 5〜10% の中央値で 7%
+// ポイント還元の目安
+// 自社ECの基本付与は会員 1%（promotions.ts の pointsInfo.rateValue が基準）。
+// 7% は基本1% に会員ランク割引・キャンペーン分を上乗せした「実質還元の目安」。
+const ownBaseRate = Math.round(pointsInfo.rateValue * 100); // = 1 (%)
+const OWN_EFFECTIVE_RATE = 7; // 実質還元の目安 (基本1% + 会員割引・施策上乗せ)
 const yahooPoints = (n: number) => Math.round((n * 3) / 100);
-const ownPoints = (n: number) => Math.round((n * 7) / 100);
+const ownPoints = (n: number) => Math.round((n * OWN_EFFECTIVE_RATE) / 100);
 
 const scenarios = [
   {
@@ -189,6 +194,9 @@ const scenarios = [
       実際の商品を3点並べて、Yahoo と自社EC の差をそのまま見せます。表示価格は揃えてあります。
       実質差は「常時ポイント」「送料」「配送スピード」「相談できる相手」に出ます。
     </p>
+    <p class="cmp-points-note">
+      ※ 自社ECの基本ポイント付与は会員 {ownBaseRate}%。表中の「{OWN_EFFECTIVE_RATE}%」は、基本{ownBaseRate}% に会員ランク割引・キャンペーン分を上乗せした<strong>実質還元の目安</strong>です（購入条件・会員ランクにより変動します）。
+    </p>
 
     <ol class="cmp-samples__list">
       {samples.map((p) => {
@@ -211,7 +219,7 @@ const scenarios = [
                   <p class="cmp-sample__col-label">自社EC</p>
                   <dl class="cmp-sample__dl">
                     <div><dt>表示価格</dt><dd class="num">{yen(p.ownPrice)}</dd></div>
-                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(会員 7% 想定)</span></dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(実質還元 {OWN_EFFECTIVE_RATE}% 目安・会員割引含む)</span></dd></div>
                     <div><dt>送料</dt><dd>¥5,000 以上で無料・同梱可</dd></div>
                     <div><dt>出荷</dt><dd>中1日 / 朝採り当日枠あり</dd></div>
                   </dl>
@@ -441,6 +449,18 @@ const scenarios = [
     line-height: 1.7;
     margin: 16px 0 0;
   }
+  .cmp-points-note {
+    font-size: 0.82rem;
+    color: rgba(26, 26, 26, .68);
+    line-height: 1.8;
+    max-width: 720px;
+    margin: -16px 0 32px;
+    padding: 12px 14px;
+    background: rgba(60, 129, 134, .06);
+    border-left: 2px solid #3C8186;
+    border-radius: 2px;
+  }
+  .cmp-points-note strong { color: #1A1A1A; }
 
   /* 商品サンプル */
   .cmp-samples { background: #ECE7DC; }

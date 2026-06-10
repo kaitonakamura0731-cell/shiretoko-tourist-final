@@ -1,12 +1,12 @@
 ---
 // アパレル一覧 v3 — 動くファセット絞り込み + レスポンシブ
-// データソース: assets/ec-crawl/products-raw.json → catalog.ts (254商品)
+// データソース: assets/ec-crawl/products-raw.json → catalog.ts (apparelItems.length で動的表示)
 import "../../styles/global.css";
 import { apparelItems } from "../../data/catalog";
 
 const meta = {
   title: "アウトドアアパレル一覧｜北の逸品堂 (知床ツーリスト)",
-  description: "Patagonia 中心のアウトドアアパレル254商品をブランド/カテゴリ/サイズ/状態で絞り込み。店主が知床ガイドで現場使いするウェア。",
+  description: `Patagonia 中心のアウトドアアパレル${apparelItems.length}商品をブランド/カテゴリ/サイズ/状態で絞り込み。店主が知床ガイドで現場使いするウェア。`,
 };
 
 // ファセット件数を集計

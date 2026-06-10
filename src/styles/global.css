@@ -1694,7 +1694,6 @@ img { max-width: 100%; height: auto; display: block; }
 .listing__head h1 { font-family: var(--font-serif); font-size: 2rem; margin: 0 0 0.4rem; line-height: 1.35; }
 .listing__lead { font-size: 0.94rem; color: var(--ink-soft); line-height: 1.85; margin: 0; }
 .listing__count { font-family: var(--font-num); font-size: 0.82rem; font-weight: 700; color: var(--camel-deep); letter-spacing: 0.06em; }
-.listing__layout { display: grid; grid-template-columns: 240px 1fr; gap: 2.2rem; }
 .listing-side { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.4rem 1.6rem; align-self: start; position: sticky; top: 1rem; }
 .listing-side h3 { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700; margin: 0 0 0.6rem; color: var(--ink); }
 .listing-side .facet { margin-bottom: 1.4rem; }
@@ -1721,7 +1720,6 @@ img { max-width: 100%; height: auto; display: block; }
   .entrances__grid { grid-template-columns: 1fr; }
   .tour-link__card { grid-template-columns: 1fr; }
   .listing__head { grid-template-columns: 1fr; }
-  .listing__layout { grid-template-columns: 1fr; }
   .listing-side { position: static; }
   .listing-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2521,21 +2519,6 @@ body.lock-scroll { overflow: hidden; }
 .ranking-tab.is-active { background: #1A1A1A; color: #F6F3EC; border-color: #1A1A1A; }
 
 .ranking-list { display: flex; flex-direction: column; gap: 1rem; }
-.ranking-card { display: grid; grid-template-columns: 64px 110px 1fr auto; gap: 1.4rem; align-items: center; background: #fff; border: 1px solid #e7decb; padding: 1rem 1.4rem; border-radius: 2px; transition: border-color 200ms; }
-.ranking-card:hover { border-color: #B99253; }
-.ranking-card__rank { font-family: 'Noto Serif JP', serif; font-size: 2rem; font-weight: 600; color: #B99253; text-align: center; line-height: 1; }
-.ranking-card__rank--top3 { color: #1A1A1A; font-size: 2.4rem; }
-.ranking-card__media { aspect-ratio: 1 / 1; background: #ECE7DA; overflow: hidden; border-radius: 2px; }
-.ranking-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
-.ranking-card:hover .ranking-card__media img { transform: scale(1.06); }
-.ranking-card__body { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
-.ranking-card__cat { font-size: 0.7rem; letter-spacing: 0.12em; color: #6f6a60; }
-.ranking-card__title { font-family: 'Noto Serif JP', serif; font-size: 1.05rem; font-weight: 600; margin: 0; line-height: 1.45; }
-.ranking-card__title a { color: inherit; text-decoration: none; }
-.ranking-card__title a:hover { color: #3C8186; }
-.ranking-card__meta { display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: 0.78rem; color: #4a463e; }
-.ranking-card__price { font-family: 'Inter', sans-serif; font-feature-settings: 'tnum'; font-weight: 600; color: #1A1A1A; }
-.ranking-card__price-tax { font-size: 0.7rem; color: #6f6a60; margin-left: 0.2rem; }
 
 .rank-change { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; letter-spacing: 0.06em; padding: 0.2rem 0.55rem; border-radius: 2px; font-family: 'Inter', sans-serif; font-feature-settings: 'tnum'; }
 .rank-change.up { background: #e6f0f0; color: #3C8186; }
@@ -2594,7 +2577,6 @@ body.lock-scroll { overflow: hidden; }
 .gift-section__title { font-family: 'Noto Serif JP', serif; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.04em; margin: 0 0 1.2rem; padding-left: 0.9rem; position: relative; }
 .gift-section__title::before { content: ''; position: absolute; left: 0; top: 0.35em; bottom: 0.35em; width: 3px; background: #B99253; }
 
-.gift-option-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
 .gift-option { background: #fff; border: 1px solid #e7decb; padding: 1.6rem 1.5rem; border-radius: 2px; display: flex; flex-direction: column; gap: 0.7rem; transition: border-color 200ms; }
 .gift-option:hover { border-color: #B99253; }
 .gift-option__media { aspect-ratio: 4 / 3; background: #ECE7DA; overflow: hidden; border-radius: 2px; margin: -1.6rem -1.5rem 0.4rem; }
@@ -2605,7 +2587,6 @@ body.lock-scroll { overflow: hidden; }
 .gift-option__text { font-size: 0.84rem; color: #4a463e; line-height: 1.75; margin: 0; }
 .gift-option__price { font-family: 'Inter', sans-serif; font-feature-settings: 'tnum'; font-size: 0.95rem; color: #1A1A1A; margin-top: auto; padding-top: 0.6rem; border-top: 1px solid #ECE7DA; }
 
-.gift-wrap-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
 .gift-wrap-card { background: #fff; border: 1px solid #e7decb; border-radius: 2px; overflow: hidden; }
 .gift-wrap-card__media { aspect-ratio: 1 / 1; background: #ECE7DA; overflow: hidden; }
 .gift-wrap-card__media img { width: 100%; height: 100%; object-fit: cover; }
@@ -2666,15 +2647,9 @@ body.lock-scroll { overflow: hidden; }
   .pdp-section { margin-top: 3.6rem; }
   .environmental, .usage-scene { grid-template-columns: repeat(2, 1fr); }
 
-  .ranking-card { grid-template-columns: 48px 90px 1fr; row-gap: 0.6rem; padding: 0.9rem 1rem; }
-  .ranking-card > :nth-child(4) { grid-column: 1 / -1; display: flex; justify-content: flex-end; }
-
   .bundle-card-row { grid-template-columns: 1fr; gap: 0; }
   .bundle-card-row__media { aspect-ratio: 16 / 9; max-height: 320px; }
   .bundle-card-row__body { padding: 1.6rem 1.5rem 1.8rem; }
-
-  .gift-option-grid { grid-template-columns: repeat(2, 1fr); }
-  .gift-wrap-row { grid-template-columns: repeat(3, 1fr); }
 
   .stories-grid { grid-template-columns: repeat(2, 1fr); gap: 1.4rem; padding: 3rem 1.2rem 4rem; }
   .stories-hero__inner { padding: 0 1.2rem 2.2rem; }
@@ -2695,18 +2670,12 @@ body.lock-scroll { overflow: hidden; }
   .ranking-page { padding: 1.8rem 1rem 4rem; }
   .ranking-tabs { gap: 0.3rem; }
   .ranking-tab { padding: 0.5rem 0.85rem; font-size: 0.76rem; }
-  .ranking-card { grid-template-columns: 40px 72px 1fr; gap: 0.9rem; }
-  .ranking-card__rank { font-size: 1.5rem; }
-  .ranking-card__rank--top3 { font-size: 1.8rem; }
-  .ranking-card__title { font-size: 0.95rem; }
 
   .bundle-page { padding: 1.8rem 1rem 4rem; }
   .bundle-card-row__body { padding: 1.3rem 1.2rem 1.5rem; }
   .bundle-price-row__price { font-size: 1.3rem; }
 
   .gift-page { padding: 1.8rem 1rem 4rem; }
-  .gift-option-grid { grid-template-columns: 1fr; }
-  .gift-wrap-row { grid-template-columns: repeat(2, 1fr); }
 
   .stories-grid { grid-template-columns: 1fr; padding: 2.4rem 1rem 3.6rem; }
   .stories-hero { aspect-ratio: 4 / 3; min-height: 280px; }
@@ -2717,9 +2686,6 @@ body.lock-scroll { overflow: hidden; }
 @media (max-width: 400px) {
   .pdp-info__chips { gap: 0.35rem; }
   .pdp-chip { font-size: 0.76rem; padding: 0.4rem 0.75rem; }
-  .ranking-card { grid-template-columns: 36px 60px 1fr; gap: 0.7rem; padding: 0.75rem 0.8rem; }
-  .ranking-card__rank { font-size: 1.3rem; }
-  .gift-wrap-row { grid-template-columns: 1fr; }
   .story-body { padding: 1.6rem 0.85rem 4rem; }
 }
 
@@ -3868,11 +3834,10 @@ body.lock-scroll { overflow: hidden; }
 }
 /* ============== /story-first TOP ============== */
 
-/* ===== ranking-card 正規化 =====
-   global.css 内に .ranking-card の重複定義があり、後勝ちの grid(64px 110px 1fr auto)が
-   本来の縦型カード設計(471行: 画像上・本文下の flex column)を破壊し、__link が極小列に
-   押し込められて本文が幅7pxに潰れ1文字ずつ縦折れしていた(/shop ランキング・desktop/mobile両方)。
-   末尾で本来の縦型 flex レイアウトに戻す。実在マークアップは1種のみ(死んだ grid 定義に副作用なし)。
+/* ===== ranking-card 正式定義 (縦型 flex カード) =====
+   .ranking-card は /shop ランキングで使う縦型カード(画像上・本文下)。
+   以前あった死んだ grid 重複定義(64px 110px 1fr auto)は削除済み。
+   実在マークアップは1種のみ。ここを縦型 flex の最終確定とする。
    :has() はビルド時のCSS最適化で除去されるため使わない。 */
 .ranking-card {
   display: flex;
