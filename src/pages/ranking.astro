@@ -36,11 +36,12 @@ function resolve(entries: RankingEntry[]): ResolvedEntry[] {
     const diffDir: "up" | "down" | "same" = diff > 0 ? "up" : diff < 0 ? "down" : "same";
     return {
       ...e,
-      title: item?.title ?? `(unknown ${e.catalogId})`,
+      // マーケットプレイス由来の ■ 区切りはぶつ切りに見えるので表示時に除去
+      title: (item?.title ?? `(unknown ${e.catalogId})`).replace(/■/g, " ").replace(/\s+/g, " ").trim(),
       brand: item?.brand ?? (item?.category === "specialty" ? "北の逸品堂 産直" : ""),
       category: item?.category ?? "apparel",
       image: item?.image ?? "/source-images/files/ec-main-image-324x243.jpeg",
-      href: item ? `/products/${item.id}/` : "/products/specialty/",
+      href: item ? `/products/${item.slug}/` : "/products/specialty/",
       diff,
       diffDir,
     };
@@ -304,7 +305,9 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     display: grid;
     grid-template-columns: 88px 168px 1fr;
     gap: 24px;
-    align-items: stretch;
+    /* stretch だと aspect-ratio:1/1 の画像が行の高さまで伸び、
+       正方形維持のため幅が列を突き破って本文に覆い被さる(文字切れの原因) */
+    align-items: start;
     padding: 20px 4px;
     border-bottom: 1px solid rgba(26, 26, 26, .08);
   }
@@ -352,6 +355,8 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   /* 画像列 */
   .rank-row__media {
     display: block;
+    width: 100%;
+    height: auto;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #ECE7DC;
