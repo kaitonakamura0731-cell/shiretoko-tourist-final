@@ -195,10 +195,18 @@ const newsItems = [
             </div>
           )}
         </div>
-        <!-- 全幅帯リンク -->
-        <a href="/shop" class="shop-entrance__band">
-          <span class="shop-entrance__band-main">SHOP ・ ショップを見る</span>
-          <span class="shop-entrance__band-sub">産直の食べものと、現場のアパレル。すべての商品はこちらから</span>
+        <!-- SHOPゲート (店の入口ビジュアルブロック) -->
+        <a href="/shop" class="shop-gate" aria-label="ショップを見る">
+          <div class="shop-gate__bg" aria-hidden="true">
+            <img src="/source-images/files/key-specialty-warm.jpg" alt="" loading="lazy" decoding="async" />
+            <img src="/source-images/files/key-apparel-cool.jpg" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="shop-gate__overlay">
+            <span class="shop-gate__eyebrow">ONLINE SHOP</span>
+            <span class="shop-gate__title">ショップを見る</span>
+            <span class="shop-gate__sub">産直の食べものと、現場のアパレル</span>
+            <span class="shop-gate__btn">すべての商品はこちら →</span>
+          </div>
         </a>
       </section>
 
