@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>購買向上施策 整理資料｜北の逸品堂 (知床ツーリスト)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F6F3EC; --ink:#1A1A1A; --camel:#B99253; --teal:#3C8186;
+    --line:#E4DCC9; --ink60:#6B5F4F; --panel:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#cfc9ba;}
+  body{
+    font-family:"Noto Sans JP",sans-serif; color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .mincho{font-family:"Noto Serif JP",serif;}
+  .num{font-family:"Inter","Noto Sans JP",sans-serif;font-feature-settings:"tnum";}
+
+  @page{ size:1280px 720px; margin:0; }
+
+  .slide{
+    position:relative;
+    width:1280px; height:720px;
+    background:var(--bg);
+    overflow:hidden;
+    page-break-after:always;
+    break-after:page;
+    margin:0 auto;
+    padding:56px 72px;
+  }
+  .slide:last-child{ page-break-after:auto; break-after:auto; }
+
+  /* スライド共通ヘッダ */
+  .s-kicker{
+    font-family:"Inter",sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:.22em; color:var(--camel); text-transform:uppercase;
+    margin:0 0 10px;
+  }
+  .s-title{
+    font-size:34px; font-weight:600; line-height:1.3; margin:0 0 6px; color:var(--ink);
+  }
+  .s-rule{ height:3px; width:64px; background:var(--camel); border:0; margin:14px 0 26px; }
+  .s-foot{
+    position:absolute; left:72px; right:72px; bottom:26px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11.5px; color:var(--ink60);
+    border-top:1px solid var(--line); padding-top:12px;
+  }
+  .s-foot__brand{font-weight:600; letter-spacing:.04em;}
+
+  /* ============ 表紙 ============ */
+  .cover{ background:var(--ink); color:var(--bg); padding:0; }
+  .cover__inner{ position:absolute; inset:0; padding:72px 80px; display:flex; flex-direction:column; }
+  .cover__brand{
+    font-family:"Inter",sans-serif; font-weight:600; font-size:13px; letter-spacing:.28em;
+    color:var(--camel); text-transform:uppercase;
+  }
+  .cover__brand span{ color:rgba(246,243,236,.55); }
+  .cover__mid{ margin-top:auto; }
+  .cover__eyebrow{
+    font-size:14px; letter-spacing:.18em; color:#D8CDB6; margin:0 0 18px;
+  }
+  .cover__title{
+    font-size:60px; line-height:1.28; font-weight:600; margin:0; color:#fff; letter-spacing:.01em;
+  }
+  .cover__title em{ color:var(--camel); font-style:normal; }
+  .cover__lead{
+    margin:28px 0 0; max-width:760px; font-size:16px; line-height:2; color:rgba(246,243,236,.82);
+  }
+  .cover__meta{
+    margin-top:40px; display:flex; gap:40px; flex-wrap:wrap;
+    border-top:1px solid rgba(246,243,236,.18); padding-top:24px;
+  }
+  .cover__meta div span{ display:block; font-size:11.5px; letter-spacing:.16em; color:var(--camel); margin-bottom:6px; }
+  .cover__meta div b{ font-size:15px; font-weight:500; color:#fff; }
+  .cover__strip{ position:absolute; top:0; right:0; bottom:0; width:10px; background:var(--camel); }
+
+  /* ============ 施策マップ表 ============ */
+  .map-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  .map-table th, .map-table td{ border:1px solid var(--line); padding:11px 12px; text-align:left; vertical-align:middle; }
+  .map-table thead th{
+    background:var(--ink); color:var(--bg); font-weight:600; font-size:13px; letter-spacing:.02em;
+  }
+  .map-table thead th.axis-col{ background:var(--teal); text-align:center; width:88px; font-size:12.5px; }
+  .map-table tbody th{
+    background:#fff; font-weight:600; color:var(--ink); width:300px; font-size:13.5px;
+  }
+  .map-table tbody tr:nth-child(even) th,
+  .map-table tbody tr:nth-child(even) td{ background:#FBF8F1; }
+  .map-table tbody tr:nth-child(even) th{ background:#FBF8F1; }
+  .map-dot{ display:inline-block; width:15px; height:15px; border-radius:50%; background:var(--camel); }
+  .map-dot--sub{ background:#fff; border:2px solid #D8CDB6; }
+  .map-cell{ text-align:center; }
+  .map-legend{ margin-top:16px; display:flex; gap:26px; font-size:12.5px; color:var(--ink60); align-items:center;}
+  .map-legend b{ color:var(--ink); }
+  .map-legend .map-dot{ vertical-align:-2px; margin-right:7px; }
+  .map-note{ margin-top:10px; font-size:11.5px; color:var(--ink60); line-height:1.7; }
+
+  /* ============ 施策詳細カード ============ */
+  .detail-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .detail-grid--3{ grid-template-columns:repeat(3,1fr); }
+  .m-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:3px;
+    padding:20px 22px; display:flex; flex-direction:column;
+  }
+  .m-card__head{ display:flex; align-items:center; gap:10px; margin-bottom:11px; }
+  .m-card__no{
+    font-family:"Inter",sans-serif; font-weight:700; font-size:12px; color:var(--camel);
+    letter-spacing:.06em;
+  }
+  .m-card__name{ font-size:17px; font-weight:600; line-height:1.4; margin:0; color:var(--ink); }
+  .m-card__name--sm{ font-size:16px; }
+  .m-card__mech{ font-size:13px; line-height:1.75; color:#3a3a3a; margin:0 0 13px; }
+  .m-card__name--sm + .m-card__mech{ font-size:12.5px; }
+  .m-card__rows{ margin-top:auto; display:flex; flex-direction:column; gap:7px; }
+  .m-row{ display:flex; gap:9px; align-items:baseline; font-size:12px; line-height:1.55; }
+  .m-row__k{ flex:0 0 56px; color:var(--ink60); font-weight:600; letter-spacing:.02em; }
+  .m-row__v{ color:var(--ink); }
+  .chip{
+    display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:3px;
+    letter-spacing:.02em; margin-right:5px;
+  }
+  .chip--axis{ background:rgba(60,129,134,.12); color:var(--teal); }
+  .chip--done{ background:var(--teal); color:#fff; }
+  .chip--back{ background:#fff; color:var(--camel); border:1px solid var(--camel); }
+
+  /* ============ 実装状況サマリ ============ */
+  .sum-cols{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .sum-panel{ background:var(--panel); border:1px solid var(--line); border-radius:3px; padding:24px 26px; }
+  .sum-panel__head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
+  .sum-panel__badge{ font-size:12px; font-weight:600; padding:4px 11px; border-radius:3px; color:#fff; letter-spacing:.04em; }
+  .sum-panel--done .sum-panel__badge{ background:var(--teal); }
+  .sum-panel--back .sum-panel__badge{ background:var(--camel); }
+  .sum-panel__head h3{ margin:0; font-size:16px; font-weight:600; }
+  .sum-panel__count{ font-family:"Inter",sans-serif; font-weight:700; font-size:13px; color:var(--ink60); margin-left:auto; }
+  .sum-list{ list-style:none; margin:0; padding:0; columns:2; column-gap:22px; }
+  .sum-list li{ font-size:12.5px; line-height:1.5; padding:5px 0 5px 16px; position:relative; break-inside:avoid; color:#333; }
+  .sum-list li::before{ content:""; position:absolute; left:0; top:11px; width:7px; height:7px; border-radius:50%; background:var(--camel); }
+  .sum-panel--done .sum-list li::before{ background:var(--teal); }
+  .sum-caption{ margin:18px 0 0; font-size:12px; line-height:1.8; color:var(--ink60); }
+
+  /* ============ 次の一手 ============ */
+  .next-list{ display:flex; flex-direction:column; gap:14px; }
+  .next-row{
+    display:grid; grid-template-columns:54px 1fr 150px; gap:20px; align-items:center;
+    background:var(--panel); border:1px solid var(--line); border-radius:3px; padding:16px 22px;
+  }
+  .next-row__pri{
+    font-family:"Inter",sans-serif; font-weight:700; font-size:26px; color:var(--camel);
+    text-align:center; line-height:1;
+  }
+  .next-row__body h3{ margin:0 0 4px; font-size:16px; font-weight:600; }
+  .next-row__body p{ margin:0; font-size:12.5px; line-height:1.7; color:var(--ink60); }
+  .next-row__effect{
+    font-size:12px; line-height:1.55; color:var(--ink); background:rgba(60,129,134,.08);
+    border-left:3px solid var(--teal); padding:8px 12px; border-radius:2px;
+  }
+  .next-row__effect b{ color:var(--teal); }
+  .lead-block{ font-size:14.5px; line-height:1.9; color:var(--ink60); max-width:860px; margin:0 0 22px; }
+  .lead-block b{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. 表紙 ============ -->
+<section class="slide cover">
+  <div class="cover__inner">
+    <div class="cover__brand">北の逸品堂 <span>/ SHIRETOKO TOURIST ・ 1992 KIYOSATO</span></div>
+    <div class="cover__mid">
+      <p class="cover__eyebrow">社内資料 ・ CONVERSION MEASURES</p>
+      <h1 class="cover__title mincho">自社ECの<br /><em>購買向上施策</em>、ぜんぶ整理。</h1>
+      <p class="cover__lead">
+        北の逸品堂 自社ECに実装した／これから本番化する購買向上の仕組みを、
+        「客数・客単価・購入回数・CVR」の4軸で棚卸しした社内資料です。
+        各施策の仕組み・効く軸・実装状況・期待効果を一枚で見渡せるようにまとめました。
+      </p>
+    </div>
+    <div class="cover__meta">
+      <div><span>対象</span><b>自社EC（デモ実装済）</b></div>
+      <div><span>整理軸</span><b>客数 / 客単価 / 購入回数 / CVR</b></div>
+      <div><span>区分</span><b>実装済デモ ／ 本番化要バックエンド</b></div>
+    </div>
+  </div>
+  <div class="cover__strip"></div>
+</section>
+
+<!-- ============ 2. 施策マップ（3軸×施策の対応表） ============ -->
+<section class="slide">
+  <p class="s-kicker">Measure Map</p>
+  <h2 class="s-title mincho">施策マップ — どの施策が、どの数字に効くか</h2>
+  <hr class="s-rule" />
+  <table class="map-table">
+    <thead>
+      <tr>
+        <th>施策</th>
+        <th class="axis-col">客数</th>
+        <th class="axis-col">客単価</th>
+        <th class="axis-col">購入回数</th>
+        <th class="axis-col">CVR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>送料無料カウンター（¥5,000）</th>
+        <td class="map-cell"></td><td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td>
+      </tr>
+      <tr>
+        <th>セット販売・バンドル / 同梱割</th>
+        <td class="map-cell"></td><td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"></td>
+      </tr>
+      <tr>
+        <th>アップセル増量階段（1kg→8kg）</th>
+        <td class="map-cell"></td><td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td><td class="map-cell"></td>
+      </tr>
+      <tr>
+        <th>会員ランク段階割引 / ポイント</th>
+        <td class="map-cell"></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td>
+      </tr>
+      <tr>
+        <th>定期便 / 予約販売（青田買い）</th>
+        <td class="map-cell"></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td>
+      </tr>
+      <tr>
+        <th>LINE再入荷通知・登録¥500OFF</th>
+        <td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td>
+      </tr>
+      <tr>
+        <th>紹介クーポン（双方¥500） / 誕生月クーポン</th>
+        <td class="map-cell"><span class="map-dot"></span></td><td class="map-cell"></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"></td>
+      </tr>
+      <tr>
+        <th>レビュー・口コミ（星＋投稿フォーム）</th>
+        <td class="map-cell"></td><td class="map-cell"></td><td class="map-cell"></td><td class="map-cell"><span class="map-dot"></span></td>
+      </tr>
+      <tr>
+        <th>Yahoo!店 vs 自社EC 比較 / ランキング / ギフト・のし</th>
+        <td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"><span class="map-dot--sub map-dot"></span></td><td class="map-cell"></td><td class="map-cell"><span class="map-dot"></span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="map-legend">
+    <span><span class="map-dot"></span><b>主に効く軸</b></span>
+    <span><span class="map-dot map-dot--sub"></span><b>副次的に効く軸</b></span>
+  </div>
+  <p class="map-note">客数＝新規・流入の数 ／ 客単価＝1回あたりの注文金額 ／ 購入回数＝再訪・継続（LTV） ／ CVR＝閲覧から購入への転換率。次ページ以降で各施策を詳述。</p>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>2 / 7</span></div>
+</section>
+
+<!-- ============ 3. 施策詳細 (1) 客単価を上げる ============ -->
+<section class="slide">
+  <p class="s-kicker">Detail 01 ・ 客単価を上げる</p>
+  <h2 class="s-title mincho">1回の注文を、もう一品大きく</h2>
+  <hr class="s-rule" />
+  <div class="detail-grid detail-grid--3">
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">01</span><h3 class="m-card__name m-card__name--sm">送料無料カウンター</h3></div>
+      <p class="m-card__mech">上部バーとカートで「あと¥◯◯で送料無料」を常時表示。¥5,000のしきい値まで自動加算で誘導する。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">しきい値直前の「あと一品」を後押し。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">02</span><h3 class="m-card__name m-card__name--sm">セット販売・バンドル</h3></div>
+      <p class="m-card__mech">店主が組む5セット。単品合計より割安（例：春の北海道便 ¥10,180→¥9,000）。狙いを持った束で購入点数を増やす。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">単品より高い1注文金額を自然に作る。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">03</span><h3 class="m-card__name m-card__name--sm">同梱割（カート割引）</h3></div>
+      <p class="m-card__mech">3点以上で5%OFF、5点以上で送料無料、ギフト対応セットはのし・カード無料。カート全体で「もう一点」を促す。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">買い回り点数を底上げ。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">04</span><h3 class="m-card__name m-card__name--sm">アップセル増量階段</h3></div>
+      <p class="m-card__mech">アスパラ1kg ¥5,800（¥5,800/kg）→8kg ¥35,200（¥4,400/kg）。量が増えるほど単価が下がる表を商品ページで提示。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">大容量への引き上げで単価最大化。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">05</span><h3 class="m-card__name m-card__name--sm">クロスセル併売</h3></div>
+      <p class="m-card__mech">商品ページの「あわせて選ばれています」で関連品を提示。アスパラ→じゃがいも／玉ねぎなど食卓単位で束ねる。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">関連購入で点数・単価を加算。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">06</span><h3 class="m-card__name m-card__name--sm">しきい値ギフト</h3></div>
+      <p class="m-card__mech">¥10,000以上で「店主のおまけ」を一品同梱。カートでバー進捗を可視化し、もう一段上の購入を促す。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">高単価ゾーンへの到達を後押し。</span></div>
+      </div>
+    </article>
+
+  </div>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>3 / 7</span></div>
+</section>
+
+<!-- ============ 4. 施策詳細 (2) 購入回数を増やす ============ -->
+<section class="slide">
+  <p class="s-kicker">Detail 02 ・ 購入回数を増やす（LTV）</p>
+  <h2 class="s-title mincho">一度きりを、続くお付き合いに</h2>
+  <hr class="s-rule" />
+  <div class="detail-grid detail-grid--3">
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">07</span><h3 class="m-card__name m-card__name--sm">会員ランク段階割引</h3></div>
+      <p class="m-card__mech">累計購入額でBronze→Silver(¥30,000)→Gold(¥100,000)。全商品5〜10%OFF・送料無料・先行販売など特典が段階的に開く。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">継続購入の動機を階段で設計。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">08</span><h3 class="m-card__name m-card__name--sm">ポイント還元</h3></div>
+      <p class="m-card__mech">購入金額の1%を自動付与（マイページに残高表示）。送料・のし代にも充当でき、次回来店の理由を残す。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">再来店のきっかけを継続生成。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">09</span><h3 class="m-card__name m-card__name--sm">定期便</h3></div>
+      <p class="m-card__mech">毎月・隔月・3か月便の3プラン、5〜10%OFF（例：アスパラ毎月便 ¥5,800→¥5,220）。買い忘れを防ぎ自動で継続。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">継続課金でLTVを安定化。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">10</span><h3 class="m-card__name m-card__name--sm">予約販売（青田買い）</h3></div>
+      <p class="m-card__mech">収穫前に予約価格で確保（秋じゃが・新玉ねぎ各10%OFF）。需要を前倒しで取り込み、出荷を平準化する。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span><span class="chip chip--axis">客単価</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">端境期も売上を確保。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">11</span><h3 class="m-card__name m-card__name--sm">季節カレンダー連動</h3></div>
+      <p class="m-card__mech">年間カレンダーで春〜冬の旬と「NOW」を可視化。旬の切り替えごとに再訪・予約購入の動線をつくる。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">年4回の買い直し機会を設計。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">12</span><h3 class="m-card__name m-card__name--sm">誕生月クーポン</h3></div>
+      <p class="m-card__mech">誕生月に¥800OFF（¥3,000以上で利用可）を自動配布。年1回の確実な来店トリガーを仕込む。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">休眠の掘り起こしに有効。</span></div>
+      </div>
+    </article>
+
+  </div>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>4 / 7</span></div>
+</section>
+
+<!-- ============ 5. 施策詳細 (3) 客数・CVRを上げる ============ -->
+<section class="slide">
+  <p class="s-kicker">Detail 03 ・ 客数を増やす／CVRを上げる</p>
+  <h2 class="s-title mincho">入口を広げ、迷いを減らす</h2>
+  <hr class="s-rule" />
+  <div class="detail-grid detail-grid--3">
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">13</span><h3 class="m-card__name m-card__name--sm">LINE登録 ¥500OFF</h3></div>
+      <p class="m-card__mech">トップ・各ページのLINE帯から友だち追加で¥500OFF。連絡先を獲得し、再入荷・収穫速報を直接届ける起点に。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">新規接点と初回購入を同時獲得。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">14</span><h3 class="m-card__name m-card__name--sm">LINE再入荷通知・1:1相談</h3></div>
+      <p class="m-card__mech">売切れ品の「再入荷をLINEで知らせる」と1:1相談。欠品の取りこぼしを拾い、贈答・ロット相談で再来店を促す。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">購入回数</span><span class="chip chip--axis">CVR</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--back">本番化要バックエンド</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">欠品時の離脱を呼び戻す。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">15</span><h3 class="m-card__name m-card__name--sm">紹介クーポン（双方¥500）</h3></div>
+      <p class="m-card__mech">/referral で紹介リンク発行。リンク経由の初回購入で紹介者・被紹介者の双方に¥500OFF。既存客が新規を連れてくる。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">客数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">口コミ経由の新規流入を生む。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">16</span><h3 class="m-card__name m-card__name--sm">レビュー・口コミ</h3></div>
+      <p class="m-card__mech">商品ページに星評価・分布・既存レビューと店主返信、さらに星＋本文の投稿フォーム。第三者の声で購入の不安を解消。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">CVR</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">購入直前の後押しに直結。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">17</span><h3 class="m-card__name m-card__name--sm">Yahoo! vs 自社EC 比較</h3></div>
+      <p class="m-card__mech">8軸の比較表＋商品別の実質差＋場面別おすすめ。モール客に自社ECの利点を示し、指名買いへ移す。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">CVR</span><span class="chip chip--axis">客数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">モール客の自社移行を促す。</span></div>
+      </div>
+    </article>
+
+    <article class="m-card">
+      <div class="m-card__head"><span class="m-card__no">18</span><h3 class="m-card__name m-card__name--sm">ランキング / ギフト・のし</h3></div>
+      <p class="m-card__mech">週間ランキングで売れ筋を提示し選びやすく。のし・ラッピング・配送日指定でギフト需要の新規客を取り込む。</p>
+      <div class="m-card__rows">
+        <div class="m-row"><span class="m-row__k">効く軸</span><span class="m-row__v"><span class="chip chip--axis">CVR</span><span class="chip chip--axis">客数</span></span></div>
+        <div class="m-row"><span class="m-row__k">実装</span><span class="m-row__v"><span class="chip chip--done">実装済デモ</span></span></div>
+        <div class="m-row"><span class="m-row__k">効果</span><span class="m-row__v">選択の迷いを減らし新規層を開拓。</span></div>
+      </div>
+    </article>
+
+  </div>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>5 / 7</span></div>
+</section>
+
+<!-- ============ 6. 実装状況サマリ ============ -->
+<section class="slide">
+  <p class="s-kicker">Status Summary</p>
+  <h2 class="s-title mincho">実装状況サマリ — 見せられる施策と、繋ぎ込みが要る施策</h2>
+  <hr class="s-rule" />
+  <div class="sum-cols">
+
+    <div class="sum-panel sum-panel--done">
+      <div class="sum-panel__head">
+        <span class="sum-panel__badge">実装済デモ</span>
+        <h3>画面で今すぐ体験できる</h3>
+        <span class="sum-panel__count">11</span>
+      </div>
+      <ul class="sum-list">
+        <li>送料無料カウンター（¥5,000）</li>
+        <li>セット販売・バンドル（5種）</li>
+        <li>アップセル増量階段</li>
+        <li>クロスセル併売</li>
+        <li>しきい値ギフト（¥10,000）</li>
+        <li>予約販売（青田買い）</li>
+        <li>季節カレンダー連動</li>
+        <li>LINE登録 ¥500OFF</li>
+        <li>紹介クーポン（/referral）</li>
+        <li>レビュー・口コミ＋投稿フォーム</li>
+        <li>Yahoo比較／ランキング／ギフト・のし</li>
+      </ul>
+      <p class="sum-caption">フロントは完成済。クーポン・紹介・レビュー投稿はブラウザ保存（localStorage）で挙動デモ。商談・社内確認にそのまま使えます。</p>
+    </div>
+
+    <div class="sum-panel sum-panel--back">
+      <div class="sum-panel__head">
+        <span class="sum-panel__badge">本番化要バックエンド</span>
+        <h3>繋ぎ込みで本稼働する</h3>
+        <span class="sum-panel__count">7</span>
+      </div>
+      <ul class="sum-list">
+        <li>同梱割（カート自動割引）</li>
+        <li>会員ランク段階割引</li>
+        <li>ポイント還元（残高管理）</li>
+        <li>定期便（継続課金）</li>
+        <li>誕生月クーポン（自動配布）</li>
+        <li>LINE再入荷通知・1:1相談</li>
+        <li>カート離脱メール（未実装・予定）</li>
+      </ul>
+      <p class="sum-caption">必要なのは、顧客マスタ・注文履歴・ポイント台帳・決済／LINE連携。本番では管理画面と接続して自動化します。カート離脱メールは次フェーズで新規実装。</p>
+    </div>
+
+  </div>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>6 / 7</span></div>
+</section>
+
+<!-- ============ 7. 次の一手（本番化優先順） ============ -->
+<section class="slide">
+  <p class="s-kicker">Next Steps</p>
+  <h2 class="s-title mincho">次の一手 — 本番化の優先順</h2>
+  <hr class="s-rule" />
+  <p class="lead-block">
+    効果の即効性と実装コストのバランスで、本番化の順番を3段で整理しました。
+    <b>まず会員基盤（ランク・ポイント）を立て、継続課金とリテンション通知を順に繋ぐ</b>のが最短ルートです。
+  </p>
+  <div class="next-list">
+
+    <div class="next-row">
+      <div class="next-row__pri">01</div>
+      <div class="next-row__body">
+        <h3>会員ランク × ポイントの本番化</h3>
+        <p>顧客マスタと注文履歴を連携し、累計購入額からランク自動判定・ポイント自動付与／利用を稼働。同梱割もカート側で自動適用。</p>
+      </div>
+      <div class="next-row__effect"><b>購入回数 ↑</b>／継続来店の土台</div>
+    </div>
+
+    <div class="next-row">
+      <div class="next-row__pri">02</div>
+      <div class="next-row__body">
+        <h3>定期便（継続課金）の稼働</h3>
+        <p>定期課金と出荷サイクルを接続。スキップ・解約をマイページから操作可能にし、旬商品の毎月／隔月便を本稼働。</p>
+      </div>
+      <div class="next-row__effect"><b>購入回数 ↑</b>／LTVを安定化</div>
+    </div>
+
+    <div class="next-row">
+      <div class="next-row__pri">03</div>
+      <div class="next-row__body">
+        <h3>LINE通知 ＋ クーポン自動配布 ＋ カート離脱メール</h3>
+        <p>再入荷・収穫速報のLINE push、誕生月・紹介クーポンの自動配布を接続。あわせてカート離脱メールを新規実装し取りこぼしを回収。</p>
+      </div>
+      <div class="next-row__effect"><b>客数・CVR ↑</b>／離脱を売上に</div>
+    </div>
+
+  </div>
+  <div class="s-foot"><span class="s-foot__brand">北の逸品堂｜購買向上施策</span><span>7 / 7</span></div>
+</section>
+
+</body>
+</html>

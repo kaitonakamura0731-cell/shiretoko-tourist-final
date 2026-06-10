@@ -171,81 +171,33 @@ const newsItems = [
           <p class="hero-fb__sub">
             北海道・清里町。知床のガイドが畑と岩場で見つけた食べるものと着るものを、この店から届けています。
           </p>
-          <a href="/products/specialty/" class="hero-fb__cta">ショップを見る</a>
+          <a href="/shop" class="hero-fb__cta">ショップを見る</a>
         </div>
       </section>
 
-      <!-- ============ SHOP ENTRANCE (ヒーロー直下) ============ -->
+      <!-- ============ SHOP ENTRANCE (ヒーロー直下・入口はショップ1本) ============ -->
       <section class="shop-entrance" aria-label="ショップへの入口">
         <div class="shop-entrance__inner">
           <div class="shop-entrance__header">
             <span class="shop-entrance__eyebrow">SHOP</span>
             <h2 class="shop-entrance__headline">同じ人間が、畑で選んで岩場で着る。</h2>
-            <p class="shop-entrance__sub">産直と現場ウェア、それぞれの入口から。</p>
+            <p class="shop-entrance__sub">
+              知床のガイドが、朝採りの食べものと現場で使うウェアを同じ目利きで扱う店です。
+            </p>
           </div>
-          <div class="shop-entrance__grid">
-            <!-- 産直カード -->
-            <a href="/shop#specialty" class="entrance-card entrance-card--specialty">
-              <div class="entrance-card__img">
-                <img
-                  src="/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg"
-                  alt="朝採りアスパラ・清里町の畑"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="entrance-card__body">
-                <span class="entrance-card__tag">SPECIALTY ・ 産直</span>
-                <h3 class="entrance-card__name">食べるもの</h3>
-                <p class="entrance-card__desc">
-                  朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
-                </p>
-                {specialtyPreviews.length > 0 && (
-                  <div class="entrance-card__previews" aria-hidden="true">
-                    {specialtyPreviews.map((p) => (
-                      <span class="entrance-card__thumb">
-                        <img src={p.src} alt="" loading="lazy" decoding="async" />
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <span class="entrance-card__link">産直を見る →</span>
-              </div>
-            </a>
-
-            <!-- アパレルカード -->
-            <a href="/shop#apparel" class="entrance-card entrance-card--apparel">
-              <div class="entrance-card__img">
-                <img
-                  src="/source-images/files/product-2989-new-m-patagonia-ms-r1-air-full-zip-hoodie-patagonia-clement-blue-clmb-2984-p1010080-1.jpg"
-                  alt="知床の岩場で着るPatagoniaフリース"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="entrance-card__body">
-                <span class="entrance-card__tag">APPAREL ・ アパレル</span>
-                <h3 class="entrance-card__name">着るもの</h3>
-                <p class="entrance-card__desc">
-                  店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
-                </p>
-                {apparelPreviews.length > 0 && (
-                  <div class="entrance-card__previews" aria-hidden="true">
-                    {apparelPreviews.map((p) => (
-                      <span class="entrance-card__thumb">
-                        <img src={p.src} alt="" loading="lazy" decoding="async" />
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <span class="entrance-card__link">アパレルを見る →</span>
-              </div>
-            </a>
-          </div>
+          {(specialtyPreviews.length > 0 || apparelPreviews.length > 0) && (
+            <div class="shop-entrance__previews" aria-hidden="true">
+              {[...specialtyPreviews, ...apparelPreviews].map((p) => (
+                <span class="entrance-card__thumb">
+                  <img src={p.src} alt="" loading="lazy" decoding="async" />
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         <!-- 全幅帯リンク -->
         <a href="/shop" class="shop-entrance__band">
-          <span>すべての商品(産直・アパレル)を見る</span>
+          <span>ショップを見る(産直・アパレル)</span>
         </a>
       </section>
 

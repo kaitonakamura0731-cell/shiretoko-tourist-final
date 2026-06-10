@@ -3540,6 +3540,32 @@ body.lock-scroll { overflow: hidden; }
   .shop-page-header { padding: 1.4rem 0 1.3rem; }
   .shop-tab { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
 }
+
+/* TOP ショップ入口: 産直+アパレル混合チラ見せ列 (2カード廃止・CTA一本化) */
+.shop-entrance__previews {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.6rem auto 0;
+  max-width: 720px;
+}
+.shop-entrance__previews .entrance-card__thumb {
+  width: 96px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+.shop-entrance__previews .entrance-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 560px) {
+  .shop-entrance__previews .entrance-card__thumb { width: 72px; }
+}
 /* ============== /story-first TOP ============== */
 
 /* ===== ranking-card 正規化 =====

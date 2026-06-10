@@ -186,8 +186,8 @@ const currentYear = new Date().getFullYear();
             産直 {specialtyCount}商品 / アパレル {apparelCount}商品 ・ 合計 {totalCount}商品
           </p>
           <div class="shop-tabs" role="list">
-            <a href="#specialty" class="shop-tab" role="listitem">産直</a>
-            <a href="#apparel" class="shop-tab" role="listitem">アパレル</a>
+            <a href="/products/specialty/" class="shop-tab" role="listitem">産直</a>
+            <a href="/products/apparel/" class="shop-tab" role="listitem">アパレル</a>
             <a href="#bundles" class="shop-tab" role="listitem">セット</a>
             <a href="#ranking" class="shop-tab" role="listitem">ランキング</a>
             <a href="/gift/" class="shop-tab" role="listitem">ギフト</a>
@@ -195,56 +195,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ============ [2] 2大入口（産直 / アパレル）中チラ見せ ============ -->
-      <section class="entrances" aria-label="2大入口">
-        <div class="entrances__inner">
-          <span class="section-eyebrow">2 ENTRANCES</span>
-          <h2 class="mincho">食べるもの / 着るもの、<br />どちらから見ますか。</h2>
-          <hr class="section-rule" />
-
-          <div class="entrances__grid">
-            <!-- 産直カラム -->
-            <div class="entrance entrance--specialty" id="specialty">
-              <span class="entrance__tag">SPECIALTY ・ 産直</span>
-              <div class="entrance__key">
-                <img src="/source-images/files/key-specialty-warm.jpg" alt="朝採りアスパラと清里町の畑" loading="lazy" decoding="async" />
-              </div>
-              <div class="entrance__previews" aria-hidden="true">
-                {specialtyPreviews.map((p) => (
-                  <span class="entrance__thumb">
-                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
-                  </span>
-                ))}
-              </div>
-              <p class="entrance__note">
-                朝採りのアスパラ、土つきのじゃがいも。畑から届く季節の便りを、その時いちばん良いものだけ並べます。
-              </p>
-              <a href="/products/specialty/" class="entrance__cta">産直を見る →</a>
-            </div>
-
-            <!-- アパレルカラム -->
-            <div class="entrance entrance--apparel" id="apparel">
-              <span class="entrance__tag">APPAREL ・ アパレル</span>
-              <div class="entrance__key">
-                <img src="/source-images/files/key-apparel-cool.jpg" alt="知床の岩場で着るアウトドアフリース" loading="lazy" decoding="async" />
-              </div>
-              <div class="entrance__previews" aria-hidden="true">
-                {apparelPreviews.map((p) => (
-                  <span class="entrance__thumb">
-                    {p.src ? <img src={p.src} alt="" loading="lazy" decoding="async" /> : <span class="entrance__thumb-ph"></span>}
-                  </span>
-                ))}
-              </div>
-              <p class="entrance__note">
-                店主が知床の現場で実際に着るもの。Patagonia を中心に、寒さと天候にきちんと向き合える一着を選んでいます。
-              </p>
-              <a href="/products/apparel/" class="entrance__cta">アパレルを見る →</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ [4] 今週のPICK UP (ランキング) ============ -->
+      <!-- ============ 今週のPICK UP (ランキング) ============ -->
       <section class="section section--white" id="ranking" aria-label="今週のおすすめ">
         <div class="section__inner">
           <span class="section-eyebrow">PICK UP</span>
