@@ -185,9 +185,17 @@ const currentYear = new Date().getFullYear();
           <p class="shop-page-header__count">
             産直 {specialtyCount}商品 / アパレル {apparelCount}商品 ・ 合計 {totalCount}商品
           </p>
+          <div class="shop-tabs shop-tabs--primary" role="list">
+            <a href="/products/specialty/" class="shop-tab shop-tab--primary shop-tab--specialty" role="listitem">
+              <span class="shop-tab__label">産直 ・ 食べるもの</span>
+              <span class="shop-tab__count">{specialtyCount}商品を見る →</span>
+            </a>
+            <a href="/products/apparel/" class="shop-tab shop-tab--primary shop-tab--apparel" role="listitem">
+              <span class="shop-tab__label">アパレル ・ 着るもの</span>
+              <span class="shop-tab__count">{apparelCount}商品を見る →</span>
+            </a>
+          </div>
           <div class="shop-tabs" role="list">
-            <a href="/products/specialty/" class="shop-tab" role="listitem">産直</a>
-            <a href="/products/apparel/" class="shop-tab" role="listitem">アパレル</a>
             <a href="#bundles" class="shop-tab" role="listitem">セット</a>
             <a href="#ranking" class="shop-tab" role="listitem">ランキング</a>
             <a href="/gift/" class="shop-tab" role="listitem">ギフト</a>

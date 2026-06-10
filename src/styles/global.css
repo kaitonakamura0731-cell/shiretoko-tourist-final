@@ -3087,6 +3087,7 @@ body.lock-scroll { overflow: hidden; }
 
 /* ---- HERO fullbleed ---- */
 .hero-fb {
+  position: relative;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -3094,9 +3095,20 @@ body.lock-scroll { overflow: hidden; }
 .hero-fb__img {
   width: 100%;
   max-height: 90vh;
-  min-height: 320px;
+  min-height: 420px;
   object-fit: cover;
   display: block;
+}
+/* コピーを画像上に重ねるための下部スクリム (可読性目的の最小限) */
+.hero-fb::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58%;
+  background: linear-gradient(180deg, rgba(20, 18, 14, 0) 0%, rgba(20, 18, 14, 0.55) 100%);
+  pointer-events: none;
 }
 .hero-fb__placeholder {
   width: 100%;
@@ -3124,48 +3136,60 @@ body.lock-scroll { overflow: hidden; }
   font-weight: 500;
 }
 .hero-fb__copy {
-  max-width: var(--max-w-narrow);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  max-width: var(--max-w);
   margin: 0 auto;
-  padding: clamp(28px, 5vw, 52px) 1.25rem clamp(36px, 6vw, 64px);
-  text-align: center;
+  padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(28px, 5vw, 56px);
+  text-align: left;
 }
 .hero-fb__headline {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  color: var(--ink);
+  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+  color: #fff;
   letter-spacing: 0.06em;
   font-weight: 600;
-  margin: 0 0 0.6em;
-  line-height: 1.55;
+  margin: 0 0 0.5em;
+  line-height: 1.5;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
 }
 .hero-fb__sub {
   font-family: var(--font-sans);
-  font-size: clamp(0.88rem, 1.4vw, 0.98rem);
-  color: var(--ink-soft);
-  line-height: 2;
-  max-width: 34em;
-  margin: 0 auto 1.8em;
+  font-size: clamp(0.86rem, 1.4vw, 0.96rem);
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.9;
+  max-width: 36em;
+  margin: 0 0 1.4em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
 }
 .hero-fb__cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.35em;
+  gap: 0.4em;
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--teal-dark);
-  border-bottom: 1px solid var(--teal);
-  padding-bottom: 0.1em;
-  letter-spacing: 0.04em;
-  transition: color 150ms ease, border-color 150ms ease;
+  color: #1A1A1A;
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  padding: 0.65em 1.6em;
+  letter-spacing: 0.05em;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
+.hero-fb__cta::after { content: "→"; }
 .hero-fb__cta:hover {
-  color: var(--teal);
-  border-color: var(--teal);
+  background: var(--camel);
+  border-color: var(--camel);
+  color: #fff;
   text-decoration: none;
 }
 @media (max-width: 560px) {
-  .hero-fb__img { max-height: 60vh; }
+  .hero-fb__img { max-height: 72vh; min-height: 460px; }
+  .hero-fb__copy { padding-bottom: 26px; }
 }
 
 /* ---- NEWS section ---- */
@@ -3403,22 +3427,34 @@ body.lock-scroll { overflow: hidden; }
 }
 .shop-entrance__band {
   display: block;
-  background: var(--teal-soft);
+  background: var(--ink);
   border-top: 1px solid var(--line);
   text-align: center;
-  padding: 1rem 1.25rem;
+  padding: clamp(1.7rem, 4.5vw, 2.6rem) 1.25rem;
   margin-top: 0;
+  transition: background 150ms ease;
 }
-.shop-entrance__band:hover { background: var(--teal-soft); text-decoration: none; }
-.shop-entrance__band span {
-  font-size: 0.88rem;
-  color: var(--teal-dark);
-  font-weight: 500;
-  letter-spacing: 0.04em;
+.shop-entrance__band:hover { background: #32302a; text-decoration: none; }
+.shop-entrance__band-main {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.35em;
 }
-.shop-entrance__band span::after {
+.shop-entrance__band-main::after {
   content: " →";
   font-weight: 400;
+  color: var(--camel);
+}
+.shop-entrance__band-sub {
+  display: block;
+  font-size: 0.84rem;
+  color: rgba(246, 243, 236, 0.78);
+  font-weight: 500;
+  letter-spacing: 0.06em;
 }
 
 /* ---- LINE 細帯 ---- */
@@ -3539,6 +3575,42 @@ body.lock-scroll { overflow: hidden; }
 @media (max-width: 480px) {
   .shop-page-header { padding: 1.4rem 0 1.3rem; }
   .shop-tab { padding: 0.4rem 0.85rem; font-size: 0.82rem; }
+}
+
+/* /shop: 産直/アパレルの大型選択ボタン (小さいピルだと見落とされるため格上げ) */
+.shop-tabs--primary {
+  margin-bottom: 0.8rem;
+}
+.shop-tab--primary {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  padding: 1rem 2.4rem;
+  border-width: 2px;
+  border-radius: 2px;
+}
+.shop-tab--primary .shop-tab__label {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.shop-tab--primary .shop-tab__count {
+  font-family: var(--font-num);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+}
+.shop-tab--specialty { border-color: var(--camel); color: var(--camel-dark); background: var(--bg-card); }
+.shop-tab--specialty:hover { background: var(--camel); border-color: var(--camel); color: #fff; }
+.shop-tab--apparel { border-color: #3a4651; color: #3a4651; background: var(--bg-card); }
+.shop-tab--apparel:hover { background: #3a4651; border-color: #3a4651; color: #fff; }
+@media (max-width: 560px) {
+  .shop-tabs--primary { display: flex; gap: 0.6rem; }
+  .shop-tab--primary { flex: 1 1 0; padding: 0.85rem 0.6rem; min-width: 0; }
+  .shop-tab--primary .shop-tab__label { font-size: 1rem; }
 }
 
 /* TOP ショップ入口: 産直+アパレル混合チラ見せ列 (2カード廃止・CTA一本化) */
