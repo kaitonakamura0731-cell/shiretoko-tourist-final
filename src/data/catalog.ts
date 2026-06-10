@@ -30,7 +30,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 27800
   },
   {
     "id": "1109",
@@ -43,7 +44,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 14000
   },
   {
     "id": "1115",
@@ -56,7 +58,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 19800
   },
   {
     "id": "1131",
@@ -68,7 +71,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "1167",
@@ -81,7 +85,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 16700
   },
   {
     "id": "1196",
@@ -93,7 +98,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22700
   },
   {
     "id": "1350",
@@ -106,7 +112,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 27500
   },
   {
     "id": "1388",
@@ -118,7 +125,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25700
   },
   {
     "id": "1395",
@@ -130,7 +138,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 31900
   },
   {
     "id": "1444",
@@ -143,7 +152,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 18000
   },
   {
     "id": "1449",
@@ -155,7 +165,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 9200
   },
   {
     "id": "1454",
@@ -167,7 +178,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14000
   },
   {
     "id": "1460",
@@ -179,7 +191,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23700
   },
   {
     "id": "1465",
@@ -191,7 +204,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24500
   },
   {
     "id": "1478",
@@ -203,7 +217,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19000
   },
   {
     "id": "1484",
@@ -216,7 +231,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 15600
   },
   {
     "id": "1490",
@@ -228,7 +244,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 17500
   },
   {
     "id": "1495",
@@ -239,7 +256,8 @@ export const catalog: CatalogItem[] = [
     "image": "/source-images/files/product-1495-i-img577x433-17480497229318g8njyh231.jpg",
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16000
   },
   {
     "id": "1514",
@@ -251,7 +269,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16000
   },
   {
     "id": "1532",
@@ -263,7 +282,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 10600
   },
   {
     "id": "1536",
@@ -275,7 +295,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23500
   },
   {
     "id": "1548",
@@ -287,7 +308,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 12400
   },
   {
     "id": "1553",
@@ -300,7 +322,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 16000
   },
   {
     "id": "1560",
@@ -313,7 +336,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 4200
   },
   {
     "id": "1565",
@@ -325,7 +349,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27000
   },
   {
     "id": "1571",
@@ -337,7 +362,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24300
   },
   {
     "id": "1579",
@@ -349,7 +375,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25000
   },
   {
     "id": "1587",
@@ -362,7 +389,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 20500
   },
   {
     "id": "1596",
@@ -374,7 +402,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 30000
   },
   {
     "id": "1603",
@@ -386,7 +415,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19800
   },
   {
     "id": "1609",
@@ -398,7 +428,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19600
   },
   {
     "id": "1618",
@@ -410,7 +441,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23700
   },
   {
     "id": "1633",
@@ -422,7 +454,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 32400
   },
   {
     "id": "1648",
@@ -435,7 +468,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "L",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 14000
   },
   {
     "id": "1660",
@@ -448,7 +482,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 14500
   },
   {
     "id": "1662",
@@ -461,7 +496,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "不明",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 21200
   },
   {
     "id": "1668",
@@ -474,7 +510,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XX",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 13300
   },
   {
     "id": "1674",
@@ -486,7 +523,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 31000
   },
   {
     "id": "1676",
@@ -498,7 +536,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 15000
   },
   {
     "id": "1682",
@@ -510,7 +549,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23500
   },
   {
     "id": "1688",
@@ -523,7 +563,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 41500
   },
   {
     "id": "1694",
@@ -536,7 +577,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 26800
   },
   {
     "id": "1707",
@@ -549,7 +591,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "Tシャツ",
     "size": "S",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 4200
   },
   {
     "id": "1708",
@@ -561,7 +604,8 @@ export const catalog: CatalogItem[] = [
     "brand": "その他",
     "apparelCategory": "Tシャツ",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 4000
   },
   {
     "id": "1715",
@@ -574,7 +618,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "Tシャツ",
     "size": "M",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 4000
   },
   {
     "id": "1721",
@@ -587,7 +632,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "Tシャツ",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 4200
   },
   {
     "id": "1734",
@@ -599,7 +645,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "フーディー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 46000
   },
   {
     "id": "1743",
@@ -612,7 +659,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "L",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 20700
   },
   {
     "id": "1753",
@@ -625,7 +673,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 23500
   },
   {
     "id": "1760",
@@ -637,7 +686,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16200
   },
   {
     "id": "1767",
@@ -649,7 +699,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27500
   },
   {
     "id": "1777",
@@ -662,7 +713,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 23000
   },
   {
     "id": "1785",
@@ -674,7 +726,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "パンツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19000
   },
   {
     "id": "1791",
@@ -686,7 +739,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 28800
   },
   {
     "id": "1805",
@@ -699,7 +753,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 38900
   },
   {
     "id": "1821",
@@ -711,7 +766,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "1829",
@@ -723,7 +779,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23500
   },
   {
     "id": "1840",
@@ -735,7 +792,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 15000
   },
   {
     "id": "1841",
@@ -747,7 +805,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 12100
   },
   {
     "id": "1846",
@@ -759,7 +818,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 12000
   },
   {
     "id": "1860",
@@ -771,7 +831,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16700
   },
   {
     "id": "1865",
@@ -783,7 +844,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24000
   },
   {
     "id": "1876",
@@ -796,7 +858,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 23000
   },
   {
     "id": "1884",
@@ -809,7 +872,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 27800
   },
   {
     "id": "1890",
@@ -821,7 +885,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "1896",
@@ -833,7 +898,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 32000
   },
   {
     "id": "1902",
@@ -846,7 +912,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 24200
   },
   {
     "id": "1907",
@@ -858,7 +925,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22200
   },
   {
     "id": "1913",
@@ -871,7 +939,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 23200
   },
   {
     "id": "1919",
@@ -883,7 +952,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21700
   },
   {
     "id": "1925",
@@ -895,7 +965,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21500
   },
   {
     "id": "1931",
@@ -907,7 +978,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22200
   },
   {
     "id": "1937",
@@ -920,7 +992,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 22200
   },
   {
     "id": "1951",
@@ -933,7 +1006,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "L",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 18200
   },
   {
     "id": "1952",
@@ -945,7 +1019,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23000
   },
   {
     "id": "1958",
@@ -957,7 +1032,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 12100
   },
   {
     "id": "1966",
@@ -969,7 +1045,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 13600
   },
   {
     "id": "1973",
@@ -981,7 +1058,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "シャツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5200
   },
   {
     "id": "1978",
@@ -993,7 +1071,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 8400
   },
   {
     "id": "1983",
@@ -1005,7 +1084,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "1991",
@@ -1017,7 +1097,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18200
   },
   {
     "id": "1996",
@@ -1030,7 +1111,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 18200
   },
   {
     "id": "2004",
@@ -1042,7 +1124,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 35500
   },
   {
     "id": "2011",
@@ -1054,7 +1137,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 44500
   },
   {
     "id": "2018",
@@ -1066,7 +1150,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 39100
   },
   {
     "id": "2024",
@@ -1079,7 +1164,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 23200
   },
   {
     "id": "2030",
@@ -1092,7 +1178,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "M",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 18000
   },
   {
     "id": "2036",
@@ -1104,7 +1191,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 20500
   },
   {
     "id": "2042",
@@ -1116,7 +1204,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18200
   },
   {
     "id": "2047",
@@ -1129,7 +1218,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "M",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 22200
   },
   {
     "id": "2061",
@@ -1141,7 +1231,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 13600
   },
   {
     "id": "2066",
@@ -1153,7 +1244,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 46000
   },
   {
     "id": "2073",
@@ -1165,7 +1257,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 41500
   },
   {
     "id": "2080",
@@ -1177,7 +1270,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19800
   },
   {
     "id": "2087",
@@ -1190,7 +1284,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "パンツ",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 21800
   },
   {
     "id": "2090",
@@ -1202,7 +1297,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25800
   },
   {
     "id": "2098",
@@ -1215,7 +1311,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 15000
   },
   {
     "id": "2104",
@@ -1228,7 +1325,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 13000
   },
   {
     "id": "2109",
@@ -1241,7 +1339,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 14400
   },
   {
     "id": "2114",
@@ -1253,7 +1352,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25800
   },
   {
     "id": "2126",
@@ -1266,7 +1366,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 15200
   },
   {
     "id": "2127",
@@ -1278,7 +1379,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14000
   },
   {
     "id": "2133",
@@ -1291,7 +1393,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 17700
   },
   {
     "id": "2139",
@@ -1303,7 +1406,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 6200
   },
   {
     "id": "2145",
@@ -1315,7 +1419,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 17200
   },
   {
     "id": "2151",
@@ -1328,7 +1433,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 12650
   },
   {
     "id": "2157",
@@ -1341,7 +1447,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 19200
   },
   {
     "id": "2164",
@@ -1353,7 +1460,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "シャツ",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 10000
   },
   {
     "id": "2169",
@@ -1366,7 +1474,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 28000
   },
   {
     "id": "2175",
@@ -1379,7 +1488,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 16200
   },
   {
     "id": "2180",
@@ -1391,7 +1501,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25300
   },
   {
     "id": "2186",
@@ -1403,7 +1514,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XL",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 6500
   },
   {
     "id": "2195",
@@ -1416,7 +1528,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "XS",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 14800
   },
   {
     "id": "2206",
@@ -1428,7 +1541,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 15000
   },
   {
     "id": "2212",
@@ -1440,7 +1554,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 15300
   },
   {
     "id": "2218",
@@ -1452,7 +1567,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27500
   },
   {
     "id": "2224",
@@ -1464,7 +1580,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 28000
   },
   {
     "id": "2237",
@@ -1477,7 +1594,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XX",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 16000
   },
   {
     "id": "2238",
@@ -1489,7 +1607,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 11600
   },
   {
     "id": "2244",
@@ -1502,7 +1621,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 21700
   },
   {
     "id": "2249",
@@ -1514,7 +1634,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 20200
   },
   {
     "id": "2255",
@@ -1526,7 +1647,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21700
   },
   {
     "id": "2262",
@@ -1538,7 +1660,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21000
   },
   {
     "id": "2268",
@@ -1550,7 +1673,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 11900
   },
   {
     "id": "2273",
@@ -1562,7 +1686,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21700
   },
   {
     "id": "2280",
@@ -1574,7 +1699,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21700
   },
   {
     "id": "2286",
@@ -1587,7 +1713,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "オレンジ"
+    "color": "オレンジ",
+    "price": 13600
   },
   {
     "id": "2291",
@@ -1600,7 +1727,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 12800
   },
   {
     "id": "2297",
@@ -1612,7 +1740,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 13000
   },
   {
     "id": "2303",
@@ -1625,7 +1754,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "L",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 13000
   },
   {
     "id": "2309",
@@ -1637,7 +1767,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16000
   },
   {
     "id": "2314",
@@ -1649,7 +1780,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 7100
   },
   {
     "id": "2327",
@@ -1662,7 +1794,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 14400
   },
   {
     "id": "2337",
@@ -1674,7 +1807,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14400
   },
   {
     "id": "2338",
@@ -1687,7 +1821,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 14800
   },
   {
     "id": "2344",
@@ -1700,7 +1835,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 14500
   },
   {
     "id": "2361",
@@ -1712,7 +1848,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24300
   },
   {
     "id": "2367",
@@ -1724,7 +1861,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 10600
   },
   {
     "id": "2372",
@@ -1736,7 +1874,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 25300
   },
   {
     "id": "2378",
@@ -1749,7 +1888,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "オレンジ"
+    "color": "オレンジ",
+    "price": 25300
   },
   {
     "id": "2384",
@@ -1762,7 +1902,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 25300
   },
   {
     "id": "2390",
@@ -1774,7 +1915,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22500
   },
   {
     "id": "2396",
@@ -1786,7 +1928,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22500
   },
   {
     "id": "2402",
@@ -1799,7 +1942,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "M",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 21500
   },
   {
     "id": "2409",
@@ -1812,7 +1956,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 15000
   },
   {
     "id": "2415",
@@ -1824,7 +1969,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19700
   },
   {
     "id": "2421",
@@ -1837,7 +1983,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "新品",
-    "color": "オレンジ"
+    "color": "オレンジ",
+    "price": 13600
   },
   {
     "id": "2426",
@@ -1849,7 +1996,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22500
   },
   {
     "id": "2432",
@@ -1861,7 +2009,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22500
   },
   {
     "id": "2438",
@@ -1873,7 +2022,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18200
   },
   {
     "id": "2443",
@@ -1885,7 +2035,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18200
   },
   {
     "id": "2455",
@@ -1898,7 +2049,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 18700
   },
   {
     "id": "2463",
@@ -1911,7 +2063,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "M",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 13800
   },
   {
     "id": "2464",
@@ -1924,7 +2077,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 17500
   },
   {
     "id": "2465",
@@ -1937,7 +2091,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "M",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 21800
   },
   {
     "id": "2471",
@@ -1949,7 +2104,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 17500
   },
   {
     "id": "2483",
@@ -1962,7 +2118,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 17200
   },
   {
     "id": "2484",
@@ -1974,7 +2131,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 16200
   },
   {
     "id": "2490",
@@ -1986,7 +2144,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21300
   },
   {
     "id": "2498",
@@ -1998,7 +2157,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14200
   },
   {
     "id": "2506",
@@ -2010,7 +2170,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23000
   },
   {
     "id": "2512",
@@ -2023,7 +2184,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 21800
   },
   {
     "id": "2519",
@@ -2036,7 +2198,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 21800
   },
   {
     "id": "2525",
@@ -2048,7 +2211,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 23000
   },
   {
     "id": "2538",
@@ -2061,7 +2225,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 22000
   },
   {
     "id": "2539",
@@ -2073,7 +2238,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "シャツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5400
   },
   {
     "id": "2544",
@@ -2085,7 +2251,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Mountain Hardwear",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 12800
   },
   {
     "id": "2550",
@@ -2098,7 +2265,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 13100
   },
   {
     "id": "2556",
@@ -2111,7 +2279,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "L",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 24900
   },
   {
     "id": "2562",
@@ -2123,7 +2292,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Mountain Hardwear",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24900
   },
   {
     "id": "2569",
@@ -2136,7 +2306,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 28300
   },
   {
     "id": "2586",
@@ -2148,7 +2319,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 26000
   },
   {
     "id": "2605",
@@ -2160,7 +2332,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 13800
   },
   {
     "id": "2611",
@@ -2173,7 +2346,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "パンツ",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 21800
   },
   {
     "id": "2619",
@@ -2185,7 +2359,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3500
   },
   {
     "id": "2623",
@@ -2197,7 +2372,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3000
   },
   {
     "id": "2635",
@@ -2209,7 +2385,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3500
   },
   {
     "id": "2643",
@@ -2221,7 +2398,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3500
   },
   {
     "id": "2651",
@@ -2234,7 +2412,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "L",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 12850
   },
   {
     "id": "2662",
@@ -2246,7 +2425,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18400
   },
   {
     "id": "2684",
@@ -2259,7 +2439,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 19600
   },
   {
     "id": "2690",
@@ -2272,7 +2453,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 19600
   },
   {
     "id": "2696",
@@ -2284,7 +2466,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19600
   },
   {
     "id": "2709",
@@ -2297,7 +2480,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "L",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 19600
   },
   {
     "id": "2715",
@@ -2309,7 +2493,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19600
   },
   {
     "id": "2721",
@@ -2321,7 +2506,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19600
   },
   {
     "id": "2728",
@@ -2334,7 +2520,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "L",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 45500
   },
   {
     "id": "2744",
@@ -2346,7 +2533,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 8600
   },
   {
     "id": "2749",
@@ -2359,7 +2547,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 20700
   },
   {
     "id": "2755",
@@ -2371,7 +2560,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 21200
   },
   {
     "id": "2761",
@@ -2384,7 +2574,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 21700
   },
   {
     "id": "2767",
@@ -2396,7 +2587,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 30400
   },
   {
     "id": "2772",
@@ -2409,7 +2601,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 15200
   },
   {
     "id": "2778",
@@ -2422,7 +2615,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "不明",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 41500
   },
   {
     "id": "2784",
@@ -2434,7 +2628,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "XL",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 33000
   },
   {
     "id": "2790",
@@ -2447,7 +2642,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "M",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 33000
   },
   {
     "id": "2796",
@@ -2459,7 +2655,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 41500
   },
   {
     "id": "2802",
@@ -2471,7 +2668,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 29800
   },
   {
     "id": "2808",
@@ -2483,7 +2681,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 18200
   },
   {
     "id": "2813",
@@ -2495,7 +2694,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 19400
   },
   {
     "id": "2819",
@@ -2507,7 +2707,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 24300
   },
   {
     "id": "2832",
@@ -2520,7 +2721,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "M",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 24000
   },
   {
     "id": "2839",
@@ -2533,7 +2735,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 30400
   },
   {
     "id": "2840",
@@ -2545,7 +2748,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 32400
   },
   {
     "id": "2846",
@@ -2557,7 +2761,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 32400
   },
   {
     "id": "2853",
@@ -2569,7 +2774,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 32400
   },
   {
     "id": "2859",
@@ -2581,7 +2787,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 28300
   },
   {
     "id": "2866",
@@ -2594,7 +2801,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 28300
   },
   {
     "id": "2872",
@@ -2606,7 +2814,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "2878",
@@ -2618,7 +2827,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27800
   },
   {
     "id": "2884",
@@ -2631,7 +2841,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 27800
   },
   {
     "id": "2897",
@@ -2644,7 +2855,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "XS",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 27300
   },
   {
     "id": "2898",
@@ -2656,7 +2868,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5200
   },
   {
     "id": "2904",
@@ -2668,7 +2881,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5500
   },
   {
     "id": "2910",
@@ -2681,7 +2895,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 5500
   },
   {
     "id": "2921",
@@ -2693,7 +2908,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5500
   },
   {
     "id": "2927",
@@ -2705,7 +2921,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 6900
   },
   {
     "id": "2932",
@@ -2717,7 +2934,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 5500
   },
   {
     "id": "2939",
@@ -2729,7 +2947,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 11300
   },
   {
     "id": "2955",
@@ -2742,7 +2961,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "L",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 14200
   },
   {
     "id": "2956",
@@ -2755,7 +2975,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 19200
   },
   {
     "id": "2964",
@@ -2767,7 +2988,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 34400
   },
   {
     "id": "2970",
@@ -2780,7 +3002,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 35420
   },
   {
     "id": "2981",
@@ -2792,7 +3015,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 39500
   },
   {
     "id": "2989",
@@ -2805,7 +3029,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "M",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 22200
   },
   {
     "id": "2996",
@@ -2817,7 +3042,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22200
   },
   {
     "id": "2998",
@@ -2830,7 +3056,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "XS",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 14200
   },
   {
     "id": "3019",
@@ -2843,7 +3070,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 19200
   },
   {
     "id": "3012",
@@ -2853,7 +3081,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-5/",
     "image": "/source-images/files/product-3012-アスパラImage.jpeg",
     "specialtyCategory": "アスパラガス",
-    "weight": "5-10kg"
+    "weight": "5-10kg",
+    "price": 15800
   },
   {
     "id": "572",
@@ -2863,7 +3092,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e2%96%a0%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%ef%bc%81%e2%96%a0%e3%80%90%e7%94%b7%e7%88%b5%e3%80%91-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e7%94%a3%e3%81%98%e3%82%83/",
     "image": "/source-images/files/product-572-IMG-0057.jpg",
     "specialtyCategory": "じゃがいも",
-    "weight": "10kg以上"
+    "weight": "10kg以上",
+    "price": 5000
   },
   {
     "id": "1103",
@@ -2876,7 +3106,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 14000
   },
   {
     "id": "1518",
@@ -2889,7 +3120,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "パンツ",
     "size": "L",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 21800
   },
   {
     "id": "1542",
@@ -2901,7 +3133,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "XS",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14000
   },
   {
     "id": "1654",
@@ -2914,7 +3147,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 14500
   },
   {
     "id": "1661",
@@ -2926,7 +3160,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ベスト",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14000
   },
   {
     "id": "1701",
@@ -2939,7 +3174,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "Tシャツ",
     "size": "M",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 4200
   },
   {
     "id": "1727",
@@ -2951,7 +3187,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "L",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 27600
   },
   {
     "id": "1733",
@@ -2964,7 +3201,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "パンツ",
     "size": "M",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 21800
   },
   {
     "id": "1943",
@@ -2977,7 +3215,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 17200
   },
   {
     "id": "1950",
@@ -2990,7 +3229,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "M",
     "condition": "新品",
-    "color": "レッド"
+    "color": "レッド",
+    "price": 17200
   },
   {
     "id": "2120",
@@ -3003,7 +3243,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 15700
   },
   {
     "id": "2231",
@@ -3016,7 +3257,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "XS",
     "condition": "新品",
-    "color": "ネイビー"
+    "color": "ネイビー",
+    "price": 17200
   },
   {
     "id": "2332",
@@ -3028,7 +3270,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "プルオーバー",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14400
   },
   {
     "id": "2449",
@@ -3041,7 +3284,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "L",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 13800
   },
   {
     "id": "2477",
@@ -3054,7 +3298,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "M",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 17200
   },
   {
     "id": "2532",
@@ -3067,7 +3312,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "L",
     "condition": "新品",
-    "color": "グリーン"
+    "color": "グリーン",
+    "price": 22800
   },
   {
     "id": "2581",
@@ -3079,7 +3325,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "ジャケット",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 26000
   },
   {
     "id": "2628",
@@ -3091,7 +3338,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "S",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3500
   },
   {
     "id": "2636",
@@ -3103,7 +3351,8 @@ export const catalog: CatalogItem[] = [
     "brand": "The North Face",
     "apparelCategory": "Tシャツ",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 3500
   },
   {
     "id": "2826",
@@ -3116,7 +3365,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ベスト",
     "size": "S",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 24000
   },
   {
     "id": "2833",
@@ -3129,7 +3379,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 30400
   },
   {
     "id": "2891",
@@ -3142,7 +3393,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "ジャケット",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 27300
   },
   {
     "id": "2949",
@@ -3155,7 +3407,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "プルオーバー",
     "size": "S",
     "condition": "新品",
-    "color": "ブラック"
+    "color": "ブラック",
+    "price": 14200
   },
   {
     "id": "2954",
@@ -3167,7 +3420,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 14200
   },
   {
     "id": "2983",
@@ -3180,7 +3434,8 @@ export const catalog: CatalogItem[] = [
     "apparelCategory": "その他",
     "size": "S",
     "condition": "新品",
-    "color": "ブルー"
+    "color": "ブルー",
+    "price": 22200
   },
   {
     "id": "2990",
@@ -3192,7 +3447,8 @@ export const catalog: CatalogItem[] = [
     "brand": "Patagonia",
     "apparelCategory": "その他",
     "size": "M",
-    "condition": "新品"
+    "condition": "新品",
+    "price": 22200
   },
   {
     "id": "3004",
@@ -3202,7 +3458,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91%e3%83%a9/",
     "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
-    "weight": "1kg以下"
+    "weight": "1kg以下",
+    "price": 3150
   },
   {
     "id": "3006",
@@ -3212,7 +3469,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-2/",
     "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
-    "weight": "1-5kg"
+    "weight": "1-5kg",
+    "price": 4100
   },
   {
     "id": "3009",
@@ -3222,7 +3480,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-3/",
     "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
-    "weight": "1-5kg"
+    "weight": "1-5kg",
+    "price": 5000
   },
   {
     "id": "3010",
@@ -3232,7 +3491,8 @@ export const catalog: CatalogItem[] = [
     "url": "https://shiretokotourist.com/ec/product/%e9%80%81%e6%96%99%e8%be%bc%e3%81%bf%e2%96%a0-%e5%8c%97%e6%b5%b7%e9%81%93%e3%82%aa%e3%83%9b%e3%83%bc%e3%83%84%e3%82%af%e5%b0%8f%e6%b8%85%e6%b0%b4%e7%94%ba%e7%94%a3%e3%82%a2%e3%82%b9%e3%83%91-4/",
     "image": "/source-images/files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg",
     "specialtyCategory": "アスパラガス",
-    "weight": "1-5kg"
+    "weight": "1-5kg",
+    "price": 8700
   }
 ];
 

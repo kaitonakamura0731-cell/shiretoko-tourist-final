@@ -197,13 +197,18 @@ const cards = bundles.map((b) => {
     border: 1px solid rgba(26,26,26,0.08);
     border-radius: 4px;
     overflow: hidden;
-    align-items: stretch;
+    /* stretch だと aspect-ratio:1/1 の画像が行の高さまで伸び、
+       正方形維持のため幅が列を突き破って本文に被さる(ランキングと同じバグ) */
+    align-items: start;
   }
   @media (max-width: 820px) {
     .bundle-card { grid-template-columns: 1fr; }
   }
   .bundle-card__media {
     position: relative;
+    width: 100%;
+    height: auto;
+    min-width: 0;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #EEEAE0;
