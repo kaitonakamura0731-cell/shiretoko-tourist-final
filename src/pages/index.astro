@@ -183,18 +183,25 @@ const newsItems = [
             <span class="shop-gate__btn">すべての商品はこちら →</span>
           </div>
         </a>
-        <!-- STORYゲート (SHOPゲートと同型) -->
-        <a href="/stories/" class="shop-gate shop-gate--story" aria-label="ストーリーを読む">
-          <div class="shop-gate__bg shop-gate__bg--single" aria-hidden="true">
-            <img src={media.story.src ?? "/source-images/files/staff-01.jpg"} alt="" loading="lazy" decoding="async" />
-          </div>
-          <div class="shop-gate__overlay">
-            <span class="shop-gate__eyebrow">OUR STORY</span>
-            <span class="shop-gate__title">1992年、清里町から。</span>
-            <span class="shop-gate__sub">店主のフィールドノートと、店の物語</span>
-            <span class="shop-gate__btn">ストーリーを読む →</span>
-          </div>
-        </a>
+      </section>
+
+      <!-- ============ STORY (編集面: 引用+年表・写真なし) ============ -->
+      <section class="story-strip" aria-label="店の物語">
+        <div class="story-strip__inner">
+          <span class="story-strip__eyebrow">OUR STORY</span>
+          <p class="story-strip__quote">
+            「特産品もアパレルも、知床のガイドも、ぜんぶ同じ人間がやっています。」
+          </p>
+          <p class="story-strip__cite">— 代表 石田 富雄</p>
+          <ol class="story-strip__timeline">
+            <li><span class="story-strip__year">1992</span><span class="story-strip__event">清里町でユースホステル開業</span></li>
+            <li><span class="story-strip__year">1996</span><span class="story-strip__event">熱気球事業開始</span></li>
+            <li><span class="story-strip__year">2000</span><span class="story-strip__event">自然ガイド事業開始</span></li>
+            <li><span class="story-strip__year">2002</span><span class="story-strip__event">知床ツーリスト 法人化</span></li>
+            <li><span class="story-strip__year">2003</span><span class="story-strip__event">北海道知事登録旅行業 第2-453号</span></li>
+          </ol>
+          <a href="/stories/" class="story-strip__cta">ストーリーを読む →</a>
+        </div>
       </section>
 
       <!-- ============ NEWS (ショップ入口の後) ============ -->

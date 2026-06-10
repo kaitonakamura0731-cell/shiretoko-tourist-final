@@ -3504,12 +3504,80 @@ body.lock-scroll { overflow: hidden; }
 @media (max-width: 560px) {
   .shop-gate__bg { height: 320px; }
 }
-/* STORYゲート: SHOPゲートと同型・画像1枚・やや低め */
-.shop-gate--story { border-top: 1px solid var(--line); }
-.shop-gate__bg--single { grid-template-columns: 1fr; height: clamp(280px, 36vw, 400px); }
-@media (max-width: 560px) {
-  .shop-gate__bg--single { height: 280px; }
+/* STORY 編集面: 写真なし・明朝の引用+年表 (Patagonia的な静かな語り) */
+.story-strip {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  padding: clamp(3rem, 7vw, 5rem) 1.25rem;
 }
+.story-strip__inner {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+.story-strip__eyebrow {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: var(--camel-dark);
+  margin-bottom: 1.4rem;
+}
+.story-strip__quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.7em;
+}
+.story-strip__cite {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.12em;
+  margin: 0 0 2.4rem;
+}
+.story-strip__timeline {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.2rem 0.8rem;
+  padding: 1.7rem 0;
+  margin: 0 0 2.1rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.story-strip__timeline li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+.story-strip__year {
+  font-family: var(--font-num);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--camel-dark);
+  letter-spacing: 0.06em;
+}
+.story-strip__event {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.story-strip__cta {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--camel);
+  padding-bottom: 0.15em;
+  letter-spacing: 0.05em;
+  transition: color 150ms ease;
+}
+.story-strip__cta:hover { color: var(--camel-dark); text-decoration: none; }
 
 /* ---- LINE 細帯 ---- */
 .line-band {
