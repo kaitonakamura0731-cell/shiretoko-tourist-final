@@ -19,6 +19,8 @@ function countBy(items, key) {
 
 const cats = countBy(specialtyItems, "specialtyCategory");
 const weights = countBy(specialtyItems, "weight");
+// マーケットプレイス由来タイトルの「■」を表示時に除去 (データは変更しない)
+const cleanTitle = (t) => t.replace(/■/g, " ").replace(/\s+/g, " ").trim();
 // 画像なしの商品は一旦非表示
 const items = specialtyItems.filter((p) => p.image);
 ---
@@ -171,7 +173,7 @@ const items = specialtyItems.filter((p) => p.image);
               <a href={`/products/${p.slug}/`} class="card-product__link">
                 <div class="card-product__media">
                   {p.image ? (
-                    <img src={p.image} alt={p.title} loading="lazy" decoding="async" />
+                    <img src={p.image} alt={cleanTitle(p.title)} loading="lazy" decoding="async" />
                   ) : (
                     <div class="card-product__placeholder" aria-hidden="true">no image</div>
                   )}
@@ -181,7 +183,7 @@ const items = specialtyItems.filter((p) => p.image);
                     {p.specialtyCategory && <span class="tag tag--brand">{p.specialtyCategory}</span>}
                     {p.weight && <span class="tag">{p.weight}</span>}
                   </div>
-                  <h4 class="card-product__title">{p.title}</h4>
+                  <h4 class="card-product__title">{cleanTitle(p.title)}</h4>
                   <div class="card-product__meta">
                     <span>北海道産直</span>
                     <span class="ask-cta">価格・在庫を見る →</span>

@@ -53,8 +53,20 @@ const relatedProductCards = relatedProducts.slice(0, 3).map((item) => ({
 const categoryLabel = (product?.category ?? catalogItem?.category) === 'specialty' ? '産直' : 'アパレル';
 const categoryHref = '/products/' + ((product?.category ?? catalogItem?.category) === 'specialty' ? 'specialty' : 'apparel') + '/';
 
-// サムネ用
-const thumbs = product ? [productImage, productImage, productImage, productImage] : [];
+// マーケットプレイス由来タイトルの「■」を表示時に除去 (データは変更しない)
+function cleanTitle(t: string): string {
+  return t.replace(/■/g, ' ').replace(/\s+/g, ' ').trim();
+}
+const richTitle = product ? cleanTitle(product.title) : '';
+const liteTitle = catalogItem ? cleanTitle(catalogItem.title) : '';
+
+// ── 画像ギャラリー ──
+// rich: products.ts は商品あたり1枚の画像キーのみ。実在する画像だけを並べる。
+// lite: catalog は image 1枚。複数画像が無い商品はサムネ列を出さない。
+const galleryImages = product
+  ? [productImage].filter((g) => g.src).map((g) => ({ src: g.src as string, alt: g.alt }))
+  : (catalogItem?.image ? [{ src: catalogItem.image, alt: liteTitle }] : []);
+const hasGallery = galleryImages.length > 1;
 
 // レビュー集計 (共通)
 const slugForReview = product?.slug ?? catalogItem?.slug ?? '';
@@ -99,7 +111,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
 ---
 
 <Base
-  title={`${isRich ? product!.title : catalogItem!.title}｜北の逸品堂`}
+  title={`${isRich ? richTitle : liteTitle}｜北の逸品堂`}
   description={isRich ? product!.summary : `${catalogItem!.brand ?? ''}${catalogItem!.apparelCategory ?? catalogItem!.specialtyCategory ?? ''} ${catalogItem!.title}`}
   bodyClass={`product-page${isRich ? ' product-page--rich' : ' product-page--lite'}`}
 >
@@ -114,7 +126,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
             <span class="sep">/</span>
             <a href={categoryHref}>{categoryLabel}</a>
             <span class="sep">/</span>
-            <span class="current" aria-current="page">{product!.title}</span>
+            <span class="current" aria-current="page">{richTitle}</span>
           </div>
         </nav>
 
@@ -122,26 +134,24 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
           <div class="pdp__inner">
             <div class="pdp__gallery">
               <div class="pdp-main" data-image-key={product!.imageKey}>
-                {productImage.src ? (
-                  <img src={productImage.src} alt={productImage.alt} decoding="async" />
+                {galleryImages.length > 0 ? (
+                  <img src={galleryImages[0].src} alt={galleryImages[0].alt} decoding="async" data-pdp-main-img />
                 ) : (
-                  <div class="source-placeholder source-placeholder--product" role="img" aria-label={`${product!.title}の画像枠`}>
+                  <div class="source-placeholder source-placeholder--product" role="img" aria-label={`${richTitle}の画像枠`}>
                     <span>{productImage.label}</span>
                     <small>画像を追加</small>
                   </div>
                 )}
               </div>
-              <div class="pdp-thumbs" role="list">
-                {thumbs.map((t, i) => (
-                  <button type="button" class={`pdp-thumb${i === 0 ? ' is-active' : ''}`} aria-label={`サムネイル ${i + 1}`} data-thumb-index={i}>
-                    {t.src ? (
-                      <img src={t.src} alt="" loading="lazy" decoding="async" />
-                    ) : (
-                      <span class="pdp-thumb__ph">{t.label}</span>
-                    )}
-                  </button>
-                ))}
-              </div>
+              {hasGallery && (
+                <div class="pdp-thumbs" role="list">
+                  {galleryImages.map((g, i) => (
+                    <button type="button" class={`pdp-thumb${i === 0 ? ' is-active' : ''}`} aria-label={`画像 ${i + 1} を表示`} data-thumb-src={g.src} data-thumb-alt={g.alt}>
+                      <img src={g.src} alt="" loading="lazy" decoding="async" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div class="pdp__info">
@@ -150,7 +160,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                 <span class="pdp-tag pdp-tag--origin">{product!.origin}</span>
               </div>
 
-              <h1 class="pdp-title">{product!.title}</h1>
+              <h1 class="pdp-title">{richTitle}</h1>
               <p class="pdp-summary">{product!.summary}</p>
 
               <div class="pdp-price">
@@ -427,7 +437,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
             <span class="sep">/</span>
             <a href={categoryHref}>{categoryLabel}</a>
             <span class="sep">/</span>
-            <span class="current" aria-current="page">{catalogItem!.title}</span>
+            <span class="current" aria-current="page">{liteTitle}</span>
           </div>
         </nav>
 
@@ -435,15 +445,24 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
           <div class="pdp__inner">
             <div class="pdp__gallery">
               <div class="pdp-main">
-                {catalogItem!.image ? (
-                  <img src={catalogItem!.image} alt={catalogItem!.title} decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+                {galleryImages.length > 0 ? (
+                  <img src={galleryImages[0].src} alt={galleryImages[0].alt} decoding="async" data-pdp-main-img />
                 ) : (
-                  <div class="source-placeholder source-placeholder--product" role="img" aria-label={`${catalogItem!.title}の画像枠`}>
+                  <div class="source-placeholder source-placeholder--product" role="img" aria-label={`${liteTitle}の画像枠`}>
                     <span>{catalogItem!.brand ?? categoryLabel}</span>
                     <small>画像を追加</small>
                   </div>
                 )}
               </div>
+              {hasGallery && (
+                <div class="pdp-thumbs" role="list">
+                  {galleryImages.map((g, i) => (
+                    <button type="button" class={`pdp-thumb${i === 0 ? ' is-active' : ''}`} aria-label={`画像 ${i + 1} を表示`} data-thumb-src={g.src} data-thumb-alt={g.alt}>
+                      <img src={g.src} alt="" loading="lazy" decoding="async" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div class="pdp__info">
@@ -452,7 +471,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                 {catalogItem!.brand && <span class="pdp-tag pdp-tag--origin">{catalogItem!.brand}</span>}
               </div>
 
-              <h1 class="pdp-title">{catalogItem!.title}</h1>
+              <h1 class="pdp-title">{liteTitle}</h1>
 
               <dl class="pdp-spec-dl">
                 {catalogItem!.brand && <div class="pdp-spec-dl__row"><dt>ブランド</dt><dd>{catalogItem!.brand}</dd></div>}
@@ -510,98 +529,75 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
         <h2>お客様の声</h2>
         <hr class="section-rule" />
 
-        <div class="pdp-reviews__summary">
-          <div class="pdp-reviews__avg">
-            <span class="pdp-reviews__avg-num" id="reviews-avg-num">{reviewCount > 0 ? avgRating.toFixed(1) : '—'}</span>
-            <span class="pdp-reviews__avg-stars" id="reviews-avg-stars" aria-label={`平均 ${avgRating} / 5`}>
-              {reviewCount > 0 ? starString(Math.round(avgRaw)) : '☆☆☆☆☆'}
-            </span>
-            <span class="pdp-reviews__avg-count" id="reviews-count">{reviewCount}件のレビュー</span>
-          </div>
-          <ul class="pdp-reviews__dist">
-            {ratingBuckets.map((b) => (
-              <li class="pdp-reviews__dist-row">
-                <span class="pdp-reviews__dist-label">★{b.star}</span>
-                <span class="pdp-reviews__dist-bar"><span class="pdp-reviews__dist-fill" style={`width: ${b.pct}%`} data-star={b.star}></span></span>
-                <span class="pdp-reviews__dist-count" data-star-count={b.star}>{b.count}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {reviewCount > 0 ? (
+          <>
+            <div class="pdp-reviews__summary">
+              <div class="pdp-reviews__avg">
+                <span class="pdp-reviews__avg-num">{avgRating.toFixed(1)}</span>
+                <span class="pdp-reviews__avg-stars" aria-label={`平均 ${avgRating} / 5`}>
+                  {starString(Math.round(avgRaw))}
+                </span>
+                <span class="pdp-reviews__avg-count">{reviewCount}件のレビュー</span>
+              </div>
+              <ul class="pdp-reviews__dist">
+                {ratingBuckets.map((b) => (
+                  <li class="pdp-reviews__dist-row">
+                    <span class="pdp-reviews__dist-label">★{b.star}</span>
+                    <span class="pdp-reviews__dist-bar"><span class="pdp-reviews__dist-fill" style={`width: ${b.pct}%`} data-star={b.star}></span></span>
+                    <span class="pdp-reviews__dist-count" data-star-count={b.star}>{b.count}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        <ul class="pdp-reviews__list" id="reviews-list" data-shown={initialShownCount}>
-          {sortedReviews.map((r, i) => (
-            <li class={`pdp-reviews__card${i >= 3 ? ' is-hidden' : ''}`} data-review-index={i} data-rating={r.rating}>
-              <div class="pdp-reviews__head">
-                <span class="pdp-reviews__avatar" aria-hidden="true">{r.reviewerInitial}</span>
-                <div class="pdp-reviews__id">
-                  <span class="pdp-reviews__name">{r.reviewerName} 様</span>
-                  <span class="pdp-reviews__meta">
-                    <span class="pdp-reviews__stars" aria-label={`評価 ${r.rating} / 5`}>{starString(r.rating)}</span>
-                    <span class="pdp-reviews__date">{formatJaDate(r.postedAt)}</span>
-                    {r.verified && <span class="pdp-reviews__verified">購入確認済み</span>}
-                  </span>
-                </div>
-              </div>
-              <div class="pdp-reviews__body">
-                <p class="pdp-reviews__title">{r.title}</p>
-                <p class="pdp-reviews__text">{r.body}</p>
-              </div>
-              <div class="pdp-reviews__foot">
-                <span class="pdp-reviews__useful">役に立った {r.useful}</span>
-              </div>
-              {r.reply && (
-                <blockquote class="pdp-reviews__reply">
-                  <span class="pdp-reviews__reply-head">
-                    <b>{r.reply.from}</b>
-                    <span class="pdp-reviews__reply-date">{formatJaDate(r.reply.date)}</span>
-                  </span>
-                  <p>{r.reply.body}</p>
-                </blockquote>
-              )}
-            </li>
-          ))}
-        </ul>
+            <ul class="pdp-reviews__list" id="reviews-list" data-shown={initialShownCount}>
+              {sortedReviews.map((r, i) => (
+                <li class={`pdp-reviews__card${i >= 3 ? ' is-hidden' : ''}`} data-review-index={i} data-rating={r.rating}>
+                  <div class="pdp-reviews__head">
+                    <span class="pdp-reviews__avatar" aria-hidden="true">{r.reviewerInitial}</span>
+                    <div class="pdp-reviews__id">
+                      <span class="pdp-reviews__name">{r.reviewerName} 様</span>
+                      <span class="pdp-reviews__meta">
+                        <span class="pdp-reviews__stars" aria-label={`評価 ${r.rating} / 5`}>{starString(r.rating)}</span>
+                        <span class="pdp-reviews__date">{formatJaDate(r.postedAt)}</span>
+                        {r.verified && <span class="pdp-reviews__verified">購入確認済み</span>}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="pdp-reviews__body">
+                    <p class="pdp-reviews__title">{r.title}</p>
+                    <p class="pdp-reviews__text">{r.body}</p>
+                  </div>
+                  <div class="pdp-reviews__foot">
+                    <span class="pdp-reviews__useful">役に立った {r.useful}</span>
+                  </div>
+                  {r.reply && (
+                    <blockquote class="pdp-reviews__reply">
+                      <span class="pdp-reviews__reply-head">
+                        <b>{r.reply.from}</b>
+                        <span class="pdp-reviews__reply-date">{formatJaDate(r.reply.date)}</span>
+                      </span>
+                      <p>{r.reply.body}</p>
+                    </blockquote>
+                  )}
+                </li>
+              ))}
+            </ul>
 
-        {sortedReviews.length > 3 && (
-          <div class="pdp-reviews__more-wrap">
-            <button type="button" class="btn btn--outline pdp-reviews__more" data-review-more>
-              もっと見る（残り {sortedReviews.length - 3} 件）
-            </button>
+            {sortedReviews.length > 3 && (
+              <div class="pdp-reviews__more-wrap">
+                <button type="button" class="btn btn--outline pdp-reviews__more" data-review-more>
+                  もっと見る（残り {sortedReviews.length - 3} 件）
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div class="pdp-reviews__empty">
+            <p class="pdp-reviews__empty-text">レビューはまだありません</p>
+            <p class="pdp-reviews__empty-sub">この商品のご感想は、これから少しずつご紹介していきます。</p>
           </div>
         )}
-
-        {/* 投稿フォーム */}
-        <div class="review-form-wrap" id="review-form-wrap">
-          <h3 class="review-form__heading">レビューを投稿する</h3>
-          <form class="review-form" id="review-form" novalidate>
-            <div class="review-form__field">
-              <label for="rf-name">お名前 <span aria-hidden="true">*</span></label>
-              <input type="text" id="rf-name" name="name" maxlength="20" placeholder="例：田中" required />
-            </div>
-            <fieldset class="review-form__field review-form__stars-field">
-              <legend>評価 <span aria-hidden="true">*</span></legend>
-              <div class="review-form__star-row">
-                {[5,4,3,2,1].map((n) => (
-                  <>
-                    <input type="radio" id={`rf-star-${n}`} name="rating" value={String(n)} required />
-                    <label for={`rf-star-${n}`} aria-label={`★${n}`}>★</label>
-                  </>
-                ))}
-              </div>
-            </fieldset>
-            <div class="review-form__field">
-              <label for="rf-title">タイトル</label>
-              <input type="text" id="rf-title" name="title" maxlength="40" placeholder="例：甘くて驚きました" />
-            </div>
-            <div class="review-form__field">
-              <label for="rf-body">本文 <span aria-hidden="true">*</span></label>
-              <textarea id="rf-body" name="body" rows="4" minlength="10" placeholder="10文字以上でご記入ください" required></textarea>
-            </div>
-            <p class="review-form__notice" role="status" id="review-form-notice" aria-live="polite"></p>
-            <button type="submit" class="btn btn--primary review-form__submit" id="review-form-submit">レビューを送信する</button>
-          </form>
-        </div>
       </div>
     </section>
   </main>
@@ -621,10 +617,16 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
       });
     });
 
-    // サムネ切替
+    // 画像ギャラリー: サムネクリックでメイン画像を差し替え
+    const mainImg = document.querySelector('[data-pdp-main-img]');
     const thumbEls = document.querySelectorAll('.pdp-thumb');
     thumbEls.forEach((t) => {
       t.addEventListener('click', () => {
+        const src = t.dataset.thumbSrc;
+        if (mainImg && src) {
+          mainImg.src = src;
+          mainImg.alt = t.dataset.thumbAlt || '';
+        }
         thumbEls.forEach((x) => x.classList.remove('is-active'));
         t.classList.add('is-active');
       });
@@ -649,128 +651,5 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
         }
       });
     }
-  </script>
-
-  <script is:inline define:vars={{ reviewSlug: slugForReview }}>
-    // ── localStorage レビューの読込・投稿 ──
-    (function () {
-      var STORAGE_KEY = 'hkitchen_reviews_' + reviewSlug;
-      var list = document.getElementById('reviews-list');
-      var countEl = document.getElementById('reviews-count');
-      var avgNumEl = document.getElementById('reviews-avg-num');
-      var avgStarsEl = document.getElementById('reviews-avg-stars');
-      var formWrap = document.getElementById('review-form-wrap');
-      var form = document.getElementById('review-form');
-      var notice = document.getElementById('review-form-notice');
-
-      function starStr(n) {
-        return '★★★★★☆☆☆☆☆'.slice(5 - n, 10 - n);
-      }
-      function pad2(n) { return String(n).padStart(2, '0'); }
-      function todayStr() {
-        var d = new Date();
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-      }
-      function formatDate(s) {
-        var parts = s.split('-');
-        return parts[0] + '.' + parts[1] + '.' + parts[2];
-      }
-      function loadStored() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-        catch (e) { return []; }
-      }
-      function recalcAvg() {
-        if (!countEl || !avgNumEl || !avgStarsEl || !list) return;
-        var allCards = list.querySelectorAll('.pdp-reviews__card');
-        var total = allCards.length;
-        var sum = 0;
-        allCards.forEach(function (c) { sum += parseInt(c.dataset.rating || '0', 10); });
-        var avg = total > 0 ? (sum / total) : 0;
-        countEl.textContent = total + '件のレビュー';
-        avgNumEl.textContent = total > 0 ? avg.toFixed(1) : '—';
-        avgStarsEl.textContent = total > 0 ? starStr(Math.round(avg)) : '☆☆☆☆☆';
-        avgStarsEl.setAttribute('aria-label', '平均 ' + avg.toFixed(1) + ' / 5');
-      }
-      function createCard(rv) {
-        var li = document.createElement('li');
-        li.className = 'pdp-reviews__card ls-review';
-        li.dataset.rating = String(rv.rating);
-        li.innerHTML = [
-          '<div class="pdp-reviews__head">',
-          '<span class="pdp-reviews__avatar" aria-hidden="true">' + rv.name.charAt(0) + '</span>',
-          '<div class="pdp-reviews__id">',
-          '<span class="pdp-reviews__name"></span>',
-          '<span class="pdp-reviews__meta">',
-          '<span class="pdp-reviews__stars">' + starStr(rv.rating) + '</span>',
-          '<span class="pdp-reviews__date">' + formatDate(rv.postedAt) + '</span>',
-          '</span></div></div>',
-          '<div class="pdp-reviews__body">',
-          '<p class="pdp-reviews__title"></p>',
-          '<p class="pdp-reviews__text"></p>',
-          '</div>',
-        ].join('');
-        li.querySelector('.pdp-reviews__name').textContent = rv.name + ' 様';
-        li.querySelector('.pdp-reviews__title').textContent = rv.title || '';
-        li.querySelector('.pdp-reviews__text').textContent = rv.body;
-        return li;
-      }
-
-      // 保存済みレビューをDOMに追加
-      var stored = loadStored();
-      if (list && stored.length > 0) {
-        stored.slice().reverse().forEach(function (rv) {
-          list.insertBefore(createCard(rv), list.firstChild);
-        });
-        recalcAvg();
-      }
-
-      // localStorage使用不可環境ではフォームを非表示
-      if (formWrap) {
-        try { localStorage.setItem('_ls_test', '1'); localStorage.removeItem('_ls_test'); }
-        catch (e) { formWrap.hidden = true; return; }
-      }
-
-      // 投稿処理
-      if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var nameVal = form.querySelector('#rf-name').value.trim();
-          var ratingInput = form.querySelector('input[name="rating"]:checked');
-          var ratingVal = ratingInput ? parseInt(ratingInput.value, 10) : 0;
-          var titleVal = form.querySelector('#rf-title').value.trim();
-          var bodyVal = form.querySelector('#rf-body').value.trim();
-
-          if (!nameVal || !ratingVal || bodyVal.length < 10) {
-            if (notice) notice.textContent = '名前・評価・本文(10文字以上)を入力してください。';
-            return;
-          }
-
-          var rv = {
-            id: 'ls-' + Date.now(),
-            name: nameVal,
-            rating: ratingVal,
-            title: titleVal,
-            body: bodyVal,
-            postedAt: todayStr(),
-          };
-
-          var arr = loadStored();
-          arr.push(rv);
-          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
-          catch (e) {
-            if (notice) notice.textContent = '保存に失敗しました。';
-            return;
-          }
-
-          if (list) list.insertBefore(createCard(rv), list.firstChild);
-          recalcAvg();
-          form.reset();
-          if (notice) {
-            notice.textContent = 'レビューを投稿しました。ありがとうございます！';
-            setTimeout(function () { notice.textContent = ''; }, 3000);
-          }
-        });
-      }
-    })();
   </script>
 </Base>

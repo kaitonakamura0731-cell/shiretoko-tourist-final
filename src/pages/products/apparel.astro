@@ -25,6 +25,8 @@ const conditions = countBy(apparelItems, "condition");
 const sizes = countBy(apparelItems, "size");
 const colors = countBy(apparelItems, "color");
 
+// マーケットプレイス由来タイトルの「■」を表示時に除去 (データは変更しない)
+const cleanTitle = (t) => t.replace(/■/g, " ").replace(/\s+/g, " ").trim();
 // 画像なしの商品は一旦非表示 (本番では商品ページ側で代替画像 or 撮影)
 const items = apparelItems.filter((p) => p.image);
 ---
@@ -191,7 +193,7 @@ const items = apparelItems.filter((p) => p.image);
               <a href={`/products/${p.slug}/`} class="card-product__link">
                 <div class="card-product__media">
                   {p.image ? (
-                    <img src={p.image} alt={p.title} loading="lazy" decoding="async" />
+                    <img src={p.image} alt={cleanTitle(p.title)} loading="lazy" decoding="async" />
                   ) : (
                     <div class="card-product__placeholder" aria-hidden="true">no image</div>
                   )}
@@ -202,7 +204,7 @@ const items = apparelItems.filter((p) => p.image);
                     {p.condition && <span class={`tag tag--${p.condition === '新品' ? 'new' : 'used'}`}>{p.condition}</span>}
                     {p.size && <span class="tag">{p.size}</span>}
                   </div>
-                  <h4 class="card-product__title">{p.title}</h4>
+                  <h4 class="card-product__title">{cleanTitle(p.title)}</h4>
                   <div class="card-product__meta">
                     <span>{p.apparelCategory || ''}</span>
                     <span class="ask-cta">価格・在庫を見る →</span>

@@ -39,7 +39,8 @@ export const siteMedia = {
 
 const productFallbacks: Record<string, string[]> = {
   asparagus: ["files/product-3012-shipping-included-8-0kg-hokkaido-okhotsk-koshimizu-asparagus-8-0kg-3005-image.jpeg"],
-  "potato-onion": ["files/banner-potato-onion-sales.jpg"],
+  // 販促バナーではなく実物のじゃがいも写真を使う (男爵30kgのメインとは別カット)
+  "potato-onion": ["files/product-572-shipping-included-hokkaido-okhotsk-potato-30kg-574-m62372259786-2.jpg"],
   "potato-danshaku": ["files/product-572-shipping-included-hokkaido-okhotsk-potato-30kg-573-img-0057.jpg"],
   "patagonia-hoodie": [
     "files/product-2989-new-m-patagonia-ms-r1-air-full-zip-hoodie-patagonia-clement-blue-clmb-2984-p1010080-1.jpg",
