@@ -8,6 +8,7 @@ import {
   cartKpis,
   productRows,
   STOCK_ALERT_THRESHOLD,
+  actionableMetrics,
 } from "../data/dashboard";
 import { productImageForKey } from "../data/sourceImages";
 
@@ -90,10 +91,73 @@ function trendMark(trend?: string) {
         <div class="listing-hero__inner">
           <span class="eyebrow">ADMIN ・ 運用ダッシュボード (デモ)</span>
           <h1 class="mincho">今日の北の逸品堂。</h1>
-          <p>これは管理画面のイメージです。売上・商品・LINE・カートの主要指標を一画面で。</p>
+          <p>数字を見るだけでなく、その場で打ち手を実行する。指標と施策がひと続きの管理画面です。</p>
           <p class="dash-stamp">最終更新: 2026-06-09 09:14 ・ 表示通貨 JPY ・ 店舗: 北の逸品堂 EC</p>
         </div>
       </section>
+
+      <!-- ============ 指標から打つ、次の一手 (アクション可能指標) ============ -->
+      <section class="dash-section dash-section--white" id="actions" aria-label="指標から打つ、次の一手">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">NEXT ACTIONS</span>
+            <h2 class="mincho">指標から打つ、次の一手</h2>
+            <hr class="section-rule" />
+            <p class="dash-section__lead">施策につながる数字だけをここに集約。ボタンひとつで、対象のお客様に届きます。</p>
+          </div>
+          <div class="act-grid">
+            {actionableMetrics.map((m) => (
+              <article class="act-card" data-act-card={m.key}>
+                <div class="act-card__head">
+                  <span class="act-card__label">{m.metricLabel}</span>
+                  <span class="act-card__channel">{m.channel}</span>
+                </div>
+                <div class="act-card__value">{m.value}<small>{m.valueSub}</small></div>
+                <p class="act-card__meaning">{m.meaning}</p>
+                <p class="act-card__action">{m.action}</p>
+                <button type="button" class="act-card__btn" data-act-open={m.key}>{m.buttonLabel}</button>
+                <p class="act-card__sent" data-act-sent={m.key} hidden>
+                  <span class="act-card__sent-text"></span>
+                  <a href="#" class="act-card__resend" data-act-open={m.key}>再送信</a>
+                </p>
+                <span class="act-card__expected">{m.expected}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {actionableMetrics.map((m) => (
+        <div class="act-modal" data-act-modal={m.key} hidden>
+          <div class="act-modal__backdrop" data-act-close></div>
+          <div class="act-modal__panel" role="dialog" aria-modal="true" aria-label={`${m.metricLabel}の施策を実行`}>
+            <h3 class="act-modal__title">{m.buttonLabel}</h3>
+            <div class="act-modal__block">
+              <span class="act-modal__block-label">対象のお客様</span>
+              <ul class="act-modal__targets">
+                {m.targets.map((t) => (
+                  <li><b>{t.name}</b><span>{t.detail}</span>{t.value && <em>{t.value}</em>}</li>
+                ))}
+                {m.totalTargets > m.targets.length && (
+                  <li class="act-modal__more">他 {m.totalTargets - m.targets.length} 人</li>
+                )}
+              </ul>
+            </div>
+            <div class="act-modal__block">
+              <span class="act-modal__block-label">送信内容 ({m.channel})</span>
+              <div class="act-modal__mail">
+                <p class="act-modal__mail-subject">{m.mailSubject}</p>
+                <p class="act-modal__mail-body">{m.mailBody}</p>
+              </div>
+            </div>
+            <p class="act-modal__note">※デモ環境のため実際の送信は行われません</p>
+            <div class="act-modal__actions">
+              <button type="button" class="act-modal__cancel" data-act-close>キャンセル</button>
+              <button type="button" class="act-modal__send" data-act-send={m.key} data-act-count={String(m.totalTargets)} data-act-label={m.metricLabel}>送信する</button>
+            </div>
+          </div>
+        </div>
+      ))}
 
       <!-- ============ 売上KPI ============ -->
       <section class="dash-section" id="sales" aria-label="売上指標">
@@ -179,6 +243,7 @@ function trendMark(trend?: string) {
       <section class="dash-section" id="line" aria-label="LINE指標">
         <div class="dash-section__inner">
           <div class="dash-section__head">
+            <a class="dash-act-link" href="#actions">→ 打ち手: 再入荷通知を送る</a>
             <span class="section-eyebrow">LINE</span>
             <h2 class="mincho">LINE 指標</h2>
             <hr class="section-rule" />
@@ -207,6 +272,7 @@ function trendMark(trend?: string) {
       <section class="dash-section dash-section--white" id="cart" aria-label="カート指標">
         <div class="dash-section__inner">
           <div class="dash-section__head">
+            <a class="dash-act-link" href="#actions">→ 打ち手: 離脱クーポンを送る</a>
             <span class="section-eyebrow">CART</span>
             <h2 class="mincho">カート指標</h2>
             <hr class="section-rule" />
@@ -231,6 +297,20 @@ function trendMark(trend?: string) {
         </div>
       </section>
 
+      <!-- ============ 実行ログ ============ -->
+      <section class="dash-section" id="action-log" aria-label="実行ログ">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">ACTION LOG</span>
+            <h2 class="mincho">実行ログ</h2>
+            <hr class="section-rule" />
+          </div>
+          <ul class="act-log" data-act-log>
+            <li class="act-log__empty" data-act-log-empty>まだ実行履歴はありません。</li>
+          </ul>
+        </div>
+      </section>
+
       <!-- ============ 注意書き ============ -->
       <section class="dash-disclaimer" aria-label="注意書き">
         <div class="dash-disclaimer__inner">
@@ -240,6 +320,95 @@ function trendMark(trend?: string) {
         </div>
       </section>
     </main>
+
+    <script is:inline>
+      // 指標→施策のワンボタン実行 (デモ: 送信はシミュレーション・状態はlocalStorage保持)
+      (function () {
+        var KEY = "kn-dash-actions-v1";
+        function load() {
+          try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; }
+        }
+        function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
+        function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+        var logEl = document.querySelector("[data-act-log]");
+        var logEmpty = document.querySelector("[data-act-log-empty]");
+
+        function renderLog(state) {
+          if (!logEl) return;
+          logEl.querySelectorAll(".act-log__row").forEach(function (r) { r.remove(); });
+          var entries = [];
+          Object.keys(state).forEach(function (k) {
+            (state[k].history || []).forEach(function (h) { entries.push(h); });
+          });
+          entries.sort(function (a, b) { return (b.ts || 0) - (a.ts || 0); });
+          if (logEmpty) logEmpty.hidden = entries.length > 0;
+          entries.forEach(function (h) {
+            var li = document.createElement("li");
+            li.className = "act-log__row";
+            li.innerHTML = "<span class='act-log__time'>" + h.when + "</span><span class='act-log__what'>" + h.label + "</span><span class='act-log__count'>" + h.count + "通送信</span>";
+            logEl.appendChild(li);
+          });
+        }
+
+        function markSent(key, state) {
+          var rec = state[key];
+          var btn = document.querySelector("[data-act-card='" + key + "'] .act-card__btn");
+          var sent = document.querySelector("[data-act-sent='" + key + "']");
+          if (!rec || !rec.history || !rec.history.length) return;
+          var last = rec.history[rec.history.length - 1];
+          if (btn) btn.hidden = true;
+          if (sent) {
+            sent.hidden = false;
+            var t = sent.querySelector(".act-card__sent-text");
+            if (t) t.textContent = "✓ " + last.count + "通 送信済み " + last.when.split(" ")[1];
+          }
+        }
+
+        function openModal(key) {
+          var m = document.querySelector("[data-act-modal='" + key + "']");
+          if (!m) return;
+          m.hidden = false;
+          document.body.style.overflow = "hidden";
+        }
+        function closeAll() {
+          document.querySelectorAll("[data-act-modal]").forEach(function (m) { m.hidden = true; });
+          document.body.style.overflow = "";
+        }
+
+        document.querySelectorAll("[data-act-open]").forEach(function (b) {
+          b.addEventListener("click", function (e) {
+            e.preventDefault();
+            openModal(b.getAttribute("data-act-open"));
+          });
+        });
+        document.querySelectorAll("[data-act-close]").forEach(function (b) {
+          b.addEventListener("click", closeAll);
+        });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
+
+        document.querySelectorAll("[data-act-send]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var key = b.getAttribute("data-act-send");
+            var count = b.getAttribute("data-act-count") || "0";
+            var label = b.getAttribute("data-act-label") || "";
+            var now = new Date();
+            var when = (now.getMonth() + 1) + "/" + now.getDate() + " " + pad(now.getHours()) + ":" + pad(now.getMinutes());
+            var state = load();
+            if (!state[key]) state[key] = { history: [] };
+            state[key].history.push({ ts: now.getTime(), when: when, label: label, count: count });
+            save(state);
+            closeAll();
+            markSent(key, state);
+            renderLog(state);
+          });
+        });
+
+        var state = load();
+        Object.keys(state).forEach(function (k) { markSent(k, state); });
+        renderLog(state);
+      })();
+    </script>
 
     <footer class="site-footer">
       <div class="site-footer__inner">

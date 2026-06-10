@@ -4025,3 +4025,266 @@ body.lock-scroll { overflow: hidden; }
   line-height: 1.85;
   color: var(--ink);
 }
+
+/* ===== 管理ダッシュボード: 指標から打つ、次の一手 ===== */
+.dash-section__lead {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0.6em 0 0;
+}
+.dash-act-link {
+  float: right;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  border-bottom: 1px solid var(--teal);
+  padding-bottom: 0.1em;
+}
+.dash-act-link:hover { color: var(--teal); text-decoration: none; }
+.act-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1.2rem;
+  margin-top: 1.6rem;
+}
+.act-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.act-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.act-card__label {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.act-card__channel {
+  font-family: var(--font-num);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--teal-dark);
+  border: 1px solid var(--teal);
+  border-radius: 2px;
+  padding: 0.15em 0.5em;
+  white-space: nowrap;
+}
+.act-card__value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--camel-dark);
+  line-height: 1.1;
+}
+.act-card__value small {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-top: 0.3em;
+}
+.act-card__meaning {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.act-card__action {
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--ink);
+  margin: 0;
+}
+.act-card__btn {
+  margin-top: auto;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--teal-dark);
+  border: 1px solid var(--teal-dark);
+  border-radius: 2px;
+  padding: 0.75em 1em;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.act-card__btn:hover { background: var(--teal); border-color: var(--teal); }
+.act-card__sent {
+  margin: auto 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  background: var(--teal-soft);
+  border-radius: 2px;
+  padding: 0.7em 1em;
+}
+.act-card__resend {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line-strong);
+}
+.act-card__expected {
+  font-family: var(--font-num);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+/* モーダル */
+.act-modal { position: fixed; inset: 0; z-index: 90; }
+.act-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.45);
+}
+.act-modal__panel {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  margin: 8vh auto 0;
+  max-height: 84vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1.6rem 1.7rem;
+  width: calc(100% - 2rem);
+}
+.act-modal__title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+.act-modal__block { margin-bottom: 1.1rem; }
+.act-modal__block-label {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--teal-dark);
+  margin-bottom: 0.5em;
+}
+.act-modal__targets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.act-modal__targets li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.5em 0.2em;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.84rem;
+}
+.act-modal__targets li b { font-weight: 600; white-space: nowrap; }
+.act-modal__targets li span { color: var(--ink-soft); flex: 1 1 auto; min-width: 0; }
+.act-modal__targets li em {
+  font-style: normal;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.act-modal__more { color: var(--ink-soft); justify-content: center; }
+.act-modal__mail {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.9rem 1rem;
+}
+.act-modal__mail-subject {
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin: 0 0 0.5em;
+}
+.act-modal__mail-body {
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin: 0;
+  white-space: pre-line;
+}
+.act-modal__note {
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+.act-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+.act-modal__cancel {
+  font-size: 0.88rem;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  padding: 0.6em 1.4em;
+  cursor: pointer;
+  color: var(--ink);
+}
+.act-modal__send {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--camel-dark);
+  border: 1px solid var(--camel-dark);
+  border-radius: 2px;
+  padding: 0.6em 1.6em;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.act-modal__send:hover { background: var(--camel); border-color: var(--camel); }
+/* 実行ログ */
+.act-log {
+  list-style: none;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.act-log__row,
+.act-log__empty {
+  display: flex;
+  gap: 1.2rem;
+  align-items: baseline;
+  padding: 0.7em 0.2em;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.86rem;
+}
+.act-log__empty { color: var(--ink-soft); }
+.act-log__time {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.act-log__what { flex: 1 1 auto; min-width: 0; }
+.act-log__count {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--teal-dark);
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .dash-act-link { float: none; display: inline-block; margin-bottom: 0.5rem; }
+  .act-modal__panel { margin-top: 4vh; }
+}

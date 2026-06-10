@@ -234,3 +234,108 @@ export const productRows: ProductRow[] = [
 
 // 在庫アラート閾値
 export const STOCK_ALERT_THRESHOLD = 3;
+
+// ============ 指標から打つ、次の一手 (アクション可能指標) ============
+// 数値は既存KPIスケールに整合: カゴ48件中12人が24h超、LINE3,840人中の再入荷待ち26人 等
+export type ActionTarget = { name: string; detail: string; value?: string };
+export type ActionableMetric = {
+  key: string;
+  metricLabel: string; // 指標名
+  value: string; // 現在値 (大きく表示)
+  valueSub: string; // 分母等の補足
+  meaning: string; // この数字の意味 (帳票として読める説明)
+  action: string; // 施策の説明1行
+  buttonLabel: string; // 実行ボタン文言
+  expected: string; // 期待効果
+  channel: string; // 送信チャネル
+  targets: ActionTarget[]; // 対象者サンプル (イニシャル表記)
+  totalTargets: number;
+  mailSubject: string;
+  mailBody: string; // 冒頭プレビュー
+};
+
+export const actionableMetrics: ActionableMetric[] = [
+  {
+    key: "cart-abandon",
+    metricLabel: "カート離脱",
+    value: "12人",
+    valueSub: "カゴ全体 48件中",
+    meaning: "カゴに商品を入れたまま24時間以上動きがないお客様です。",
+    action: "カート限定クーポン(¥500 OFF)を添えて、そっと再訪をうながします。",
+    buttonLabel: "12人にクーポンメールを送る",
+    expected: "想定回収 ¥30,000前後",
+    channel: "メール",
+    targets: [
+      { name: "S・T様", detail: "朝採りアスパラ 1kg 他1点", value: "¥8,200" },
+      { name: "K・M様", detail: "Patagonia R1 Air Hoodie (M)", value: "¥27,800" },
+      { name: "A・I様", detail: "じゃがいも・玉ねぎ直送便 10kg", value: "¥3,980" },
+      { name: "Y・O様", detail: "朝採りアスパラ 2kg 化粧箱", value: "¥5,800" },
+      { name: "R・H様", detail: "オホーツク鮭フレーク 170g 他2点", value: "¥4,640" },
+    ],
+    totalTargets: 12,
+    mailSubject: "お買い忘れはありませんか — カート限定クーポンのご案内",
+    mailBody: "カゴに入れていただいた商品を、店主がお取り置きしています。\nクーポンコード CART500(¥500 OFF)をご用意しました。\n収穫期の商品は数に限りがあります。お早めにどうぞ。",
+  },
+  {
+    key: "restock-notify",
+    metricLabel: "再入荷待ち",
+    value: "26人",
+    valueSub: "通知登録ベース",
+    meaning: "売り切れ商品に「再入荷したら知らせて」と登録済みのお客様です。",
+    action: "入荷が確定した商品の通知をLINE/メールで一斉送信します。",
+    buttonLabel: "26人に入荷通知を送る",
+    expected: "通知経由の購入率 目安30%",
+    channel: "LINE / メール",
+    targets: [
+      { name: "M・K様", detail: "Patagonia R1 Air Hoodie (M)" },
+      { name: "T・S様", detail: "Patagonia R1 Air Hoodie (M)" },
+      { name: "H・N様", detail: "朝採りアスパラ 8.0kg" },
+      { name: "J・W様", detail: "Patagonia R1 Air Zip-Neck (S)" },
+      { name: "E・F様", detail: "朝採りアスパラ 4.0kg" },
+    ],
+    totalTargets: 26,
+    mailSubject: "再入荷のお知らせ — お待たせしました",
+    mailBody: "お待ちいただいていた商品が入荷しました。\n1点物・収穫期の商品はなくなり次第終了です。\n商品ページからそのままご購入いただけます。",
+  },
+  {
+    key: "rank-nudge",
+    metricLabel: "ランク昇格間近",
+    value: "9人",
+    valueSub: "Gold昇格まで平均 あと¥4,200",
+    meaning: "あと少しのお買い物でGoldランク(常時10%OFF)に届く会員です。",
+    action: "「あと¥◯◯でGold」のお知らせで、次の一品を後押しします。",
+    buttonLabel: "9人にお知らせを送る",
+    expected: "昇格時LTVの伸び 目安1.4倍",
+    channel: "メール",
+    targets: [
+      { name: "N・Y様", detail: "あと¥3,200でGold" },
+      { name: "O・T様", detail: "あと¥4,800でGold" },
+      { name: "S・A様", detail: "あと¥1,900でGold" },
+      { name: "F・M様", detail: "あと¥5,400でGold" },
+      { name: "W・K様", detail: "あと¥5,700でGold" },
+    ],
+    totalTargets: 9,
+    mailSubject: "Goldランクまで、あと少しです",
+    mailBody: "いつもご利用ありがとうございます。\nあと少しのお買い物で、常時10%OFFのGoldランクに到達します。\n旬のおすすめを商品ページにまとめました。",
+  },
+  {
+    key: "sub-skip-follow",
+    metricLabel: "定期便スキップ連続",
+    value: "4人",
+    valueSub: "2回連続スキップ中",
+    meaning: "定期便を2回続けてスキップしている会員。解約の予兆です。",
+    action: "量・間隔の見直し案内で、解約前にひと声かけます。",
+    buttonLabel: "4人にフォローを送る",
+    expected: "解約抑止 目安50%",
+    channel: "LINE / メール",
+    targets: [
+      { name: "I・S様", detail: "アスパラ毎月便 (2.0kg)" },
+      { name: "U・M様", detail: "アスパラ毎月便 (1.0kg)" },
+      { name: "C・H様", detail: "じゃがいも隔月便 (10kg)" },
+      { name: "B・R様", detail: "アスパラ毎月便 (1.5kg)" },
+    ],
+    totalTargets: 4,
+    mailSubject: "お届けの量・間隔、見直しませんか",
+    mailBody: "定期便のご利用ありがとうございます。\n量が多い・間隔が短いなどあれば、1分で変更できます。\nスキップ・解約もマイページからいつでも可能です。",
+  },
+];
