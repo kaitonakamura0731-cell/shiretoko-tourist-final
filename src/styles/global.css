@@ -1941,6 +1941,16 @@ body.lock-scroll { overflow: hidden; }
 }
 .ask-cta { color: var(--camel-deep); font-weight: 600; white-space: nowrap; }
 
+/* バリエーション集約カード — サイズ/重量バッジ行 + 最安価格 */
+.card-product__variants {
+  font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.02em;
+  margin: 0 0 0.4rem; line-height: 1.4;
+}
+.card-product__price {
+  font-family: var(--font-num); font-weight: 600; font-size: 0.92rem; color: var(--ink);
+}
+.listing-count__sku { color: var(--ink-soft); font-size: 0.86em; }
+
 /* 空状態 */
 .listing-empty {
   padding: 3rem 1.5rem; text-align: center; background: #fff;
@@ -3071,9 +3081,84 @@ body.lock-scroll { overflow: hidden; }
 
 .cross-sell--combo { background: var(--bg-soft); }
 
+/* ── 購入ボックス (価格→バリエーション→購入形態→数量→カゴ→配送→クーポン) ── */
+.pdp-buybox {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  margin-bottom: 1.3rem;
+}
+.pdp-buybox .pdp-price { margin-bottom: 1rem; }
+.pdp-buybox .pdp-purchase { margin-bottom: 1rem; }
+.pdp-price__was { margin-left: 0.5rem; color: var(--ink-soft); font-family: var(--font-num); font-size: 0.95rem; font-weight: 400; }
+
+/* バリエーションセレクタ */
+.pdp-variants { margin-bottom: 1rem; }
+.pdp-variants__label { display: block; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 0.5rem; }
+.pdp-variants__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pdp-variant {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.45rem 0.75rem;
+  min-width: 3.4rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--ink, #1A1A1A);
+  text-decoration: none;
+  transition: border-color 160ms, box-shadow 160ms;
+}
+.pdp-variant:hover { border-color: var(--camel); text-decoration: none; }
+.pdp-variant.is-active {
+  border-color: var(--camel);
+  box-shadow: inset 0 0 0 1px var(--camel);
+  cursor: default;
+}
+.pdp-variant__label { font-weight: 600; font-size: 0.9rem; line-height: 1.2; }
+.pdp-variant__price { font-family: var(--font-num); font-size: 0.74rem; color: var(--ink-soft); }
+.pdp-variant.is-active .pdp-variant__price { color: var(--camel-dark); }
+
+/* 購入形態 (1回 / 定期便) */
+.pdp-buyform { margin-bottom: 1rem; }
+.pdp-buyform__label { display: block; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 0.5rem; }
+.pdp-buyform__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.pdp-buyform__opt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 160ms, box-shadow 160ms, background 160ms;
+}
+.pdp-buyform__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.pdp-buyform__opt.is-active { border-color: var(--teal); box-shadow: inset 0 0 0 1px var(--teal); background: var(--teal-soft); }
+.pdp-buyform__opt-main { font-size: 0.88rem; font-weight: 600; }
+.pdp-buyform__opt-main em { font-style: normal; font-size: 0.74rem; color: var(--teal-dark); font-weight: 700; }
+.pdp-buyform__opt-sub { font-family: var(--font-num); font-size: 0.84rem; color: var(--ink-soft); }
+.pdp-buyform__note { margin: 0.55rem 0 0; font-size: 0.76rem; line-height: 1.6; color: var(--ink-soft); }
+.pdp-buyform__note a { color: var(--teal-dark); margin-left: 0.3rem; }
+
+/* クーポン記載 / のし1行 */
+.pdp-coupon { margin: 0.9rem 0 0; font-size: 0.76rem; line-height: 1.6; color: var(--ink-soft); }
+.pdp-coupon a { color: var(--teal-dark); font-weight: 600; }
+.pdp-gift-line { margin: 0.9rem 0 0; font-size: 0.78rem; line-height: 1.6; color: var(--ink-soft); }
+
+/* お得な買い方 (購入エリア外の販促ブロック) */
+.pdp-deals { margin: 1.4rem 0; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-soft); }
+.pdp-deals__eyebrow { display: block; font-size: 0.72rem; letter-spacing: 0.12em; color: var(--camel-dark); font-weight: 700; margin-bottom: 0.7rem; }
+.pdp-deals .pdp-ladder { margin-top: 0; border: none; padding: 0; background: transparent; }
+.pdp-deals__gift { margin: 0.8rem 0 0; font-size: 0.82rem; line-height: 1.6; color: var(--camel-dark); font-weight: 500; }
+
 @media (max-width: 480px) {
   .pdp-ladder__row { grid-template-columns: 1fr auto; }
   .pdp-ladder__perkg { grid-column: 2; text-align: right; }
+  .pdp-buybox { padding: 1rem; }
+  .pdp-buyform__opts { grid-template-columns: 1fr; }
 }
 
 /* ── Simple Utility Pages ───────────────────────── */

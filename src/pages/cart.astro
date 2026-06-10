@@ -88,10 +88,12 @@ const productJson = JSON.stringify(
 
               <h3 style="margin-top: 1.4em;">クーポン</h3>
               <div class="coupon-row">
-                <input type="text" id="coupon-code" maxlength="20" pattern="[A-Za-z0-9]+" autocomplete="off" placeholder="クーポンコード（例: TOUR1000）" />
+                <select id="coupon-select" aria-label="クーポンを選択">
+                  <option value="">クーポンを選択</option>
+                </select>
                 <button type="button" id="coupon-apply" class="btn btn--outline">適用</button>
               </div>
-              <p class="coupon-note">EC↔ツアー連動特典で発行された <code>TOUR1000</code> をお試しください（モック）。</p>
+              <p class="coupon-note">お持ちのクーポンを選んで「適用」を押してください（1注文につき1枚）。</p>
 
               <div class="promo-referral">
                 <span class="promo-referral__label">クーポンをお持ちでない方へ</span>
@@ -123,8 +125,11 @@ const productJson = JSON.stringify(
                 <dt>送料 <small>(¥5,000以上で無料)</small></dt>
                 <dd id="sum-shipping">¥0</dd>
               </div>
-              <div id="sum-discount-row" hidden>
-                <dt>クーポン値引</dt>
+              <div id="sum-discount-row" class="cart-summary__discount" hidden>
+                <dt>
+                  <span id="sum-discount-label">クーポン</span>
+                  <button type="button" id="coupon-clear" class="coupon-clear">解除</button>
+                </dt>
                 <dd id="sum-discount">-¥0</dd>
               </div>
               <div class="cart-summary__total">
@@ -226,6 +231,32 @@ const productJson = JSON.stringify(
     }
     .promo-subscribe b { color:#866326; }
 
+    /* クーポン（プルダウン選択） */
+    .coupon-row #coupon-select {
+      flex:1; padding:0.6em 0.9em; border:1px solid var(--line-strong,#C9BFA6);
+      border-radius:var(--radius,4px); font-size:0.9rem; background:var(--bg-card,#fff);
+      color:var(--ink,#1A1A1A); font-family:"Noto Sans JP",sans-serif;
+    }
+    .cart-summary__discount dt {
+      display:flex; align-items:baseline; gap:0.5em; flex-wrap:wrap;
+    }
+    #sum-discount-label { color:var(--camel-dark,#866326); }
+    .cart-summary__discount dd { color:var(--camel-dark,#866326); font-family:var(--font-num,"Inter"); font-feature-settings:"tnum"; }
+    .coupon-clear {
+      appearance:none; -webkit-appearance:none; background:none; border:none; padding:0;
+      font-family:"Noto Sans JP",sans-serif; font-size:0.74rem; color:var(--teal,#3C8186);
+      text-decoration:underline; text-underline-offset:2px; cursor:pointer;
+    }
+    .coupon-clear:hover { color:var(--teal-dark,#2C6266); }
+
+    /* 定期便注記（カート行内） */
+    .cart-item__sub {
+      display:inline-block; margin-top:0.3em;
+      font-family:"Noto Sans JP",sans-serif; font-size:0.72rem; line-height:1.5;
+      color:#866326;
+    }
+    .cart-item__sub::before { content:'↻ '; color:#3C8186; }
+
     /* 紹介割 */
     .promo-referral {
       margin-top:1rem; padding:0.85rem 0.95rem;
@@ -271,8 +302,21 @@ const productJson = JSON.stringify(
         `;
       };
 
-      let appliedCoupon = null;
-      const validCoupons = { TOUR1000: { label: 'EC×ツアー連動', value: 1000 } };
+      const isSubscription = (name) => /[（(]定期便[）)]/.test(String(name || ''));
+
+      // クーポン選択肢を cart.js のデモクーポンから生成
+      const populateCoupons = () => {
+        const sel = document.getElementById('coupon-select');
+        if (!sel || sel.dataset.ready) return;
+        const list = (window.cart && window.cart.coupons) || [];
+        list.forEach((c) => {
+          const opt = document.createElement('option');
+          opt.value = c.code;
+          opt.textContent = c.label + '（−' + yen(c.amount) + '）';
+          sel.appendChild(opt);
+        });
+        sel.dataset.ready = '1';
+      };
 
       window.renderCartPage = function () {
         const items = window.cart.get();
@@ -296,12 +340,16 @@ const productJson = JSON.stringify(
           const li = document.createElement('li');
           li.className = 'cart-item';
           const safeSlug = escapeHtml(it.slug);
+          const subNote = isSubscription(it.name)
+            ? '<span class="cart-item__sub">定期便: 2回目以降も5%OFFでお届け</span>'
+            : '';
           li.innerHTML = `
             <a class="cart-item__img" href="/products/${safeSlug}/">${mediaFor(meta)}</a>
             <div class="cart-item__body">
               <span class="cart-item__origin">${escapeHtml(meta.origin)}</span>
-              <a class="cart-item__title" href="/products/${safeSlug}/">${escapeHtml(meta.title || it.name)}</a>
+              <a class="cart-item__title" href="/products/${safeSlug}/">${escapeHtml(it.name || meta.title)}</a>
               <span class="cart-item__delivery">${escapeHtml(meta.delivery || '')}</span>
+              ${subNote}
             </div>
             <div class="cart-item__qty">
               <label>数量
@@ -326,25 +374,30 @@ const productJson = JSON.stringify(
           btn.addEventListener('click', (e) => window.cart.remove(e.target.dataset.remove));
         });
 
-        // 集計
+        // 集計（送料無料判定はクーポン適用前の商品小計で実施）
+        populateCoupons();
         const subtotal = window.cart.subtotal();
         const shipping = window.cart.shipping();
-        const discount = appliedCoupon ? appliedCoupon.value : 0;
-        const total = Math.max(0, subtotal + shipping - discount);
+        const coupon = window.cart.getCoupon();
+        const discount = window.cart.couponDiscount();
+        const payable = window.cart.payable();
 
         document.getElementById('sum-subtotal').textContent = yen(subtotal);
         document.getElementById('sum-shipping').textContent = shipping === 0 ? '無料' : yen(shipping);
-        document.getElementById('sum-total').textContent = yen(total);
+        document.getElementById('sum-total').textContent = yen(payable);
         const dr = document.getElementById('sum-discount-row');
-        if (discount > 0) {
+        if (coupon && discount > 0) {
           dr.hidden = false;
+          document.getElementById('sum-discount-label').textContent = 'クーポン（' + coupon.label + '）';
           document.getElementById('sum-discount').textContent = '-' + yen(discount);
+          const sel = document.getElementById('coupon-select');
+          if (sel) sel.value = coupon.code;
         } else {
           dr.hidden = true;
         }
 
-        // 獲得予定ポイント（合計の1%、税込前提）
-        const pts = Math.floor(total * PROMO.pointsRate);
+        // 獲得予定ポイント（お支払い額の1%、税込前提）
+        const pts = Math.floor(payable * PROMO.pointsRate);
         document.getElementById('sum-points').textContent = pts.toLocaleString('ja-JP') + 'p';
 
         // しきい値ギフト（あと○円で適用）
@@ -401,21 +454,25 @@ const productJson = JSON.stringify(
       };
 
       document.getElementById('coupon-apply').addEventListener('click', () => {
-        const raw = document.getElementById('coupon-code').value.trim().toUpperCase().slice(0, 20);
-        const code = raw.replace(/[^A-Z0-9]/g, '');
+        const code = document.getElementById('coupon-select').value;
         if (!code) {
-          appliedCoupon = null;
-          showToast('クーポンコードを入力してください。', 'error');
-          window.renderCartPage();
+          showToast('クーポンを選択してください。', 'error');
           return;
         }
-        if (validCoupons[code]) {
-          appliedCoupon = { code: code, ...validCoupons[code] };
-          showToast('クーポン「' + code + '」を適用しました。¥' + validCoupons[code].value.toLocaleString('ja-JP') + ' 値引き。', 'success');
+        const applied = window.cart.applyCoupon(code);
+        if (applied) {
+          showToast('クーポン「' + applied.label + '」を適用しました。' + yen(applied.amount) + ' 値引き。', 'success');
         } else {
-          appliedCoupon = null;
-          showToast('クーポンコードが見つかりません。例: TOUR1000', 'error');
+          showToast('このクーポンはご利用いただけません。', 'error');
         }
+        window.renderCartPage();
+      });
+
+      document.getElementById('coupon-clear').addEventListener('click', () => {
+        window.cart.clearCoupon();
+        const sel = document.getElementById('coupon-select');
+        if (sel) sel.value = '';
+        showToast('クーポンを解除しました。', 'info');
         window.renderCartPage();
       });
 

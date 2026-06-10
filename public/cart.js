@@ -2,9 +2,17 @@
 // 商談デモ用モック。本番では決済・受注 API に置換。
 (function () {
   const KEY = 'kn-cart-v1';
+  const COUPON_KEY = 'kn-coupon-v1';
   const storage = window.sessionStorage;
 
+  // デモ用クーポン（1注文1クーポン）。本番では RATIO 管理画面から発行・検証。
+  const COUPONS = [
+    { code: 'LINE500', label: 'LINE登録クーポン', amount: 500 },
+    { code: 'REFER500', label: 'ご紹介クーポン', amount: 500 },
+  ];
+
   const cart = {
+    coupons: COUPONS,
     get() {
       try {
         return JSON.parse(storage.getItem(KEY) || '[]');
@@ -57,12 +65,54 @@
       return this.get().reduce((a, b) => a + b.price * b.qty, 0);
     },
     shipping() {
+      // 送料無料判定はクーポン適用前の商品小計で行う（仕様）
       const s = this.subtotal();
       if (s === 0) return 0;
       return s >= 5000 ? 0 : 800;
     },
     total() {
+      // クーポン適用前の合計（小計＋送料）
       return this.subtotal() + this.shipping();
+    },
+    getCoupon() {
+      try {
+        const code = window.localStorage.getItem(COUPON_KEY);
+        if (!code) return null;
+        return COUPONS.find((c) => c.code === code) || null;
+      } catch (e) {
+        return null;
+      }
+    },
+    applyCoupon(code) {
+      code = String(code || '').trim().toUpperCase();
+      const found = COUPONS.find((c) => c.code === code);
+      if (!found) return null;
+      try {
+        window.localStorage.setItem(COUPON_KEY, found.code);
+      } catch (e) {
+        /* localStorage 不可環境は無視 */
+      }
+      this.render();
+      document.dispatchEvent(new CustomEvent('cart:change'));
+      return found;
+    },
+    clearCoupon() {
+      try {
+        window.localStorage.removeItem(COUPON_KEY);
+      } catch (e) {
+        /* noop */
+      }
+      this.render();
+      document.dispatchEvent(new CustomEvent('cart:change'));
+    },
+    couponDiscount() {
+      const c = this.getCoupon();
+      if (!c) return 0;
+      // 値引きは合計を超えない
+      return Math.min(c.amount, this.total());
+    },
+    payable() {
+      return Math.max(0, this.total() - this.couponDiscount());
     },
     render() {
       const count = this.count();

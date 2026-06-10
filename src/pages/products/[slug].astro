@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { products, findProduct, formatYen, type Product } from "../../data/products";
 import { catalog, type CatalogItem } from "../../data/catalog";
+import { variantGroups, slugToGroup, type VariantGroup } from "../../data/variantGroups";
 import { productImageForKey } from "../../data/sourceImages";
 import { reviewsByProduct, averageRating } from "../../data/reviews";
 import {
@@ -67,6 +68,21 @@ const galleryImages = product
   ? [productImage].filter((g) => g.src).map((g) => ({ src: g.src as string, alt: g.alt }))
   : (catalogItem?.image ? [{ src: catalogItem.image, alt: liteTitle }] : []);
 const hasGallery = galleryImages.length > 1;
+
+// ── バリエーション (specialty重量 / apparelサイズ) — rich/lite 共通 ──
+const currentSlug = product?.slug ?? catalogItem?.slug ?? '';
+const variantGroupKey = slugToGroup[currentSlug];
+const variantGroup: VariantGroup | undefined = variantGroupKey
+  ? variantGroups.find((g) => g.key === variantGroupKey)
+  : undefined;
+const hasVariants = !!variantGroup;
+const variantLabel = variantGroup?.category === 'apparel' ? 'サイズ' : '内容量';
+const currentVariant = variantGroup?.variants.find((v) => v.slug === currentSlug);
+const basePrice = currentVariant?.price ?? product?.price ?? catalogItem?.price ?? 0;
+
+// ── 定期便インライン選択 (specialty のみ) ──
+const subEligible = (product?.category ?? catalogItem?.category) === 'specialty' && basePrice > 0;
+const subDiscountPrice = subEligible ? Math.round(basePrice * 0.95) : 0;
 
 // レビュー集計 (共通)
 const slugForReview = product?.slug ?? catalogItem?.slug ?? '';
@@ -163,34 +179,122 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
               <h1 class="pdp-title">{richTitle}</h1>
               <p class="pdp-summary">{product!.summary}</p>
 
-              <div class="pdp-price">
-                <span class="pdp-price__num">{formatYen(product!.price)}</span>
-                <span class="pdp-price__unit">{product!.priceUnit}</span>
-                <span class="pdp-points">この商品で <b>{earnedPoints}</b> ポイント（{pointsInfo.rate}）</span>
-              </div>
-
-              <p class="pdp-delivery">
-                <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
-                今ご注文で <b>{etaLabel}</b> お届け予定
-                <small>{deliveryEstimate.cutoffNote}</small>
-              </p>
-
-              <dl class="pdp-meta">
-                <div class="pdp-meta__row">
-                  <dt>在庫</dt>
-                  <dd>{product!.stockLabel}</dd>
+              <div class="pdp-buybox">
+                <div class="pdp-price">
+                  <span class="pdp-price__num" data-price-base={String(product!.price)} data-price-sub={subEligible ? String(subDiscountPrice) : ''} data-price-node>{formatYen(product!.price)}</span>
+                  {subEligible && <s class="pdp-price__was" data-price-was hidden>{formatYen(product!.price)}</s>}
+                  <span class="pdp-price__unit">{product!.priceUnit}</span>
+                  <span class="pdp-points">この商品で <b>{earnedPoints}</b> ポイント（{pointsInfo.rate}）</span>
                 </div>
-                <div class="pdp-meta__row">
-                  <dt>配送</dt>
-                  <dd>{product!.delivery}</dd>
-                </div>
-                {product!.harvestDate && (
-                  <div class="pdp-meta__row">
-                    <dt>収穫</dt>
-                    <dd>{product!.harvestDate}</dd>
+
+                {hasVariants && variantGroup && (
+                  <div class="pdp-variants" data-variant-group>
+                    <span class="pdp-variants__label">{variantLabel}</span>
+                    <div class="pdp-variants__chips" role="list">
+                      {variantGroup.variants.map((v) => {
+                        const isCurrent = v.slug === currentSlug;
+                        const priceDelta = formatYen(v.price);
+                        return isCurrent ? (
+                          <span class="pdp-variant is-active" role="listitem" aria-current="true">
+                            <span class="pdp-variant__label">{v.label}</span>
+                            <span class="pdp-variant__price">{priceDelta}</span>
+                          </span>
+                        ) : (
+                          <a href={`/products/${v.slug}/`} class="pdp-variant" role="listitem">
+                            <span class="pdp-variant__label">{v.label}</span>
+                            <span class="pdp-variant__price">{priceDelta}</span>
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
-              </dl>
+
+                {subEligible && (
+                  <div class="pdp-buyform" data-buyform>
+                    <span class="pdp-buyform__label">購入形態</span>
+                    <div class="pdp-buyform__opts">
+                      <label class="pdp-buyform__opt is-active">
+                        <input type="radio" name={`buyform-${product!.slug}`} value="once" checked data-buyform-mode />
+                        <span class="pdp-buyform__opt-main">1回のみ</span>
+                        <span class="pdp-buyform__opt-sub">{formatYen(product!.price)}</span>
+                      </label>
+                      <label class="pdp-buyform__opt">
+                        <input type="radio" name={`buyform-${product!.slug}`} value="sub" data-buyform-mode />
+                        <span class="pdp-buyform__opt-main">定期便 <em>5%OFF</em></span>
+                        <span class="pdp-buyform__opt-sub">{formatYen(subDiscountPrice)}</span>
+                      </label>
+                    </div>
+                    <p class="pdp-buyform__note">定期便は通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
+                  </div>
+                )}
+
+                <div class="pdp-purchase">
+                  <div class="pdp-qty">
+                    <label for={`qty-${product!.slug}`}>数量</label>
+                    <select id={`qty-${product!.slug}`} class="qty-select" aria-label="購入数量">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn--primary btn--block btn--add-cart"
+                    data-add-slug={product!.slug}
+                    data-add-name={product!.title}
+                    data-add-price={String(product!.price)}
+                    data-add-sub-price={subEligible ? String(subDiscountPrice) : ''}
+                  >
+                    カゴに追加
+                  </button>
+                  <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE でサイズ・在庫を相談</a>
+                </div>
+
+                <p class="pdp-delivery">
+                  <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
+                  今ご注文で <b>{etaLabel}</b> お届け予定
+                  <small>{deliveryEstimate.cutoffNote}</small>
+                </p>
+
+                <dl class="pdp-meta">
+                  <div class="pdp-meta__row">
+                    <dt>在庫</dt>
+                    <dd>{product!.stockLabel}</dd>
+                  </div>
+                  <div class="pdp-meta__row">
+                    <dt>配送</dt>
+                    <dd>{product!.delivery}</dd>
+                  </div>
+                  {product!.harvestDate && (
+                    <div class="pdp-meta__row">
+                      <dt>収穫</dt>
+                      <dd>{product!.harvestDate}</dd>
+                    </div>
+                  )}
+                </dl>
+
+                <p class="pdp-coupon">
+                  ご利用可能なクーポン: LINE登録 ¥500 OFF / ご紹介クーポン ¥500 OFF — <a href="/referral/">カートで適用できます →</a>
+                </p>
+
+                {isApparel && (
+                  <div class="pdp-restock">
+                    <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">
+                      再入荷を LINE で知らせる
+                    </a>
+                    <p class="pdp-restock__note">
+                      {restockTarget ? restockTarget.expectedRestock : restockInfo.note}
+                    </p>
+                  </div>
+                )}
+
+                {!isApparel && (
+                  <p class="pdp-gift-line">のし・ラッピング・産地証明書PDFはカート画面で選択いただけます。</p>
+                )}
+              </div>
 
               {product!.storyMemo && (
                 <aside class="pdp-memo" aria-label="店主のメモ">
@@ -200,90 +304,31 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                 </aside>
               )}
 
-              <div class="pdp-purchase">
-                <div class="pdp-qty">
-                  <label for={`qty-${product!.slug}`}>数量</label>
-                  <select id={`qty-${product!.slug}`} class="qty-select" aria-label="購入数量">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                <button
-                  type="button"
-                  class="btn btn--primary btn--block btn--add-cart"
-                  data-add-slug={product!.slug}
-                  data-add-name={product!.title}
-                  data-add-price={String(product!.price)}
-                >
-                  カゴに追加
-                </button>
-                <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE でサイズ・在庫を相談</a>
-              </div>
-
-              {subPlan ? (
-                <div class="pdp-sub">
-                  <div class="pdp-sub__head">
-                    <span class="pdp-sub__badge">定期便なら {subPlan.discount}</span>
-                    <span class="pdp-sub__price">
-                      {formatYen(subPlan.subPrice)}
-                      <s>{formatYen(subPlan.normalPrice)}</s>
-                    </span>
-                  </div>
-                  <p class="pdp-sub__name">{subPlan.title}・{subPlan.interval}</p>
-                  <p class="pdp-sub__note">{subPlan.note}</p>
-                  <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
-                </div>
-              ) : (!isApparel && (
-                <div class="pdp-sub">
-                  <div class="pdp-sub__head">
-                    <span class="pdp-sub__badge">定期便なら 5%OFF</span>
-                  </div>
-                  <p class="pdp-sub__name">収穫期に合わせて、旬のものを継続でお届け</p>
-                  <p class="pdp-sub__note">定期便のお申し込みで通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。</p>
-                  <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
-                </div>
-              ))}
-
-              {hasLadder && ladderBest && (
-                <div class="pdp-ladder">
-                  <p class="pdp-ladder__head">まとめ買いほど <b>1kgあたりがお得</b></p>
-                  <ul class="pdp-ladder__list">
-                    {ladderSteps.map((step) => (
-                      <li class={`pdp-ladder__row${step.popular ? ' is-popular' : ''}`}>
-                        <span class="pdp-ladder__weight">{step.weight}{step.popular && <em>人気</em>}</span>
-                        <span class="pdp-ladder__price">{formatYen(step.price)}</span>
-                        <span class="pdp-ladder__perkg">{formatYen(step.perKg)} / kg</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p class="pdp-ladder__note">最大サイズなら 1kgあたり {formatYen(ladderBest.perKg)} まで下がります。</p>
+              {((hasLadder && ladderBest && !hasVariants) || giftThresholdMet) && (
+                <div class="pdp-deals">
+                  <span class="pdp-deals__eyebrow">お得な買い方</span>
+                  {hasLadder && ladderBest && !hasVariants && (
+                    <div class="pdp-ladder">
+                      <p class="pdp-ladder__head">まとめ買いほど <b>1kgあたりがお得</b></p>
+                      <ul class="pdp-ladder__list">
+                        {ladderSteps.map((step) => (
+                          <li class={`pdp-ladder__row${step.popular ? ' is-popular' : ''}`}>
+                            <span class="pdp-ladder__weight">{step.weight}{step.popular && <em>人気</em>}</span>
+                            <span class="pdp-ladder__price">{formatYen(step.price)}</span>
+                            <span class="pdp-ladder__perkg">{formatYen(step.perKg)} / kg</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <p class="pdp-ladder__note">最大サイズなら 1kgあたり {formatYen(ladderBest.perKg)} まで下がります。</p>
+                    </div>
+                  )}
+                  {giftThresholdMet && (
+                    <p class="pdp-deals__gift">
+                      {thresholdGift.thresholdLabel}のお買い上げで「{thresholdGift.giftName}」を一品添えてお送りします。
+                    </p>
+                  )}
                 </div>
               )}
-
-              {isApparel && (
-                <div class="pdp-restock">
-                  <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">
-                    再入荷を LINE で知らせる
-                  </a>
-                  <p class="pdp-restock__note">
-                    {restockTarget ? restockTarget.expectedRestock : restockInfo.note}
-                  </p>
-                </div>
-              )}
-
-              <ul class="pdp-notes">
-                <li>¥5,000以上で全国送料無料（北海道発・本州中1-2日）</li>
-                <li>特産品ご購入で次回ツアー <b>¥1,000 OFF</b> クーポン進呈</li>
-                <li>のし・ラッピング・産地証明書PDFはカート画面で選択</li>
-                {giftThresholdMet && (
-                  <li class="pdp-notes__gift">
-                    {thresholdGift.thresholdLabel}のお買い上げで「{thresholdGift.giftName}」を一品添えてお送りします
-                  </li>
-                )}
-              </ul>
 
               <details class="pdp-spec">
                 <summary>商品スペック</summary>
@@ -360,7 +405,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
               <hr class="section-rule" />
               <div class="cross-grid">
                 {relatedProductCards.map(({ item: rp, image }) => (
-                  <a href={`/products/${rp.slug}`} class="cross-card">
+                  <a href={`/products/${rp.slug}/`} class="cross-card">
                     <div class="cross-card__img" data-image-key={rp.imageKey}>
                       {image.src ? (
                         <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
@@ -391,7 +436,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
               <hr class="section-rule" />
               <div class="cross-grid">
                 {crossItems.map(({ item: cp, image }) => (
-                  <a href={`/products/${cp.slug}`} class="cross-card">
+                  <a href={`/products/${cp.slug}/`} class="cross-card">
                     <div class="cross-card__img" data-image-key={cp.imageKey}>
                       {image.src ? (
                         <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
@@ -494,93 +539,134 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
 
               {catalogItem!.price !== undefined ? (
                 <>
-                  {/* 価格 + ポイント付与 */}
-                  <div class="pdp-price">
-                    <span class="pdp-price__num">{formatYen(catalogItem!.price)}</span>
-                    <span class="pdp-price__unit">税込</span>
-                    <span class="pdp-points">この商品で <b>{Math.floor(catalogItem!.price * pointsInfo.rateValue)}</b> ポイント（{pointsInfo.rate}）</span>
-                  </div>
-
-                  {/* 配送目安 */}
-                  <p class="pdp-delivery">
-                    <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
-                    今ご注文で <b>{etaLabel}</b> お届け予定
-                    <small>{deliveryEstimate.cutoffNote}</small>
-                  </p>
-
-                  {/* 在庫表示 */}
-                  <p class="pdp-stock">
-                    {catalogItem!.condition === '新品'
-                      ? <><span class="pdp-stock__dot" aria-hidden="true"></span>新品・在庫あり</>
-                      : <><span class="pdp-stock__dot pdp-stock__dot--last" aria-hidden="true"></span>在庫 1点（現品限り）</>}
-                  </p>
-
-                  {/* 数量セレクタ + カゴに追加 */}
-                  <div class="pdp-purchase">
-                    <div class="pdp-qty pdp-qty--stepper">
-                      <label for={`qty-${catalogItem!.slug}`}>数量</label>
-                      <div class="pdp-stepper" data-stepper>
-                        <button type="button" class="pdp-stepper__btn" data-step="-1" aria-label="数量を減らす">−</button>
-                        <input
-                          id={`qty-${catalogItem!.slug}`}
-                          class="pdp-stepper__val"
-                          type="number"
-                          inputmode="numeric"
-                          value="1"
-                          min="1"
-                          max="9"
-                          aria-label="購入数量"
-                        />
-                        <button type="button" class="pdp-stepper__btn" data-step="1" aria-label="数量を増やす">＋</button>
-                      </div>
+                  <div class="pdp-buybox">
+                    {/* 価格 + ポイント付与 */}
+                    <div class="pdp-price">
+                      <span class="pdp-price__num" data-price-base={String(catalogItem!.price)} data-price-sub={subEligible ? String(subDiscountPrice) : ''} data-price-node>{formatYen(catalogItem!.price)}</span>
+                      {subEligible && <s class="pdp-price__was" data-price-was hidden>{formatYen(catalogItem!.price)}</s>}
+                      <span class="pdp-price__unit">税込</span>
+                      <span class="pdp-points">この商品で <b>{Math.floor(catalogItem!.price * pointsInfo.rateValue)}</b> ポイント（{pointsInfo.rate}）</span>
                     </div>
-                    <button
-                      type="button"
-                      class="btn btn--primary btn--block btn--add-cart"
-                      data-add-slug={catalogItem!.slug}
-                      data-add-name={catalogItem!.title}
-                      data-add-price={String(catalogItem!.price)}
-                    >
-                      カゴに追加
-                    </button>
-                  </div>
 
-                  {catalogItem!.category === 'specialty' ? (
-                    <>
-                      {/* 産直: 定期便案内 */}
-                      <div class="pdp-sub">
-                        <div class="pdp-sub__head">
-                          <span class="pdp-sub__badge">定期便なら 5%OFF</span>
+                    {/* バリエーション (重量 / サイズ) */}
+                    {hasVariants && variantGroup && (
+                      <div class="pdp-variants" data-variant-group>
+                        <span class="pdp-variants__label">{variantLabel}</span>
+                        <div class="pdp-variants__chips" role="list">
+                          {variantGroup.variants.map((v) => {
+                            const isCurrent = v.slug === catalogItem!.slug;
+                            return isCurrent ? (
+                              <span class="pdp-variant is-active" role="listitem" aria-current="true">
+                                <span class="pdp-variant__label">{v.label}</span>
+                                <span class="pdp-variant__price">{formatYen(v.price)}</span>
+                              </span>
+                            ) : (
+                              <a href={`/products/${v.slug}/`} class="pdp-variant" role="listitem">
+                                <span class="pdp-variant__label">{v.label}</span>
+                                <span class="pdp-variant__price">{formatYen(v.price)}</span>
+                              </a>
+                            );
+                          })}
                         </div>
-                        <p class="pdp-sub__name">収穫期に合わせて、旬のものを継続でお届け</p>
-                        <p class="pdp-sub__note">定期便のお申し込みで通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。</p>
-                        <a href="/promotions/" class="pdp-sub__link">定期便の内容を見る →</a>
                       </div>
-                      <ul class="pdp-notes">
-                        <li>のし・ラッピング・産地証明書PDFはカート画面で選択いただけます</li>
-                      </ul>
-                    </>
-                  ) : (
-                    <>
-                      {/* アパレル: サイズ・状態を目立たせる */}
-                      <div class="pdp-attrs">
-                        {catalogItem!.size && (
-                          <span class="pdp-attr pdp-attr--size">
-                            <span class="pdp-attr__label">サイズ</span>
-                            <span class="pdp-attr__value">{catalogItem!.size}</span>
-                          </span>
+                    )}
+
+                    {/* 産直: 購入形態 (1回 / 定期便) */}
+                    {subEligible && (
+                      <div class="pdp-buyform" data-buyform>
+                        <span class="pdp-buyform__label">購入形態</span>
+                        <div class="pdp-buyform__opts">
+                          <label class="pdp-buyform__opt is-active">
+                            <input type="radio" name={`buyform-${catalogItem!.slug}`} value="once" checked data-buyform-mode />
+                            <span class="pdp-buyform__opt-main">1回のみ</span>
+                            <span class="pdp-buyform__opt-sub">{formatYen(catalogItem!.price)}</span>
+                          </label>
+                          <label class="pdp-buyform__opt">
+                            <input type="radio" name={`buyform-${catalogItem!.slug}`} value="sub" data-buyform-mode />
+                            <span class="pdp-buyform__opt-main">定期便 <em>5%OFF</em></span>
+                            <span class="pdp-buyform__opt-sub">{formatYen(subDiscountPrice)}</span>
+                          </label>
+                        </div>
+                        <p class="pdp-buyform__note">定期便は通常価格より5%OFF。お届け間隔の変更・解約はいつでも無料です。<a href="/promotions/">定期便の詳細 →</a></p>
+                      </div>
+                    )}
+
+                    {/* 数量セレクタ + カゴに追加 */}
+                    <div class="pdp-purchase">
+                      <div class="pdp-qty pdp-qty--stepper">
+                        <label for={`qty-${catalogItem!.slug}`}>数量</label>
+                        <div class="pdp-stepper" data-stepper>
+                          <button type="button" class="pdp-stepper__btn" data-step="-1" aria-label="数量を減らす">−</button>
+                          <input
+                            id={`qty-${catalogItem!.slug}`}
+                            class="pdp-stepper__val"
+                            type="number"
+                            inputmode="numeric"
+                            value="1"
+                            min="1"
+                            max="9"
+                            aria-label="購入数量"
+                          />
+                          <button type="button" class="pdp-stepper__btn" data-step="1" aria-label="数量を増やす">＋</button>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn--primary btn--block btn--add-cart"
+                        data-add-slug={catalogItem!.slug}
+                        data-add-name={catalogItem!.title}
+                        data-add-price={String(catalogItem!.price)}
+                        data-add-sub-price={subEligible ? String(subDiscountPrice) : ''}
+                      >
+                        カゴに追加
+                      </button>
+                    </div>
+
+                    {/* 配送目安 */}
+                    <p class="pdp-delivery">
+                      <span class="pdp-delivery__icon" aria-hidden="true">▸</span>
+                      今ご注文で <b>{etaLabel}</b> お届け予定
+                      <small>{deliveryEstimate.cutoffNote}</small>
+                    </p>
+
+                    {/* 在庫表示 */}
+                    <p class="pdp-stock">
+                      {catalogItem!.condition === '新品'
+                        ? <><span class="pdp-stock__dot" aria-hidden="true"></span>新品・在庫あり</>
+                        : <><span class="pdp-stock__dot pdp-stock__dot--last" aria-hidden="true"></span>在庫 1点（現品限り）</>}
+                    </p>
+
+                    {/* クーポン記載 */}
+                    <p class="pdp-coupon">
+                      ご利用可能なクーポン: LINE登録 ¥500 OFF / ご紹介クーポン ¥500 OFF — <a href="/referral/">カートで適用できます →</a>
+                    </p>
+
+                    {catalogItem!.category === 'specialty' ? (
+                      <p class="pdp-gift-line">のし・ラッピング・産地証明書PDFはカート画面で選択いただけます。</p>
+                    ) : (
+                      <>
+                        {/* アパレル: グループありはセレクタに一本化、1点物のみ従来のサイズ大チップ */}
+                        <div class="pdp-attrs">
+                          {!hasVariants && catalogItem!.size && (
+                            <span class="pdp-attr pdp-attr--size">
+                              <span class="pdp-attr__label">サイズ</span>
+                              <span class="pdp-attr__value">{catalogItem!.size}</span>
+                            </span>
+                          )}
+                          {catalogItem!.condition && <span class="pdp-chip">{catalogItem!.condition}</span>}
+                          {catalogItem!.color && <span class="pdp-chip">{catalogItem!.color}</span>}
+                          {catalogItem!.brand && <span class="pdp-chip">{catalogItem!.brand}</span>}
+                          {catalogItem!.apparelCategory && <span class="pdp-chip">{catalogItem!.apparelCategory}</span>}
+                        </div>
+                        {!hasVariants && (
+                          <p class="pdp-attrs__note">
+                            この商品は1点物です。サイズ・寸法の詳細は
+                            <a href="https://line.me/" target="_blank" rel="noopener noreferrer">LINEで1:1相談 →</a>
+                          </p>
                         )}
-                        {catalogItem!.condition && <span class="pdp-chip">{catalogItem!.condition}</span>}
-                        {catalogItem!.color && <span class="pdp-chip">{catalogItem!.color}</span>}
-                        {catalogItem!.brand && <span class="pdp-chip">{catalogItem!.brand}</span>}
-                        {catalogItem!.apparelCategory && <span class="pdp-chip">{catalogItem!.apparelCategory}</span>}
-                      </div>
-                      <p class="pdp-attrs__note">
-                        この商品は1点物です。サイズ・寸法の詳細は
-                        <a href="https://line.me/" target="_blank" rel="noopener noreferrer">LINEで1:1相談 →</a>
-                      </p>
-                    </>
-                  )}
+                      </>
+                    )}
+                  </div>
 
                   {/* LINE補助導線 */}
                   <a href="https://line.me/" class="btn btn--outline btn--block" target="_blank" rel="noopener noreferrer">LINE で在庫・配送を相談</a>
@@ -699,12 +785,48 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
       });
     });
 
+    // 購入形態トグル (1回のみ / 定期便5%OFF) — specialty のみ
+    function formatYen(n) {
+      return '¥' + n.toLocaleString('ja-JP');
+    }
+    const buyform = document.querySelector('[data-buyform]');
+    let subMode = false;
+    if (buyform) {
+      const priceNode = document.querySelector('[data-price-node]');
+      const wasNode = document.querySelector('[data-price-was]');
+      const basePrice = priceNode ? parseInt(priceNode.dataset.priceBase, 10) : 0;
+      const subPrice = priceNode && priceNode.dataset.priceSub ? parseInt(priceNode.dataset.priceSub, 10) : 0;
+      const radios = buyform.querySelectorAll('[data-buyform-mode]');
+      const applyMode = (mode) => {
+        subMode = mode === 'sub';
+        buyform.querySelectorAll('.pdp-buyform__opt').forEach((opt) => {
+          const input = opt.querySelector('[data-buyform-mode]');
+          opt.classList.toggle('is-active', !!input && input.checked);
+        });
+        if (priceNode) {
+          if (subMode && subPrice) {
+            priceNode.textContent = formatYen(subPrice);
+            if (wasNode) { wasNode.textContent = formatYen(basePrice); wasNode.hidden = false; }
+          } else {
+            priceNode.textContent = formatYen(basePrice);
+            if (wasNode) wasNode.hidden = true;
+          }
+        }
+      };
+      radios.forEach((r) => r.addEventListener('change', () => applyMode(r.value)));
+    }
+
     // カート追加
     document.querySelectorAll('.btn--add-cart').forEach((btn) => {
       btn.addEventListener('click', () => {
         const slug = btn.dataset.addSlug;
-        const name = btn.dataset.addName;
-        const price = parseInt(btn.dataset.addPrice, 10);
+        let name = btn.dataset.addName;
+        let price = parseInt(btn.dataset.addPrice, 10);
+        const subPrice = btn.dataset.addSubPrice ? parseInt(btn.dataset.addSubPrice, 10) : 0;
+        if (subMode && subPrice) {
+          name = name + '（定期便）';
+          price = subPrice;
+        }
         const sel = document.getElementById('qty-' + slug);
         const qty = sel ? parseInt(sel.value, 10) : 1;
         if (window.cart && typeof window.cart.add === 'function') {
