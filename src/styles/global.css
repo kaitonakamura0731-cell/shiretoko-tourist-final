@@ -2668,7 +2668,6 @@ body.lock-scroll { overflow: hidden; }
   .pdp-spec th { width: 38%; font-size: 0.78rem; }
   .pdp-spec-dl__row { grid-template-columns: 38% 1fr; }
   .pdp-spec-dl__row dt { font-size: 0.78rem; }
-  .review-form__submit { width: 100%; }
 
   .ranking-page { padding: 1.8rem 1rem 4rem; }
   .ranking-tabs { gap: 0.3rem; }
