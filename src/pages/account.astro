@@ -36,6 +36,7 @@ const tabs = [
   { href: "#subscription", label: "定期便" },
   { href: "#coupon", label: "クーポン・紹介" },
   { href: "#notify", label: "通知" },
+  { href: "#benefits", label: "特典" },
   { href: "#settings", label: "設定" },
 ];
 ---
@@ -111,11 +112,11 @@ const tabs = [
         )}
       </div>
 
-      <!-- 2. ページ内タブ (ヘッダ直下) -->
-      <nav class="account-tabs" aria-label="マイページ内ナビ">
-        <div class="account-tabs__inner">
-          {tabs.map((t) => (
-            <a href={t.href} class="account-tab">{t.label}</a>
+      <!-- 2. ページ内タブ (切替式: 選択セクションだけ表示。JS無効時はアンカーにフォールバック) -->
+      <nav class="account-tabs" aria-label="マイページ内ナビ" data-acct-tabs>
+        <div class="account-tabs__inner" role="tablist">
+          {tabs.map((t, i) => (
+            <a href={t.href} class={`account-tab${i === 0 ? " is-active" : ""}`} data-acct-tab={t.href.slice(1)} role="tab" aria-selected={i === 0 ? "true" : "false"}>{t.label}</a>
           ))}
         </div>
       </nav>
@@ -251,7 +252,7 @@ const tabs = [
     </section>
 
     <!-- 7. 特典・ランク (二次情報は折りたたみ) -->
-    <section class="account-block account-block--alt">
+    <section id="benefits" class="account-block account-block--alt">
       <div class="section-inner">
         <header class="block-head">
           <span class="section-eyebrow">YOUR BENEFITS</span>
@@ -1062,5 +1063,45 @@ const tabs = [
       color: #B99253;
       flex-shrink: 0;
     }
+
+    /* タブ切替式 */
+    .account-tab.is-active {
+      background: #B99253;
+      border-color: #B99253;
+      color: #fff;
+    }
+    .account-block.is-hidden { display: none; }
   </style>
+
+  <script is:inline>
+    // マイページ: タブ切替 (選択セクションだけ表示)。location.hash で直接着地も可。
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-acct-tab]"));
+      if (!tabs.length) return;
+      var panelIds = tabs.map(function (t) { return t.getAttribute("data-acct-tab"); });
+
+      function activate(id, pushHash) {
+        if (panelIds.indexOf(id) === -1) id = panelIds[0];
+        panelIds.forEach(function (pid) {
+          var panel = document.getElementById(pid);
+          if (panel) panel.classList.toggle("is-hidden", pid !== id);
+        });
+        tabs.forEach(function (t) {
+          var on = t.getAttribute("data-acct-tab") === id;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        if (pushHash && history.replaceState) history.replaceState(null, "", "#" + id);
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function (e) {
+          e.preventDefault();
+          activate(t.getAttribute("data-acct-tab"), true);
+        });
+      });
+
+      activate((location.hash || "").replace("#", "") || panelIds[0], false);
+    })();
+  </script>
 </Base>
