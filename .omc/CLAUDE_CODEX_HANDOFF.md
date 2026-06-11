@@ -1,6 +1,6 @@
 # Claude / Codex Handoff - Shiretoko Tourist Final Site
 
-Last updated: 2026-06-11
+Last updated: 2026-06-12
 
 ## Project
 
@@ -64,6 +64,7 @@ Last updated: 2026-06-11
 - Added daily operations coverage to `/dashboard/`: order checks, shipping, inquiries, inventory, and settings.
 - Added `SHOP` to main navigation on affected pages.
 - Added tap-target sizing guards for topbar links, breadcrumbs, filter close buttons, coupon reset, and compact footer navigation.
+- Removed the TOP hero CTA button; the first purchase/navigation action now starts in the dedicated SHOP entrance directly below the hero.
 
 ## Reviewer Findings Already Integrated
 

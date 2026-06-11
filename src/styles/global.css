@@ -3345,30 +3345,8 @@ body.lock-scroll { overflow: hidden; }
   color: rgba(255, 255, 255, 0.92);
   line-height: 1.9;
   max-width: 36em;
-  margin: 0 0 1.4em;
+  margin: 0;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
-}
-.hero-fb__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1A1A1A;
-  background: #fff;
-  border: 1px solid #fff;
-  border-radius: 2px;
-  padding: 0.65em 1.6em;
-  letter-spacing: 0.05em;
-  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
-}
-.hero-fb__cta::after { content: "→"; }
-.hero-fb__cta:hover {
-  background: var(--camel);
-  border-color: var(--camel);
-  color: #fff;
-  text-decoration: none;
 }
 @media (max-width: 560px) {
   .hero-fb__img { max-height: 72vh; min-height: 460px; }
