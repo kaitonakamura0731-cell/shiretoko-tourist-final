@@ -1,14 +1,13 @@
 // 北の逸品堂 — クライアントサイドカート (sessionStorage)
-// 商談デモ用モック。本番では決済・受注 API に置換。
+// 静的サイト上でカート表示を確認するための軽量実装。
 (function () {
   const KEY = 'kn-cart-v1';
   const COUPON_KEY = 'kn-coupon-v1';
   const storage = window.sessionStorage;
 
-  // デモ用クーポン（1注文1クーポン）。本番では RATIO 管理画面から発行・検証。
+  // クーポンは1注文につき1件まで適用する。
   const COUPONS = [
     { code: 'LINE500', label: 'LINE登録クーポン', amount: 500 },
-    { code: 'REFER500', label: 'ご紹介クーポン', amount: 500 },
   ];
 
   const cart = {

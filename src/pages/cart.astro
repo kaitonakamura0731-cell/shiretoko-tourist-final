@@ -39,7 +39,7 @@ const productJson = JSON.stringify(
         <a href="/products/apparel/">アパレル</a>
         <a href="/bundles/">セット提案</a>
         <a href="/stories/">ストーリー</a>
-        <a href="/account/">マイページ</a>
+        <a href="/account/">会員ページ</a>
       </div>
     </nav>
     <nav class="breadcrumbs" aria-label="パンくず">
@@ -97,7 +97,7 @@ const productJson = JSON.stringify(
 
               <div class="promo-referral">
                 <span class="promo-referral__label">クーポンをお持ちでない方へ</span>
-                <p>お友だちを紹介すると、紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。紹介リンクは<a href="/account/">マイページ</a>から発行できます。</p>
+                <p>紹介クーポン案も検討できます。条件は<a href="/referral/">紹介クーポン案</a>で確認できます。</p>
               </div>
             </div>
           </div>
@@ -147,9 +147,9 @@ const productJson = JSON.stringify(
               <p id="promo-subscribe-msg"></p>
             </div>
 
-            <button type="button" class="btn btn--primary btn--checkout" id="checkout-btn">レジに進む</button>
+            <button type="button" class="btn btn--primary btn--checkout" id="checkout-btn">注文内容を相談する</button>
             <p class="cart-summary__note">
-              カード決済・コード決済・銀行振込・代引きに対応。
+              この画面ではオンライン決済は行いません。LINEで注文内容をご相談ください。
             </p>
             <ul class="cart-summary__perks">
               <li>送料: ¥5,000以上で全国無料</li>
@@ -304,7 +304,7 @@ const productJson = JSON.stringify(
 
       const isSubscription = (name) => /[（(]定期便[）)]/.test(String(name || ''));
 
-      // クーポン選択肢を cart.js のデモクーポンから生成
+      // クーポン選択肢を cart.js から生成
       const populateCoupons = () => {
         const sel = document.getElementById('coupon-select');
         if (!sel || sel.dataset.ready) return;
@@ -430,7 +430,7 @@ const productJson = JSON.stringify(
             return (meta.title || it.name);
           });
           const head = names.length === 1 ? names[0] : names[0] + ' ほか' + (names.length - 1) + '点';
-          $subMsg.innerHTML = escapeHtml(head) + ' は<b>定期便</b>に変更できます。お届けのたびにお得な価格になり、解約・スキップはマイページからいつでも可能です。';
+          $subMsg.innerHTML = escapeHtml(head) + ' は<b>定期便プラン</b>も検討できます。注文前に内容をご相談ください。';
         } else {
           $sub.hidden = true;
         }
@@ -481,7 +481,8 @@ const productJson = JSON.stringify(
       });
 
       document.getElementById('checkout-btn').addEventListener('click', () => {
-        showToast('（モック）決済画面へ遷移します。本番では安全な決済処理に進みます。', 'info');
+        showToast('LINEで注文内容を相談できます。本番決済連携はオプションです。', 'info');
+        window.open('https://line.me/R/ti/p/@kitanoippindo', '_blank', 'noopener,noreferrer');
       });
 
       document.addEventListener('DOMContentLoaded', () => window.renderCartPage());

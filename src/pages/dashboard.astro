@@ -30,6 +30,34 @@ const rowsWithImages = productRows.map((row, idx) => ({
   image: productImageForKey(row.slug, row.title),
 }));
 
+const operationSections = [
+  {
+    label: "注文確認",
+    value: "本日 12件",
+    hint: "注文内容、支払い状況、備考を確認する基本領域。",
+  },
+  {
+    label: "出荷・配送",
+    value: "出荷待ち 8件",
+    hint: "送り状、配送希望日、のし対応をまとめて確認。",
+  },
+  {
+    label: "問い合わせ",
+    value: "未対応 3件",
+    hint: "LINE・メール・フォームの対応漏れを防ぐ確認欄。",
+  },
+  {
+    label: "在庫管理",
+    value: "注意 4SKU",
+    hint: "売り切れ前の商品、再入荷案内候補、予約枠を確認。",
+  },
+  {
+    label: "店舗設定",
+    value: "基本情報",
+    hint: "送料、支払い、特商法、会員条件の運用項目。",
+  },
+];
+
 function trendClass(trend?: string) {
   if (trend === "up") return "delta delta--up";
   if (trend === "down") return "delta delta--down";
@@ -76,6 +104,7 @@ function trendMark(trend?: string) {
         <nav class="gnav" aria-label="管理メニュー">
           <a href="#sales">売上</a>
           <a href="#ranking">商品ランキング</a>
+          <a href="#operations">運用</a>
           <a href="#line">LINE</a>
           <a href="#cart">カート</a>
         </nav>
@@ -243,7 +272,7 @@ function trendMark(trend?: string) {
       <section class="dash-section" id="line" aria-label="LINE指標">
         <div class="dash-section__inner">
           <div class="dash-section__head">
-            <a class="dash-act-link" href="#actions">→ 打ち手: 再入荷通知を送る</a>
+            <a class="dash-act-link" href="#actions">→ オプション: 再入荷通知案を確認</a>
             <span class="section-eyebrow">LINE</span>
             <h2 class="mincho">LINE 指標</h2>
             <hr class="section-rule" />
@@ -272,7 +301,7 @@ function trendMark(trend?: string) {
       <section class="dash-section dash-section--white" id="cart" aria-label="カート指標">
         <div class="dash-section__inner">
           <div class="dash-section__head">
-            <a class="dash-act-link" href="#actions">→ 打ち手: 離脱クーポンを送る</a>
+            <a class="dash-act-link" href="#actions">→ オプション: 離脱クーポン案を確認</a>
             <span class="section-eyebrow">CART</span>
             <h2 class="mincho">カート指標</h2>
             <hr class="section-rule" />
@@ -297,8 +326,31 @@ function trendMark(trend?: string) {
         </div>
       </section>
 
+      <!-- ============ 日々の運用 ============ -->
+      <section class="dash-section" id="operations" aria-label="日々の運用">
+        <div class="dash-section__inner">
+          <div class="dash-section__head">
+            <span class="section-eyebrow">DAILY OPS</span>
+            <h2 class="mincho">日々の運用で見る場所</h2>
+            <hr class="section-rule" />
+            <p class="dash-section__lead">売上確認だけで終わらせず、注文、出荷、問い合わせ、在庫、店舗設定までを同じ画面で見渡せる構成です。実データ連携と権限管理は本番環境で有効化します。</p>
+          </div>
+          <div class="kpi-grid kpi-grid--ops">
+            {operationSections.map((item) => (
+              <div class="kpi-card">
+                <div class="kpi-card__label">{item.label}</div>
+                <div class="kpi-card__value">{item.value}</div>
+                <div class="kpi-card__meta">
+                  <span class="kpi-card__hint">{item.hint}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <!-- ============ 確認ログ ============ -->
-      <section class="dash-section" id="action-log" aria-label="確認ログ">
+      <section class="dash-section dash-section--white" id="action-log" aria-label="確認ログ">
         <div class="dash-section__inner">
           <div class="dash-section__head">
             <span class="section-eyebrow">ACTION LOG</span>
@@ -315,7 +367,7 @@ function trendMark(trend?: string) {
       <section class="dash-disclaimer" aria-label="注意書き">
         <div class="dash-disclaimer__inner">
           <p>
-            本ダッシュボードは公開デモ用のサンプル数値です。本番では認証を有効化し、実データに置き換えます。
+            本ダッシュボードは公開デモ用のサンプル数値です。本番では必ず認証・権限管理を有効化し、実データに置き換えます。
           </p>
         </div>
       </section>
@@ -472,7 +524,8 @@ function trendMark(trend?: string) {
       }
       .kpi-grid--sales,
       .kpi-grid--line,
-      .kpi-grid--cart {
+      .kpi-grid--cart,
+      .kpi-grid--ops {
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
       }
 
@@ -648,7 +701,8 @@ function trendMark(trend?: string) {
       @media (max-width: 1024px) {
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart {
+        .kpi-grid--cart,
+        .kpi-grid--ops {
           grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
         }
       }
@@ -656,7 +710,8 @@ function trendMark(trend?: string) {
         .dash-section { padding: 1.8rem 1rem; }
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart { grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
+        .kpi-grid--cart,
+        .kpi-grid--ops { grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
         .kpi-card__value { font-size: 1.4rem; }
         .kpi-card--compact .kpi-card__value { font-size: 1.25rem; }
         .dash-section__head h2 { font-size: 1.35rem; }
@@ -664,14 +719,16 @@ function trendMark(trend?: string) {
       @media (max-width: 480px) {
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart { grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr)); gap: 0.6rem; }
+        .kpi-grid--cart,
+        .kpi-grid--ops { grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr)); gap: 0.6rem; }
         .kpi-card { padding: 0.85rem 0.85rem 0.8rem; }
         .kpi-card__value { font-size: 1.25rem; }
       }
       @media (max-width: 360px) {
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart { grid-template-columns: 1fr; }
+        .kpi-grid--cart,
+        .kpi-grid--ops { grid-template-columns: 1fr; }
       }
     </style>
   </body>

@@ -1,5 +1,5 @@
 ---
-// お得・サービスまとめ — 北の逸品堂 EC (商談用モック)
+// お得・サービスまとめ — 北の逸品堂 EC
 // promotions.ts の各施策をユーザー向けに一覧する「お得な使い方」ページ。
 import "../styles/global.css";
 import {
@@ -16,7 +16,7 @@ import {
 const meta = {
   title: "お得な使い方・サービス｜北の逸品堂 (知床ツーリスト)",
   description:
-    "定期便・ポイント・まとめ買い割引・予約販売・紹介割・誕生月クーポンなど、北の逸品堂を長くお使いいただくほどお得になるサービスをまとめました。",
+    "ポイント・まとめ買い割引・予約販売・紹介クーポン案・誕生月クーポン案など、北の逸品堂を長くお使いいただくためのサービスをまとめました。",
 };
 
 const yen = (n: number) => "¥" + n.toLocaleString("ja-JP");
@@ -40,7 +40,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
 </head>
 <body class="page-listing page-promotions">
 
-<div class="topbar">会員登録は無料 ・ 1%ポイント還元 + 定期便で最大10%OFF ・ ¥5,000以上で<b>送料無料</b></div>
+<div class="topbar">会員登録は無料 ・ 1%ポイント目安 ・ ¥5,000以上で<b>送料無料</b></div>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -49,6 +49,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
       <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
     </a>
     <nav class="gnav" aria-label="主要メニュー">
+      <a href="/shop">SHOP</a>
       <a href="/products/specialty/">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
@@ -56,18 +57,19 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
       <a href="/ranking/">ランキング</a>
     </nav>
     <div class="header-utility">
-      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/account/" class="utility-link">会員ページ</a>
       <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
+          <li><a href="/shop">SHOP</a></li>
           <li><a href="/products/specialty/">産直</a></li>
           <li><a href="/products/apparel/">アパレル</a></li>
           <li><a href="/bundles/">セット</a></li>
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
-          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/account/">会員ページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
       </details>
@@ -104,7 +106,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
         <span class="promo-head__no">01</span>
         <div>
           <h2 class="mincho">定期便</h2>
-          <p>旬の食材を、買い忘れなく。割引価格で自動的にお届けします。解約・スキップはいつでも自由、違約金はありません。</p>
+          <p>旬の食材を買い忘れにくくする定期便プラン案です。実際の申込・変更・解約は注文前にご相談ください。</p>
         </div>
       </header>
       <div class="sub-grid">
@@ -154,7 +156,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
             {pointsInfo.usage.map((u) => <li>{u}</li>)}
           </ul>
           <p class="points-detail__balance">
-            会員ログイン後に残高が表示されます（現在：<b>{pointsInfo.sampleBalance} pt</b>）
+            会員ページでは残高表示を確認できます（表示例：<b>{pointsInfo.sampleBalance} pt</b>）
           </p>
         </div>
       </div>
@@ -245,7 +247,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
     </div>
   </section>
 
-  <!-- 5. そのほかの特典 (紹介割 / 誕生月 / 再入荷) -->
+  <!-- 5. そのほかの特典 (紹介クーポン案 / 誕生月 / 再入荷) -->
   <section class="promo-section" id="more">
     <div class="promo-section__inner">
       <header class="promo-head">
@@ -258,8 +260,8 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
       <div class="perk-grid">
 
         <article class="perk-card">
-          <span class="perk-card__tag">紹介割</span>
-          <h3>お友だち紹介で双方に{referral.rewardLabel}</h3>
+          <span class="perk-card__tag">オプション案</span>
+          <h3>紹介クーポン案として{referral.rewardLabel}</h3>
           <ol class="step-list">
             {referral.steps.map((s) => <li>{s}</li>)}
           </ol>
@@ -306,11 +308,11 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
       <span class="line-cta__eyebrow">LINE 公式アカウント</span>
       <h2 class="mincho">入荷・予約開始を、いちばんに。</h2>
       <p>
-        再入荷通知・収穫速報・予約販売の先行案内をLINEでお届けします。
+        再入荷案内・収穫状況・予約販売の先行案内をLINEで受け取れます。
         友だち追加は無料、いつでも解除できます。
       </p>
-      <a href="https://line.me/" class="line-cta__btn" target="_blank" rel="noopener noreferrer">LINEで友だち追加</a>
-      <span class="line-cta__sub">登録するとポイントや誕生月クーポンの案内も受け取れます</span>
+      <a href="https://line.me/R/ti/p/@kitanoippindo" class="line-cta__btn" target="_blank" rel="noopener noreferrer">LINEで友だち追加</a>
+      <span class="line-cta__sub">登録後、必要な案内だけ確認できます</span>
     </div>
   </section>
 

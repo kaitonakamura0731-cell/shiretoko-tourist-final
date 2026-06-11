@@ -50,6 +50,18 @@ Last updated: 2026-06-11
 - Removed proposal/admin section from sitemap.
 - Rewrote comparison data/page language toward customer purchase guidance.
 - Rephrased furusato copy from procurement-like wording to customer-safe wording.
+- Added real support/legal/contact pages:
+  - `src/pages/shipping.astro`
+  - `src/pages/legal.astro`
+  - `src/pages/privacy.astro`
+  - `src/pages/contact.astro`
+- Fixed TOP/SHOP custom footer links so shipping/legal/privacy/contact no longer point to `/account/`.
+- Unified site metadata away from `example.com`.
+- Reworked cart checkout copy to "注文内容を相談する" and LINE consultation.
+- Removed live referral coupon application from `public/cart.js`; referral remains an optional/noindex proposal page.
+- Reworked subscription, points, referral, LINE notification, and dashboard automation copy so unproposed automations are clearly optional or consultation-based.
+- Added daily operations coverage to `/dashboard/`: order checks, shipping, inquiries, inventory, and settings.
+- Added `SHOP` to main navigation on affected pages.
 
 ## Reviewer Findings Already Integrated
 
@@ -66,13 +78,28 @@ Last updated: 2026-06-11
   - `/dashboard/` should not be public-linked.
   - `/comparison/` needed customer-safe language.
   - Specialty shelf needed warmer treatment.
+- Second-pass customer/admin reviewers:
+  - TOP/SHOP footer support links were wrong.
+  - `example.com` metadata was not production-ready.
+  - Referral looked like an active reward program.
+  - Points/subscription/LINE copy overpromised non-implemented flows.
+  - Admin screen needed daily operation areas, not only analytics.
+  - All above P1/P2 findings were integrated or reframed as optional/consultation flows.
 
 ## Current Verification State
 
-- `npm run build` passed after the first responsive patch set on 2026-06-11.
-- Build must be run again after the latest public-guard/sitemap/comparison edits.
-- Browser layout verification is still needed across:
+- `npm run build` passed on 2026-06-11 after the latest review-loop edits.
+- Source image sync ran during build: 405 images synced.
+- Static build output: 290 pages.
+- Public guard grep passed with no matches for the configured banned terms.
+- Browser/CDP responsive verification passed:
+  - 20 pages
+  - widths: 360, 390, 430, 768, 1024, 1280, 1920
+  - total cases: 140
+  - failures: 0
+- Checked pages:
   - `/`
+  - `/shop/`
   - `/products/specialty/`
   - `/products/apparel/`
   - `/ranking/`
@@ -80,7 +107,28 @@ Last updated: 2026-06-11
   - `/gift/`
   - `/stories/`
   - `/account/`
+  - `/cart/`
+  - `/promotions/`
+  - `/comparison/`
+  - `/furusato/`
+  - `/referral/`
   - `/dashboard/`
+  - `/shipping/`
+  - `/legal/`
+  - `/privacy/`
+  - `/contact/`
+  - `/sitemap/`
+- Representative screenshots are in `.omc/screenshots/`.
+- Temporary local preview used: `http://127.0.0.1:4327/`.
+
+## Scheduled Review
+
+- A launchd job is registered for 2026-06-12 10:07 JST.
+- Prompt: `.omc/scheduled/2026-06-12-full-review-prompt.md`
+- Script: `.omc/scheduled/run-full-review-20260612.sh`
+- Plist: `~/Library/LaunchAgents/com.kaito.codex.shiretoko-review.20260612.plist`
+- The script unloads itself after execution via `launchctl bootout`.
+- `.omc/scheduled/` is local/ignored and is not pushed to GitHub.
 
 ## Next Review Scope
 

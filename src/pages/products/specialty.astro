@@ -83,6 +83,7 @@ const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
       <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
     </a>
     <nav class="gnav" aria-label="主要メニュー">
+      <a href="/shop">SHOP</a>
       <a href="/products/specialty/" class="is-tour" aria-current="page">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
@@ -90,18 +91,19 @@ const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
       <a href="/ranking/">ランキング</a>
     </nav>
     <div class="header-utility">
-      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/account/" class="utility-link">会員ページ</a>
       <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
+          <li><a href="/shop">SHOP</a></li>
           <li><a href="/products/specialty/">産直</a></li>
           <li><a href="/products/apparel/">アパレル</a></li>
           <li><a href="/bundles/">セット</a></li>
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
-          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/account/">会員ページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
       </details>
@@ -115,7 +117,7 @@ const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
     <h1 class="mincho">朝採りを、<br />中1日で食卓へ。</h1>
     <p>
       北海道・知床/オホーツク/清里町の畑から、店主厳選で {totalSkuCount} 商品。
-      収穫日・産地・生産者を明記。LINE登録で再入荷・収穫速報を週1配信します。
+      収穫日・産地・生産者を明記。LINE登録で再入荷案内や収穫状況を受け取れます。
     </p>
   </div>
 </section>
@@ -158,24 +160,6 @@ const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
           </details>
         )}
 
-        <details class="filter-group">
-          <summary>季節 (準備中)</summary>
-          <ul>
-            <li><label><input type="checkbox" disabled /><span>春 (4-5月)</span></label></li>
-            <li><label><input type="checkbox" disabled /><span>夏 (6-8月)</span></label></li>
-            <li><label><input type="checkbox" disabled /><span>秋 (9-11月)</span></label></li>
-            <li><label><input type="checkbox" disabled /><span>冬 (12-3月)</span></label></li>
-          </ul>
-        </details>
-
-        <details class="filter-group">
-          <summary>対応 (準備中)</summary>
-          <ul>
-            <li><label><input type="checkbox" disabled /><span>ギフト・のし</span></label></li>
-            <li><label><input type="checkbox" disabled /><span>冷蔵便</span></label></li>
-            <li><label><input type="checkbox" disabled /><span>予約販売</span></label></li>
-          </ul>
-        </details>
       </aside>
 
       <div class="listing-results">

@@ -13,6 +13,7 @@ const defaultDesc = "オホーツク産アスパラ、じゃがいも・玉ね�
 const path = Astro.url.pathname;
 const currentYear = new Date().getFullYear();
 const navItems = [
+  { href: "/shop", label: "SHOP" },
   { href: "/products/specialty/", label: "産直" },
   { href: "/products/apparel/", label: "アパレル" },
   { href: "/bundles/", label: "セット" },
@@ -73,7 +74,7 @@ function isActive(href: string): boolean {
           ))}
         </nav>
         <div class="header-utility">
-          <a href="/account/" class="utility-link" aria-current={isActive("/account/") ? "page" : undefined}>マイページ</a>
+          <a href="/account/" class="utility-link" aria-current={isActive("/account/") ? "page" : undefined}>会員ページ</a>
           <a href="/cart" class="utility-cart" data-cart-link>カート</a>
           <details class="mobile-nav">
             <summary aria-label="メニューを開く">
@@ -85,8 +86,7 @@ function isActive(href: string): boolean {
                   <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
                 </li>
               ))}
-              <li><a href="/account/" aria-current={isActive("/account/") ? "page" : undefined}>マイページ</a></li>
-              <li><a href="/referral/" aria-current={isActive("/referral/") ? "page" : undefined}>友達紹介</a></li>
+              <li><a href="/account/" aria-current={isActive("/account/") ? "page" : undefined}>会員ページ</a></li>
               <li><a href="/cart">カート</a></li>
             </ul>
           </details>
@@ -135,12 +135,12 @@ function isActive(href: string): boolean {
           <div>
             <h4>サポート / 会社</h4>
             <ul>
-              <li><a href="/referral/">友達紹介 ¥500 OFF</a></li>
-              <li><a href="/account/">送料・配送について</a></li>
-              <li><a href="/account/">特定商取引法に基づく表記</a></li>
+              <li><a href="/shipping/">送料・配送について</a></li>
+              <li><a href="/legal/">特定商取引法に基づく表記</a></li>
               <li><a href="https://shiretokotourist.com/" target="_blank" rel="noopener noreferrer">旅行業約款・取引条件説明書</a></li>
-              <li><a href="/account/">プライバシーポリシー</a></li>
+              <li><a href="/privacy/">プライバシーポリシー</a></li>
               <li><a href="/stories/">会社概要</a></li>
+              <li><a href="/contact/">お問い合わせ</a></li>
               <li><a href="/sitemap/">サイトマップ</a></li>
             </ul>
           </div>

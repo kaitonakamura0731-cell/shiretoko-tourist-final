@@ -32,9 +32,9 @@ const samples = productSamples.map((p) => ({
   image: productImageForKey(sampleImageKeys[p.slug] ?? p.slug, p.title),
 }));
 
-// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、公式EC 5〜10% の中央値で 7%
+// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、公式ECは基本1%
 const ownBaseRate = Math.round(pointsInfo.rateValue * 100);
-const OWN_EFFECTIVE_RATE = 7;
+const OWN_EFFECTIVE_RATE = ownBaseRate;
 const yahooPoints = (n: number) => Math.round((n * 3) / 100);
 const ownPoints = (n: number) => Math.round((n * OWN_EFFECTIVE_RATE) / 100);
 
@@ -43,7 +43,7 @@ const scenarios = [
     tag: "ポイント還元を最大化したい",
     rec: "公式EC",
     reason:
-      "Yahoo はキャンペーン日に大きな還元が出ることがあります。公式ECは会員ランクに応じて 5〜10% が常時付き、続けて買うほど使いやすい設計です。",
+      "Yahoo はキャンペーン日に大きな還元が出ることがあります。公式ECは基本ポイントと相談しやすさがあり、続けて買うほど使いやすい設計です。",
   },
   {
     tag: "とにかく早く届けてほしい",
@@ -88,6 +88,7 @@ const scenarios = [
       <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
     </a>
     <nav class="gnav" aria-label="主要メニュー">
+      <a href="/shop">SHOP</a>
       <a href="/products/specialty/">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
@@ -98,11 +99,12 @@ const scenarios = [
       <a href="/furusato/">ふるさと納税</a>
     </nav>
     <div class="header-utility">
-      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/account/" class="utility-link">会員ページ</a>
       <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
+          <li><a href="/shop">SHOP</a></li>
           <li><a href="/products/specialty/">産直</a></li>
           <li><a href="/products/apparel/">アパレル</a></li>
           <li><a href="/bundles/">セット</a></li>
@@ -110,7 +112,7 @@ const scenarios = [
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
           <li><a href="/comparison/" class="is-tour" aria-current="page">購入方法</a></li>
-          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/account/">会員ページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
       </details>
@@ -193,7 +195,7 @@ const scenarios = [
       選ぶ時は「常時ポイント」「送料」「配送スピード」「相談できる相手」を見てください。
     </p>
     <p class="cmp-points-note">
-      ※ 公式ECの基本ポイント付与は会員 {ownBaseRate}%。表中の「{OWN_EFFECTIVE_RATE}%」は、基本{ownBaseRate}% に会員ランク特典・キャンペーン分を加えた<strong>ポイント還元の目安</strong>です（購入条件・会員ランクにより変動します）。
+      ※ 公式ECの基本ポイント付与は会員 {ownBaseRate}%。キャンペーンや会員特典は時期・購入条件により変動します。
     </p>
 
     <ol class="cmp-samples__list">
@@ -217,7 +219,7 @@ const scenarios = [
                   <p class="cmp-sample__col-label">公式EC</p>
                   <dl class="cmp-sample__dl">
                     <div><dt>表示価格</dt><dd class="num">{yen(p.ownPrice)}</dd></div>
-                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(ポイント還元 {OWN_EFFECTIVE_RATE}% 目安・会員特典含む)</span></dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(基本 {OWN_EFFECTIVE_RATE}% 目安)</span></dd></div>
                     <div><dt>送料</dt><dd>¥5,000 以上で無料・同梱可</dd></div>
                     <div><dt>出荷</dt><dd>中1日 / 朝採り当日枠あり</dd></div>
                   </dl>
@@ -270,14 +272,14 @@ const scenarios = [
 
 <section class="cmp-cta">
   <div class="cmp-cta__inner">
-    <p class="cmp-cta__eyebrow">JOIN ・ 会員登録</p>
-    <h2 class="mincho">公式ECで買うと、次の一品が早く届く。</h2>
+    <p class="cmp-cta__eyebrow">SHOP ・ 購入相談</p>
+    <h2 class="mincho">公式ECでは、商品選びから相談できます。</h2>
     <p>
-      会員登録は1分。常時 5〜10% のポイント、再入荷通知、贈答リマインド、LINE 相談がそのまま開きます。
+      基本ポイントの目安、再入荷案内、贈答相談、LINE相談を見ながら選べます。
       Yahoo!店もそのまま続けて使っていただけます。
     </p>
     <div class="cmp-cta__buttons">
-      <a href="/account/" class="cmp-cta__primary">会員登録して公式ECで買う</a>
+      <a href="/shop/" class="cmp-cta__primary">公式ECの商品を見る</a>
       <a href="/products/specialty/" class="cmp-cta__secondary">先に商品を見る</a>
     </div>
   </div>
@@ -299,6 +301,7 @@ const scenarios = [
       <div>
         <h3>ショッピング</h3>
         <ul>
+          <li><a href="/shop">SHOP</a></li>
           <li><a href="/products/specialty/">産直一覧</a></li>
           <li><a href="/products/apparel/">アパレル一覧</a></li>
           <li><a href="/bundles/">セット販売</a></li>
@@ -312,7 +315,7 @@ const scenarios = [
           <li><a href="/comparison/">購入方法</a></li>
           <li><a href="/furusato/">ふるさと納税</a></li>
           <li><a href="/stories/">ストーリー</a></li>
-          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/account/">会員ページ</a></li>
         </ul>
       </div>
     </div>

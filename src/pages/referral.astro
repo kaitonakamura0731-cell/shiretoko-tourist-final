@@ -4,27 +4,28 @@ import { referral } from "../data/promotions";
 ---
 
 <Base
-  title="友達紹介プログラム｜北の逸品堂"
-  description="お友だちを紹介すると、紹介した方・された方の双方に500円OFFクーポンを進呈します。北の逸品堂の友達紹介プログラム。"
+  title="紹介クーポン案（オプション）｜北の逸品堂"
+  description="北の逸品堂の会員向け紹介クーポン案を確認するページです。実際の付与条件・利用条件は運用開始時に確定します。"
   bodyClass="referral"
+  robots="noindex,nofollow"
 >
   <main>
     <nav class="breadcrumbs" aria-label="パンくず">
       <div class="breadcrumbs__inner">
         <a href="/">トップ</a> <span class="sep">/</span>
-        <a href="/account/">マイページ</a> <span class="sep">/</span>
+        <a href="/account/">会員ページ</a> <span class="sep">/</span>
         <span class="current" aria-current="page">友達紹介</span>
       </div>
     </nav>
 
     <section class="ref-hero">
       <div class="ref-hero__inner">
-        <span class="section-eyebrow">REFERRAL ・ 友達紹介</span>
-        <h1 class="ref-hero__title">紹介した方も、された方も<br />¥500 OFF</h1>
+        <span class="section-eyebrow">REFERRAL ・ オプション案</span>
+        <h1 class="ref-hero__title">紹介クーポン案を<br />確認する。</h1>
         <p class="ref-hero__lead">
-          北の逸品堂を気に入っていただけたら、ぜひお友だちにも。<br />
-          紹介リンク経由で初回購入があると、紹介した方・された方の双方に<br />
-          <strong>{referral.rewardLabel}</strong>をお届けします。
+          北の逸品堂を気に入っていただいた方が、知人に紹介しやすくするための追加施策案です。<br />
+          導入する場合は、紹介した方・された方の双方に<br />
+          <strong>{referral.rewardLabel}</strong>を案内する運用を検討できます。
         </p>
       </div>
     </section>
@@ -43,20 +44,20 @@ import { referral } from "../data/promotions";
 
     <section class="ref-code-section">
       <div class="ref-code-inner">
-        <span class="section-eyebrow">YOUR CODE ・ あなたの紹介コード</span>
-        <h2 class="ref-code-title">紹介コードを発行する</h2>
+        <span class="section-eyebrow">YOUR CODE ・ 表示イメージ</span>
+        <h2 class="ref-code-title">紹介コードの表示を試す</h2>
         <p class="ref-code-lead">
-          下のボタンを押すと、あなた専用の紹介コードが発行されます。<br />
-          このコードは次回以降も同じものが表示されます。
+          下のボタンを押すと、紹介コード表示のイメージを確認できます。<br />
+          このコードはお使いのブラウザ内でのみ保存されます。
         </p>
 
         <div class="ref-code-box" id="ref-code-box" aria-live="polite">
-          <span class="ref-code-placeholder">コードを発行するには下のボタンを押してください</span>
+          <span class="ref-code-placeholder">表示を試すには下のボタンを押してください</span>
         </div>
 
         <div class="ref-actions">
           <button type="button" class="btn btn--primary" id="ref-generate-btn">
-            コードを発行する
+            コード表示を試す
           </button>
           <button type="button" class="btn btn--outline" id="ref-copy-btn" hidden>
             リンクをコピー
@@ -76,7 +77,7 @@ import { referral } from "../data/promotions";
         </div>
 
         <p class="ref-code-note">{referral.note}</p>
-        <p class="ref-code-demo">このデモではコードはお使いのブラウザにのみ保存され、実際の決済とは連携していません。</p>
+        <p class="ref-code-demo">この画面のコードは確認用です。決済・注文処理とは連携していません。</p>
       </div>
     </section>
 
@@ -90,13 +91,13 @@ import { referral } from "../data/promotions";
           <article class="ref-reward-card ref-reward-card--referrer">
             <span class="ref-reward-card__role">紹介した方</span>
             <p class="ref-reward-card__amount">¥{referral.referrerReward.toLocaleString("ja-JP")}<small>OFF</small></p>
-            <p class="ref-reward-card__desc">お友だちが初回購入を完了した後、次回注文で使えるクーポンをお届けします。</p>
+            <p class="ref-reward-card__desc">導入する場合、紹介成立後に次回注文向けクーポンを案内する形を検討できます。</p>
           </article>
           <div class="ref-reward-divider" aria-hidden="true">＋</div>
           <article class="ref-reward-card ref-reward-card--referee">
             <span class="ref-reward-card__role">紹介された方</span>
             <p class="ref-reward-card__amount">¥{referral.refereeReward.toLocaleString("ja-JP")}<small>OFF</small></p>
-            <p class="ref-reward-card__desc">初回注文時にクーポンが自動で適用されます。¥3,000以上のご注文でご利用いただけます。</p>
+            <p class="ref-reward-card__desc">導入する場合、初回注文時に使えるクーポン案内として設計できます。</p>
           </article>
         </div>
       </div>
@@ -104,8 +105,8 @@ import { referral } from "../data/promotions";
 
     <section class="ref-cta-section">
       <div class="ref-cta-inner">
-        <p class="ref-cta__text">まずはコードを発行して、大切な方にシェアしてみてください。</p>
-        <a href="#ref-code-box" class="btn btn--primary">コードを発行する</a>
+        <p class="ref-cta__text">紹介施策を導入する場合の見え方を確認できます。</p>
+        <a href="#ref-code-box" class="btn btn--primary">表示を確認する</a>
       </div>
     </section>
   </main>
@@ -182,7 +183,7 @@ import { referral } from "../data/promotions";
         const lineBtn = document.getElementById('ref-line-btn');
         if (lineBtn) {
           const lineMsg = encodeURIComponent(
-            '北の逸品堂で¥500OFFになる紹介リンクです。知床直送の食材やアパレルがそろっています。\n' + shareUrl
+            '北の逸品堂の紹介クーポン案です。知床直送の食材やアパレルがそろっています。\n' + shareUrl
           );
           lineBtn.href = 'https://line.me/R/msg/text/?' + lineMsg;
         }
@@ -191,7 +192,7 @@ import { referral } from "../data/promotions";
         const twitterBtn = document.getElementById('ref-twitter-btn');
         if (twitterBtn) {
           const twitterText = encodeURIComponent(
-            '北の逸品堂の紹介リンクです。このリンクから初回購入すると¥500OFF。知床直送の食材です。 ' + shareUrl
+            '北の逸品堂の紹介クーポン案です。知床直送の食材やアパレルがそろっています。 ' + shareUrl
           );
           twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + twitterText;
         }

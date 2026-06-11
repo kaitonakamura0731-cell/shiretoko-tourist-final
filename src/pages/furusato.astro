@@ -40,6 +40,7 @@ const cards = items.map((it) => {
       <span class="brand__sub">知床ツーリスト / 1992 KIYOSATO</span>
     </a>
     <nav class="gnav" aria-label="主要メニュー">
+      <a href="/shop">SHOP</a>
       <a href="/products/specialty/">産直</a>
       <a href="/products/apparel/">アパレル</a>
       <a href="/bundles/">セット</a>
@@ -48,11 +49,12 @@ const cards = items.map((it) => {
       <a href="/furusato/" aria-current="page">ふるさと納税</a>
     </nav>
     <div class="header-utility">
-      <a href="/account/" class="utility-link">マイページ</a>
+      <a href="/account/" class="utility-link">会員ページ</a>
       <a href="/cart" class="utility-cart" data-cart-link>カート</a>
       <details class="mobile-nav">
         <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
         <ul>
+          <li><a href="/shop">SHOP</a></li>
           <li><a href="/products/specialty/">産直</a></li>
           <li><a href="/products/apparel/">アパレル</a></li>
           <li><a href="/bundles/">セット</a></li>
@@ -60,7 +62,7 @@ const cards = items.map((it) => {
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
           <li><a href="/furusato/" class="is-tour" aria-current="page">ふるさと納税</a></li>
-          <li><a href="/account/">マイページ</a></li>
+          <li><a href="/account/">会員ページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
       </details>
@@ -240,24 +242,24 @@ const cards = items.map((it) => {
         実際の寄付・決済・受領証明書の発行は、各自治体提携のポータルサイトを通じて行ってください。
       </p>
       <div class="portals__cards">
-        <span class="portal-card portal-card--mock" aria-label="さとふる (準備中)">
+        <span class="portal-card" aria-label="さとふる">
           <span class="portal-card__name">さとふる</span>
           <span class="portal-card__desc">清里町・斜里町 取扱あり</span>
-          <span class="portal-card__cta">準備中</span>
+          <span class="portal-card__cta">自治体ページで確認</span>
         </span>
-        <span class="portal-card portal-card--mock" aria-label="楽天ふるさと納税 (準備中)">
+        <span class="portal-card" aria-label="楽天ふるさと納税">
           <span class="portal-card__name">楽天ふるさと納税</span>
           <span class="portal-card__desc">楽天ポイント還元あり</span>
-          <span class="portal-card__cta">準備中</span>
+          <span class="portal-card__cta">自治体ページで確認</span>
         </span>
-        <span class="portal-card portal-card--mock" aria-label="ふるなび (準備中)">
+        <span class="portal-card" aria-label="ふるなび">
           <span class="portal-card__name">ふるなび</span>
           <span class="portal-card__desc">家電・特産品ラインナップ</span>
-          <span class="portal-card__cta">準備中</span>
+          <span class="portal-card__cta">自治体ページで確認</span>
         </span>
       </div>
       <p class="portals__caveat">
-        ※ 上記ポータルへのリンクは現在準備中です。実際の寄付申し込み先は各自治体公式ページよりご確認ください。
+        ※ 実際の寄付申し込み先は各自治体公式ページよりご確認ください。
       </p>
     </div>
   </section>
@@ -273,7 +275,7 @@ const cards = items.map((it) => {
       <a href="/ranking/">ランキング</a>
       <a href="/gift/">ギフト</a>
       <a href="/furusato/" aria-current="page">ふるさと納税</a>
-      <a href="/account/">マイページ</a>
+      <a href="/account/">会員ページ</a>
     </nav>
     <div class="site-footer__legal">
       <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>

@@ -42,8 +42,8 @@ const tabs = [
 ---
 
 <Base
-  title="マイページ｜北の逸品堂"
-  description="累計購入額・ランク特典・購入履歴を一つの場所で。北の逸品堂 会員マイページ。"
+  title="会員ページ｜北の逸品堂"
+  description="累計購入額・ランク特典・購入履歴を一つの場所で確認できる、北の逸品堂の会員ページです。"
   bodyClass="account"
   robots="noindex,nofollow"
 >
@@ -51,7 +51,7 @@ const tabs = [
     <nav class="breadcrumbs" aria-label="パンくず">
       <div class="breadcrumbs__inner">
         <a href="/">トップ</a> <span class="sep">/</span>
-        <span class="current" aria-current="page">マイページ</span>
+        <span class="current" aria-current="page">会員ページ</span>
       </div>
     </nav>
 
@@ -59,9 +59,9 @@ const tabs = [
     <section class="summary-section">
       <div class="summary-inner">
         <div class="summary-head">
-          <span class="section-eyebrow">ACCOUNT ・ マイページ</span>
+          <span class="section-eyebrow">ACCOUNT ・ 会員ページ</span>
           <h1 class="summary-title">ようこそ、{lastName}さま。</h1>
-          <p class="account-demo-label">本画面はデモ表示です。実際の購入履歴や個人情報ではありません。</p>
+          <p class="account-demo-label">本画面は会員機能の確認画面です。実際の購入履歴や個人情報は表示していません。</p>
         </div>
 
         <div class="summary-card">
@@ -113,7 +113,7 @@ const tabs = [
       </div>
 
       <!-- 2. ページ内タブ (切替式: 選択セクションだけ表示。JS無効時はアンカーにフォールバック) -->
-      <nav class="account-tabs" aria-label="マイページ内ナビ" data-acct-tabs>
+      <nav class="account-tabs" aria-label="会員ページ内ナビ" data-acct-tabs>
         <div class="account-tabs__inner" role="tablist">
           {tabs.map((t, i) => (
             <a href={t.href} class={`account-tab${i === 0 ? " is-active" : ""}`} data-acct-tab={t.href.slice(1)} role="tab" aria-selected={i === 0 ? "true" : "false"}>{t.label}</a>
@@ -164,8 +164,8 @@ const tabs = [
       <div class="section-inner">
         <header class="block-head">
           <span class="section-eyebrow">SUBSCRIPTION</span>
-          <h2 class="block-title">定期便の管理</h2>
-          <p class="block-lead">旬の便りを切らさずお届け。変更・スキップ・解約はいつでも自由、違約金はありません。</p>
+          <h2 class="block-title">定期便プラン</h2>
+          <p class="block-lead">旬の便りを切らさず届けるためのプラン案です。申込・変更・スキップは注文前にご相談ください。</p>
         </header>
         <div class="sub-grid">
           {subscriptions.map((s) => (
@@ -181,13 +181,13 @@ const tabs = [
               <p class="sub-card__interval">お届け：{s.interval}</p>
               <p class="sub-card__note">{s.note}</p>
               <div class="sub-card__actions">
-                <button class="link-action" type="button" disabled>この便を申し込む</button>
-                <button class="link-action link-action--ghost" type="button" disabled>解約・スキップ</button>
+                <button class="link-action" type="button" disabled>内容を確認する</button>
+                <button class="link-action link-action--ghost" type="button" disabled>変更案を見る</button>
               </div>
             </article>
           ))}
         </div>
-        <p class="block-foot">ご利用中の定期便はこちらに表示されます。現在はサンプル表示です。<b>解約はワンクリック</b>、引き止めや電話確認は行いません。</p>
+        <p class="block-foot">ご利用中の定期便がある場合はこちらに表示します。現在は機能確認用の表示です。</p>
       </div>
     </section>
 
@@ -216,10 +216,10 @@ const tabs = [
           </article>
 
           <article class="info-card info-card--referral">
-            <span class="info-card__eyebrow">REFERRAL ・ 友達紹介</span>
+            <span class="info-card__eyebrow">REFERRAL ・ オプション案</span>
             <p class="info-card__value">{referral.rewardLabel}</p>
-            <p class="info-card__sub">紹介リンクを送るだけ。紹介した方・された方の双方に <b>{referral.rewardLabel}</b> を進呈します。</p>
-            <a href="/referral/" class="info-card__link">紹介ページへ &rarr;</a>
+            <p class="info-card__sub">紹介施策を導入する場合、双方に <b>{referral.rewardLabel}</b> を案内する運用を検討できます。</p>
+            <a href="/referral/" class="info-card__link">オプション案を見る &rarr;</a>
           </article>
         </div>
       </div>
@@ -231,7 +231,7 @@ const tabs = [
         <header class="block-head">
           <span class="section-eyebrow">NOTIFICATION ・ 通知</span>
           <h2 class="block-title">{restockInfo.channel}連携・再入荷通知</h2>
-          <p class="block-lead">入荷した瞬間に{restockInfo.channel}でお知らせします。人気の旬商品を逃しません。</p>
+          <p class="block-lead">入荷案内を{restockInfo.channel}で受け取れるようにするオプションです。人気の旬商品を逃しにくくします。</p>
         </header>
         <ul class="restock-list">
           {restockInfo.targets.map((t) => (
@@ -301,15 +301,15 @@ const tabs = [
         <header class="block-head">
           <span class="section-eyebrow">SETTINGS</span>
           <h2 class="block-title">アカウント設定</h2>
-          <p class="block-lead">お届け先・お支払い・会員情報の変更はこちらから。</p>
+          <p class="block-lead">お届け先・お支払い・会員情報の変更内容を確認できます。実際の変更はお問い合わせから承ります。</p>
         </header>
         <ul class="settings-list">
-          <li><a class="settings-link" href="/account/"><span>お届け先住所の管理</span><span class="settings-link__arrow">&rarr;</span></a></li>
-          <li><a class="settings-link" href="/account/"><span>お支払い方法</span><span class="settings-link__arrow">&rarr;</span></a></li>
-          <li><a class="settings-link" href="/account/"><span>会員情報・誕生月の登録</span><span class="settings-link__arrow">&rarr;</span></a></li>
-          <li><a class="settings-link" href="/account/"><span>送料・配送について</span><span class="settings-link__arrow">&rarr;</span></a></li>
-          <li><a class="settings-link" href="/account/"><span>特定商取引法に基づく表記</span><span class="settings-link__arrow">&rarr;</span></a></li>
-          <li><a class="settings-link" href="/account/"><span>プライバシーポリシー</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/contact/"><span>お届け先住所の変更相談</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/contact/"><span>お支払い方法の確認</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/contact/"><span>会員情報・誕生月の登録相談</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/shipping/"><span>送料・配送について</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/legal/"><span>特定商取引法に基づく表記</span><span class="settings-link__arrow">&rarr;</span></a></li>
+          <li><a class="settings-link" href="/privacy/"><span>プライバシーポリシー</span><span class="settings-link__arrow">&rarr;</span></a></li>
         </ul>
       </div>
     </section>
@@ -1074,7 +1074,7 @@ const tabs = [
   </style>
 
   <script is:inline>
-    // マイページ: タブ切替 (選択セクションだけ表示)。location.hash で直接着地も可。
+    // 会員ページ: タブ切替 (選択セクションだけ表示)。location.hash で直接着地も可。
     (function () {
       var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-acct-tab]"));
       if (!tabs.length) return;

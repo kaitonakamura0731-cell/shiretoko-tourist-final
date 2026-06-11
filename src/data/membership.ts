@@ -1,5 +1,5 @@
-// 会員プログラム — 北の逸品堂 マイページ モックデータ
-// 本番では RATIO 管理画面の顧客マスタ + 注文履歴から取得する想定。
+// 会員プログラム — 北の逸品堂 会員ページ サンプルデータ
+// 本番では 会員情報と注文履歴から取得する想定。
 
 export type RankBenefit = {
   type: 'shipping_free' | 'shipping_discount' | 'discount' | 'early_access' | 'birthday_coupon' | 'referral';
@@ -52,7 +52,7 @@ export const ranks: Rank[] = [
       { type: 'shipping_free', label: '送料無料 (全商品)' },
       { type: 'discount', label: '全商品5%OFF' },
       { type: 'birthday_coupon', label: '誕生月クーポン ¥1,000' },
-      { type: 'referral', label: 'ご紹介で双方に¥1,500分のポイント' },
+      { type: 'referral', label: '紹介クーポン案の優先案内' },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const ranks: Rank[] = [
       { type: 'discount', label: '全商品10%OFF' },
       { type: 'early_access', label: '限定品・新作の先行販売 (一般公開3日前)' },
       { type: 'birthday_coupon', label: '誕生月クーポン ¥2,000' },
-      { type: 'referral', label: 'ご紹介で双方に¥3,000分のポイント' },
+      { type: 'referral', label: '紹介クーポン案の優先案内' },
     ],
   },
 ];
