@@ -32,7 +32,7 @@ const samples = productSamples.map((p) => ({
   image: productImageForKey(sampleImageKeys[p.slug] ?? p.slug, p.title),
 }));
 
-// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、公式ECは基本1%
+// ポイント目安: Yahoo 1〜5% の中央値で 3%、公式ECは1%
 const ownBaseRate = Math.round(pointsInfo.rateValue * 100);
 const OWN_EFFECTIVE_RATE = ownBaseRate;
 const yahooPoints = (n: number) => Math.round((n * 3) / 100);
@@ -40,10 +40,10 @@ const ownPoints = (n: number) => Math.round((n * OWN_EFFECTIVE_RATE) / 100);
 
 const scenarios = [
   {
-    tag: "ポイント還元を最大化したい",
+    tag: "ポイント目安も見て選びたい",
     rec: "公式EC",
     reason:
-      "Yahoo はキャンペーン日に大きな還元が出ることがあります。公式ECは基本ポイントと相談しやすさがあり、続けて買うほど使いやすい設計です。",
+      "Yahoo はキャンペーン日で条件が変わります。公式ECはポイント目安と相談しやすさをまとめて確認できます。",
   },
   {
     tag: "とにかく早く届けてほしい",
@@ -128,7 +128,7 @@ const scenarios = [
     <h1 class="mincho">公式ECとYahoo!店、どちらで買うか。</h1>
     <p>
       北の逸品堂は公式ECと Yahoo!ショッピング店の二つの売り場があります。
-      同じ商品でも、ポイント還元・送料・配送スピード・相談方法にそれぞれ特徴があります。
+      同じ商品でも、ポイント目安・送料・配送スピード・相談方法にそれぞれ特徴があります。
       買いやすい方を選べるよう、購入前に見ておきたい項目をまとめました。
     </p>
   </div>
@@ -195,7 +195,7 @@ const scenarios = [
       選ぶ時は「常時ポイント」「送料」「配送スピード」「相談できる相手」を見てください。
     </p>
     <p class="cmp-points-note">
-      ※ 公式ECの基本ポイント付与は会員 {ownBaseRate}%。キャンペーンや会員特典は時期・購入条件により変動します。
+      ※ 公式ECのポイント目安は会員 {ownBaseRate}%。キャンペーンや会員特典は時期・購入条件により変動します。
     </p>
 
     <ol class="cmp-samples__list">
@@ -275,7 +275,7 @@ const scenarios = [
     <p class="cmp-cta__eyebrow">SHOP ・ 購入相談</p>
     <h2 class="mincho">公式ECでは、商品選びから相談できます。</h2>
     <p>
-      基本ポイントの目安、再入荷案内、贈答相談、LINE相談を見ながら選べます。
+      ポイント目安、再入荷案内、贈答相談、LINE相談を見ながら選べます。
       Yahoo!店もそのまま続けて使っていただけます。
     </p>
     <div class="cmp-cta__buttons">
@@ -321,7 +321,7 @@ const scenarios = [
     </div>
     <div class="site-footer__legal">
       <span>(c) 1992-{currentYear} 株式会社 知床ツーリスト. All rights reserved.</span>
-      <span class="payments">クレジットカード / コード決済 / 銀行振込</span>
+      <span class="payments">LINE相談 / 銀行振込 / 代引き相談</span>
     </div>
   </div>
 </footer>

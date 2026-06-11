@@ -58,10 +58,12 @@ Last updated: 2026-06-11
 - Fixed TOP/SHOP custom footer links so shipping/legal/privacy/contact no longer point to `/account/`.
 - Unified site metadata away from `example.com`.
 - Reworked cart checkout copy to "注文内容を相談する" and LINE consultation.
+- Reframed public points/payment language to "ポイント目安" and "支払い相談" so the site does not imply live payment processing or guaranteed point redemption.
 - Removed live referral coupon application from `public/cart.js`; referral remains an optional/noindex proposal page.
 - Reworked subscription, points, referral, LINE notification, and dashboard automation copy so unproposed automations are clearly optional or consultation-based.
 - Added daily operations coverage to `/dashboard/`: order checks, shipping, inquiries, inventory, and settings.
 - Added `SHOP` to main navigation on affected pages.
+- Added tap-target sizing guards for topbar links, breadcrumbs, filter close buttons, coupon reset, and compact footer navigation.
 
 ## Reviewer Findings Already Integrated
 
@@ -97,6 +99,7 @@ Last updated: 2026-06-11
   - widths: 360, 390, 430, 768, 1024, 1280, 1920
   - total cases: 140
   - failures: 0
+  - checked horizontal overflow, accidental vertical text, broken images, public dashboard links, and undersized tap targets
 - Checked pages:
   - `/`
   - `/shop/`

@@ -137,7 +137,7 @@ const productJson = JSON.stringify(
                 <dd id="sum-total">¥0</dd>
               </div>
               <div class="cart-summary__points">
-                <dt>獲得予定ポイント</dt>
+                <dt>ポイント目安</dt>
                 <dd id="sum-points">0p</dd>
               </div>
             </dl>
@@ -149,7 +149,7 @@ const productJson = JSON.stringify(
 
             <button type="button" class="btn btn--primary btn--checkout" id="checkout-btn">注文内容を相談する</button>
             <p class="cart-summary__note">
-              この画面ではオンライン決済は行いません。LINEで注文内容をご相談ください。
+              この画面では支払い処理は行いません。LINEで注文内容をご相談ください。
             </p>
             <ul class="cart-summary__perks">
               <li>送料: ¥5,000以上で全国無料</li>
@@ -243,9 +243,10 @@ const productJson = JSON.stringify(
     #sum-discount-label { color:var(--camel-dark,#866326); }
     .cart-summary__discount dd { color:var(--camel-dark,#866326); font-family:var(--font-num,"Inter"); font-feature-settings:"tnum"; }
     .coupon-clear {
-      appearance:none; -webkit-appearance:none; background:none; border:none; padding:0;
+      appearance:none; -webkit-appearance:none; background:none; border:none; padding:0 0.4rem;
       font-family:"Noto Sans JP",sans-serif; font-size:0.74rem; color:var(--teal,#3C8186);
       text-decoration:underline; text-underline-offset:2px; cursor:pointer;
+      min-width:44px; min-height:36px; display:inline-flex; align-items:center; justify-content:center;
     }
     .coupon-clear:hover { color:var(--teal-dark,#2C6266); }
 
@@ -396,7 +397,7 @@ const productJson = JSON.stringify(
           dr.hidden = true;
         }
 
-        // 獲得予定ポイント（お支払い額の1%、税込前提）
+        // ポイント目安（表示用）
         const pts = Math.floor(payable * PROMO.pointsRate);
         document.getElementById('sum-points').textContent = pts.toLocaleString('ja-JP') + 'p';
 

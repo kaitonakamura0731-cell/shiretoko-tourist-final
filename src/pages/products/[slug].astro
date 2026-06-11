@@ -190,7 +190,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
                   <span class="pdp-price__num" data-price-base={String(product!.price)} data-price-sub={subEligible ? String(subDiscountPrice) : ''} data-price-node>{formatYen(product!.price)}</span>
                   {subEligible && <s class="pdp-price__was" data-price-was hidden>{formatYen(product!.price)}</s>}
                   <span class="pdp-price__unit">{product!.priceUnit}</span>
-                  <span class="pdp-points">この商品で <b>{earnedPoints}</b> ポイント（{pointsInfo.rate}）</span>
+                  <span class="pdp-points">ポイント目安 <b>{earnedPoints}</b> pt（{pointsInfo.rate}）</span>
                 </div>
 
                 {hasVariants && variantGroup && (
@@ -546,12 +546,12 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
               {catalogItem!.price !== undefined ? (
                 <>
                   <div class="pdp-buybox">
-                    {/* 価格 + ポイント付与 */}
+                    {/* 価格 + ポイント目安 */}
                     <div class="pdp-price">
                       <span class="pdp-price__num" data-price-base={String(catalogItem!.price)} data-price-sub={subEligible ? String(subDiscountPrice) : ''} data-price-node>{formatYen(catalogItem!.price)}</span>
                       {subEligible && <s class="pdp-price__was" data-price-was hidden>{formatYen(catalogItem!.price)}</s>}
                       <span class="pdp-price__unit">税込</span>
-                      <span class="pdp-points">この商品で <b>{Math.floor(catalogItem!.price * pointsInfo.rateValue)}</b> ポイント（{pointsInfo.rate}）</span>
+                      <span class="pdp-points">ポイント目安 <b>{Math.floor(catalogItem!.price * pointsInfo.rateValue)}</b> pt（{pointsInfo.rate}）</span>
                     </div>
 
                     {/* バリエーション (重量 / サイズ) */}
