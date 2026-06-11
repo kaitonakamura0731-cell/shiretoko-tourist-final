@@ -374,6 +374,22 @@ const cards = bundles.map((b) => {
     margin: 0; font-size: 14px; line-height: 1.7;
     color: rgba(246,243,236,0.7);
   }
+  @media (max-width: 520px) {
+    .bundles__inner,
+    .bundle-rules__inner {
+      padding-inline: 16px;
+    }
+    .bundle-card__body {
+      padding: 20px;
+    }
+    .bundle-card__actions .btn {
+      width: 100%;
+    }
+    .bundle-rules__list li {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
 </style>
 
 <script is:inline>

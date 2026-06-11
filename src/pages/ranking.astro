@@ -303,7 +303,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   }
   .rank-row {
     display: grid;
-    grid-template-columns: 88px 168px 1fr;
+    grid-template-columns: 88px minmax(128px, 168px) minmax(0, 1fr);
     gap: 24px;
     /* stretch だと aspect-ratio:1/1 の画像が行の高さまで伸び、
        正方形維持のため幅が列を突き破って本文に覆い被さる(文字切れの原因) */
@@ -490,7 +490,7 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
     .ranking-tab__sub { font-size: 9px; }
 
     .rank-row {
-      grid-template-columns: 56px 110px 1fr;
+      grid-template-columns: 48px minmax(88px, 112px) minmax(0, 1fr);
       gap: 14px;
       padding: 16px 4px;
     }
@@ -503,11 +503,32 @@ const lastUpdated = "2026年6月9日 更新 ・ 集計期間: 過去7日間";
   }
   @media (max-width: 420px) {
     .rank-row {
-      grid-template-columns: 44px 84px 1fr;
+      grid-template-columns: 42px minmax(76px, 92px) minmax(0, 1fr);
       gap: 10px;
     }
     .rank-row__num { font-size: 30px; }
     .rank-row[data-rank="1"] .rank-row__num { font-size: 36px; }
+    .rank-row__brand {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+    .rank-row__sales-sep,
+    .rank-row__prev {
+      display: none;
+    }
+  }
+  @media (max-width: 360px) {
+    .rank-row {
+      grid-template-columns: 42px 1fr;
+    }
+    .rank-row__media {
+      grid-column: 2;
+      max-width: 112px;
+    }
+    .rank-row__body {
+      grid-column: 1 / -1;
+      padding-left: 52px;
+    }
   }
 </style>
 

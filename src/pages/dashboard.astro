@@ -91,19 +91,19 @@ function trendMark(trend?: string) {
         <div class="listing-hero__inner">
           <span class="eyebrow">ADMIN ・ 運用ダッシュボード (デモ)</span>
           <h1 class="mincho">今日の北の逸品堂。</h1>
-          <p>数字を見るだけでなく、その場で打ち手を実行する。指標と施策がひと続きの管理画面です。</p>
+          <p>数字を見るだけでなく、次に検討する打ち手まで見える管理画面です。自動配信などの追加機能はオプションとして扱います。</p>
           <p class="dash-stamp">最終更新: 2026-06-09 09:14 ・ 表示通貨 JPY ・ 店舗: 北の逸品堂 EC</p>
         </div>
       </section>
 
-      <!-- ============ 指標から打つ、次の一手 (アクション可能指標) ============ -->
+      <!-- ============ 指標から見る、次の一手 (オプション案) ============ -->
       <section class="dash-section dash-section--white" id="actions" aria-label="指標から打つ、次の一手">
         <div class="dash-section__inner">
           <div class="dash-section__head">
             <span class="section-eyebrow">NEXT ACTIONS</span>
             <h2 class="mincho">指標から打つ、次の一手</h2>
             <hr class="section-rule" />
-            <p class="dash-section__lead">施策につながる数字だけをここに集約。ボタンひとつで、対象のお客様に届きます。</p>
+            <p class="dash-section__lead">施策につながる数字だけをここに集約。自動送信などは基本機能ではなく、必要に応じて追加するオプション案として確認できます。</p>
           </div>
           <div class="act-grid">
             {actionableMetrics.map((m) => (
@@ -118,7 +118,7 @@ function trendMark(trend?: string) {
                 <button type="button" class="act-card__btn" data-act-open={m.key}>{m.buttonLabel}</button>
                 <p class="act-card__sent" data-act-sent={m.key} hidden>
                   <span class="act-card__sent-text"></span>
-                  <a href="#" class="act-card__resend" data-act-open={m.key}>再送信</a>
+                  <a href="#" class="act-card__resend" data-act-open={m.key}>再確認</a>
                 </p>
                 <span class="act-card__expected">{m.expected}</span>
               </article>
@@ -130,7 +130,7 @@ function trendMark(trend?: string) {
       {actionableMetrics.map((m) => (
         <div class="act-modal" data-act-modal={m.key} hidden>
           <div class="act-modal__backdrop" data-act-close></div>
-          <div class="act-modal__panel" role="dialog" aria-modal="true" aria-label={`${m.metricLabel}の施策を実行`}>
+          <div class="act-modal__panel" role="dialog" aria-modal="true" aria-label={`${m.metricLabel}のオプション案を確認`}>
             <h3 class="act-modal__title">{m.buttonLabel}</h3>
             <div class="act-modal__block">
               <span class="act-modal__block-label">対象のお客様</span>
@@ -144,16 +144,16 @@ function trendMark(trend?: string) {
               </ul>
             </div>
             <div class="act-modal__block">
-              <span class="act-modal__block-label">送信内容 ({m.channel})</span>
+              <span class="act-modal__block-label">下書き内容 ({m.channel})</span>
               <div class="act-modal__mail">
                 <p class="act-modal__mail-subject">{m.mailSubject}</p>
                 <p class="act-modal__mail-body">{m.mailBody}</p>
               </div>
             </div>
-            <p class="act-modal__note">※デモ環境のため実際の送信は行われません</p>
+            <p class="act-modal__note">※これはオプション機能のイメージです。デモ環境では実際の送信・自動配信は行われません。</p>
             <div class="act-modal__actions">
-              <button type="button" class="act-modal__cancel" data-act-close>キャンセル</button>
-              <button type="button" class="act-modal__send" data-act-send={m.key} data-act-count={String(m.totalTargets)} data-act-label={m.metricLabel}>送信する</button>
+              <button type="button" class="act-modal__cancel" data-act-close>閉じる</button>
+              <button type="button" class="act-modal__send" data-act-send={m.key} data-act-count={String(m.totalTargets)} data-act-label={m.metricLabel}>確認済みにする</button>
             </div>
           </div>
         </div>
@@ -297,16 +297,16 @@ function trendMark(trend?: string) {
         </div>
       </section>
 
-      <!-- ============ 実行ログ ============ -->
-      <section class="dash-section" id="action-log" aria-label="実行ログ">
+      <!-- ============ 確認ログ ============ -->
+      <section class="dash-section" id="action-log" aria-label="確認ログ">
         <div class="dash-section__inner">
           <div class="dash-section__head">
             <span class="section-eyebrow">ACTION LOG</span>
-            <h2 class="mincho">実行ログ</h2>
+            <h2 class="mincho">オプション確認ログ</h2>
             <hr class="section-rule" />
           </div>
           <ul class="act-log" data-act-log>
-            <li class="act-log__empty" data-act-log-empty>まだ実行履歴はありません。</li>
+            <li class="act-log__empty" data-act-log-empty>まだ確認履歴はありません。</li>
           </ul>
         </div>
       </section>
@@ -322,7 +322,7 @@ function trendMark(trend?: string) {
     </main>
 
     <script is:inline>
-      // 指標→施策のワンボタン実行 (デモ: 送信はシミュレーション・状態はlocalStorage保持)
+      // 指標→オプション案の確認 (デモ: 実送信なし・状態はlocalStorage保持)
       (function () {
         var KEY = "kn-dash-actions-v1";
         function load() {
@@ -346,7 +346,7 @@ function trendMark(trend?: string) {
           entries.forEach(function (h) {
             var li = document.createElement("li");
             li.className = "act-log__row";
-            li.innerHTML = "<span class='act-log__time'>" + h.when + "</span><span class='act-log__what'>" + h.label + "</span><span class='act-log__count'>" + h.count + "通送信</span>";
+            li.innerHTML = "<span class='act-log__time'>" + h.when + "</span><span class='act-log__what'>" + h.label + "</span><span class='act-log__count'>" + h.count + "件確認</span>";
             logEl.appendChild(li);
           });
         }
@@ -361,7 +361,7 @@ function trendMark(trend?: string) {
           if (sent) {
             sent.hidden = false;
             var t = sent.querySelector(".act-card__sent-text");
-            if (t) t.textContent = "✓ " + last.count + "通 送信済み " + last.when.split(" ")[1];
+            if (t) t.textContent = "✓ " + last.count + "件 確認済み " + last.when.split(" ")[1];
           }
         }
 
@@ -470,9 +470,11 @@ function trendMark(trend?: string) {
         display: grid;
         gap: 0.9rem;
       }
-      .kpi-grid--sales { grid-template-columns: repeat(4, 1fr); }
-      .kpi-grid--line  { grid-template-columns: repeat(5, 1fr); }
-      .kpi-grid--cart  { grid-template-columns: repeat(4, 1fr); }
+      .kpi-grid--sales,
+      .kpi-grid--line,
+      .kpi-grid--cart {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+      }
 
       .kpi-card {
         background: #fff;
@@ -644,15 +646,17 @@ function trendMark(trend?: string) {
 
       /* ===== レスポンシブ ===== */
       @media (max-width: 1024px) {
-        .kpi-grid--sales { grid-template-columns: repeat(3, 1fr); }
-        .kpi-grid--line  { grid-template-columns: repeat(3, 1fr); }
-        .kpi-grid--cart  { grid-template-columns: repeat(2, 1fr); }
+        .kpi-grid--sales,
+        .kpi-grid--line,
+        .kpi-grid--cart {
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+        }
       }
       @media (max-width: 720px) {
         .dash-section { padding: 1.8rem 1rem; }
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart { grid-template-columns: repeat(2, 1fr); }
+        .kpi-grid--cart { grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
         .kpi-card__value { font-size: 1.4rem; }
         .kpi-card--compact .kpi-card__value { font-size: 1.25rem; }
         .dash-section__head h2 { font-size: 1.35rem; }
@@ -660,9 +664,14 @@ function trendMark(trend?: string) {
       @media (max-width: 480px) {
         .kpi-grid--sales,
         .kpi-grid--line,
-        .kpi-grid--cart { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .kpi-grid--cart { grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr)); gap: 0.6rem; }
         .kpi-card { padding: 0.85rem 0.85rem 0.8rem; }
         .kpi-card__value { font-size: 1.25rem; }
+      }
+      @media (max-width: 360px) {
+        .kpi-grid--sales,
+        .kpi-grid--line,
+        .kpi-grid--cart { grid-template-columns: 1fr; }
       }
     </style>
   </body>

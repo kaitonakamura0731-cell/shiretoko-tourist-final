@@ -475,6 +475,25 @@ const wrapImages = wrappingOptions.map((w) => ({
   .gift-cta__actions {
     display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
   }
+  @media (max-width: 520px) {
+    .gift-section__inner,
+    .gift-cta__inner {
+      padding-inline: 16px;
+    }
+    .gift-card__body,
+    .msg-card,
+    .delivery-row,
+    .delivery-callout {
+      padding: 18px;
+    }
+    .gift-card__noshi-mark {
+      letter-spacing: 0.12em;
+      padding: 12px 20px;
+    }
+    .gift-cta__actions .btn {
+      width: 100%;
+    }
+  }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 12px 22px;

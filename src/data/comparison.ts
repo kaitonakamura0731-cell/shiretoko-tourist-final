@@ -1,5 +1,4 @@
-// 自社EC vs Yahoo!ショッピング店 比較データ — 北の逸品堂
-// 商談・LP 用の比較指標。価格・ポイント・送料・配送・決済・顧客データ・LINE連携。
+// 公式ECとYahoo!ショッピング店の購入方法ガイド — 北の逸品堂
 // 本番では値や URL を最新の店舗ページに合わせて更新する。
 
 export type CompareRow = {
@@ -12,18 +11,18 @@ export type CompareRow = {
 
 export const rows: CompareRow[] = [
   {
-    axis: '販売価格',
+    axis: '表示価格',
     yahoo: 'ほぼ同額（同一商品で並列）',
-    own: 'ほぼ同額（自社で実質値引き余地あり）',
+    own: 'ほぼ同額（同一商品で並列）',
     advantage: 'tie',
-    note: '表示価格は揃え、ポイント・送料・配送条件で実質差が出る設計。',
+    note: 'ポイント・送料・配送条件は、購入前の画面で確認できます。',
   },
   {
     axis: 'ポイント還元',
     yahoo: '1〜5%程度（キャンペーン依存・条件付き）',
     own: '会員ランクで 5〜10%（常時・条件なし）',
     advantage: 'own',
-    note: '自社は常時還元で実質価格を底上げ。Yahoo は付与条件と上限が複雑。',
+    note: '公式ECは会員ランク特典が常時付きます。Yahoo は付与条件と上限をご確認ください。',
   },
   {
     axis: '送料',
@@ -46,9 +45,9 @@ export const rows: CompareRow[] = [
     note: 'お客様には購入場所に関わらず、慣れた決済方法を選べる状態にする。',
   },
   {
-    axis: '顧客データ',
-    yahoo: '購入者情報は取得不可（メール・住所はモール内に閉じる）',
-    own: '会員制で取得可（リピート・贈答履歴・好み）',
+    axis: '相談・履歴サポート',
+    yahoo: 'モール内の案内が中心',
+    own: '会員ページとLINEで、再注文・贈答相談をしやすい',
     advantage: 'own',
   },
   {
@@ -58,11 +57,11 @@ export const rows: CompareRow[] = [
     advantage: 'own',
   },
   {
-    axis: '集客力 / 認知',
-    yahoo: 'モール内回遊で初回接触は強い',
-    own: '初回接触は弱め（自社で別途集客が必要）',
+    axis: '見つけやすさ',
+    yahoo: 'Yahoo!ショッピング内の検索から見つけやすい',
+    own: '北の逸品堂を知っている方が指名買いしやすい',
     advantage: 'yahoo',
-    note: '自社は「2回目以降の指名買い」を取りに行く設計。',
+    note: '初回はYahoo、次回以降は公式ECという使い分けもできます。',
   },
 ];
 
@@ -83,7 +82,7 @@ export const productSamples: CompareProduct[] = [
     yahooPrice: 5800,
     ownPrice: 5800,
     ownAdvantage:
-      '同価格でも、ポイント常時5〜10% + 送料込 + 中1日出荷で実質1〜2割お得。朝採り当日出荷は自社のみ。',
+      '公式ECでは会員ポイント、送料条件、中1日出荷の案内をまとめて確認できます。朝採り当日枠の相談もしやすい商品です。',
   },
   {
     slug: 'potato-danshaku-30kg',
@@ -92,7 +91,7 @@ export const productSamples: CompareProduct[] = [
     yahooPrice: 5000,
     ownPrice: 5000,
     ownAdvantage:
-      '送料込・同梱可。Yahoo は他店併用で送料が二重に乗りやすい。会員ランクで次回以降の還元が積み上がる。',
+      '公式ECでは送料条件と同梱の可否をまとめて確認できます。会員ランク特典も次回以降に使いやすい商品です。',
   },
   {
     slug: 'patagonia-r1-air-hoodie',
@@ -101,6 +100,6 @@ export const productSamples: CompareProduct[] = [
     yahooPrice: 22200,
     ownPrice: 22200,
     ownAdvantage:
-      'サイズ相談・再入荷通知を LINE で 1:1 対応。アパレルは試着前提の相談需要が大きく、自社の体験が効く。',
+      'サイズ相談・再入荷通知を LINE で受け取りやすい商品です。現場での着用感も公式EC側で確認しやすくしています。',
   },
 ];

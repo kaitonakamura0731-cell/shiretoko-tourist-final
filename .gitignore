@@ -21,7 +21,8 @@ npm-debug.log*
 .env.*.local
 
 # OMC state (Claude Code session noise)
-.omc/
+.omc/*
+!.omc/CLAUDE_CODEX_HANDOFF.md
 src/.omc/
 public/source-images/.omc/
 .vercel

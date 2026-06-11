@@ -1,22 +1,22 @@
 ---
-// Yahoo!ショッピング店 vs 自社EC 比較ページ — 北の逸品堂
+// 公式ECとYahoo!ショッピング店の購入方法ガイド — 北の逸品堂
 // 配色: #F6F3EC / #1A1A1A / #B99253 / #3C8186
 // データ: src/data/comparison.ts (rows / productSamples)
-// 秘匿ガード: カード手数料は「2.5%」表記のみ。内部コスト構造は一切出さない。
+// 公開表現ガード: 決済料率は「2.5%」表記のみ。
 import "../styles/global.css";
 import { rows, productSamples } from "../data/comparison";
 import { productImageForKey } from "../data/sourceImages";
 import { pointsInfo } from "../data/promotions";
 
 const meta = {
-  title: "Yahoo!店と自社ECの違い｜北の逸品堂 (知床ツーリスト)",
+  title: "購入方法ガイド｜北の逸品堂 (知床ツーリスト)",
   description:
-    "北の逸品堂は Yahoo!ショッピング店と自社EC の二本立て。価格・ポイント・送料・配送・顧客接点まで、両者の違いをそのまま並べました。",
+    "北の逸品堂の公式ECとYahoo!ショッピング店の選び方。価格・ポイント・送料・配送・相談方法を確認して、買いやすい売り場を選べます。",
 };
 
 const advLabel: Record<"yahoo" | "own" | "tie", string> = {
   yahoo: "Yahoo",
-  own: "OWN",
+  own: "公式EC",
   tie: "TIE",
 };
 
@@ -32,38 +32,36 @@ const samples = productSamples.map((p) => ({
   image: productImageForKey(sampleImageKeys[p.slug] ?? p.slug, p.title),
 }));
 
-// ポイント還元の目安
-// 自社ECの基本付与は会員 1%（promotions.ts の pointsInfo.rateValue が基準）。
-// 7% は基本1% に会員ランク割引・キャンペーン分を上乗せした「実質還元の目安」。
-const ownBaseRate = Math.round(pointsInfo.rateValue * 100); // = 1 (%)
-const OWN_EFFECTIVE_RATE = 7; // 実質還元の目安 (基本1% + 会員割引・施策上乗せ)
+// ポイント還元の目安: Yahoo 1〜5% の中央値で 3%、公式EC 5〜10% の中央値で 7%
+const ownBaseRate = Math.round(pointsInfo.rateValue * 100);
+const OWN_EFFECTIVE_RATE = 7;
 const yahooPoints = (n: number) => Math.round((n * 3) / 100);
 const ownPoints = (n: number) => Math.round((n * OWN_EFFECTIVE_RATE) / 100);
 
 const scenarios = [
   {
     tag: "ポイント還元を最大化したい",
-    rec: "自社EC",
+    rec: "公式EC",
     reason:
-      "Yahoo はキャンペーン日に最大還元が出るが条件と上限が複雑。自社ECは会員ランクに応じて 5〜10% が常時付く。長く買うほど効く設計です。",
+      "Yahoo はキャンペーン日に大きな還元が出ることがあります。公式ECは会員ランクに応じて 5〜10% が常時付き、続けて買うほど使いやすい設計です。",
   },
   {
     tag: "とにかく早く届けてほしい",
-    rec: "自社EC",
+    rec: "公式EC",
     reason:
-      "Yahoo は出荷まで 2〜3 営業日。自社ECは中1日で出荷、朝採りアスパラなど鮮度の差が出る品は当日出荷の枠を取れます。",
+      "Yahoo は出荷まで 2〜3 営業日が目安。公式ECは中1日で出荷、朝採りアスパラなど鮮度が大切な品は当日出荷枠を相談できます。",
   },
   {
     tag: "贈答や継続のために店主と直接話したい",
-    rec: "自社EC",
+    rec: "公式EC",
     reason:
-      "LINE での 1:1 相談、再入荷通知、贈答リマインド、ロットの相談まで自社ECだけ。Yahoo はモール内のチャットに閉じます。",
+      "LINE での 1:1 相談、再入荷通知、贈答リマインド、ロットの相談まで公式EC側で受け付けやすくしています。",
   },
   {
     tag: "今日たまたまモールで見つけた",
     rec: "Yahoo!ショッピング店",
     reason:
-      "モール内回遊で出会えたなら、その流れで Yahoo で買うのも自然です。気に入ったら次回は会員登録して、自社ECで指名買いに切り替えてください。",
+      "モール内検索で出会えたなら、その流れで Yahoo で買うのも自然です。気に入ったら次回は会員登録して、公式ECで指名買いに切り替えられます。",
   },
 ];
 ---
@@ -81,7 +79,7 @@ const scenarios = [
 </head>
 <body class="page-listing page-comparison">
 
-<div class="topbar">同じ商品でも、買う場所で実質が変わる ・ 表示価格・ポイント・送料・配送までそのまま並べました</div>
+<div class="topbar">公式ECとYahoo!ショッピング店の選び方 ・ 表示価格・ポイント・送料・配送を確認できます</div>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -96,7 +94,7 @@ const scenarios = [
       <a href="/gift/">ギフト</a>
       <a href="/stories/">ストーリー</a>
       <a href="/ranking/">ランキング</a>
-      <a href="/comparison/" aria-current="page">店舗比較</a>
+      <a href="/comparison/" aria-current="page">購入方法</a>
       <a href="/furusato/">ふるさと納税</a>
     </nav>
     <div class="header-utility">
@@ -111,7 +109,7 @@ const scenarios = [
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/ranking/">ランキング</a></li>
           <li><a href="/gift/">ギフト</a></li>
-          <li><a href="/comparison/" class="is-tour" aria-current="page">店舗比較</a></li>
+          <li><a href="/comparison/" class="is-tour" aria-current="page">購入方法</a></li>
           <li><a href="/account/">マイページ</a></li>
           <li><a href="/cart">カート</a></li>
         </ul>
@@ -124,12 +122,12 @@ const scenarios = [
 
 <section class="listing-hero">
   <div class="listing-hero__inner">
-    <span class="eyebrow">COMPARISON ・ 二つの売り場</span>
-    <h1 class="mincho">Yahoo!ショッピング店と、自社ECは何が違う。</h1>
+    <span class="eyebrow">SHOPPING GUIDE ・ 二つの売り場</span>
+    <h1 class="mincho">公式ECとYahoo!店、どちらで買うか。</h1>
     <p>
-      北の逸品堂は Yahoo!ショッピング店と自社ECの二本立てで営業しています。
-      同じ商品でも、ポイント還元・送料・配送スピード・顧客接点で実質が変わります。
-      隠さずそのまま並べました。読んでから、自分に合う売り場で買ってください。
+      北の逸品堂は公式ECと Yahoo!ショッピング店の二つの売り場があります。
+      同じ商品でも、ポイント還元・送料・配送スピード・相談方法にそれぞれ特徴があります。
+      買いやすい方を選べるよう、購入前に見ておきたい項目をまとめました。
     </p>
   </div>
 </section>
@@ -137,9 +135,9 @@ const scenarios = [
 <section class="cmp">
   <div class="cmp__inner">
 
-    <h2 class="cmp__h2 mincho">基本軸の比較</h2>
+    <h2 class="cmp__h2 mincho">購入前に見るポイント</h2>
     <p class="cmp__lead">
-      8軸を横並びにしました。「TIE」は引き分け、「OWN」は自社EC、「Yahoo」は Yahoo!ショッピング店の優位。
+      8つの項目を横並びにしました。「TIE」は引き分け、「公式EC」「Yahoo」はその売り場が選びやすい項目です。
     </p>
 
     <div class="cmp-table-wrap" role="region" aria-label="売り場別 比較表">
@@ -152,7 +150,7 @@ const scenarios = [
               <span class="cmp-table__col-sub">モール内出店</span>
             </th>
             <th scope="col" id="cmp-own" class="cmp-table__own">
-              <span class="cmp-table__col-label">自社EC</span>
+              <span class="cmp-table__col-label">公式EC</span>
               <span class="cmp-table__col-sub">北の逸品堂</span>
             </th>
           </tr>
@@ -189,13 +187,13 @@ const scenarios = [
 
 <section class="cmp-samples">
   <div class="cmp-samples__inner">
-    <h2 class="cmp__h2 mincho">商品ごとの違い</h2>
+    <h2 class="cmp__h2 mincho">商品ごとの選び方</h2>
     <p class="cmp__lead">
-      実際の商品を3点並べて、Yahoo と自社EC の差をそのまま見せます。表示価格は揃えてあります。
-      実質差は「常時ポイント」「送料」「配送スピード」「相談できる相手」に出ます。
+      実際の商品を3点並べて、Yahoo と公式EC の見え方を整理しました。表示価格は揃えてあります。
+      選ぶ時は「常時ポイント」「送料」「配送スピード」「相談できる相手」を見てください。
     </p>
     <p class="cmp-points-note">
-      ※ 自社ECの基本ポイント付与は会員 {ownBaseRate}%。表中の「{OWN_EFFECTIVE_RATE}%」は、基本{ownBaseRate}% に会員ランク割引・キャンペーン分を上乗せした<strong>実質還元の目安</strong>です（購入条件・会員ランクにより変動します）。
+      ※ 公式ECの基本ポイント付与は会員 {ownBaseRate}%。表中の「{OWN_EFFECTIVE_RATE}%」は、基本{ownBaseRate}% に会員ランク特典・キャンペーン分を加えた<strong>ポイント還元の目安</strong>です（購入条件・会員ランクにより変動します）。
     </p>
 
     <ol class="cmp-samples__list">
@@ -216,15 +214,15 @@ const scenarios = [
 
               <div class="cmp-sample__grid">
                 <div class="cmp-sample__col cmp-sample__col--own">
-                  <p class="cmp-sample__col-label">自社EC</p>
+                  <p class="cmp-sample__col-label">公式EC</p>
                   <dl class="cmp-sample__dl">
                     <div><dt>表示価格</dt><dd class="num">{yen(p.ownPrice)}</dd></div>
-                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(実質還元 {OWN_EFFECTIVE_RATE}% 目安・会員割引含む)</span></dd></div>
+                    <div><dt>ポイント</dt><dd class="num">+{oPts.toLocaleString()} 相当 <span class="sub">(ポイント還元 {OWN_EFFECTIVE_RATE}% 目安・会員特典含む)</span></dd></div>
                     <div><dt>送料</dt><dd>¥5,000 以上で無料・同梱可</dd></div>
                     <div><dt>出荷</dt><dd>中1日 / 朝採り当日枠あり</dd></div>
                   </dl>
                   <a class="cmp-sample__own-link" href={`/products/${p.slug}/`}>
-                    自社ECで見る
+                    公式ECで見る
                   </a>
                 </div>
 
@@ -260,7 +258,7 @@ const scenarios = [
 
     <ul class="cmp-decide__list">
       {scenarios.map((s) => (
-        <li class={`cmp-decide__card cmp-decide__card--${s.rec === "自社EC" ? "own" : "yahoo"}`}>
+        <li class={`cmp-decide__card cmp-decide__card--${s.rec === "公式EC" ? "own" : "yahoo"}`}>
           <p class="cmp-decide__tag">{s.tag}</p>
           <p class="cmp-decide__rec mincho">→ {s.rec}</p>
           <p class="cmp-decide__reason">{s.reason}</p>
@@ -273,13 +271,13 @@ const scenarios = [
 <section class="cmp-cta">
   <div class="cmp-cta__inner">
     <p class="cmp-cta__eyebrow">JOIN ・ 会員登録</p>
-    <h2 class="mincho">自社ECで買うと、次の一品が早く届く。</h2>
+    <h2 class="mincho">公式ECで買うと、次の一品が早く届く。</h2>
     <p>
       会員登録は1分。常時 5〜10% のポイント、再入荷通知、贈答リマインド、LINE 相談がそのまま開きます。
       Yahoo!店もそのまま続けて使っていただけます。
     </p>
     <div class="cmp-cta__buttons">
-      <a href="/account/" class="cmp-cta__primary">会員登録して自社で買う</a>
+      <a href="/account/" class="cmp-cta__primary">会員登録して公式ECで買う</a>
       <a href="/products/specialty/" class="cmp-cta__secondary">先に商品を見る</a>
     </div>
   </div>
@@ -311,7 +309,7 @@ const scenarios = [
       <div>
         <h3>サポート / 会社</h3>
         <ul>
-          <li><a href="/comparison/">店舗比較</a></li>
+          <li><a href="/comparison/">購入方法</a></li>
           <li><a href="/furusato/">ふるさと納税</a></li>
           <li><a href="/stories/">ストーリー</a></li>
           <li><a href="/account/">マイページ</a></li>
@@ -473,7 +471,7 @@ const scenarios = [
   }
   .cmp-sample {
     display: grid;
-    grid-template-columns: minmax(220px, 280px) 1fr;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
     gap: 32px;
     background: #F6F3EC;
     border: 1px solid rgba(26, 26, 26, .1);
@@ -724,6 +722,14 @@ const scenarios = [
   }
 
   /* レスポンシブ */
+  .cmp-sample,
+  .cmp-sample__body,
+  .cmp-sample__col,
+  .cmp-decide__card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   @media (max-width: 880px) {
     .cmp, .cmp-samples, .cmp-decide { padding: 48px 20px; }
     .cmp__h2 { font-size: 22px; }
@@ -732,14 +738,20 @@ const scenarios = [
       gap: 20px;
       padding: 18px;
     }
-    .cmp-sample__media { max-width: 320px; }
+    .cmp-sample__media { width: 100%; max-width: 320px; }
     .cmp-decide__list { grid-template-columns: 1fr; }
     .cmp-cta { padding: 56px 20px; }
     .cmp-cta h2 { font-size: 22px; }
   }
   @media (max-width: 560px) {
+    .cmp, .cmp-samples, .cmp-decide { padding: 40px 14px; }
+    .cmp-table { min-width: 500px; }
     .cmp-sample__grid {
       grid-template-columns: 1fr;
+    }
+    .cmp-sample__dl > div {
+      grid-template-columns: 1fr;
+      gap: 2px;
     }
     .cmp-sample__col--own {
       border-right: none;
@@ -747,6 +759,15 @@ const scenarios = [
     }
     .cmp-sample__title { font-size: 16px; }
     .cmp-decide__rec { font-size: 18px; }
+  }
+  @media (max-width: 420px) {
+    .cmp-sample { padding: 14px; }
+    .cmp-sample__media { max-width: 100%; padding: 10px; }
+    .cmp-cta__primary,
+    .cmp-cta__secondary {
+      width: 100%;
+      text-align: center;
+    }
   }
 </style>
 

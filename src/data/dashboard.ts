@@ -245,9 +245,9 @@ export type ActionableMetric = {
   valueSub: string; // 分母等の補足
   meaning: string; // この数字の意味 (帳票として読める説明)
   action: string; // 施策の説明1行
-  buttonLabel: string; // 実行ボタン文言
-  expected: string; // 期待効果
-  channel: string; // 送信チャネル
+  buttonLabel: string; // オプション確認ボタン文言
+  expected: string; // 任意導入時の目安
+  channel: string; // 連絡手段
   targets: ActionTarget[]; // 対象者サンプル (イニシャル表記)
   totalTargets: number;
   mailSubject: string;
@@ -261,9 +261,9 @@ export const actionableMetrics: ActionableMetric[] = [
     value: "12人",
     valueSub: "カゴ全体 48件中",
     meaning: "カゴに商品を入れたまま24時間以上動きがないお客様です。",
-    action: "カート限定クーポン(¥500 OFF)を添えて、そっと再訪をうながします。",
-    buttonLabel: "12人にクーポンメールを送る",
-    expected: "想定回収 ¥30,000前後",
+    action: "カート限定クーポン(¥500 OFF)を添える案です。自動送信はオプション導入時の機能です。",
+    buttonLabel: "クーポン案を確認",
+    expected: "任意導入時の目安: 回収 ¥30,000前後",
     channel: "メール",
     targets: [
       { name: "S・T様", detail: "朝採りアスパラ 1kg 他1点", value: "¥8,200" },
@@ -282,9 +282,9 @@ export const actionableMetrics: ActionableMetric[] = [
     value: "26人",
     valueSub: "通知登録ベース",
     meaning: "売り切れ商品に「再入荷したら知らせて」と登録済みのお客様です。",
-    action: "入荷が確定した商品の通知をLINE/メールで一斉送信します。",
-    buttonLabel: "26人に入荷通知を送る",
-    expected: "通知経由の購入率 目安30%",
+    action: "入荷が確定した商品の通知案です。LINE/メールの自動配信はオプション扱いです。",
+    buttonLabel: "入荷通知案を確認",
+    expected: "任意導入時の目安: 通知経由の購入率30%",
     channel: "LINE / メール",
     targets: [
       { name: "M・K様", detail: "Patagonia R1 Air Hoodie (M)" },
@@ -303,9 +303,9 @@ export const actionableMetrics: ActionableMetric[] = [
     value: "9人",
     valueSub: "Gold昇格まで平均 あと¥4,200",
     meaning: "あと少しのお買い物でGoldランク(常時10%OFF)に届く会員です。",
-    action: "「あと¥◯◯でGold」のお知らせで、次の一品を後押しします。",
-    buttonLabel: "9人にお知らせを送る",
-    expected: "昇格時LTVの伸び 目安1.4倍",
+    action: "「あと¥◯◯でGold」の案内文です。自動送信は追加オプションです。",
+    buttonLabel: "ランク案内を確認",
+    expected: "任意導入時の目安: 昇格後の継続購入増",
     channel: "メール",
     targets: [
       { name: "N・Y様", detail: "あと¥3,200でGold" },
@@ -324,9 +324,9 @@ export const actionableMetrics: ActionableMetric[] = [
     value: "4人",
     valueSub: "2回連続スキップ中",
     meaning: "定期便を2回続けてスキップしている会員。解約の予兆です。",
-    action: "量・間隔の見直し案内で、解約前にひと声かけます。",
-    buttonLabel: "4人にフォローを送る",
-    expected: "解約抑止 目安50%",
+    action: "量・間隔の見直し案内です。自動フォローは追加オプションです。",
+    buttonLabel: "フォロー案を確認",
+    expected: "任意導入時の目安: 解約抑止",
     channel: "LINE / メール",
     targets: [
       { name: "I・S様", detail: "アスパラ毎月便 (2.0kg)" },

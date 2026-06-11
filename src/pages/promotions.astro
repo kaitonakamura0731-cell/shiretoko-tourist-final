@@ -362,7 +362,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .promo-head p { margin: 0; font-size: 15px; line-height: 1.85; color: #6B5F4F; max-width: 62ch; }
 
   /* 定期便 */
-  .sub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; }
   .sub-card {
     background: #fff; border: 1px solid #EDE7D9; border-radius: 4px;
     padding: 24px; display: flex; flex-direction: column;
@@ -384,7 +384,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .sub-card__link:hover { text-decoration: underline; }
 
   /* ポイント */
-  .points-layout { display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: stretch; }
+  .points-layout { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 28px; align-items: stretch; }
   .points-visual {
     background: #1A1A1A; color: #F6F3EC; border-radius: 4px;
     padding: 32px; display: flex; flex-direction: column;
@@ -415,7 +415,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .points-detail__balance b { color: #866326; font-family: Inter, sans-serif; }
 
   /* 増量階段 */
-  .ladder { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 8px 24px 24px; }
+  .ladder { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 8px 24px 24px; overflow-x: auto; }
   .ladder__table { width: 100%; border-collapse: collapse; }
   .ladder__table th {
     text-align: left; font-size: 0.82rem; font-weight: 600; color: #6B5F4F;
@@ -446,7 +446,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .ladder__foot a:hover { text-decoration: underline; }
 
   /* 予約販売 */
-  .preorder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .preorder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
   .preorder-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; display: flex; flex-direction: column; }
   .preorder-card__top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .preorder-card__badge { background: #3C8186; color: #fff; font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 3px; flex: 0 0 auto; }
@@ -465,7 +465,7 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .preorder-card__link:hover { text-decoration: underline; }
 
   /* そのほかの特典 */
-  .perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .perk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; }
   .perk-card { background: #fff; border: 1px solid #EDE7D9; border-radius: 4px; padding: 24px; }
   .perk-card__tag { display: inline-block; font-size: 0.82rem; font-weight: 700; color: #B99253; letter-spacing: .04em; margin-bottom: 10px; }
   .perk-card h3 { margin: 0 0 14px; font-size: 16px; line-height: 1.5; color: #1A1A1A; }
@@ -513,21 +513,43 @@ const minPerKg = Math.min(...volumeLadder.map((s) => s.perKg));
   .line-cta__sub { display: block; margin-top: 14px; font-size: 0.82rem; color: #999; }
 
   /* レスポンシブ */
+  .sub-card,
+  .points-layout > *,
+  .preorder-card,
+  .perk-card,
+  .threshold-band__inner,
+  .line-cta__inner {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   @media (max-width: 900px) {
-    .sub-grid, .perk-grid { grid-template-columns: 1fr 1fr; }
+    .sub-grid, .perk-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
     .points-layout { grid-template-columns: 1fr; }
     .preorder-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     .promo-section { padding: 48px 16px; }
-    .promo-head { gap: 12px; margin-bottom: 28px; }
+    .promo-head { flex-direction: column; gap: 8px; margin-bottom: 28px; }
     .sub-grid, .perk-grid { grid-template-columns: 1fr; }
     .ladder { padding: 4px 14px 18px; }
+    .ladder__table { min-width: 480px; }
     .ladder__table th, .ladder__table td { padding: 12px 8px; font-size: 0.84rem; }
     .ladder__barhead, .ladder__bar { display: none; }
     .threshold-band__inner { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 16px; }
     .points-visual { padding: 28px; }
     .points-visual__rate { font-size: 52px; }
+  }
+  @media (max-width: 420px) {
+    .promo-section { padding: 40px 12px; }
+    .promo-anchors { padding-inline: 12px; }
+    .sub-card,
+    .points-detail,
+    .preorder-card,
+    .perk-card,
+    .line-cta__inner {
+      padding: 20px;
+    }
   }
 </style>
 </body>

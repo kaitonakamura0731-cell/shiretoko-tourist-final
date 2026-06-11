@@ -4288,3 +4288,124 @@ body.lock-scroll { overflow: hidden; }
   .dash-act-link { float: none; display: inline-block; margin-bottom: 0.5rem; }
   .act-modal__panel { margin-top: 4vh; }
 }
+
+/* ── Final Mobile Guard ─────────────────────────
+   追記CSSの順序差でスマホのカードが3列に戻るのを防ぐ。 */
+.entrances__grid,
+.bundle-grid,
+.featured-grid,
+.review-grid,
+.environmental,
+.usage-scene,
+.gift-option-grid,
+.gift-wrap-row,
+.stories-grid,
+.listing-grid,
+.ranking,
+.category-grid,
+.season-grid,
+.tour-grid,
+.kpi-grid,
+.sub-grid,
+.perk-grid,
+.preorder-grid,
+.promo-cards,
+.ranks-grid,
+.items-grid,
+.portals__cards,
+.cmp-decide__list,
+.story-related__grid,
+.story-other__grid,
+.gift-grid {
+  --responsive-card-min: 18rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--responsive-card-min)), 1fr)) !important;
+}
+
+.entrances__grid {
+  --responsive-card-min: 28rem;
+}
+
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)) !important;
+}
+
+.entrance,
+.bundle-card,
+.bundle-card-row,
+.featured-card,
+.ranking-card,
+.listing-card,
+.card-product,
+.gift-option,
+.story-card,
+.news-list li,
+.sub-card,
+.perk-card,
+.preorder-card,
+.promo-card,
+.rank-tile,
+.item-card,
+.portal-card,
+.cmp-decide__card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+@media (max-width: 680px) {
+  .bundle-grid,
+  .featured-grid,
+  .review-grid,
+  .environmental,
+  .usage-scene,
+  .gift-option-grid,
+  .gift-wrap-row,
+  .stories-grid,
+  .listing-grid,
+  .ranking,
+  .category-grid,
+  .season-grid,
+  .tour-grid,
+  .sub-grid,
+  .perk-grid,
+  .preorder-grid,
+  .promo-cards,
+  .ranks-grid,
+  .items-grid,
+  .portals__cards,
+  .story-related__grid,
+  .story-other__grid,
+  .gift-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bundle-card-row,
+  .tour-link__card,
+  .pdp-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bundle-card,
+  .bundle-card-row,
+  .featured-card,
+  .ranking-card,
+  .listing-card,
+  .card-product,
+  .gift-option,
+  .story-card,
+  .sub-card,
+  .perk-card,
+  .preorder-card,
+  .promo-card,
+  .rank-tile,
+  .item-card,
+  .portal-card,
+  .entrance,
+  .news-list li {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+  }
+}
