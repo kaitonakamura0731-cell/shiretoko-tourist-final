@@ -59,7 +59,7 @@
 - [ ] **Step 3: ビルドして確認する**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -10
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -10
 ```
 
 期待値: エラーなし、`dist/` に出力される
@@ -67,7 +67,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npx astro build
 - [ ] **Step 4: コミットする**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && git add src/layouts/Base.astro && git commit -m "feat: add /referral nav links to footer and mobile-nav"
+cd /Users/kaito/projects/shiretoko-tourist-final-live && git add src/layouts/Base.astro && git commit -m "feat: add /referral nav links to footer and mobile-nav"
 ```
 
 ---
@@ -656,13 +656,13 @@ import { referral } from "../data/promotions";
 - [ ] **Step 2: ビルドして /referral が生成されることを確認する**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -15
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -15
 ```
 
 期待値: `dist/referral/index.html` が生成される。エラーなし。
 
 ```bash
-ls /Users/kaito/projects/clients/shiretoko-tourist-final-live/dist/referral/
+ls /Users/kaito/projects/shiretoko-tourist-final-live/dist/referral/
 ```
 
 期待値: `index.html` が存在する
@@ -670,7 +670,7 @@ ls /Users/kaito/projects/clients/shiretoko-tourist-final-live/dist/referral/
 - [ ] **Step 3: コミットする**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && git add src/pages/referral.astro && git commit -m "feat: add /referral page with localStorage code generation"
+cd /Users/kaito/projects/shiretoko-tourist-final-live && git add src/pages/referral.astro && git commit -m "feat: add /referral page with localStorage code generation"
 ```
 
 ---
@@ -737,7 +737,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && git add src/pag
 - [ ] **Step 3: ビルドして確認する**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -10
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npx astro build 2>&1 | tail -10
 ```
 
 期待値: エラーなし
@@ -745,7 +745,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npx astro build
 - [ ] **Step 4: コミットする**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && git add src/pages/account.astro && git commit -m "feat: simplify account referral-section to CTA card pointing to /referral"
+cd /Users/kaito/projects/shiretoko-tourist-final-live && git add src/pages/account.astro && git commit -m "feat: simplify account referral-section to CTA card pointing to /referral"
 ```
 
 ---

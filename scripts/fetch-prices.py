@@ -7,9 +7,9 @@ import json, re, sys, time
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-RAW = "/Users/kaito/projects/clients/shiretoko-tourist/assets/ec-crawl/products-raw.json"
-CATALOG = "/Users/kaito/projects/clients/shiretoko-tourist-final-live/src/data/catalog.ts"
-OUT = "/Users/kaito/projects/clients/shiretoko-tourist-final-live/scripts/prices.json"
+RAW = "/Users/kaito/projects/shiretoko-tourist/assets/ec-crawl/products-raw.json"
+CATALOG = "/Users/kaito/projects/shiretoko-tourist-final-live/src/data/catalog.ts"
+OUT = "/Users/kaito/projects/shiretoko-tourist-final-live/scripts/prices.json"
 
 items = json.load(open(RAW))
 print(f"raw items: {len(items)}", flush=True)

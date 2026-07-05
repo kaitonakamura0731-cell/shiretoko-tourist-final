@@ -17,7 +17,7 @@ from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlparse, unquote
 
-DIST_DIR = Path("/Users/kaito/projects/clients/shiretoko-tourist-final-live/dist")
+DIST_DIR = Path("/Users/kaito/projects/shiretoko-tourist-final-live/dist")
 
 # Build set of all files in dist
 all_files = set()

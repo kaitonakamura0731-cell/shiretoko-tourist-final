@@ -16,8 +16,8 @@ import re
 import unicodedata
 from collections import defaultdict
 
-CATALOG = "/Users/kaito/projects/clients/shiretoko-tourist-final-live/src/data/catalog.ts"
-OUT = "/Users/kaito/projects/clients/shiretoko-tourist-final-live/src/data/variantGroups.ts"
+CATALOG = "/Users/kaito/projects/shiretoko-tourist-final-live/src/data/catalog.ts"
+OUT = "/Users/kaito/projects/shiretoko-tourist-final-live/src/data/variantGroups.ts"
 
 SIZE_ORDER = {"XXS": 0, "XS": 1, "S": 2, "M": 3, "L": 4, "XL": 5, "XXL": 6}
 

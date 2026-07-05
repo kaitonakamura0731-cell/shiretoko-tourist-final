@@ -16,7 +16,7 @@ from collections import defaultdict
 from html.parser import HTMLParser
 from urllib.parse import urlparse, unquote
 
-DIST_DIR = "/Users/kaito/projects/clients/shiretoko-tourist-final-live/dist"
+DIST_DIR = "/Users/kaito/projects/shiretoko-tourist-final-live/dist"
 
 class LinkExtractor(HTMLParser):
     def __init__(self):

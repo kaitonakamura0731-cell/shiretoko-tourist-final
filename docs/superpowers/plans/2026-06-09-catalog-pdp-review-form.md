@@ -58,7 +58,7 @@
 - [ ] **Step 3: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run build 2>&1 | tail -20
 ```
 
@@ -198,7 +198,7 @@ const earnedPoints = Math.floor((product?.price ?? 0) * pointsInfo.rateValue);
 - [ ] **Step 4: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run build 2>&1 | grep -E "error|Error|Build complete|pages generated"
 ```
 
@@ -354,7 +354,7 @@ git commit -m "feat: getStaticPaths を catalog 全件に拡張(lite ブラン�
 - [ ] **Step 3: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run build 2>&1 | grep -E "error|Error|Build complete"
 ```
 
@@ -634,7 +634,7 @@ rich 側の `{isRich ? (...) : (...)}` ブロックの**後**に、以下を追�
 - [ ] **Step 3: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run build 2>&1 | grep -E "error|Error|Build complete"
 ```
 
@@ -741,7 +741,7 @@ git commit -m "feat: レビューセクションを共通化 + localStorage 投�
 - [ ] **Step 7: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run build 2>&1 | grep -E "error|Error|Build complete"
 ```
 
@@ -763,7 +763,7 @@ git commit -m "style: pdp-title clamp修正 / pdp-spec__desc / lite ブランチ
 - [ ] **Step 1: dev サーバーを起動**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live
+cd /Users/kaito/projects/shiretoko-tourist-final-live
 npm run dev
 ```
 

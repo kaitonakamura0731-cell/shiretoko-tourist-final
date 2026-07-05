@@ -60,7 +60,7 @@ const newsItems = [
 - [ ] **Step 2: ビルドが通ることを確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -20
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -20
 ```
 
 期待: `build complete` が出てエラーなし。(この時点では `<main>` はまだ古いままなので表示は崩れているが、ビルドエラーがなければOK)
@@ -85,7 +85,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -479,7 +479,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -527,7 +527,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -567,7 +567,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -631,7 +631,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -710,7 +710,7 @@ EC入口。産直 → `/products/specialty/` / アパレル → `/products/appar
 - [ ] **Step 2: ビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -5
 ```
 
 期待: エラーなし。
@@ -742,7 +742,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 3: フルビルド確認**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -10
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -10
 ```
 
 期待: `build complete`、エラーなし。
@@ -757,7 +757,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 - [ ] **Step 1: ビルド後の dist/index.html を確認し、viewport メタタグが存在することを確認する**
 
 ```bash
-grep -n "viewport" /Users/kaito/projects/clients/shiretoko-tourist-final-live/dist/index.html | head -5
+grep -n "viewport" /Users/kaito/projects/shiretoko-tourist-final-live/dist/index.html | head -5
 ```
 
 期待: `<meta name="viewport" content="width=device-width, initial-scale=1" />` が存在すること。
@@ -765,7 +765,7 @@ grep -n "viewport" /Users/kaito/projects/clients/shiretoko-tourist-final-live/di
 - [ ] **Step 2: 横スクロール抑制を確認する**
 
 ```bash
-grep -n "overflow-x" /Users/kaito/projects/clients/shiretoko-tourist-final-live/src/styles/global.css | head -5
+grep -n "overflow-x" /Users/kaito/projects/shiretoko-tourist-final-live/src/styles/global.css | head -5
 ```
 
 期待: `body { overflow-x: hidden; }` が存在すること(既存コード)。
@@ -773,7 +773,7 @@ grep -n "overflow-x" /Users/kaito/projects/clients/shiretoko-tourist-final-live/
 - [ ] **Step 3: news-row のモバイルレスポンシブ CSS が存在することを確認する**
 
 ```bash
-grep -n "news-row" /Users/kaito/projects/clients/shiretoko-tourist-final-live/src/styles/global.css | head -10
+grep -n "news-row" /Users/kaito/projects/shiretoko-tourist-final-live/src/styles/global.css | head -10
 ```
 
 期待: `.news-row` と `@media (max-width: 600px)` のブロックが両方ヒットすること。
@@ -781,7 +781,7 @@ grep -n "news-row" /Users/kaito/projects/clients/shiretoko-tourist-final-live/sr
 - [ ] **Step 4: shop-entrance__grid の auto-fit 指定を確認する**
 
 ```bash
-grep -n "auto-fit" /Users/kaito/projects/clients/shiretoko-tourist-final-live/src/styles/global.css | head -5
+grep -n "auto-fit" /Users/kaito/projects/shiretoko-tourist-final-live/src/styles/global.css | head -5
 ```
 
 期待: `.shop-entrance__grid` に `repeat(auto-fit, minmax(280px, 1fr))` が存在すること。
@@ -797,7 +797,7 @@ grep -n "auto-fit" /Users/kaito/projects/clients/shiretoko-tourist-final-live/sr
 
 ```bash
 grep -n "quick-tiles\|entrances\|season-band\|featured-block\|ranking\|bundle-section\|tour-link\|tour-feature" \
-  /Users/kaito/projects/clients/shiretoko-tourist-final-live/src/pages/index.astro
+  /Users/kaito/projects/shiretoko-tourist-final-live/src/pages/index.astro
 ```
 
 期待: **ヒットなし**。もしヒットがあれば該当行を削除する。
@@ -806,7 +806,7 @@ grep -n "quick-tiles\|entrances\|season-band\|featured-block\|ranking\|bundle-se
 
 ```bash
 grep -n "specialtyFeatured\|apparelFeatured\|bundles\|tours\|ranking" \
-  /Users/kaito/projects/clients/shiretoko-tourist-final-live/src/pages/index.astro
+  /Users/kaito/projects/shiretoko-tourist-final-live/src/pages/index.astro
 ```
 
 期待: ヒットなし。
@@ -814,7 +814,7 @@ grep -n "specialtyFeatured\|apparelFeatured\|bundles\|tours\|ranking" \
 - [ ] **Step 3: 最終フルビルド**
 
 ```bash
-cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2>&1 | tail -10
+cd /Users/kaito/projects/shiretoko-tourist-final-live && npm run build 2>&1 | tail -10
 ```
 
 期待: `build complete`、エラー・警告なし。
@@ -823,7 +823,7 @@ cd /Users/kaito/projects/clients/shiretoko-tourist-final-live && npm run build 2
 
 ```bash
 grep -n 'class="hero-fb\|class="news-section\|class="story\|class="shop-entrance\|class="line-band' \
-  /Users/kaito/projects/clients/shiretoko-tourist-final-live/dist/index.html
+  /Users/kaito/projects/shiretoko-tourist-final-live/dist/index.html
 ```
 
 期待: 5つのセクションクラスがすべてヒットすること。
